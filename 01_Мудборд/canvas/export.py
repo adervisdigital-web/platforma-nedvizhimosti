@@ -18,9 +18,9 @@ BLOBS = {
     'ca00be2acd9690fb9dea9110aaaec783': 'pick_st9.jpg', '597b77d5921d32365d4391f69448844f': 'pick_st6.jpg', '9d65d47d8973af696a8853a112428717': 'pick_st15.jpg',
     '0344505071bafebecba4899d1050d932': 'pick_st14.jpg', '3cf8804347ed096c9289e40971199ef4': 'pick_st10.jpg', 'c2651986b7a52a7642edc879ff44dc4b': 'pick_st4.jpg',
     '2a052deb4b100525d0ae7916e9b9c051': 'pick_bp2.jpg', '3b0d5fe40751fc529ef5cf45f7813f8e': 'pick_bp3.jpg', '9c58a27346cd77441145571d5f7f85fd': 'pick_mal1.jpg',
-    '2da24de981f674081698e5d2b3d271ef': 'pick_ural1.jpg', '7b9920c5408169bf27f1722b29c1d985': 'pick_ural6.jpg',
+    '2da24de981f674081698e5d2b3d271ef': 'pick_ural1.jpg', '337e60c28f17034e42ec701b320abb86': 'screen_catalog.jpg', '7b9920c5408169bf27f1722b29c1d985': 'pick_ural6.jpg',
 }
-NAMES = {'Main.dc.html': '1_Надёжная_опора', 'Blueprint.dc.html': '2_Чертёж', 'Ural.dc.html': '3_Уральский_дом'}
+NAMES = {'Main.dc.html': '1_Надёжная_опора', 'Blueprint.dc.html': '2_Чертёж', 'Ural.dc.html': '3_Уральский_дом', 'Clean.dc.html': '4_Платформа', 'Mockups.dc.html': '5_Мокапы'}
 os.makedirs(H, exist_ok=True)
 pngs = []
 for f, n in NAMES.items():
@@ -32,14 +32,16 @@ for f, n in NAMES.items():
     html = f'<!doctype html><html lang="ru"><head><meta charset="utf-8">{head}</head><body style="margin:0">{body}</body></html>'
     hp = f'{H}/{n}.html'
     open(hp, 'w', encoding='utf8').write(html)
+    import json as _j
+    hh = _j.load(open(f'{HERE}/canvas.json', encoding='utf8'))['boards'][f]['h']
     png = f'{OUT}/{n}.png'
     if os.path.exists(png): os.remove(png)
     subprocess.run([EDGE, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files',
-                    '--virtual-time-budget=12000', '--window-size=1440,1780', '--force-device-scale-factor=1',
+                    '--virtual-time-budget=12000', f'--window-size=1440,{hh}', '--force-device-scale-factor=1',
                     f'--screenshot={png.replace("/", chr(92))}', 'file:///' + hp], capture_output=True, timeout=180)
     print(n, os.path.exists(png) and os.path.getsize(png))
     pngs.append(png)
 ims = [Image.open(p).convert('RGB') for p in pngs if os.path.exists(p)]
 if ims:
-    ims[0].save(f'{OUT}/Мудборд_Платформа_3_направления.pdf', save_all=True, append_images=ims[1:], resolution=144)
+    ims[0].save(f'{OUT}/Мудборд_Платформа.pdf', save_all=True, append_images=ims[1:], resolution=144)
     print('pdf ok')
