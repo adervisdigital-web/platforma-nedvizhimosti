@@ -20,7 +20,7 @@ BLOBS = {
     '2a052deb4b100525d0ae7916e9b9c051': 'pick_bp2.jpg', '3b0d5fe40751fc529ef5cf45f7813f8e': 'pick_bp3.jpg', '9c58a27346cd77441145571d5f7f85fd': 'pick_mal1.jpg',
     '2da24de981f674081698e5d2b3d271ef': 'pick_ural1.jpg', '337e60c28f17034e42ec701b320abb86': 'screen_catalog.jpg', '7b9920c5408169bf27f1722b29c1d985': 'pick_ural6.jpg',
 }
-NAMES = {'Main.dc.html': '1_Надёжная_опора', 'Blueprint.dc.html': '2_Чертёж', 'Ural.dc.html': '3_Уральский_дом', 'Clean.dc.html': '4_Платформа', 'Mockups.dc.html': '5_Мокапы'}
+NAMES = {'Main.dc.html': 'A1_Плиты_логотип', 'Mockups.dc.html': 'A2_Плиты_мокапы', 'Clean.dc.html': 'A3_Плиты_сайт', 'IdB.dc.html': 'B1_Порог_логотип', 'MockB.dc.html': 'B2_Порог_мокапы', 'IdC.dc.html': 'C1_План_логотип', 'MockC.dc.html': 'C2_План_мокапы'}
 os.makedirs(H, exist_ok=True)
 pngs = []
 for f, n in NAMES.items():
