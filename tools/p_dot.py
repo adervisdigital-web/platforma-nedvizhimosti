@@ -5,7 +5,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, '06_П_точка')
 os.makedirs(OUT, exist_ok=True)
 
-NIGHT, GRAPH, MILK, PEACH, SAND, INK = '#0E0E0F', '#1C1C1E', '#F4F1EC', '#E3A57A', '#9C968C', '#161617'
+NIGHT, GRAPH, MILK, PEACH, SAND, INK = '#0E0E0F', '#1C1C1E', '#F4F2EE', '#F5553C', '#9A968F', '#161617'
+LIGHT = '#ECEAE6'
 ARCH = 'M0 60 V24 A24 24 0 0 1 48 24 V60 H34 V24 A10 10 0 0 0 14 24 V60 Z'
 
 
@@ -53,7 +54,7 @@ def page():
            f'<circle cx="62" cy="58" r="16" fill="{PEACH}" fill-opacity=".22"/><circle cx="62" cy="58" r="7" fill="{PEACH}"/></svg>')
     prog = ''.join(f'<i style="background:{PEACH if i < 3 else "#3A3B3F"}"></i>' for i in range(7))
     tiles_ver = ''.join(f'<div class="t s3" style="background:{bg}">{vlock(58, 11, c, d, s_)}<span class="cap" style="color:{s_}">{cap}</span></div>'
-                        for bg, c, d, s_, cap in ((MILK, INK, PEACH, '#8A847B', 'на светлом'), (PEACH, INK, MILK, '#5E4636', 'на персиковом'),
+                        for bg, c, d, s_, cap in ((MILK, INK, PEACH, '#8A847B', 'на светлом'), (PEACH, MILK, INK, '#FFE3DC', 'на красном'),
                                                   ('#24252A', MILK, MILK, SAND, 'одноцветный'), ('#FFFFFF', INK, INK, '#8A847B', 'чёрно-белый')))
     return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Логотип «П.»</title>
@@ -73,15 +74,15 @@ def page():
 .sw{{display:flex;flex-direction:column;justify-content:flex-end;padding:14px;border-radius:12px;min-height:150px;font-size:12px}}
 @media(max-width:900px){{.wrap{{padding:24px 16px}}.g>*{{grid-column:span 12!important}}.idea{{font-size:40px}}}}
 </style></head><body><div class="wrap">
-<div class="top"><b>ПЛАТФОРМА · «П.»</b><span>логотип и система · v1</span></div>
+<div class="top"><b>ПЛАТФОРМА · «П.»</b><span>логотип и система · v2 · красная точка</span></div>
 <div class="g">
   <div class="t s8" style="background:{GRAPH};min-height:420px"><span class="cap" style="color:{SAND}">основной логотип</span>{vlock(118, 21)}</div>
   <div class="t s4" style="background:{GRAPH};min-height:420px"><span class="cap" style="color:{SAND}">построение</span>{construction()}</div>
 
-  <div class="t s6" style="background:{GRAPH}"><span class="cap" style="color:{SAND}">горизонтальная версия</span>{hlock(62, 15)}</div>
+  <div class="t s6" style="background:#FFFFFF"><span class="cap" style="color:#8A867F">светлая версия — для сайта</span>{hlock(62, 15, INK, PEACH, '#8A867F')}</div>
   <div class="t s3" style="background:{GRAPH}"><span class="cap" style="color:{SAND}">иконка приложения</span>
     <div style="display:flex;align-items:flex-end;gap:16px"><div style="width:104px;height:104px;border-radius:24px;background:{NIGHT};display:flex;align-items:center;justify-content:center;border:1px solid #2E2F33">{mark(58)}</div>
-    <div style="width:52px;height:52px;border-radius:12px;background:{PEACH};display:flex;align-items:center;justify-content:center">{mark(28, INK, MILK)}</div></div></div>
+    <div style="width:52px;height:52px;border-radius:12px;background:{PEACH};display:flex;align-items:center;justify-content:center">{mark(28, MILK, INK)}</div></div></div>
   <div class="t s3" style="background:{GRAPH}"><span class="cap" style="color:{SAND}">малые размеры</span>
     <div style="display:flex;align-items:flex-end;gap:18px">{mark(48)}{mark(32)}{mark(16)}</div></div>
 
@@ -94,7 +95,7 @@ def page():
   </div>
   <div class="s5" style="display:grid;grid-template-rows:1fr 1fr;gap:18px">
     <div class="t" style="background:{GRAPH};justify-content:space-between;min-height:170px"><span class="cap" style="color:{SAND}">точка на карте</span>
-      <div style="margin-top:14px">{pin}</div><div class="txt" style="max-width:220px">Ваш дом — персиковая точка. Все объекты компании на карте — точки.</div></div>
+      <div style="margin-top:14px">{pin}</div><div class="txt" style="max-width:220px">Ваш дом — красная точка. Все объекты компании на карте — точки.</div></div>
     <div class="t" style="background:{GRAPH};flex-direction:column;align-items:flex-start;justify-content:center;gap:14px;min-height:170px"><span class="cap" style="color:{SAND}">точки прогресса</span>
       <div style="font:500 20px Manrope,sans-serif;margin-top:14px">Ваш дом: этап 3 из 7</div><div class="prog">{prog}</div></div>
   </div>
@@ -103,8 +104,8 @@ def page():
     <div class="sw" style="flex:30;background:{NIGHT};border:1px solid #2A2B2F">Ночь<br>{NIGHT}</div>
     <div class="sw" style="flex:26;background:{GRAPH}">Графит<br>{GRAPH}</div>
     <div class="sw" style="flex:22;background:{MILK};color:{INK}">Молоко<br>{MILK}</div>
-    <div class="sw" style="flex:12;background:{SAND};color:{INK}">Камень<br>{SAND}</div>
-    <div class="sw" style="flex:10;background:{PEACH};color:{INK}">Персик<br>{PEACH}</div>
+    <div class="sw" style="flex:12;background:{LIGHT};color:{INK}">Светло-серый<br>{LIGHT}</div>
+    <div class="sw" style="flex:14;background:{PEACH};color:#FFFFFF">Красный<br>{PEACH}</div>
   </div>
   <div class="t s4" style="background:{GRAPH};flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:8px"><span class="cap" style="color:{SAND}">шрифт</span>
     <div style="font:300 64px/1 Manrope,sans-serif">Аа</div><div class="txt">Manrope: Light 300 с разрядкой — логотип и заголовки, Regular/Medium — текст.</div></div>
