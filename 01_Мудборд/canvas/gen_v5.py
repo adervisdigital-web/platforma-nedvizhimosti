@@ -33,70 +33,32 @@ def tag(t, F):
     return f'<span style="position: absolute; left: 10px; top: 10px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px \'{F}\', sans-serif">[ {t} ]</span>'
 
 
+def shot(v, surf, alt, label):
+    return photo(IMG['life_' + v['key'] + '_' + surf], alt, tag(label, v['F']))
+
+
 def sign(v):
-    k = v['key']; F = v['F']
-    bg = {'L': '#FBF9F5', 'D': '#0B0C0E', 'Y': '#FFFFFF'}[k]
-    ink = {'L': '#1F1D1B', 'D': '#F2F1EE', 'Y': '#14161F'}[k]
-    sub = {'L': '#7A7368', 'D': '#8D929A', 'Y': '#6B6F7D'}[k]
-    glow = 'box-shadow: 0 0 34px rgba(255,214,150,0.55), inset 0 0 18px rgba(0,0,0,0.12);' if k != 'D' else 'box-shadow: 0 0 40px rgba(255,181,71,0.45);'
-    stripe = ''
-    if k == 'Y':
-        stripe = '<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 6px; display: flex">' + ''.join(f'<div style="flex: 1; background: {c}"></div>' for c in v['dir']) + '</div>'
-    if k == 'L':
-        stripe = f'<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: {v["acc"]}"></div>'
-    panel = (f'<div style="position: absolute; left: 30%; top: 39%; width: 41.6%; height: 33.5%; background: {bg}; {glow} display: flex; align-items: center; justify-content: center">'
-             f'{lockup(v, 26, ink, sub, mw=46)}{stripe}</div>')
-    return photo(IMG['mk_facade'], 'Фасад офиса продаж с вывеской', panel + tag('вывеска на фасаде офиса', F))
+    return shot(v, 'facade', 'Световая вывеска на фасаде офиса', 'вывеска на фасаде офиса')
 
 
 def billboard(v):
-    k = v['key']; F, FH, acc = v['F'], v['FH'], v['acc']
-    if k == 'L':
-        vis = f'<div style="width: 92px; height: 112px; border-radius: 46px 46px 0 0; overflow: hidden; flex: none"><img src="{IMG["kitchen"]}" alt="" style="width: 100%; height: 100%; object-fit: cover"></div>'
-        bg, ink, head_ = '#F2EEE7', '#1F1D1B', 'Входите.<br>Дальше мы сами.'
-    elif k == 'D':
-        vis = mark_D(96)
-        bg, ink, head_ = '#0E0F11', '#F2F1EE', 'Дом, в котором<br>уже горит свет'
-    else:
-        vis = mark_Y(104, *v['dir'])
-        bg, ink, head_ = '#FFFFFF', '#14161F', 'Квартира. Ремонт.<br>Дом.'
-    btn_bg = v['dir'][0] if k == 'Y' else acc
-    inner = (f'<div style="position: absolute; left: 31.2%; top: 27.9%; width: 55.1%; height: 38%; background: {bg}; display: flex; align-items: center; gap: 16px; padding: 0 18px; box-sizing: border-box; box-shadow: inset 0 0 30px rgba(0,0,0,0.12)">'
-             f'{vis}<div style="display: flex; flex-direction: column; gap: 8px; color: {ink}">'
-             f'<span style="font: {600 if k != "L" else 700} {16 if k == "Y" else 19}px/1.05 \'{FH}\', sans-serif; letter-spacing: -0.01em">{head_}</span>'
-             f'<span style="align-self: flex-start; padding: 5px 9px; background: {btn_bg}; color: {v["acc_ink"]}; font: 600 10px \'{F}\', sans-serif">ПЛАТФОРМА · ЕКБ</span></div></div>')
-    return photo(IMG['mk_billboard'], 'Билборд на улице города', inner + tag('билборд 6×3', F))
+    return shot(v, 'billboard', 'Билборд на улице города', 'билборд 6×3')
 
 
 def keys(v):
-    m = colored_mark(v, 40)
-    inner = f'<div style="position: absolute; left: 57.3%; top: 61%; transform: translate(-50%, -50%) rotate(-15deg); mix-blend-mode: multiply; opacity: 0.92">{m}</div>'
-    return photo(IMG['mk_keys'], 'Ключи с кожаным брелоком', inner + tag('брелок к ключам от новой квартиры', v['F']))
+    return shot(v, 'keys', 'Брелок к ключам от новой квартиры', 'брелок к ключам от новой квартиры')
 
 
 def helmet(v):
-    m = colored_mark(v, 40)
-    inner = f'<div style="position: absolute; left: 50.5%; top: 48%; transform: translate(-50%, -50%) perspective(300px) rotateY(-18deg) rotate(-4deg); mix-blend-mode: multiply; opacity: 0.9">{m}</div>'
-    return photo(IMG['mk_helmet'], 'Строительная каска', inner + tag('каска', v['F']))
+    return shot(v, 'helmet', 'Строительная каска', 'каска')
 
 
 def vest(v):
-    k = v['key']
-    if k == 'D':
-        lk = lockup(v, 22, '#14120E', '#14120E', mono='#14120E', mw=40)
-    else:
-        lk = lockup(v, 22, '#FFFFFF', '#FFFFFF', mono='#FFFFFF', mw=40)
-    inner = f'<div style="position: absolute; left: 58.8%; top: 56%; transform: translate(-50%, -50%) rotate(-2deg); opacity: 0.93">{lk}</div>'
-    return photo(IMG['mk_vest'], 'Сигнальный жилет прораба', inner + tag('спецодежда', v['F']))
+    return shot(v, 'vest', 'Сигнальный жилет прораба', 'спецодежда')
 
 
 def bag(v):
-    k = v['key']
-    ink = {'L': '#1F1D1B', 'D': '#14120E', 'Y': '#14161F'}[k]
-    m = colored_mark(v, 30)
-    w = f'<span style="font: {v["word_w"]} {round(11 * v["word_k"])}px \'{v["FH"]}\', sans-serif; letter-spacing: {v["word_ls"]}; color: {ink}">ПЛАТФОРМА</span>'
-    inner = f'<div style="position: absolute; left: 51.3%; top: 76%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 6px; mix-blend-mode: multiply">{m}{w}</div>'
-    return photo(IMG['mk_bag'], 'Бумажный пакет', inner + tag('пакет для документов', v['F']))
+    return shot(v, 'bag', 'Бумажный пакет для документов', 'пакет для документов')
 
 
 def voice(v):

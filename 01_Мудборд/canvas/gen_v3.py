@@ -14,6 +14,9 @@ IMG = dict(
     bath=B + 'e05ef6fc38a92410bfb373f11b4be3cd', after=B + 'ab22bbc0ab515db845d3dee45c8b5d04',
     detail=B + '3472f23568c92d74ff24b6057454790b', process=B + 'de9f3f7fe15a4720d9b574a1e479b7c1')
 
+import json as _json, os as _os
+IMG.update({k: '/_blob/' + v for k, v in _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'blobs4.json'), encoding='utf8')).items()})
+
 V = {
  'L': dict(key='L', title='Светлый', name='Арка', file='L',
            gf='family=Manrope:wght@400;500;600;700;800', F='Manrope', FH='Manrope', word_w=800, word_ls='0.04em', word_k=1.0,
@@ -326,25 +329,10 @@ def phone(v):
 
 
 def banner(v):
-    F, FH, acc = v['F'], v['FH'], v['acc']
-    k = v['key']
-    if k == 'L':
-        pbg, pink, psub = '#FBF9F5', '#1F1D1B', '#7A7368'
-    elif k == 'D':
-        pbg, pink, psub = '#0E0F11', '#F2F1EE', '#8D929A'
-    else:
-        pbg, pink, psub = '#FFFFFF', '#14161F', '#6B6F7D'
-    lk = lockup(v, 24, pink, psub, mw=44)
-    stripe = ''
-    if k == 'Y':
-        stripe = '<div style="display: flex; height: 8px">' + ''.join(f'<div style="flex: 1; background: {c}"></div>' for c in v['dir']) + '</div>'
+    k, F = v['key'], v['F']
     return (f'<div style="position: relative; width: 100%; height: 100%; overflow: hidden">'
-            f'<img src="{IMG["build"]}" alt="Стройплощадка кирпичного дома" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 88%; display: block">'
-            f'<div style="position: absolute; left: 5%; right: 5%; bottom: 8%; background: {pbg}; box-shadow: 0 12px 30px rgba(0,0,0,0.35)">{stripe}'
-            f'<div style="height: 128px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px">{lk}'
-            f'<div style="display: flex; align-items: center; gap: 20px"><span style="font: 400 15px/1.35 \'{F}\', sans-serif; color: {psub}; text-align: right">Строим каменный дом<br>этап 3 из 7</span>'
-            f'<span style="padding: 14px 20px; background: {acc}; color: {v["acc_ink"]}; font: 600 16px \'{F}\', sans-serif; white-space: nowrap">Хочу такой дом</span></div></div></div>'
-            f'<span style="position: absolute; left: 16px; top: 16px; padding: 6px 10px; background: #FFFFFF; color: #1F1D1B; font: 400 12px \'{F}\', sans-serif">[ баннер на ограждении стройки ]</span></div>')
+            f'<img src="{IMG["life_" + k + "_fence"]}" alt="Баннер на ограждении стройки" style="width: 100%; height: 100%; object-fit: cover; display: block">'
+            f'<span style="position: absolute; left: 16px; top: 16px; padding: 6px 10px; background: #FFFFFF; color: #1F1D1B; font: 400 12px {F!r}, sans-serif">[ баннер на ограждении стройки ]</span></div>')
 
 
 def cards(v):

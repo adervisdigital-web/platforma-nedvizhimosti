@@ -129,26 +129,10 @@ def system_board(v):
         <div style="display: flex; justify-content: space-between; font: 500 13px '{F}', sans-serif"><span>Этап 3 из 7 · стены</span><span style="color: {muted}">43%</span></div>
         <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px">{''.join(f'<div style="height: 5px; background: {acc if j < 3 else line}"></div>' for j in range(7))}</div>
       </div>'''
-    # signage on facade
-    sign_bg = {'L': '#FBF9F5', 'D': '#0E0F11', 'Y': '#FFFFFF'}[k]
-    sign_ink = {'L': '#1F1D1B', 'D': '#F2F1EE', 'Y': '#14161F'}[k]
-    sign_sub = {'L': '#7A7368', 'D': '#8D929A', 'Y': '#6B6F7D'}[k]
-    glow = 'box-shadow: 0 0 40px rgba(255,181,71,0.35);' if k == 'D' else ''
-    sign = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["stone"], "Каменный фасад офиса")}'
-            f'<div style="position: absolute; left: 50%; top: 34%; transform: translateX(-50%); padding: 18px 26px; background: {sign_bg}; {glow} box-shadow: 0 10px 30px rgba(0,0,0,0.35)">'
-            f'{lockup(v, 24, sign_ink, sign_sub, mono=("LIGHTBG" if False else None), mw=40)}</div>'
-            f'<span style="position: absolute; left: 12px; top: 12px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px \'{F}\', sans-serif">[ вывеска офиса продаж ]</span></div>')
-    pp_bg = {'L': '#FBF9F5', 'D': '#17191C', 'Y': '#FFFFFF'}[k]
-    rows = (('Объект', 'Индивидуальный жилой дом, кирпич'), ('Заказчик', '[ФИО]'), ('Подрядчик', 'ПЛАТФОРМА НЕДВИЖИМОСТИ'),
-            ('Начало работ', '[ДАТА]'), ('Окончание', '[ДАТА]'), ('Прораб', '[ФИО] · +7 [ТЕЛЕФОН]'))
-    rr = ''.join(f'<div style="display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid {u["line"]}; font: 400 12px \'{F}\', sans-serif"><span style="color: {u["mut"]}">{a}</span><span style="text-align: right">{b}</span></div>' for a, b in rows)
-    stripe = ('<div style="display: flex; height: 6px">' + ''.join(f'<div style="flex: 1; background: {c}"></div>' for c in v['dir']) + '</div>') if k == 'Y' else f'<div style="height: 6px; background: {acc}"></div>'
-    passport = (f'<div style="height: 100%; background: #8A8F96; display: flex; align-items: center; justify-content: center; position: relative">'
-                f'<div style="width: 300px; background: {pp_bg}; color: {u["txt"]}; box-shadow: 0 14px 30px rgba(0,0,0,0.3)">{stripe}'
-                f'<div style="padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">'
-                f'<div style="display: flex; align-items: center; gap: 10px">{small_mark(v, 26)}{word(v, 15, u["txt"])}</div>'
-                f'<span style="font: 600 18px \'{F}\', sans-serif">Паспорт объекта</span><div>{rr}</div></div></div>'
-                f'<span style="position: absolute; left: 12px; top: 12px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px \'{F}\', sans-serif">[ паспорт объекта на стройке ]</span></div>')
+    sign = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["life_" + k + "_store"], "Вывеска над входом в офис продаж")}'
+            f'<span style="position: absolute; left: 12px; top: 12px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px {F!r}, sans-serif">[ вывеска офиса продаж ]</span></div>')
+    passport = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["life_" + k + "_plate"], "Паспорт объекта на заборе стройки")}'
+                f'<span style="position: absolute; left: 12px; top: 12px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px {F!r}, sans-serif">[ паспорт объекта на стройке ]</span></div>')
     h = 1540
     return head(f'{v["title"]} · {v["name"]} — айдентика', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px; overflow: hidden">
   <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid {line}; padding-bottom: 16px">
