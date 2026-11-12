@@ -184,9 +184,38 @@ def composite(v, surf):
         shade = cv2.GaussianBlur(shade[..., 0], (0, 0), 3)[..., None]
         out = base * (1 - a) + (rgb * (0.12 + 0.9 * shade)) * a
     elif mode == 'banner':
-        shade = np.clip(gray / np.percentile(region, 97), 0, 1.04)
+        # print covers the whole fabric: find the real banner pixels (bright, unsaturated) around the quad
+        hsv = cv2.cvtColor((base * 255).astype(np.uint8), cv2.COLOR_BGR2HSV)
+        grow = cv2.dilate(mask, np.ones((25, 25), np.uint8))
+        fabric = ((hsv[..., 2] > 150) & (hsv[..., 1] < 45) & (grow > 0)).astype(np.uint8)
+        fabric = cv2.morphologyEx(fabric, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+        n, lab, stats, _ = cv2.connectedComponentsWithStats(fabric)
+        big = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
+        fabric = (lab == big).astype(np.uint8)
+        fabric = cv2.morphologyEx(fabric, cv2.MORPH_CLOSE, np.ones((25, 25), np.uint8))
+        cnts, _ = cv2.findContours(fabric, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        hull = cv2.convexHull(max(cnts, key=cv2.contourArea))
+        peri = cv2.arcLength(hull, True); poly = hull
+        for e in np.linspace(0.005, 0.08, 60):
+            poly = cv2.approxPolyDP(hull, e * peri, True)
+            if len(poly) <= 4:
+                break
+        fill = np.zeros_like(fabric); cv2.fillConvexPoly(fill, poly.reshape(-1, 2), 1)
+        fill = cv2.dilate(fill, np.ones((3, 3), np.uint8))
+        fa = cv2.GaussianBlur(fill.astype(np.float32), (0, 0), 0.8)[..., None]
+        # stretch the artwork over the fabric bounding quad (+ small bleed) so it reaches every edge
+        x, y, bw, bh = cv2.boundingRect(fill)
+        q = np.float32(quad); ctr = q.mean(0)
+        sx = (bw + 6) / (q[:, 0].max() - q[:, 0].min()); sy = (bh + 6) / (q[:, 1].max() - q[:, 1].min())
+        q2 = (q - ctr) * np.float32([sx, sy]) + np.float32([x + bw / 2, y + bh / 2])
+        M2 = cv2.getPerspectiveTransform(src, q2)
+        warped2 = cv2.warpPerspective(art, M2, (W, H), flags=cv2.INTER_AREA, borderMode=cv2.BORDER_REPLICATE)
+        rgb2 = warped2[..., :3]
+        fr = gray[fill > 0]
+        shade = np.clip(gray / np.percentile(fr, 97), 0, 1.04)
         shade = cv2.GaussianBlur(shade, (0, 0), 1.2)[..., None]
-        out = base * (1 - a) + np.clip(rgb * (0.06 + 0.95 * shade), 0, 1) * a
+        out = base * (1 - fa) + np.clip(rgb2 * (0.06 + 0.95 * shade), 0, 1) * fa
+        a = fa
     elif mode == 'letters':
         a1 = a[..., 0]
         sh = cv2.GaussianBlur(np.roll(np.roll(a1, 4, axis=0), 3, axis=1), (0, 0), 3.0)[..., None] * 0.38
