@@ -108,11 +108,21 @@ def thumbs():
 
 
 
+BEAR = json.load(open(os.path.join(ROOT, 'tools', 'bearings.json'), encoding='utf8'))
+
+
+def bear(v):
+    if v['n'] not in ('4', '5', '6'):
+        return None
+    W = BEAR[f"{v['font']}|{v['fw']}"]; S = BEAR['Manrope|500']
+    return dict(wl=W['П']['lsb'], wr=W['А']['rsb'], sl=S['Н']['lsb'], sr=S['И']['rsb'])
+
+
 def build():
     data = thumbs()
     vjs = [dict(n=v['n'], key=v['key'], title=v['title'], name=v['name'], font=v['font'], fw=v['fw'], ls=v['ls'], k=v['k'], sub=v['sub'],
                 bg=v['bg'], ink=v['ink'], acc=v['acc'], acc_ink=v['acc_ink'], dark=v['dark'], palette=v['palette'], idea=v['idea'],
-                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key'], shape=v.get('shape', 'arch')), grid=grid_overlay(v['key'], v.get('shape', 'arch')), mv=v.get('mv')) for v in VARS]
+                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key'], shape=v.get('shape', 'arch')), grid=grid_overlay(v['key'], v.get('shape', 'arch')), mv=v.get('mv'), bear=bear(v)) for v in VARS]
     html = open(os.path.join(ROOT, 'tools', 'gallery_template.html'), encoding='utf8').read()
     html = html.replace('/*DATA*/', 'const VARS = ' + json.dumps(vjs, ensure_ascii=False) + ';\nconst SHEETS = ' + json.dumps(SHEETS, ensure_ascii=False) + ';')
     open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf8').write(html)

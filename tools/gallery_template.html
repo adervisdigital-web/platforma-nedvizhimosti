@@ -237,8 +237,15 @@ function stageStyle(v, bg) {
 }
 function applyVars(el, obj) { for (const k in obj) el.style.setProperty('--' + k, obj[k]); }
 function lockHTML(v, sizePx, ink, sub, opts = {}) {
-  const word = `<span class="w" style="font:${v.fw} ${Math.round(sizePx * 0.62 * v.k)}px/0.9 '${v.font}',sans-serif;letter-spacing:${v.ls};color:${ink}">ПЛАТФОРМА</span>`;
-  const subl = `<span class="s" style="color:${sub};font-size:${Math.max(9, Math.round(sizePx * 0.15))}px">${[...'НЕДВИЖИМОСТИ'].map(c => `<span>${c}</span>`).join('')}</span>`;
+  const W = Math.round(sizePx * 0.62 * v.k), SS = Math.max(9, Math.round(sizePx * 0.15));
+  let fix = '', subFix = '';
+  if (v.bear) {
+    const bL = v.bear.wl * W - v.bear.sl * SS, bR = v.bear.wr * W - v.bear.sr * SS;
+    fix = v.ls !== '0' ? `margin-right:-${v.ls};` : '';
+    subFix = `min-width:calc(100% - ${(bL + bR).toFixed(2)}px);margin-left:${bL.toFixed(2)}px;`;
+  }
+  const word = `<span class="w" style="font:${v.fw} ${W}px/0.9 '${v.font}',sans-serif;letter-spacing:${v.ls};${fix}color:${ink}">ПЛАТФОРМА</span>`;
+  const subl = `<span class="s" style="color:${sub};font-size:${SS}px;${subFix}">${[...'НЕДВИЖИМОСТИ'].map(c => `<span>${c}</span>`).join('')}</span>`;
   return `<div class="lock ${opts.grid ? 'showgrid' : ''} ${opts.only ? 'only' : ''}" style="color:${ink};gap:${Math.round(sizePx * 0.28)}px">
     <div class="mwrap" style="width:${sizePx}px">${v.mark}${v.grid}</div>
     <div class="words">${word}${subl}</div></div>`;

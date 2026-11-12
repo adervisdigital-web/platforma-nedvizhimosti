@@ -123,14 +123,27 @@ def mark(v, w, mono=None, on_dark=False):
     return mark_Y(w, *v['dir'])
 
 
+_BEAR = _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'bearings.json'), encoding='utf8'))
+
+
+def sub_inset(word_font, word_w, word_px, sub_font, sub_px):
+    """Shift the subline so its ink starts at the ink of «П» and ends at the ink of «А» (side bearings differ by size)."""
+    W = _BEAR.get(f'{word_font}|{word_w}'); S_ = _BEAR.get(f'{sub_font}|500')
+    if not W or not S_:
+        return 0.0, 0.0
+    return (W['П']['lsb'] * word_px - S_['Н']['lsb'] * sub_px, W['А']['rsb'] * word_px - S_['И']['rsb'] * sub_px)
+
+
 def lockup(v, size, ink, sub, mono=None, mw=None, vertical=False, on_dark=False):
     FH = v['FH']; s = round(size * v['word_k'])
     m = mark(v, mw or round(size * 1.45), mono, on_dark)
     sub_letters = ''.join(f'<span>{ch}</span>' for ch in 'НЕДВИЖИМОСТИ')
     ls_fix = f'margin-right: -{v["word_ls"]};' if v['word_ls'] not in ('0', '0em') else ''
+    ss = max(9, round(size * 0.24))
+    bL, bR = sub_inset(FH, v['word_w'], s, v['F'], ss) if v['key'] in ('K', 'S', 'M') else (0.0, 0.0)
     words = (f'<div style="display: inline-flex; flex-direction: column; gap: {max(4, round(size * 0.16))}px">'
              f'<span style="font: {v["word_w"]} {s}px/0.9 \'{FH}\', sans-serif; letter-spacing: {v["word_ls"]}; {ls_fix} color: {ink}; white-space: nowrap">ПЛАТФОРМА</span>'
-             f'<span style="display: flex; justify-content: space-between; width: 0; min-width: 100%; font: 500 {max(9, round(size * 0.24))}px/1 \'{v["F"]}\', sans-serif; color: {sub}">{sub_letters}</span></div>')
+             f'<span style="display: flex; justify-content: space-between; width: 0; min-width: calc(100% - {bL + bR:.2f}px); margin-left: {bL:.2f}px; font: 500 {ss}px/1 \'{v["F"]}\', sans-serif; color: {sub}">{sub_letters}</span></div>')
     d = 'column' if vertical else 'row'
     return f'<div style="display: flex; flex-direction: {d}; align-items: center; gap: {round(size * (0.5 if vertical else 0.42))}px">{m}{words}</div>'
 
