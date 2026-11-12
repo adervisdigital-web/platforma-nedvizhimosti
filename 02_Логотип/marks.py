@@ -48,7 +48,7 @@ def _poly(pts):
     return 'M' + ' L'.join(f'{x:.2f} {y:.2f}' for x, y in pts) + ' Z'
 
 
-def _masonry_d():
+def _masonry_d_old():
     """Arch block built from stone: radial voussoirs with a raised keystone, staggered brick courses around it."""
     g = 0.9                      # joint width
     cx, cy, r0, r1 = 18, 20, 8, 13.2
@@ -107,6 +107,9 @@ def _masonry_d():
             if x1 - max(lim) > 1.5:
                 out.append(_poly([(x1, y0)] + [(xx, y) for xx, y in zip(lim, ys)] + [(x1, y1)]))
     return ' '.join(out)
+
+
+from masonry2 import masonry_d as _masonry_d  # redesigned symmetric masonry
 
 
 def _vault_d():

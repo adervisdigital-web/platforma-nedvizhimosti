@@ -192,8 +192,8 @@ def construction(v, H=420):
         s = H / 40; W = 36 * s
         lines = ''.join(f'<line x1="{x * s}" y1="-30" x2="{x * s}" y2="{H + 30}" stroke="{g}" stroke-width="1" stroke-dasharray="4 6" opacity="0.6"/>' for x in (0, 10, 18, 26, 36))
         lines += ''.join(f'<line x1="-30" y1="{y * s}" x2="{W + 30}" y2="{y * s}" stroke="{g}" stroke-width="1" stroke-dasharray="4 6" opacity="0.6"/>' for y in (0, 12, 20, 40))
-        lines += f'<circle cx="{18 * s}" cy="{20 * s}" r="{8 * s}" fill="none" stroke="{ink}" stroke-width="1.2" opacity="0.55"/>'
-        lines += f'<circle cx="{18 * s}" cy="{20 * s}" r="3" fill="{ink}"/>'
+        lines += f'<circle cx="{18 * s}" cy="{(19.1 if v.get('shape') == 'masonry' else 20) * s}" r="{8 * s}" fill="none" stroke="{ink}" stroke-width="1.2" opacity="0.55"/>'
+        lines += f'<circle cx="{18 * s}" cy="{(19.1 if v.get('shape') == 'masonry' else 20) * s}" r="3" fill="{ink}"/>'
         notes = (f'<text x="{W + 40}" y="{12 * s + 4}" font-size="13" fill="{g}" font-family="{v["F"]}">r = 8 модулей</text>'
                  f'<text x="{W + 40}" y="{40 * s}" font-size="13" fill="{g}" font-family="{v["F"]}">10 · 16 · 10</text>')
         body = f'<g transform="translate(0,0)">{mark_L(W, v["acc"]).split(">", 1)[1].rsplit("</svg>", 1)[0]}</g>'
