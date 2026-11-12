@@ -180,7 +180,14 @@ const store = {
   set(k, v) { try { localStorage.setItem('pn-' + k, v); } catch (e) {} }
 };
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 1600); }
-async function copy(text, msg) { try { await navigator.clipboard.writeText(text); toast(msg || 'Скопировано'); } catch (e) { toast('Не удалось скопировать'); } }
+function copyFallback(text) {
+  const t = document.createElement('textarea'); t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+  document.body.appendChild(t); t.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (e) {} t.remove(); return ok;
+}
+async function copy(text, msg) {
+  try { await navigator.clipboard.writeText(text); toast(msg || 'Скопировано'); }
+  catch (e) { toast(copyFallback(text) ? (msg || 'Скопировано') : 'Скопируйте вручную: ' + text.slice(0, 40)); }
+}
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 
 /* theme */
