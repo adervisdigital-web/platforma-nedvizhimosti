@@ -295,14 +295,14 @@ function viewOverview() {
         <div class="row"><a class="btn" href="#v${v.n}">Открыть вариант</a></div></div></article>`;
   }).join('');
   return `<div class="kick">Екатеринбург · квартиры, ремонт, каменные дома</div>
-    <h1>Варианты фирменного стиля</h1>
-    <p class="lead">Шесть вариантов: светлый, тёмный, яркий, две версии «Арки» — с кладкой и со сводом — и «Модуль». У каждого — логотип, стиль и носители, айдентика, сайт и приложение, бренд в жизни. Нажмите на лист, чтобы открыть его крупно, или откройте вариант целиком.</p>
+    <h1>Фирменный стиль «Арка»</h1>
+    <p class="lead">Выбранный вариант: «П» с арочным проёмом — буква и вход в каменный дом. Логотип, стиль и носители, айдентика, сайт и приложение, бренд в жизни. Нажмите на лист, чтобы открыть его крупно, или откройте вариант целиком.</p>
     <div class="grid3">${cards}</div>`;
 }
 
 function viewVariant(n) {
   const v = VARS.find(x => x.n === n);
-  return `<div class="kick">Вариант ${v.n} из ${VARS.length}</div>
+  return `<div class="kick">Фирменный стиль</div>
     <div class="row" style="justify-content:space-between;align-items:flex-end"><h1 style="margin:0">${v.title} «${v.name}»</h1></div>
     <p class="lead" style="margin-top:12px">${esc(v.idea)}</p>
     <section class="pg" aria-label="Логотип">

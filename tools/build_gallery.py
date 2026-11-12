@@ -119,6 +119,8 @@ def bear(v):
 
 
 def build():
+    global VARS
+    VARS = [v for v in VARS if v['n'] == '1']   # client chose «Арка» (2026-11-12); others archived
     data = thumbs()
     vjs = [dict(n=v['n'], key=v['key'], title=v['title'], name=v['name'], font=v['font'], fw=v['fw'], ls=v['ls'], k=v['k'], sub=v['sub'],
                 bg=v['bg'], ink=v['ink'], acc=v['acc'], acc_ink=v['acc_ink'], dark=v['dark'], palette=v['palette'], idea=v['idea'],
