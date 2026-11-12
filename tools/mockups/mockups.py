@@ -6,7 +6,7 @@ import numpy as np, cv2
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'v3'))
 from marks import mark_L, mark_D, mark_Y          # noqa: E402
-from gen_v3 import V, lockup                      # noqa: E402
+from gen_v3 import V, lockup, fam                      # noqa: E402
 
 PROJ = 'C:/Users/MSI/Desktop/ПЛАТФОРМА -приложение'
 GEN = PROJ + '/_source/gen/'
@@ -46,7 +46,7 @@ def page(v, w, h, body, bg='transparent'):
 
 
 def colored_mark(v, w, light_surface=True):
-    k = v['key']
+    k = fam(v)
     if k == 'L':
         return mark_L(w, v['acc'])
     if k == 'D':
@@ -55,7 +55,7 @@ def colored_mark(v, w, light_surface=True):
 
 
 def art_html(v, surf):
-    k, F, FH = v['key'], v['F'], v['FH']
+    k, F, FH = fam(v), v['F'], v['FH']
     w, h = SURF[surf][1]
     center = lambda inner, extra='': f'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;{extra}">{inner}</div>'
     if surf == 'facade':
@@ -74,7 +74,7 @@ def art_html(v, surf):
         kitchen = FILE(GEN + 'kv_kitchen.jpg')
         if k == 'L':
             vis = f'<div style="width:150px;height:232px;border-radius:75px 75px 0 0;overflow:hidden;flex:none;align-self:flex-end"><img src="{kitchen}" style="width:100%;height:100%;object-fit:cover"></div>'
-            bg, ink, sub, head = '#F2EEE7', '#1F1D1B', '#7A7368', 'Входите.<br>Дальше мы сами.'
+            bg, ink, sub, head = v['bg'], v['ink'], v['muted'], {'K': 'Строим так,<br>чтобы стояло век.', 'S': 'Ваш дом<br>уже ждёт.'}.get(v['key'], 'Входите.<br>Дальше мы сами.')
             hs, hw = 44, 700
         elif k == 'D':
             vis = f'<div style="flex:none">{mark_D(190)}</div>'
@@ -104,7 +104,7 @@ def art_html(v, surf):
             stripe = f'<div style="position:absolute;left:0;top:0;bottom:0;width:18px;background:{v["acc"]}"></div>'
         q = "'"
         body = (f'<div style="position:absolute;inset:0;background:{bg};display:flex;align-items:center;justify-content:space-between;padding:0 56px 0 70px;box-sizing:border-box">'
-                f'{lockup(v, 36 if k == "Y" else 44, ink, sub, mw=64 if k == "Y" else 78)}'
+                f'{lockup(v, 36 if v["key"] in ("Y", "S") else 44, ink, sub, mw=64 if v["key"] in ("Y", "S") else 78)}'
                 f'<div style="display:flex;align-items:center;gap:34px"><div style="display:flex;flex-direction:column;gap:6px;text-align:right;color:{ink}">'
                 f'<span style="font:600 {26 if k == 'Y' else 30}px/1.1 {q}{FH}{q},sans-serif;white-space:nowrap">Строим каменный дом</span><span style="font:400 22px {q}{F}{q},sans-serif;color:{sub};white-space:nowrap">этап 3 из 7</span></div>'
                 f'<span style="padding:22px 30px;background:{btn};color:{v["acc_ink"]};font:600 26px {q}{F}{q},sans-serif;white-space:nowrap">Хочу такой дом</span></div></div>')
@@ -123,7 +123,7 @@ def art_html(v, surf):
         mk = mark_L(24, v['acc']) if k == 'L' else (mark_D(26, front='#14120E', top='#7A7F87', side='#3A3D43', glow='#FFB547') if k == 'D' else mark_Y(28, *v['dir']))
         word = f'<span style="font:{v["word_w"]} {round(15 * v["word_k"])}px {q}{FH}{q},sans-serif;letter-spacing:{v["word_ls"]};color:{ink}">ПЛАТФОРМА</span>'
         body = (f'<div style="position:absolute;left:30px;right:30px;top:34px;bottom:34px;display:flex;flex-direction:column;gap:10px">'
-                f'<div style="display:flex;height:6px">{bar}</div>'
+                f'<div style="display:flex;height:6px;flex:none">{bar}</div>'
                 f'<div style="display:flex">{lockup(v, 17, ink, mut, mono=("LIGHTBG" if k == "D" else None), mw=28)}</div>'
                 f'<div style="font:700 19px {q}{F}{q},sans-serif;color:{ink}">Паспорт объекта</div><div>{rr}</div></div>')
         return page(v, w, h, body)

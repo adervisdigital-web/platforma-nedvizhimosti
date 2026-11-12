@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, 'C:/Users/MSI/AppData/Local/Temp/claude/10d39200edc2b63f/973356bb-8c70-4e3b-b6ae-d636a7404011/scratchpad/v3')
 from marks import mark_L, mark_D, mark_Y
-from gen_v3 import V, IMG, OUT, head, tail, label, lockup, mark
+from gen_v3 import V, IMG, OUT, head, tail, label, lockup, mark, fam
 import json, os
 
 EXTRA = json.load(open(os.path.dirname(os.path.abspath(__file__)) + '/blobs2.json', encoding='utf8'))
@@ -16,7 +16,7 @@ UI = {
 
 
 def small_mark(v, w):
-    k = v['key']
+    k = fam(v)
     return mark_L(w, v['acc']) if k == 'L' else mark_D(w) if k == 'D' else mark_Y(w, *v['dir'])
 
 
@@ -46,17 +46,17 @@ ICONS = [
 
 
 def icon(v, i, size=28, color=None):
-    cap = 'square' if v['key'] == 'D' else 'round'
-    c = color or UI[v['key']]['txt']
+    cap = 'square' if fam(v) == 'D' else 'round'
+    c = color or UI[fam(v)]['txt']
     return (f'<svg width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="1.8" '
             f'stroke-linecap="{cap}" stroke-linejoin="{"miter" if cap == "square" else "round"}" aria-hidden="true">{ICONS[i][1]}</svg>')
 
 
 # ---------------- patterns ----------------
 def pattern(v, W=760, H=400):
-    k = v['key']
+    k = fam(v)
     if k == 'L':
-        cols = ['#B4532A', '#D9CBB5', '#1F1D1B', '#E7DCCB']
+        cols = [v['acc'], v['sand'], v['ink'], v.get('sand2', '#E7DCCB')]
         out = ''
         cw, ch = 76, 96
         for r in range(H // ch + 1):
@@ -95,7 +95,7 @@ def pattern(v, W=760, H=400):
 
 # ---------------- identity system board ----------------
 def system_board(v):
-    k = v['key']; u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
+    k = fam(v); u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
     ink, muted, line, panel = v['ink'], v['muted'], v['line'], v['panel']
     icons = ''.join(f'<div style="display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 4px; background: {u["surf"] if k != "D" else "#1F2226"}">'
                     f'{icon(v, i, 30, (v["dir"][i] if (k == "Y" and i < 3) else (acc if (k != "Y" and i < 3) else u["txt"])))}'
@@ -129,9 +129,9 @@ def system_board(v):
         <div style="display: flex; justify-content: space-between; font: 500 13px '{F}', sans-serif"><span>Этап 3 из 7 · стены</span><span style="color: {muted}">43%</span></div>
         <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px">{''.join(f'<div style="height: 5px; background: {acc if j < 3 else line}"></div>' for j in range(7))}</div>
       </div>'''
-    sign = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["life_" + k + "_store"], "Вывеска над входом в офис продаж")}'
+    sign = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["life_" + v["key"] + "_store"], "Вывеска над входом в офис продаж")}'
             f'<span style="position: absolute; left: 12px; top: 12px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px {F!r}, sans-serif">[ вывеска офиса продаж ]</span></div>')
-    passport = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["life_" + k + "_plate"], "Паспорт объекта на заборе стройки")}'
+    passport = (f'<div style="position: relative; height: 100%; overflow: hidden">{img(IMG["life_" + v["key"] + "_plate"], "Паспорт объекта на заборе стройки")}'
                 f'<span style="position: absolute; left: 12px; top: 12px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px {F!r}, sans-serif">[ паспорт объекта на стройке ]</span></div>')
     h = 1540
     return head(f'{v["title"]} · {v["name"]} — айдентика', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px; overflow: hidden">
@@ -172,7 +172,7 @@ def system_board(v):
 
 # ---------------- site on laptop ----------------
 def hero_visual(v, H=300):
-    k = v['key']
+    k = fam(v)
     if k == 'L':
         return (f'<div style="position: relative; width: 100%; height: {H}px">'
                 f'<div style="position: absolute; right: 120px; top: 0; width: 230px; height: {H}px; border-radius: 115px 115px 0 0; overflow: hidden">{img(IMG["kitchen"], "Кухня-гостиная")}</div>'
@@ -192,7 +192,7 @@ def hero_visual(v, H=300):
 
 
 def site(v):
-    k = v['key']; u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
+    k = fam(v); u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
     r = f'{u["r"]}px'
     tabs = ''
     for i, n in enumerate(('Квартиры', 'Ремонт', 'Дома')):
@@ -277,7 +277,7 @@ def status(u):
 
 
 def tabbar(v, active=0):
-    k = v['key']; u = UI[k]
+    k = fam(v); u = UI[k]
     items = ((11, 'Поиск'), (10, 'Избранное'), (5, 'Мой объект'), (9, 'Чат'))
     out = ''
     for j, (ic, n) in enumerate(items):
@@ -287,7 +287,7 @@ def tabbar(v, active=0):
 
 
 def screen_home(v):
-    k = v['key']; u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
+    k = fam(v); u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
     r = f'{u["r"]}px'
     tiles = ''
     for i, (n, im) in enumerate((('Квартиры', 'bedroom'), ('Ремонт', 'bath'), ('Дома', 'gable'))):
@@ -315,7 +315,7 @@ def screen_home(v):
 
 
 def screen_catalog(v):
-    k = v['key']; u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
+    k = fam(v); u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
     r = f'{u["r"]}px'
     c0 = v['dir'][0] if k == 'Y' else (u['txt'])
     chips = ''.join(f'<span style="padding: 8px 12px; white-space: nowrap; font: 500 13px \'{F}\', sans-serif; border-radius: {r}; background: {c0 if i == 0 else u["soft"]}; color: {("#FFFFFF" if k != "D" else "#14120E") if i == 0 else u["txt"]}">{t}</span>' for i, t in enumerate(('2-комн.', 'до [ЦЕНА]', 'Академический', 'Фильтры')))
@@ -338,7 +338,7 @@ def screen_catalog(v):
 
 
 def screen_house(v):
-    k = v['key']; u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
+    k = fam(v); u = UI[k]; F, FH, acc = v['F'], v['FH'], v['acc']
     r = f'{u["r"]}px'
     c = v['dir'][2] if k == 'Y' else acc
     stages = ('Фундамент', 'Цоколь и гидроизоляция', 'Стены 1 этажа', 'Стены 2 этажа', 'Кровля', 'Окна и двери', 'Инженерия и отделка')
@@ -363,7 +363,7 @@ def screen_house(v):
 
 
 def iphone(screen_html, caption, v):
-    u = UI[v['key']]
+    u = UI[fam(v)]
     return f'''<div style="display: flex; flex-direction: column; align-items: center; gap: 14px">
   <div style="width: 300px; height: 620px; border-radius: 50px; background: #111111; padding: 11px; box-sizing: border-box; box-shadow: 0 30px 60px rgba(0,0,0,0.28); border: 2px solid #3A3D43; position: relative">
     <div style="width: 278px; height: 598px; border-radius: 40px; overflow: hidden; position: relative; background: {u['bg']}">
@@ -376,7 +376,7 @@ def iphone(screen_html, caption, v):
 
 
 def site_board(v):
-    k = v['key']; F, acc, line, muted, ink = v['F'], v['acc'], v['line'], v['muted'], v['ink']
+    k = fam(v); F, acc, line, muted, ink = v['F'], v['acc'], v['line'], v['muted'], v['ink']
     h = 1580
     return head(f'{v["title"]} · {v["name"]} — сайт-приложение', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 28px; overflow: hidden">
   <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid {line}; padding-bottom: 16px">

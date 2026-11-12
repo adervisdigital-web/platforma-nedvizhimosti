@@ -17,6 +17,13 @@ IMG = dict(
 import json as _json, os as _os
 IMG.update({k: '/_blob/' + v for k, v in _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'blobs4.json'), encoding='utf8')).items()})
 
+def fam(v):
+    """Design family of a variant (new arch variants reuse the 'L' layouts) + switch the arch mark shape."""
+    import marks as _mk
+    _mk.SHAPE = v.get('shape', 'arch')
+    return v.get('fam', v['key'])
+
+
 V = {
  'L': dict(key='L', title='Светлый', name='Арка', file='L',
            gf='family=Manrope:wght@400;500;600;700;800', F='Manrope', FH='Manrope', word_w=800, word_ls='0.04em', word_k=1.0,
@@ -45,11 +52,29 @@ V = {
            why=['Знак объясняет бизнес: три направления — одна компания', 'Цвет = навигация по разделам приложения', 'Энергия массового рынка, как у больших платформ'],
            type_desc='Unbounded — широкий для логотипа и заголовков, Manrope — для текста. Оба с кириллицей.',
            mood='Смело и дружелюбно. Белый фон, три чистых цвета, крупная широкая типографика.'),
+ 'K': dict(key='K', fam='L', shape='masonry', title='Красный', name='Кладка', file='K',
+           gf='family=Manrope:wght@400;500;600;700;800', F='Manrope', FH='Manrope', word_w=800, word_ls='0.04em', word_k=1.0,
+           bg='#F4EFE8', panel='#FBF8F3', ink='#1E1B19', text='#1E1B19', muted='#76706A', line='#E2DACE',
+           acc='#C8102E', acc_ink='#FFFFFF', sand='#E4D3BF', sand2='#EFE3D3', dir=('#C8102E', '#C8102E', '#C8102E'),
+           palette=[('Известь', '#F4EFE8', 40), ('Графит', '#1E1B19', 26), ('Красный', '#C8102E', 18), ('Глина', '#E4D3BF', 16)],
+           idea='Та же арка-«П», но сложенная из камня: ряды кладки, клинчатая перемычка и замковый камень. Знак рассказывает, что мы строим сами и на века. В малых размерах кладка убирается — остаётся чистая арка.',
+           why=['Детализация видна на вывеске, баннере и упаковке', 'Замковый камень — символ надёжности и завершённой работы', 'Красный — кирпич и энергия, заметен на стройке и в ленте'],
+           type_desc='Manrope — геометричный гротеск с кириллицей. Логотип 800, заголовки 600, текст 400.',
+           mood='Крепко и по-строительному. Известь, графит и один красный акцент, как кирпич в кладке.'),
+ 'S': dict(key='S', fam='L', shape='vault', title='Зелёный', name='Свод', file='S',
+           gf='family=Geologica:wght@400;500;600;700', F='Geologica', FH='Geologica', word_w=700, word_ls='0.03em', word_k=0.96,
+           bg='#F1EEE6', panel='#FAF8F3', ink='#1D2620', text='#1D2620', muted='#6B7069', line='#DCD8CC',
+           acc='#2F5D46', acc_ink='#FFFFFF', sand='#D8CDB4', sand2='#E6DDCB', dir=('#2F5D46', '#2F5D46', '#2F5D46'),
+           palette=[('Песок', '#F1EEE6', 40), ('Хвоя', '#1D2620', 26), ('Зелень', '#2F5D46', 18), ('Лён', '#D8CDB4', 16)],
+           idea='Арка-«П» с дверной рамой и порогом внутри: вход в дом, который уже готов. Двойной контур — аккуратность ремонта, порог — шаг в новую жизнь.',
+           why=['Читается как дверь — понятно без слов', 'Зелёный — спокойствие, природа, свой дом за городом', 'Рама и порог дают простую фирменную графику для рамок'],
+           type_desc='Geologica — мягкий геометричный гротеск с кириллицей. Логотип 700, заголовки 600, текст 400.',
+           mood='Спокойно и природно. Тёплый песок, глубокая зелень и много воздуха.'),
 }
 
 
 def mark(v, w, mono=None, on_dark=False):
-    k = v['key']
+    k = fam(v)
     if k == 'L':
         return mark_L(w, mono or v['acc'])
     if k == 'D':
@@ -115,7 +140,7 @@ def label(v, t, color=None):
 
 # ---------- construction drawings ----------
 def construction(v, H=420):
-    k = v['key']; g = v['muted']; ink = v['ink']
+    k = fam(v); g = v['muted']; ink = v['ink']
     if k == 'L':
         s = H / 40; W = 36 * s
         lines = ''.join(f'<line x1="{x * s}" y1="-30" x2="{x * s}" y2="{H + 30}" stroke="{g}" stroke-width="1" stroke-dasharray="4 6" opacity="0.6"/>' for x in (0, 10, 18, 26, 36))
@@ -154,7 +179,7 @@ def directions(v):
     cells = ''
     for i, (n, s) in enumerate(zip(names, subs)):
         c = v['dir'][i]
-        if v['key'] == 'Y':
+        if fam(v) == 'Y':
             cols = ['#DADDE6'] * 3; cols[i] = c
             m = mark_Y(44, cols[0], cols[1], cols[2], f'Знак направления {n}')
         else:
@@ -169,24 +194,24 @@ def directions(v):
 
 def logo_board(v):
     F, FH, ink, muted, line, panel, acc = v['F'], v['FH'], v['ink'], v['muted'], v['line'], v['panel'], v['acc']
-    dark_bg = '#14161F' if v['key'] == 'Y' else ('#1F1D1B' if v['key'] == 'L' else '#F2F1EE')
-    dark_ink = '#FFFFFF' if v['key'] != 'D' else '#14120E'
+    dark_bg = '#14161F' if fam(v) == 'Y' else ('#1F1D1B' if fam(v) == 'L' else '#F2F1EE')
+    dark_ink = '#FFFFFF' if fam(v) != 'D' else '#14120E'
     why = ''.join(f'<li style="margin: 0 0 8px">{w}</li>' for w in v['why'])
     # app icon
-    icon_bg = {'L': acc, 'D': '#2A2D32', 'Y': '#14161F'}[v['key']]
-    icon_mark = {'L': lambda w: mark_L(w, '#FBF9F5'), 'D': lambda w: mark_D(w), 'Y': lambda w: mark_Y(w, *v['dir'])}[v['key']]
-    alt_lock = (lockup(v, 30, '#FBF9F5', '#E9C9B8', mono='#FBF9F5') if v['key'] == 'L' else
-                lockup(v, 30, '#14120E', '#5A4A2A', mono='YELLOWBG') if v['key'] == 'D' else
+    icon_bg = {'L': acc, 'D': '#2A2D32', 'Y': '#14161F'}[fam(v)]
+    icon_mark = {'L': lambda w: mark_L(w, '#FBF9F5'), 'D': lambda w: mark_D(w), 'Y': lambda w: mark_Y(w, *v['dir'])}[fam(v)]
+    alt_lock = (lockup(v, 30, '#FBF9F5', 'rgba(255,255,255,.72)', mono='#FBF9F5') if fam(v) == 'L' else
+                lockup(v, 30, '#14120E', '#5A4A2A', mono='YELLOWBG') if fam(v) == 'D' else
                 lockup(v, 30, '#FFFFFF', '#C9D0FF', mono='#FFFFFF'))
     alt_bg = acc
-    if v['key'] == 'D':
+    if fam(v) == 'D':
         inv = lockup(v, 30, '#14120E', '#5C616B', mono='LIGHTBG')
     else:
-        inv = lockup(v, 30, '#FFFFFF', '#A9A39A' if v['key'] == 'L' else '#9A9EAB', on_dark=True)
+        inv = lockup(v, 30, '#FFFFFF', '#A9A39A' if fam(v) == 'L' else '#9A9EAB', on_dark=True)
     h = 1540
     return head(f'{v["title"]} · {v["name"]} — логотип', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px; overflow: hidden">
   <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid {line}; padding-bottom: 16px">
-    <div style="font: 500 30px '{F}', sans-serif; letter-spacing: -0.02em">{v['title']} · <span style="color: {acc if v['key'] != 'Y' else ink}">«{v['name']}»</span></div>
+    <div style="font: 500 30px '{F}', sans-serif; letter-spacing: -0.02em">{v['title']} · <span style="color: {acc if fam(v) != 'Y' else ink}">«{v['name']}»</span></div>
     <div style="font: 400 14px '{F}', sans-serif; color: {muted}">[ 01 · логотип ]</div>
   </div>
   <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; height: 560px">
@@ -204,7 +229,7 @@ def logo_board(v):
   </div>
   <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; height: 260px">
     <div style="background: {dark_bg}; display: flex; flex-direction: column; justify-content: space-between; padding: 20px">
-      {label(v, 'на тёмном' if v['key'] != 'D' else 'на светлом', '#8D929A')}
+      {label(v, 'на тёмном' if fam(v) != 'D' else 'на светлом', '#8D929A')}
       <div style="display: flex; justify-content: center">{inv}</div><span></span>
     </div>
     <div style="background: {alt_bg}; display: flex; flex-direction: column; justify-content: space-between; padding: 20px">
@@ -243,7 +268,7 @@ def logo_board(v):
 
 # ---------- style board ----------
 def supergraphic(v, W=820, H=500):
-    k = v['key']; acc = v['acc']; F = v['F']; FH = v['FH']
+    k = fam(v); acc = v['acc']; F = v['F']; FH = v['FH']
     if k == 'L':
         # arch-window photo on terracotta field
         aw, ah = 330, 420
@@ -254,9 +279,9 @@ def supergraphic(v, W=820, H=500):
                 f'<defs><clipPath id="archL"><path d="{path}"/></clipPath></defs>'
                 f'<image href="{IMG["kitchen"]}" x="-120" y="0" width="{aw + 240}" height="{ah}" preserveAspectRatio="xMidYMid slice" clip-path="url(#archL)"/></svg>'
                 f'<div style="position: absolute; left: 440px; right: 48px; top: 56px; bottom: 48px; display: flex; flex-direction: column; justify-content: space-between; color: #FBF9F5">'
-                f'<span style="font: 400 13px \'{F}\', sans-serif; color: #F1D3C3">[ арка — фирменная рамка для фото ]</span>'
+                f'<span style="font: 400 13px \'{F}\', sans-serif; color: rgba(255,255,255,.72)">[ арка — фирменная рамка для фото ]</span>'
                 f'<div style="font: 600 46px/1.05 \'{F}\', sans-serif; letter-spacing: -0.02em">Входите.<br>Дальше мы сами.</div>'
-                f'<div style="display: flex; flex-direction: column; gap: 14px"><span style="font: 400 17px/1.5 \'{F}\', sans-serif; color: #F6E2D7">Квартира, ремонт и каменный дом — одна компания, один договор, один менеджер.</span>'
+                f'<div style="display: flex; flex-direction: column; gap: 14px"><span style="font: 400 17px/1.5 \'{F}\', sans-serif; color: rgba(255,255,255,.86)">Квартира, ремонт и каменный дом — одна компания, один договор, один менеджер.</span>'
                 f'<span style="align-self: flex-start; padding: 14px 22px; background: #FBF9F5; color: #1F1D1B; font: 600 16px \'{F}\', sans-serif">Подобрать квартиру</span></div></div></div>')
     if k == 'D':
         Wm = 470
@@ -296,7 +321,7 @@ def supergraphic(v, W=820, H=500):
 
 def phone(v):
     F, FH, ink, muted, acc = v['F'], v['FH'], v['ink'], v['muted'], v['acc']
-    k = v['key']
+    k = fam(v)
     scr = {'L': '#FBF9F5', 'D': '#0E0F11', 'Y': '#FFFFFF'}[k]
     tile = {'L': '#F2EEE7', 'D': '#1B1D21', 'Y': '#F3F4F8'}[k]
     txt = {'L': '#1F1D1B', 'D': '#F2F1EE', 'Y': '#14161F'}[k]
@@ -329,18 +354,18 @@ def phone(v):
 
 
 def banner(v):
-    k, F = v['key'], v['F']
+    k, F = fam(v), v['F']
     return (f'<div style="position: relative; width: 100%; height: 100%; overflow: hidden">'
-            f'<img src="{IMG["life_" + k + "_fence"]}" alt="Баннер на ограждении стройки" style="width: 100%; height: 100%; object-fit: cover; display: block">'
+            f'<img src="{IMG["life_" + v["key"] + "_fence"]}" alt="Баннер на ограждении стройки" style="width: 100%; height: 100%; object-fit: cover; display: block">'
             f'<span style="position: absolute; left: 16px; top: 16px; padding: 6px 10px; background: #FFFFFF; color: #1F1D1B; font: 400 12px {F!r}, sans-serif">[ баннер на ограждении стройки ]</span></div>')
 
 
 def cards(v):
     F, FH, acc = v['F'], v['FH'], v['acc']
-    k = v['key']
+    k = fam(v)
     front_bg = {'L': '#FBF9F5', 'D': '#F2F1EE', 'Y': '#FFFFFF'}[k]
     back_bg = {'L': acc, 'D': '#17191C', 'Y': '#14161F'}[k]
-    back = (lockup(v, 22, '#FBF9F5', '#F1D3C3', mono='#FBF9F5', mw=40) if k == 'L' else lockup(v, 22, '#F2F1EE', '#8D929A', mw=40))
+    back = (lockup(v, 22, '#FBF9F5', 'rgba(255,255,255,.72)', mono='#FBF9F5', mw=40) if k == 'L' else lockup(v, 22, '#F2F1EE', '#8D929A', mw=40))
     corner = mark_L(26, acc) if k == 'L' else mark_D(28) if k == 'D' else mark_Y(30, *v['dir'])
     return f'''<div style="position: relative; width: 100%; height: 100%">
   <div style="position: absolute; left: 10px; top: 4px; width: 340px; height: 196px; background: {front_bg}; transform: rotate(-5deg); box-shadow: 0 18px 40px rgba(0,0,0,0.22); padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; color: #1F1D1B">
@@ -355,9 +380,9 @@ def cards(v):
 
 def posts(v):
     F, FH, acc = v['F'], v['FH'], v['acc']
-    k = v['key']
+    k = fam(v)
     if k == 'L':
-        p1 = (f'<div style="width: 250px; height: 250px; background: #F2EEE7; position: relative; overflow: hidden">'
+        p1 = (f'<div style="width: 250px; height: 250px; background: {v["bg"]}; position: relative; overflow: hidden">'
               f'<div style="position: absolute; left: 24px; right: 24px; top: 24px; bottom: 70px; border-radius: 101px 101px 0 0; overflow: hidden"><img src="{IMG["after"]}" alt="Комната после ремонта" style="width: 100%; height: 100%; object-fit: cover; display: block"></div>'
               f'<div style="position: absolute; left: 24px; right: 24px; bottom: 18px; display: flex; justify-content: space-between; align-items: center"><span style="font: 600 15px \'{F}\', sans-serif; color: #1F1D1B">Ремонт под ключ</span>{mark_L(18, acc)}</div></div>')
         p2 = f'<div style="width: 250px; height: 250px; background: {acc}; display: flex; align-items: center; justify-content: center">{mark_L(110, "#FBF9F5")}</div>'
@@ -379,14 +404,14 @@ def style_board(v):
     F, FH, ink, muted, line, panel, acc = v['F'], v['FH'], v['ink'], v['muted'], v['line'], v['panel'], v['acc']
     pal = ''
     for n, c, f in v['palette']:
-        light = c in ('#FFFFFF', '#F2EEE7', '#FBF9F5', '#D9CBB5', '#F2F1EE', '#A7ACB4', '#FFB547', '#F3F4F8')
+        light = c in ('#FFFFFF', '#F2EEE7', '#F4EFE8', '#E4D3BF', '#F1EEE6', '#D8CDB4', '#FBF9F5', '#D9CBB5', '#F2F1EE', '#A7ACB4', '#FFB547', '#F3F4F8')
         border = f'border: 1px solid {line};' if c in (v['bg'], '#FFFFFF') else ''
         pal += (f'<div style="flex: {f}; background: {c}; {border} padding: 10px; display: flex; flex-direction: column; justify-content: flex-end; '
                 f'font: 400 12px/1.4 \'{F}\', sans-serif; color: {"#1F1D1B" if light else "#FFFFFF"}">{n}<br>{c}</div>')
     h = 1640
     return head(f'{v["title"]} · {v["name"]} — стиль и носители', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px; overflow: hidden">
   <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid {line}; padding-bottom: 16px">
-    <div style="font: 500 30px '{F}', sans-serif; letter-spacing: -0.02em">{v['title']} · <span style="color: {acc if v['key'] != 'Y' else ink}">«{v['name']}»</span></div>
+    <div style="font: 500 30px '{F}', sans-serif; letter-spacing: -0.02em">{v['title']} · <span style="color: {acc if fam(v) != 'Y' else ink}">«{v['name']}»</span></div>
     <div style="font: 400 14px '{F}', sans-serif; color: {muted}">[ 02 · стиль и носители ]</div>
   </div>
   <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; height: 500px">
@@ -418,6 +443,7 @@ def style_board(v):
 
 if __name__ == '__main__':
     for k, v in V.items():
+        fam(v)
         open(OUT + f'Logo{k}.dc.html', 'w', encoding='utf8').write(logo_board(v))
         open(OUT + f'Style{k}.dc.html', 'w', encoding='utf8').write(style_board(v))
     print('ok')

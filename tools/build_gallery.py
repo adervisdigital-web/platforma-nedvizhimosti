@@ -5,7 +5,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, '02_Логотип'))
-from marks import mark_L, mark_D, mark_Y  # noqa: E402
+from marks import mark_L, mark_D, mark_Y, arch_d  # noqa: E402
 
 MB = os.path.join(ROOT, '01_Мудборд')
 TH = os.path.join(MB, '_thumbs')
@@ -28,14 +28,24 @@ VARS = [
          palette=[('Белый', '#FFFFFF'), ('Чернила', '#14161F'), ('Квартиры', '#2E4BFF'), ('Ремонт', '#FF6B2C'), ('Дома', '#18B26B')],
          idea='«П» из трёх частей: квартиры, ремонт, дома. Вместе — платформа. Цвет направления ведёт человека по сайту и приложению.',
          svgs=['3_Яркий_Сборка_цвет.svg', '3_Яркий_Сборка_чёрный.svg', '3_Яркий_Сборка_белый.svg'], photo='_source/gen/house_stone2.jpg'),
+    dict(n='4', key='L', shape='masonry', title='Красный', name='Кладка', font='Manrope', fw=800, ls='0.04em', k=1.0, sub='#76706A',
+         bg='#F4EFE8', ink='#1E1B19', acc='#C8102E', acc_ink='#FFFFFF', dark='#1E1B19',
+         palette=[('Известь', '#F4EFE8'), ('Графит', '#1E1B19'), ('Красный', '#C8102E'), ('Глина', '#E4D3BF')],
+         idea='Арка-«П», сложенная из камня: ряды кладки, клинчатая перемычка и замковый камень. Красный акцент — кирпич и энергия. В малых размерах знак упрощается до чистой арки.',
+         svgs=[], photo='_source/gen/house_stone2.jpg'),
+    dict(n='5', key='L', shape='vault', title='Зелёный', name='Свод', font='Geologica', fw=700, ls='0.03em', k=0.96, sub='#6B7069',
+         bg='#F1EEE6', ink='#1D2620', acc='#2F5D46', acc_ink='#FFFFFF', dark='#1D2620',
+         palette=[('Песок', '#F1EEE6'), ('Хвоя', '#1D2620'), ('Зелень', '#2F5D46'), ('Лён', '#D8CDB4')],
+         idea='Арка-«П» с дверной рамой и порогом внутри: вход в дом, который уже готов. Тёплый песок и глубокая зелень, мягкий шрифт Geologica.',
+         svgs=[], photo='_source/gen/kv_living2.jpg'),
 ]
 
 
-def anim_mark(key, cls='mk'):
+def anim_mark(key, cls='mk', shape='arch'):
     """Mark SVG with classed parts so CSS can animate it. Colours come from CSS variables."""
     if key == 'L':
-        return ('<svg class="%s mL" viewBox="0 0 36 40" role="img" aria-label="Знак «Арка»">'
-                '<path class="p1" d="M0 0 H36 V40 H26 V20 A8 8 0 0 0 10 20 V40 H0 Z"/></svg>') % cls
+        return ('<svg class="%s mL" viewBox="0 0 36 40" role="img" aria-label="Знак">'
+                '<path class="p1" d="%s"/></svg>') % (cls, arch_d(shape))
     if key == 'D':
         return ('<svg class="%s mD" viewBox="0 0 36 36" role="img" aria-label="Знак «Портал»">'
                 '<polygon class="p2" points="0,8 8,0 36,0 28,8"/><polygon class="p3" points="28,8 36,0 36,28 28,36"/>'
@@ -91,7 +101,7 @@ def build():
     data = thumbs()
     vjs = [dict(n=v['n'], key=v['key'], title=v['title'], name=v['name'], font=v['font'], fw=v['fw'], ls=v['ls'], k=v['k'], sub=v['sub'],
                 bg=v['bg'], ink=v['ink'], acc=v['acc'], acc_ink=v['acc_ink'], dark=v['dark'], palette=v['palette'], idea=v['idea'],
-                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key']), grid=grid_overlay(v['key'])) for v in VARS]
+                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key'], shape=v.get('shape', 'arch')), grid=grid_overlay(v['key'])) for v in VARS]
     html = open(os.path.join(ROOT, 'tools', 'gallery_template.html'), encoding='utf8').read()
     html = html.replace('/*DATA*/', 'const VARS = ' + json.dumps(vjs, ensure_ascii=False) + ';\nconst SHEETS = ' + json.dumps(SHEETS, ensure_ascii=False) + ';')
     open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf8').write(html)

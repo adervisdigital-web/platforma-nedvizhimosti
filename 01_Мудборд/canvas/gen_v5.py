@@ -2,13 +2,15 @@
 import sys, json, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from marks import mark_L, mark_D, mark_Y
-from gen_v3 import V, IMG, OUT, head, tail, label, lockup
+from gen_v3 import V, IMG, OUT, head, tail, label, lockup, fam
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 IMG.update({k: '/_blob/' + v for k, v in json.load(open(HERE + '/blobs2.json', encoding='utf8')).items()})
 IMG.update({k: '/_blob/' + v for k, v in json.load(open(HERE + '/blobs3.json', encoding='utf8')).items()})
 
 VOICE = {
+    'K': ('Твёрдо и по делу', ['Строим так, чтобы стояло век.', 'Кладка, ремонт, ключи — в одном договоре.', 'Каменный дом без сюрпризов в смете.']),
+    'S': ('Тепло и спокойно', ['Ваш дом уже ждёт.', 'Порог переступили — дальше наша забота.', 'Квартира, ремонт и свой дом за городом.']),
     'L': ('Спокойно и по-домашнему', ['Входите. Дальше мы сами.', 'Ремонт к переезду — в одном договоре.', 'Свой каменный дом без сюрпризов в смете.']),
     'D': ('Уверенно и коротко', ['Дом, в котором уже горит свет.', 'Стройка онлайн, 24/7.', 'Цена в договоре не меняется.']),
     'Y': ('Бодро и понятно', ['Всё для дома — на одной платформе.', 'Квартира. Ремонт. Дом. В одном приложении.', 'Смета ремонта за 2 минуты.']),
@@ -16,7 +18,7 @@ VOICE = {
 
 
 def colored_mark(v, w, on='white'):
-    k = v['key']
+    k = fam(v)
     if k == 'L':
         return mark_L(w, v['acc'])
     if k == 'D':
@@ -64,7 +66,7 @@ def bag(v):
 def voice(v):
     F, FH = v['F'], v['FH']
     title, lines = VOICE[v['key']]
-    acc = v['dir'] if v['key'] == 'Y' else (v['acc'],) * 3
+    acc = v['dir'] if fam(v) == 'Y' else (v['acc'],) * 3
     items = ''.join(f'<div style="display: flex; gap: 14px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid {v["line"]}"><span style="width: 10px; height: 10px; flex: none; background: {acc[i]}"></span>'
                     f'<span style="font: 600 {24 if v["key"] != "Y" else 20}px/1.2 \'{FH}\', sans-serif; letter-spacing: -0.01em">{t}</span></div>' for i, t in enumerate(lines))
     return (f'<div style="height: 100%; background: {v["panel"]}; padding: 22px 26px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">'
@@ -72,7 +74,7 @@ def voice(v):
 
 
 def life_board(v):
-    k = v['key']; F, acc, line, muted, ink = v['F'], v['acc'], v['line'], v['muted'], v['ink']
+    k = fam(v); F, acc, line, muted, ink = v['F'], v['acc'], v['line'], v['muted'], v['ink']
     h = 1340
     return head(f'{v["title"]} · {v["name"]} — бренд в жизни', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px; overflow: hidden">
   <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid {line}; padding-bottom: 16px">
