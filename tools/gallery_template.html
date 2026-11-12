@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Стиль Платформы</title>
-<meta name="description" content="ПЛАТФОРМА НЕДВИЖИМОСТИ — три варианта логотипа и фирменного стиля: светлый, тёмный, яркий.">
+<meta name="description" content="ПЛАТФОРМА НЕДВИЖИМОСТИ — три варианта фирменного стиля: светлый, тёмный, яркий.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600&family=Unbounded:wght@600&display=swap" rel="stylesheet">
@@ -41,12 +41,15 @@ p.lead{color:var(--muted);max-width:760px;margin:0 0 28px;font-size:17px}
 .vcard .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px}
 .vcard .t{font:700 20px Manrope,sans-serif}
 .vcard p{margin:0;color:var(--muted);font-size:15px}
+.strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.strip button{padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;background:var(--soft);aspect-ratio:3/3.6}
+.strip img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.strip button:hover{outline:2px solid var(--ink);outline-offset:1px}
 .dots{display:flex;gap:6px}
 .dots i{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);display:block}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);font-weight:700;font-size:15px;cursor:pointer;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--ink)}
-.vote[aria-pressed="true"]{background:#D93A3A;border-color:#D93A3A;color:#fff}
 /* marks */
 .mk{display:block;overflow:visible;width:100%;height:auto}
 .mL .p1{fill:var(--m1)}
@@ -102,32 +105,6 @@ input[type=range]{width:100%;accent-color:var(--ink);min-height:32px}
 .sheet div{padding:10px 14px;font-weight:700;font-size:15px}
 .sheet small{display:block;color:var(--muted);font-weight:500;font-size:12px}
 textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:12px 14px;font:inherit;resize:vertical}
-/* compare */
-.cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-@media (max-width:760px){.cmp{grid-template-columns:1fr}}
-.cmp .sheet img{aspect-ratio:auto}
-.marks-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-@media (max-width:760px){.marks-row{grid-template-columns:1fr}}
-.mcell{border-radius:20px;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;background-size:cover;background-position:center;position:relative}
-.mcell .sizes{display:flex;align-items:flex-end;gap:14px}
-.mcell .cap{font:600 13px Manrope,sans-serif;opacity:.75}
-/* analysis */
-table.sc{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-table.sc th,table.sc td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:14px;vertical-align:middle}
-table.sc th{font-weight:700}
-.bar5{display:flex;gap:3px}
-.bar5 i{width:14px;height:8px;border-radius:2px;background:var(--line)}
-.bar5 i.on{background:var(--ink)}
-.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
-.ref{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.ref b{display:block}
-.ref small{color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
-.ref p{margin:6px 0 0;color:var(--muted);font-size:14px}
-.an{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
-.an .card{padding:18px 20px}
-.an ul{margin:4px 0 12px;padding-left:18px;font-size:14px}
-.an h4{margin:10px 0 0;font:700 12px Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.rec{background:var(--ink);color:var(--bg);border-radius:20px;padding:22px 24px;font-size:17px}
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:50;background:rgba(10,10,12,.94);display:none;flex-direction:column;color:#fff}
 .lb.open{display:flex}
@@ -251,21 +228,10 @@ addEventListener('keydown', e => {
 });
 
 /* views */
-const ROUTES = [['overview', 'Обзор'], ['v1', '1 · Светлый'], ['v2', '2 · Тёмный'], ['v3', '3 · Яркий'], ['compare', 'Сравнить'], ['analysis', 'Анализ']];
+const ROUTES = [['overview', 'Обзор'], ['v1', '1 · Светлый'], ['v2', '2 · Тёмный'], ['v3', '3 · Яркий']];
 function nav(cur) {
   $('#tabs').innerHTML = ROUTES.map(([id, t]) => `<button type="button" data-r="${id}" aria-current="${id === cur}">${t}</button>`).join('');
   $('#tabs').querySelectorAll('button').forEach(b => b.onclick = () => { location.hash = b.dataset.r; });
-}
-function voteBtn(v, short) {
-  const on = store.get('vote', '') === v.n;
-  const t = short ? `${v.n} · ${v.name}` : (on ? 'Мой выбор' : 'Выбрать этот вариант');
-  return `<button type="button" class="btn ghost vote" data-vote="${v.n}" aria-pressed="${on}">${on ? '♥' : '♡'} ${t}</button>`;
-}
-function bindVotes(root) {
-  root.querySelectorAll('[data-vote]').forEach(b => b.onclick = () => {
-    const n = b.dataset.vote; const cur = store.get('vote', ''); store.set('vote', cur === n ? '' : n);
-    toast(cur === n ? 'Выбор снят' : 'Вариант ' + n + ' отмечен'); render();
-  });
 }
 function sheetSet(v) { return v.sheets.map(s => ({full: s.full, title: `${v.n} · ${v.title} «${v.name}» — ${s.label}`})); }
 
@@ -276,23 +242,19 @@ function viewOverview() {
       <div class="stage play" style="background:${st.bg}" data-mv='${JSON.stringify(mv)}'><div style="width:120px">${v.mark}</div></div>
       <div class="body"><span class="t">${v.n} · ${v.title} «${v.name}»</span><p>${esc(v.idea)}</p>
         <div class="dots" aria-label="Палитра">${v.palette.map(p => `<i title="${p[0]} ${p[1]}" style="background:${p[1]}"></i>`).join('')}</div>
-        <div class="row"><a class="btn" href="#v${v.n}">Открыть</a>${voteBtn(v)}</div></div></article>`;
+        <div class="strip" aria-label="Листы варианта">${v.sheets.map((s, i) => `<button type="button" data-ov="${v.n}" data-i="${i}" title="${esc(s.label)}"><img src="${s.th}" alt="${esc(s.label)}" loading="lazy"></button>`).join('')}</div>
+        <div class="row"><a class="btn" href="#v${v.n}">Открыть вариант</a></div></div></article>`;
   }).join('');
   return `<div class="kick">Екатеринбург · квартиры, ремонт, каменные дома</div>
     <h1>Три варианта фирменного стиля</h1>
-    <p class="lead">Светлый, тёмный и яркий. У каждого — логотип, стиль и носители, айдентика, сайт и приложение, бренд в жизни. Откройте вариант, чтобы покрутить логотип и посмотреть листы, или сравните варианты рядом.</p>
-    <div class="grid3">${cards}</div>
-    <div class="links"><a class="btn ghost" href="#compare">Сравнить рядом</a><a class="btn ghost" href="#analysis">Анализ и рекомендация</a>
-      <a class="btn ghost" href="01_Мудборд/Мудборд_Платформа.pdf">PDF всех листов</a>
-      <a class="btn ghost" href="https://github.com/adervisdigital-web/platforma-nedvizhimosti/tree/main/02_Логотип">Логотипы SVG</a></div>`;
+    <p class="lead">Светлый, тёмный и яркий. У каждого — логотип, стиль и носители, айдентика, сайт и приложение, бренд в жизни. Нажмите на лист, чтобы открыть его крупно, или откройте вариант целиком.</p>
+    <div class="grid3">${cards}</div>`;
 }
 
 function viewVariant(n) {
   const v = VARS.find(x => x.n === n);
-  const A = ANALYSIS.variants[n];
-  const li = a => a.map(x => `<li>${esc(x)}</li>`).join('');
   return `<div class="kick">Вариант ${v.n} из 3</div>
-    <div class="row" style="justify-content:space-between;align-items:flex-end"><h1 style="margin:0">${v.title} «${v.name}»</h1>${voteBtn(v)}</div>
+    <div class="row" style="justify-content:space-between;align-items:flex-end"><h1 style="margin:0">${v.title} «${v.name}»</h1></div>
     <p class="lead" style="margin-top:12px">${esc(v.idea)}</p>
     <section class="pg" aria-label="Логотип">
       <div class="stage" id="stage"></div>
@@ -303,20 +265,13 @@ function viewVariant(n) {
         <label class="sw">Только знак<input type="checkbox" id="only"></label>
         <label class="sw">Сетка построения<input type="checkbox" id="grid"></label>
         <button type="button" class="btn" id="play">▶ Анимация знака</button>
-        <div class="dl"><div class="lab">Скачать SVG</div>${v.svgs.map(f => `<div><a href="02_Логотип/${encodeURIComponent(f)}" download>${esc(f.replace(/^\d_/, '').replace('.svg', '').replace(/_/g, ' '))}</a></div>`).join('')}</div>
       </div>
     </section>
     <h2>Палитра</h2><p class="muted" style="margin:-8px 0 14px">Нажмите на цвет, чтобы скопировать HEX.</p>
     <div class="pal">${v.palette.map(p => `<button type="button" class="sw-c" data-hex="${p[1]}"><span style="background:${p[1]}"></span><b>${p[0]}</b><em>${p[1]}</em></button>`).join('')}</div>
     <h2>Листы</h2>
     <div class="sheets">${v.sheets.map((s, i) => `<button type="button" class="sheet" data-i="${i}"><img src="${s.th}" alt="${esc(s.label)}" loading="lazy"><div>${s.label}<small>${v.n}-${s.s}</small></div></button>`).join('')}</div>
-    <h2>Сильные и слабые стороны</h2>
-    <div class="an"><div class="card"><h4>Сильное</h4><ul>${li(A.strong)}</ul><h4>Слабое</h4><ul>${li(A.weak)}</ul></div>
-      <div class="card"><h4>Уже улучшено</h4><ul>${li(A.done)}</ul><h4>Что ещё можно</h4><ul>${li(A.next)}</ul></div></div>
-    <h2>Ваши заметки</h2>
-    <label class="sr" for="note">Заметки по варианту ${v.n}</label>
-    <textarea id="note" placeholder="Что нравится, что поменять… Сохраняется в этом браузере."></textarea>
-    <div class="links">${n !== '1' ? `<a class="btn ghost" href="#v${+n - 1}">← Вариант ${+n - 1}</a>` : ''}${n !== '3' ? `<a class="btn ghost" href="#v${+n + 1}">Вариант ${+n + 1} →</a>` : ''}<a class="btn ghost" href="#compare">Сравнить все</a></div>`;
+    <div class="links">${n !== '1' ? `<a class="btn ghost" href="#v${+n - 1}">← Вариант ${+n - 1}</a>` : ''}${n !== '3' ? `<a class="btn ghost" href="#v${+n + 1}">Вариант ${+n + 1} →</a>` : ''}</div>`;
 }
 function bindVariant(n) {
   const v = VARS.find(x => x.n === n);
@@ -340,74 +295,6 @@ function bindVariant(n) {
   document.querySelectorAll('.sw-c').forEach(b => b.onclick = () => copy(b.dataset.hex, b.dataset.hex + ' скопирован'));
   const set = sheetSet(v);
   document.querySelectorAll('.sheet').forEach(b => b.onclick = () => openLB(set, +b.dataset.i));
-  const note = $('#note'); note.value = store.get('note' + n, ''); note.oninput = () => store.set('note' + n, note.value);
-}
-
-function viewCompare() {
-  const cur = store.get('cmp', '1'); const bg = store.get('cmpbg', 'white');
-  const chips = Object.entries(SHEETS).map(([k, t]) => `<button type="button" class="chip" data-s="${k}" aria-pressed="${k === cur}">${t}</button>`).join('');
-  const cols = VARS.map(v => { const s = v.sheets.find(x => x.s === cur); return s ? `<button type="button" class="sheet" data-v="${v.n}"><img src="${s.th}" alt="${esc(v.title + ' — ' + s.label)}" loading="lazy"><div>${v.n} · ${v.title} «${v.name}»<small>${s.label}</small></div></button>` : `<div class="card" style="padding:20px">Лист появится позже</div>`; }).join('');
-  const bgs = [['white', 'Белый'], ['black', 'Чёрный'], ['photo', 'Фото']];
-  const votes = store.get('vote', '');
-  return `<div class="kick">Рядом</div><h1>Сравнить варианты</h1>
-    <p class="lead">Один и тот же лист у трёх вариантов. Нажмите на лист — откроется крупно, стрелки листают варианты.</p>
-    <div class="row" role="group" aria-label="Какой лист сравнить">${chips}</div>
-    <div class="cmp" style="margin-top:16px">${cols}</div>
-    <h2>Знаки рядом</h2>
-    <div class="seg" role="group" aria-label="Фон" id="mbg" style="max-width:360px;margin-bottom:14px">${bgs.map(([k, t]) => `<button type="button" data-b="${k}" aria-pressed="${k === bg}">${t}</button>`).join('')}</div>
-    <div class="marks-row" id="mrow"></div>
-    <h2>Ваш выбор</h2>
-    <div class="card" style="padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div>${votes ? `Отмечен вариант <b>${votes} · ${VARS.find(v => v.n === votes).title} «${VARS.find(v => v.n === votes).name}»</b>.` : 'Пока ни один вариант не отмечен — нажмите «Выбрать этот вариант» на карточке.'}</div>
-      <div class="row">${VARS.map(v => voteBtn(v, true)).join('')}</div>
-      <button type="button" class="btn" id="cpy" style="align-self:flex-start">Скопировать выбор и заметки</button>
-    </div>`;
-}
-function bindCompare() {
-  document.querySelectorAll('.chip').forEach(b => b.onclick = () => { store.set('cmp', b.dataset.s); render(); });
-  const cur = store.get('cmp', '1');
-  const set = VARS.map(v => { const s = v.sheets.find(x => x.s === cur); return s && {full: s.full, title: `${v.n} · ${v.title} «${v.name}» — ${s.label}`}; }).filter(Boolean);
-  document.querySelectorAll('.cmp .sheet').forEach((b, i) => b.onclick = () => openLB(set, i));
-  const drawMarks = () => {
-    const bg = store.get('cmpbg', 'white');
-    $('#mrow').innerHTML = VARS.map(v => {
-      const kind = bg === 'white' ? 'light' : bg === 'black' ? 'dark' : 'photo';
-      const mv = markVars(v, kind);
-      const style = bg === 'white' ? 'background:#FFFFFF;color:#17181A;border:1px solid var(--line)' : bg === 'black' ? 'background:#111214;color:#F1F0EC' : `background:#333 url('${VARS[2].photo}') center/cover;color:#fff`;
-      const sizes = [64, 32, 16].map(sz => `<div style="width:${sz}px">${v.mark}</div>`).join('');
-      return `<div class="mcell play" style="${style}" data-mv='${JSON.stringify(mv)}'>
-        ${bg === 'photo' ? '<span style="position:absolute;inset:0;background:rgba(0,0,0,.4);border-radius:20px"></span>' : ''}
-        <div style="position:relative;width:110px">${v.mark}</div><div class="sizes" style="position:relative">${sizes}</div>
-        <span class="cap" style="position:relative">${v.n} · ${v.title} «${v.name}» · 110 / 64 / 32 / 16 px</span></div>`;
-    }).join('');
-    document.querySelectorAll('#mrow [data-mv]').forEach(el => applyVars(el, JSON.parse(el.dataset.mv)));
-    $('#mbg').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.b === bg));
-  };
-  $('#mbg').querySelectorAll('button').forEach(b => b.onclick = () => { store.set('cmpbg', b.dataset.b); drawMarks(); });
-  drawMarks();
-  $('#cpy').onclick = () => {
-    const vote = store.get('vote', '');
-    const lines = ['ПЛАТФОРМА НЕДВИЖИМОСТИ — выбор стиля'];
-    lines.push(vote ? `Выбран вариант ${vote}: ${VARS.find(v => v.n === vote).title} «${VARS.find(v => v.n === vote).name}»` : 'Вариант не выбран');
-    VARS.forEach(v => { const t = store.get('note' + v.n, '').trim(); if (t) lines.push(`Заметки к ${v.n} «${v.name}»: ${t}`); });
-    copy(lines.join('\n'), 'Текст скопирован — можно отправить');
-  };
-}
-
-function viewAnalysis() {
-  const crit = ANALYSIS.criteria;
-  const bars = x => `<div class="bar5" aria-label="${x} из 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= x ? 'on' : ''}"></i>`).join('')}</div>`;
-  const rows = crit.map((c, i) => `<tr><th scope="row">${c}</th>${VARS.map(v => `<td>${bars(ANALYSIS.scores[v.n][i])}</td>`).join('')}</tr>`).join('');
-  const tot = VARS.map(v => `<td><b>${ANALYSIS.scores[v.n].reduce((a, b) => a + b, 0)}</b> / ${crit.length * 5}</td>`).join('');
-  const refs = ANALYSIS.refs.map(r => `<div class="ref"><small>${r.src}</small><b>${esc(r.name)}</b><p>${esc(r.lesson)}</p></div>`).join('');
-  const li = a => a.map(x => `<li>${esc(x)}</li>`).join('');
-  const cards = VARS.map(v => { const A = ANALYSIS.variants[v.n]; return `<div class="card"><h3>${v.n} · ${v.title} «${v.name}»</h3><h4>Сильное</h4><ul>${li(A.strong)}</ul><h4>Слабое</h4><ul>${li(A.weak)}</ul><h4>Что ещё можно</h4><ul>${li(A.next)}</ul></div>`; }).join('');
-  return `<div class="kick">Behance и Dribbble</div><h1>Анализ вариантов</h1>
-    <p class="lead">${esc(ANALYSIS.summary)}</p>
-    <div style="overflow-x:auto"><table class="sc"><thead><tr><th scope="col">Критерий</th>${VARS.map(v => `<th scope="col">${v.n} · ${v.name}</th>`).join('')}</tr></thead><tbody>${rows}<tr><th scope="row">Итого</th>${tot}</tr></tbody></table></div>
-    <h2>Чему научились у сильных работ</h2><div class="refs">${refs}</div>
-    <h2>По вариантам</h2><div class="an">${cards}</div>
-    <h2>Рекомендация</h2><div class="rec">${esc(ANALYSIS.recommendation)}</div>`;
 }
 
 function render() {
@@ -416,13 +303,10 @@ function render() {
   nav(id);
   const app = $('#app');
   if (id === 'overview') app.innerHTML = viewOverview();
-  else if (id === 'compare') app.innerHTML = viewCompare();
-  else if (id === 'analysis') app.innerHTML = viewAnalysis();
   else app.innerHTML = viewVariant(id.slice(1));
   app.querySelectorAll('[data-mv]').forEach(el => applyVars(el, JSON.parse(el.dataset.mv)));
-  bindVotes(app);
   if (id.startsWith('v')) bindVariant(id.slice(1));
-  if (id === 'compare') bindCompare();
+  app.querySelectorAll('[data-ov]').forEach(b => b.onclick = () => openLB(sheetSet(VARS.find(x => x.n === b.dataset.ov)), +b.dataset.i));
 }
 addEventListener('hashchange', () => { render(); scrollTo(0, 0); });
 render();

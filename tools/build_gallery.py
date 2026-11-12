@@ -84,16 +84,15 @@ def thumbs():
     return data
 
 
-ANALYSIS = json.load(open(os.path.join(ROOT, 'tools', 'analysis.json'), encoding='utf8'))
 
 
 def build():
     data = thumbs()
     vjs = [dict(n=v['n'], key=v['key'], title=v['title'], name=v['name'], font=v['font'], fw=v['fw'], ls=v['ls'], k=v['k'], sub=v['sub'],
                 bg=v['bg'], ink=v['ink'], acc=v['acc'], acc_ink=v['acc_ink'], dark=v['dark'], palette=v['palette'], idea=v['idea'],
-                svgs=v['svgs'], photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key']), grid=grid_overlay(v['key'])) for v in VARS]
+                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key']), grid=grid_overlay(v['key'])) for v in VARS]
     html = open(os.path.join(ROOT, 'tools', 'gallery_template.html'), encoding='utf8').read()
-    html = html.replace('/*DATA*/', 'const VARS = ' + json.dumps(vjs, ensure_ascii=False) + ';\nconst SHEETS = ' + json.dumps(SHEETS, ensure_ascii=False) + ';\nconst ANALYSIS = ' + json.dumps(ANALYSIS, ensure_ascii=False) + ';')
+    html = html.replace('/*DATA*/', 'const VARS = ' + json.dumps(vjs, ensure_ascii=False) + ';\nconst SHEETS = ' + json.dumps(SHEETS, ensure_ascii=False) + ';')
     open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf8').write(html)
     print('index.html ok,', sum(len(x) for x in data.values()), 'sheets')
 

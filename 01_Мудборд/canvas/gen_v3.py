@@ -7,7 +7,7 @@ from marks import mark_L, mark_D, mark_Y
 OUT = 'C:/Users/MSI/AppData/Local/Temp/claude/10d39200edc2b63f/973356bb-8c70-4e3b-b6ae-d636a7404011/scratchpad/mood/project/'
 B = '/_blob/'
 IMG = dict(
-    build=B + '0344505071bafebecba4899d1050d932', brick=B + 'ca00be2acd9690fb9dea9110aaaec783',
+    build=B + 'a9a387416fc9107965b27f505644a667', brick=B + 'ca00be2acd9690fb9dea9110aaaec783',
     stone=B + '597b77d5921d32365d4391f69448844f', gable=B + 'b471f2a087272c564fa40cb48156b5a1',
     hflat=B + '241aa9c6494b7c64ac1bea49f925807d', kitchen=B + '6eb6b66044bc72cd1c691f54afa97fd2',
     bedroom=B + 'a51f99a2ebaa3290cc815a60538e1744', building=B + '1947ff52209ccab806cd2be3be49c501',
@@ -220,18 +220,18 @@ def logo_board(v):
   <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; flex: 1; min-height: 0">
     <div style="grid-column: span 4; background: {panel}; padding: 20px; display: flex; flex-direction: column; justify-content: space-between">
       {label(v, 'иконка приложения')}
-      <div style="display: flex; align-items: flex-end; gap: 16px">
+      <div style="display: flex; align-items: flex-end; gap: 16px; margin: auto 0">
         <div style="width: 116px; height: 116px; border-radius: 27px; background: {icon_bg}; display: flex; align-items: center; justify-content: center">{icon_mark(60)}</div>
         <div style="width: 58px; height: 58px; border-radius: 14px; background: {icon_bg}; display: flex; align-items: center; justify-content: center">{icon_mark(30)}</div>
       </div>
     </div>
     <div style="grid-column: span 4; background: {panel}; padding: 20px; display: flex; flex-direction: column; justify-content: space-between">
       {label(v, 'малые размеры · 48 / 32 / 16 px')}
-      <div style="display: flex; align-items: flex-end; gap: 24px">{mark(v, 48)}{mark(v, 32)}{mark(v, 16)}</div>
+      <div style="display: flex; align-items: flex-end; gap: 24px; margin: auto 0">{mark(v, 48)}{mark(v, 32)}{mark(v, 16)}</div>
     </div>
     <div style="grid-column: span 4; background: {panel}; padding: 20px; display: flex; flex-direction: column; justify-content: space-between">
       {label(v, 'одноцветный — печать, гравировка, стекло')}
-      <div style="display: flex; align-items: flex-end; gap: 24px">{mark(v, 56, mono=ink)}{mark(v, 56, mono=muted)}</div>
+      <div style="display: flex; align-items: flex-end; gap: 24px; margin: auto 0">{mark(v, 56, mono=ink)}{mark(v, 56, mono=muted)}</div>
     </div>
   </div>
 </div>
@@ -339,7 +339,7 @@ def banner(v):
     if k == 'Y':
         stripe = '<div style="display: flex; height: 8px">' + ''.join(f'<div style="flex: 1; background: {c}"></div>' for c in v['dir']) + '</div>'
     return (f'<div style="position: relative; width: 100%; height: 100%; overflow: hidden">'
-            f'<img src="{IMG["build"]}" alt="Стройплощадка кирпичного дома" style="width: 100%; height: 100%; object-fit: cover; display: block">'
+            f'<img src="{IMG["build"]}" alt="Стройплощадка кирпичного дома" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 88%; display: block">'
             f'<div style="position: absolute; left: 5%; right: 5%; bottom: 8%; background: {pbg}; box-shadow: 0 12px 30px rgba(0,0,0,0.35)">{stripe}'
             f'<div style="height: 128px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px">{lk}'
             f'<div style="display: flex; align-items: center; gap: 20px"><span style="font: 400 15px/1.35 \'{F}\', sans-serif; color: {psub}; text-align: right">Строим каменный дом<br>этап 3 из 7</span>'
