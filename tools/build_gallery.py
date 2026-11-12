@@ -1,6 +1,6 @@
 """Build index.html — interactive gallery of the three identity variants.
 Run: py -3 tools/build_gallery.py   (from the repo root). Also makes JPG thumbnails in 01_Мудборд/_thumbs/."""
-import glob, json, os, sys
+import glob, hashlib, json, os, sys
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -79,7 +79,8 @@ def thumbs():
                 im = Image.open(f).convert('RGB')
                 im.thumbnail((900, 1100))
                 im.save(th, quality=82)
-            lst.append(dict(s=s, label=label, full=f'01_Мудборд/{base}', th=f'01_Мудборд/_thumbs/{os.path.basename(th)}'))
+            ver = lambda path: hashlib.md5(open(path, 'rb').read()).hexdigest()[:8]
+            lst.append(dict(s=s, label=label, full=f'01_Мудборд/{base}?v={ver(f)}', th=f'01_Мудборд/_thumbs/{os.path.basename(th)}?v={ver(th)}'))
         data[v['n']] = lst
     return data
 
