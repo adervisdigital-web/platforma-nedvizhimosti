@@ -30,12 +30,12 @@ SURF = {
     'facade':   ('mk_facade.jpg',    (563, 255), [(401, 302.5), (962.5, 303.5), (962.5, 555.5), (401, 555.5)], 'emissive'),
     'billboard': ('mk_billboard.jpg', (733, 292), [(430, 216.5), (1148.5, 220.5), (1158, 508.5), (421, 499.5)], 'board'),
     'keys':     ('mk_keys.jpg',      (216, 243), [tuple(p) for p in tag_quad()], 'print'),
-    'helmet':   ('mk_helmet.jpg',    (140, 100), [(842, 388), (962, 383), (968, 470), (846, 477)], 'print'),
+    'helmet':   ('mk_helmet.jpg',    (300, 72), dict(cx=790, R=224, x0=632, x1=948, y0=398, hh=68, arc=7), 'curve'),
     'bag':      ('mk_bag.jpg',       (383, 430), [(503, 285), (886, 286), (874, 725), (482, 697)], 'print'),
     'fence':    ('mk_fence.jpg',     (1176, 285), [(88, 369), (1263, 347.5), (1263, 657), (88, 626)], 'banner'),
     'store':    ('mk_store.jpg',     (1220, 104), [(82, 298), (1302, 298), (1302, 401), (82, 401)], 'letters'),
     'plate':    ('mk_plate.jpg',     (307, 353), [(194, 167), (808, 167), (808, 873), (194, 873)], 'print'),
-    'vest':     ('mk_vest.jpg',      (340, 120), [(632, 405), (968, 398), (972, 516), (634, 522)], 'fabric'),
+    'vest':     ('mk_vest.jpg',      (300, 150), [(598, 392), (1012, 384), (1018, 590), (602, 598)], 'fabric'),
 }
 
 
@@ -124,19 +124,21 @@ def art_html(v, surf):
         word = f'<span style="font:{v["word_w"]} {round(15 * v["word_k"])}px {q}{FH}{q},sans-serif;letter-spacing:{v["word_ls"]};color:{ink}">ПЛАТФОРМА</span>'
         body = (f'<div style="position:absolute;left:30px;right:30px;top:34px;bottom:34px;display:flex;flex-direction:column;gap:10px">'
                 f'<div style="display:flex;height:6px">{bar}</div>'
-                f'<div style="display:flex;align-items:center;gap:9px">{mk}{word}</div>'
+                f'<div style="display:flex">{lockup(v, 17, ink, mut, mono=("LIGHTBG" if k == "D" else None), mw=28)}</div>'
                 f'<div style="font:700 19px {q}{F}{q},sans-serif;color:{ink}">Паспорт объекта</div><div>{rr}</div></div>')
         return page(v, w, h, body)
+    ink_l = {'L': '#1F1D1B', 'D': '#14120E', 'Y': '#14161F'}[k]
+    sub_l = {'L': '#7A7368', 'D': '#4A4E55', 'Y': '#6B6F7D'}[k]
+    mono_l = 'LIGHTBG' if k == 'D' else None
     if surf == 'keys':
-        return page(v, w, h, f'<div style="position:absolute;left:0;right:0;top:{round(h * 0.6) - 40}px;display:flex;justify-content:center">{colored_mark(v, 80)}</div>')
+        return page(v, w, h, f'<div style="position:absolute;left:0;right:0;top:{round(h * 0.30)}px;display:flex;justify-content:center">{lockup(v, 22, ink_l, sub_l, mono=mono_l, mw=64, vertical=True)}</div>')
     if surf == 'helmet':
-        return page(v, w, h, center(colored_mark(v, 60)))
+        return page(v, w, h, center(lockup(v, 30, ink_l, sub_l, mono=mono_l, mw=50)))
     if surf == 'bag':
         ink = {'L': '#1F1D1B', 'D': '#14120E', 'Y': '#14161F'}[k]
-        word = f'<span style="font:{v["word_w"]} {round(20 * v["word_k"])}px \'{FH}\',sans-serif;letter-spacing:{v["word_ls"]};color:{ink}">ПЛАТФОРМА</span>'
-        return page(v, w, h, f'<div style="position:absolute;left:0;right:0;top:{round(h * 0.52)}px;display:flex;flex-direction:column;align-items:center;gap:12px">{colored_mark(v, 76)}{word}</div>')
+        return page(v, w, h, f'<div style="position:absolute;left:0;right:0;top:{round(h * 0.46)}px;display:flex;justify-content:center">{lockup(v, 30, ink, sub_l, mono=mono_l, mw=84, vertical=True)}</div>')
     if surf == 'vest':
-        return page(v, w, h, center(lockup(v, 34, '#FFFFFF', '#FFFFFF', mono='#FFFFFF', mw=58)))
+        return page(v, w, h, center(lockup(v, 26, '#FFFFFF', '#FFFFFF', mono='#FFFFFF', mw=56, vertical=True)))
 
 
 def render(v, surf):
@@ -146,9 +148,16 @@ def render(v, surf):
     png = os.path.join(ART, f'{v["key"]}_{surf}.png')
     if os.path.exists(png):
         os.remove(png)
-    subprocess.run([EDGE, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files', '--default-background-color=00000000',
-                    '--force-device-scale-factor=2', f'--window-size={w},{h}', '--virtual-time-budget=8000', f'--screenshot={png}', FILE(hp)],
-                   capture_output=True, timeout=120)
+    import time
+    for attempt in range(4):
+        subprocess.run([EDGE, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files', '--default-background-color=00000000',
+                        '--force-device-scale-factor=2', f'--window-size={w},{max(h, 120)}', '--virtual-time-budget=8000', f'--screenshot={png}', FILE(hp)],
+                       capture_output=True, timeout=120)
+        if os.path.exists(png):
+            break
+        time.sleep(2)
+    if h < 120:  # window was padded; crop back to the canvas
+        im = cv2.imread(png, cv2.IMREAD_UNCHANGED); cv2.imwrite(png, im[:h * 2])
     return png
 
 
@@ -161,9 +170,22 @@ def composite(v, surf):
         art = np.dstack([art, np.ones(art.shape[:2], np.float32)])
     ah, aw = art.shape[:2]
     src = np.float32([[0, 0], [aw, 0], [aw, ah], [0, ah]])
-    dst = np.float32(quad)
-    M = cv2.getPerspectiveTransform(src, dst)
-    warped = cv2.warpPerspective(art, M, (W, H), flags=cv2.INTER_AREA if aw > 400 else cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0, 0))
+    if mode == 'curve':
+        c = quad
+        xs, ys = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32))
+        th0, th1 = np.arcsin((c['x0'] - c['cx']) / c['R']), np.arcsin((c['x1'] - c['cx']) / c['R'])
+        th = np.arcsin(np.clip((xs - c['cx']) / c['R'], -1, 1))
+        u = (th - th0) / (th1 - th0)
+        sn = (xs - (c['x0'] + c['x1']) / 2) / ((c['x1'] - c['x0']) / 2)
+        top = c['y0'] - c['arc'] * sn ** 2
+        vv = (ys - top) / (c['hh'] * np.cos(th).clip(0.35, 1) ** 0.15)
+        warped = cv2.remap(art, (u * aw).astype(np.float32), (vv * ah).astype(np.float32), cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0, 0))
+        dst = np.float32([[c['x0'], c['y0'] - c['arc']], [c['x1'], c['y0'] - c['arc']], [c['x1'], c['y0'] + c['hh']], [c['x0'], c['y0'] + c['hh']]])
+        mode = 'print'
+    else:
+        dst = np.float32(quad)
+        M = cv2.getPerspectiveTransform(src, dst)
+        warped = cv2.warpPerspective(art, M, (W, H), flags=cv2.INTER_AREA if aw > 400 else cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0, 0))
     rgb, a = warped[..., :3], warped[..., 3:4]
     gray = cv2.cvtColor(base, cv2.COLOR_BGR2GRAY)
     mask = np.zeros((H, W), np.uint8)
@@ -174,7 +196,14 @@ def composite(v, surf):
         a = cv2.GaussianBlur(a, (0, 0), 0.6)[..., None] * 0.96 if a.ndim == 2 else cv2.GaussianBlur(a[..., 0], (0, 0), 0.6)[..., None] * 0.96
         out = base * (1 - a) + (rgb * shade) * a
     elif mode == 'fabric':
-        shade = np.clip(gray / np.median(region), 0.55, 1.12)[..., None]
+        # folds: push the print along the fabric's luminance gradient, then shade by the fabric light
+        g = cv2.GaussianBlur(gray, (0, 0), 7)
+        dx = cv2.Sobel(g, cv2.CV_32F, 1, 0, ksize=5); dy = cv2.Sobel(g, cv2.CV_32F, 0, 1, ksize=5)
+        xs, ys = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32))
+        k_ = 9.0 / (np.abs(dx).max() + 1e-6)
+        warped = cv2.remap(warped, xs - dx * k_, ys - dy * k_, cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0, 0))
+        rgb, a = warped[..., :3], warped[..., 3:4]
+        shade = np.clip(gray / np.median(region), 0.5, 1.15)[..., None]
         detail = (gray - cv2.GaussianBlur(gray, (0, 0), 2.0))[..., None]
         ink = np.clip(rgb * shade * 0.94 + detail * 0.9, 0, 1)
         a2 = cv2.GaussianBlur(a[..., 0], (0, 0), 0.7)[..., None] * 0.9
@@ -184,37 +213,29 @@ def composite(v, surf):
         shade = cv2.GaussianBlur(shade[..., 0], (0, 0), 3)[..., None]
         out = base * (1 - a) + (rgb * (0.12 + 0.9 * shade)) * a
     elif mode == 'banner':
-        # print covers the whole fabric: find the real banner pixels (bright, unsaturated) around the quad
+        # exact fabric silhouette (with its sag), slightly grown so no white fringe is left
         hsv = cv2.cvtColor((base * 255).astype(np.uint8), cv2.COLOR_BGR2HSV)
         grow = cv2.dilate(mask, np.ones((25, 25), np.uint8))
-        fabric = ((hsv[..., 2] > 150) & (hsv[..., 1] < 45) & (grow > 0)).astype(np.uint8)
-        fabric = cv2.morphologyEx(fabric, cv2.MORPH_CLOSE, np.ones((9, 9), np.uint8))
+        fabric = ((hsv[..., 2] > 115) & (hsv[..., 1] < 60) & (grow > 0)).astype(np.uint8)
+        fabric = cv2.morphologyEx(fabric, cv2.MORPH_CLOSE, np.ones((15, 15), np.uint8))
         n, lab, stats, _ = cv2.connectedComponentsWithStats(fabric)
-        big = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
-        fabric = (lab == big).astype(np.uint8)
-        fabric = cv2.morphologyEx(fabric, cv2.MORPH_CLOSE, np.ones((25, 25), np.uint8))
-        cnts, _ = cv2.findContours(fabric, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        hull = cv2.convexHull(max(cnts, key=cv2.contourArea))
-        peri = cv2.arcLength(hull, True); poly = hull
-        for e in np.linspace(0.005, 0.08, 60):
-            poly = cv2.approxPolyDP(hull, e * peri, True)
-            if len(poly) <= 4:
-                break
-        fill = np.zeros_like(fabric); cv2.fillConvexPoly(fill, poly.reshape(-1, 2), 1)
-        fill = cv2.dilate(fill, np.ones((3, 3), np.uint8))
-        fa = cv2.GaussianBlur(fill.astype(np.float32), (0, 0), 0.8)[..., None]
-        # stretch the artwork over the fabric bounding quad (+ small bleed) so it reaches every edge
+        fabric = (lab == 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))).astype(np.uint8)
+        cnt = max(cv2.findContours(fabric, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[0], key=cv2.contourArea)
+        cnt = cv2.approxPolyDP(cnt, 0.0012 * cv2.arcLength(cnt, True), True)
+        fill = np.zeros_like(fabric); cv2.fillPoly(fill, [cnt], 1)
+        fill = cv2.dilate(fill, np.ones((5, 5), np.uint8))
+        fa = cv2.GaussianBlur(fill.astype(np.float32), (0, 0), 0.9)[..., None]
         x, y, bw, bh = cv2.boundingRect(fill)
         q = np.float32(quad); ctr = q.mean(0)
-        sx = (bw + 6) / (q[:, 0].max() - q[:, 0].min()); sy = (bh + 6) / (q[:, 1].max() - q[:, 1].min())
+        sx = (bw + 8) / (q[:, 0].max() - q[:, 0].min()); sy = (bh + 8) / (q[:, 1].max() - q[:, 1].min())
         q2 = (q - ctr) * np.float32([sx, sy]) + np.float32([x + bw / 2, y + bh / 2])
         M2 = cv2.getPerspectiveTransform(src, q2)
-        warped2 = cv2.warpPerspective(art, M2, (W, H), flags=cv2.INTER_AREA, borderMode=cv2.BORDER_REPLICATE)
-        rgb2 = warped2[..., :3]
-        fr = gray[fill > 0]
-        shade = np.clip(gray / np.percentile(fr, 97), 0, 1.04)
-        shade = cv2.GaussianBlur(shade, (0, 0), 1.2)[..., None]
-        out = base * (1 - fa) + np.clip(rgb2 * (0.06 + 0.95 * shade), 0, 1) * fa
+        rgb2 = cv2.warpPerspective(art, M2, (W, H), flags=cv2.INTER_AREA, borderMode=cv2.BORDER_REPLICATE)[..., :3]
+        fr = gray[fabric > 0]
+        shade = cv2.GaussianBlur(np.clip(gray / np.percentile(fr, 97), 0, 1.05), (0, 0), 1.2)[..., None]
+        sheen = cv2.GaussianBlur(np.clip(gray / np.percentile(fr, 50) - 1, -0.3, 0.3), (0, 0), 2)[..., None]
+        ink = np.clip(rgb2 * (0.08 + 0.94 * shade) + 0.10 * sheen + 0.025, 0, 1)
+        out = base * (1 - fa) + ink * fa
         a = fa
     elif mode == 'letters':
         a1 = a[..., 0]

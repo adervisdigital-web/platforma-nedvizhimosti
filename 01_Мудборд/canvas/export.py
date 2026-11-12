@@ -23,33 +23,33 @@ BLOBS = {
     'e05ef6fc38a92410bfb373f11b4be3cd': 'gen/rem_bathroom.jpg', 'ab22bbc0ab515db845d3dee45c8b5d04': 'gen/rem_before_after.jpg', '3472f23568c92d74ff24b6057454790b': 'gen/rem_detail.jpg', 'de9f3f7fe15a4720d9b574a1e479b7c1': 'gen/rem_process.jpg',
     'cdd11a87d47dc7bbb0f3e9176798d679': 'gen/kv_living2.jpg', '59f13ed8e92015fcbfaa3bf5e84befd1': 'gen/kv_kids.jpg', '068979a2fe76a1232c5d8c3a5afedf7b': 'gen/kv_complex2.jpg', '70ba586a3b88e814a57ca48ecc8caddc': 'gen/house_stone2.jpg',
     'a9a387416fc9107965b27f505644a667': 'gen/site_build.jpg',
-    '28d618f868e19e37b2acc7529006d899': 'gen/life_D_bag.jpg',
+    'bedc0a1cac16ddf51df5b213a1ab753e': 'gen/life_D_bag.jpg',
     '6aea6f11b9e90f887efe4a7e0792da3d': 'gen/life_D_billboard.jpg',
     '14c4bcfa0e1981a9e9e7f2a93b263107': 'gen/life_D_facade.jpg',
-    'ff3d40379efdefba8695024232b2198c': 'gen/life_D_fence.jpg',
-    '36c7d1d85db7d71cfa54af5a30b6335d': 'gen/life_D_helmet.jpg',
-    '44adc54d056dc5f3f8365a82c3f3b3a5': 'gen/life_D_keys.jpg',
-    'cd159296cdd55d8584ba1b5f671e6ffd': 'gen/life_D_plate.jpg',
+    '94e09345ab81f929d96ea12a47f69769': 'gen/life_D_fence.jpg',
+    'ff79d90e626b5b946f355778b096982a': 'gen/life_D_helmet.jpg',
+    'f55f19b75ae27d1f3a52acdaa94b1c28': 'gen/life_D_keys.jpg',
+    'd25addfea8bfc01d500628426a83ea04': 'gen/life_D_plate.jpg',
     'b1cd0e904b4a45d297614ec72f571e19': 'gen/life_D_store.jpg',
-    'f9b934d485f5bfed73931de6b385c3ae': 'gen/life_D_vest.jpg',
-    '2c5eaf46f3794d98607a1e8298ee2ac7': 'gen/life_L_bag.jpg',
+    '1b3de3ee3a20f5c57fb5fa369689cbb5': 'gen/life_D_vest.jpg',
+    '202b752bb21c31ba765aa3bd356b4990': 'gen/life_L_bag.jpg',
     'b53b022c7bef717ba1a05e496f360764': 'gen/life_L_billboard.jpg',
     '06a0f35736ead4c26f51fafa1abf3437': 'gen/life_L_facade.jpg',
-    '53d9486dfbc49b75c43cd767bbef05ae': 'gen/life_L_fence.jpg',
-    'de16d72ccdf0c76205540e1e6d8e0d45': 'gen/life_L_helmet.jpg',
-    'a327e2eeeabbc6f3fcf8eb2e47aac7f9': 'gen/life_L_keys.jpg',
-    '9db3ea0ad1117ddc4458287bfd3ece2e': 'gen/life_L_plate.jpg',
+    '4a64a38817ad8d3029c3ed9a1c4b2ab9': 'gen/life_L_fence.jpg',
+    '2c0b8992e8f879860d67f66ced4e14f2': 'gen/life_L_helmet.jpg',
+    '91ed8c7a5b82eca24c0f9d52c57f8826': 'gen/life_L_keys.jpg',
+    '5673c015c61d70614ec906e6bd6895a9': 'gen/life_L_plate.jpg',
     '5e8bc4ccb202985d35eff727fb99df5f': 'gen/life_L_store.jpg',
-    '2022703335f547c6f741bf3afedfca0e': 'gen/life_L_vest.jpg',
-    '2551062c668e7bf3d45f33dc614e4979': 'gen/life_Y_bag.jpg',
+    '5b2a5baeb9551831851bcedfbe4b4f5f': 'gen/life_L_vest.jpg',
+    '3de4c671ce28cddf5540b49afcf063c0': 'gen/life_Y_bag.jpg',
     '214a596ec3adaa6d7f71a4bc8f9128e1': 'gen/life_Y_billboard.jpg',
     '2b94772934cceb52bbb176899e2f830c': 'gen/life_Y_facade.jpg',
-    '01a05b77a3ea00e402d9483815130ba4': 'gen/life_Y_fence.jpg',
-    '3d3e8e6e658af77ef4e0f62d3efc5c57': 'gen/life_Y_helmet.jpg',
-    '7c5b87551ada0b811cea3ee919bd289e': 'gen/life_Y_keys.jpg',
-    '0fac5156863a1903c08d79494de3db47': 'gen/life_Y_plate.jpg',
+    '1ec846b06b929a0f6b1a92cb357ebf7e': 'gen/life_Y_fence.jpg',
+    '887335cb27ff0889fae4bb13350cf582': 'gen/life_Y_helmet.jpg',
+    '3a01bbc3515f6cee039ef397a78822ec': 'gen/life_Y_keys.jpg',
+    '6a259b765536d5cbe5ed2e7291713025': 'gen/life_Y_plate.jpg',
     '56263368762c30dafd39a97ae79a8581': 'gen/life_Y_store.jpg',
-    'a4ad01a7d9b6de07cbf83b436bb3df6f': 'gen/life_Y_vest.jpg', '54a8cb8b2a50e5f05f21d5a0f2f7d073': 'gen/mk_facade.jpg', 'ffdaa51adb3c5d7e31c8fd6a6a5f75d1': 'gen/mk_billboard.jpg', '1bb80de6ed3a83f08009427e96bfeec5': 'gen/mk_keys.jpg', '108a4f5c54f07e918b981646718007eb': 'gen/mk_helmet.jpg', '94be6ec097df12c9c8e43aeaa5861c54': 'gen/mk_vest.jpg', 'f3ac65a57af9466d01fd447e312cbf65': 'gen/mk_bag.jpg', '337e60c28f17034e42ec701b320abb86': 'screen_catalog.jpg', '7b9920c5408169bf27f1722b29c1d985': 'pick_ural6.jpg',
+    '206f1b584b38fdbb694267787cfb26ea': 'gen/life_Y_vest.jpg', '54a8cb8b2a50e5f05f21d5a0f2f7d073': 'gen/mk_facade.jpg', 'ffdaa51adb3c5d7e31c8fd6a6a5f75d1': 'gen/mk_billboard.jpg', '1bb80de6ed3a83f08009427e96bfeec5': 'gen/mk_keys.jpg', '108a4f5c54f07e918b981646718007eb': 'gen/mk_helmet.jpg', '94be6ec097df12c9c8e43aeaa5861c54': 'gen/mk_vest.jpg', 'f3ac65a57af9466d01fd447e312cbf65': 'gen/mk_bag.jpg', '337e60c28f17034e42ec701b320abb86': 'screen_catalog.jpg', '7b9920c5408169bf27f1722b29c1d985': 'pick_ural6.jpg',
 }
 NAMES = {'LogoL.dc.html': '1-1_Светлый_Арка_логотип', 'StyleL.dc.html': '1-2_Светлый_Арка_стиль', 'SystemL.dc.html': '1-3_Светлый_Арка_айдентика', 'SiteL.dc.html': '1-4_Светлый_Арка_сайт-приложение', 'LifeL.dc.html': '1-5_Светлый_Арка_в-жизни', 'LogoD.dc.html': '2-1_Тёмный_Портал_логотип', 'StyleD.dc.html': '2-2_Тёмный_Портал_стиль', 'SystemD.dc.html': '2-3_Тёмный_Портал_айдентика', 'SiteD.dc.html': '2-4_Тёмный_Портал_сайт-приложение', 'LifeD.dc.html': '2-5_Тёмный_Портал_в-жизни', 'LogoY.dc.html': '3-1_Яркий_Сборка_логотип', 'StyleY.dc.html': '3-2_Яркий_Сборка_стиль', 'SystemY.dc.html': '3-3_Яркий_Сборка_айдентика', 'SiteY.dc.html': '3-4_Яркий_Сборка_сайт-приложение', 'LifeY.dc.html': '3-5_Яркий_Сборка_в-жизни'}
 os.makedirs(H, exist_ok=True)
@@ -67,9 +67,12 @@ for f, n in NAMES.items():
     hh = _j.load(open(f'{HERE}/canvas.json', encoding='utf8'))['boards'][f]['h']
     png = f'{OUT}/{n}.png'
     if os.path.exists(png): os.remove(png)
-    subprocess.run([EDGE, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files',
-                    '--virtual-time-budget=12000', f'--window-size=1440,{hh}', '--force-device-scale-factor=1',
-                    f'--screenshot={png.replace("/", chr(92))}', 'file:///' + hp], capture_output=True, timeout=180)
+    for _try in range(4):
+        subprocess.run([EDGE, '--headless=new', '--disable-gpu', '--hide-scrollbars', '--allow-file-access-from-files',
+                        '--virtual-time-budget=12000', f'--window-size=1440,{hh}', '--force-device-scale-factor=1',
+                        f'--screenshot={png.replace("/", chr(92))}', 'file:///' + hp], capture_output=True, timeout=180)
+        if os.path.exists(png): break
+        import time; time.sleep(2)
     print(n, os.path.exists(png) and os.path.getsize(png))
     pngs.append(png)
 ims = [Image.open(p).convert('RGB') for p in pngs if os.path.exists(p)]
