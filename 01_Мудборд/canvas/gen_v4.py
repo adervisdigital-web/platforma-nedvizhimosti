@@ -55,6 +55,46 @@ def icon(v, i, size=28, color=None):
 # ---------------- patterns ----------------
 def pattern(v, W=760, H=400):
     k = fam(v)
+    if v['key'] == 'K':
+        import random
+        rnd = random.Random(4); out = ''
+        bw, bh, gj = 64, 26, 5
+        cols = [v['acc'], v['acc'], '#A80D26', '#D9203F', v['sand'], v.get('sand2', '#EFE3D3')]
+        for r in range(H // (bh + gj) + 2):
+            off = 0 if r % 2 == 0 else -(bw + gj) / 2
+            for c in range(W // (bw + gj) + 2):
+                x = off + c * (bw + gj); y = r * (bh + gj)
+                out += f'<rect x="{x:.1f}" y="{y}" width="{bw}" height="{bh}" rx="2" fill="{rnd.choice(cols)}"/>'
+        ax, ay, aw = W * 0.62, 70, 150
+        arch = f'M{ax} {H} V{ay + aw / 2} A{aw / 2} {aw / 2} 0 0 1 {ax + aw} {ay + aw / 2} V{H} Z'
+        out += f'<path d="{arch}" fill="{v["bg"]}"/><clipPath id="pk"><path d="{arch}"/></clipPath><image href="{IMG["kitchen"]}" x="{ax}" y="{ay}" width="{aw}" height="{H - ay}" preserveAspectRatio="xMidYMid slice" clip-path="url(#pk)"/>'
+        return f'<svg width="100%" height="100%" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Паттерн: кирпичная кладка с аркой"><rect width="{W}" height="{H}" fill="#E8DFD3"/>{out}</svg>'
+    if v['key'] == 'S':
+        out = ''
+        aw, gap = 92, 22
+        for i in range(W // (aw + gap) + 1):
+            x = 18 + i * (aw + gap)
+            for n, (col, inset) in enumerate(((v['acc'], 0), (v['bg'], 9), ('#24493A', 16), (v['sand'], 25))):
+                w_ = aw - 2 * inset; r_ = w_ / 2; y0 = 60 + inset + (i % 3) * 18
+                out += f'<path d="M{x + inset} {H} V{y0 + r_} A{r_} {r_} 0 0 1 {x + inset + w_} {y0 + r_} V{H} Z" fill="{col}"/>'
+        return f'<svg width="100%" height="100%" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Паттерн: аркада из вложенных арок"><rect width="{W}" height="{H}" fill="{v["bg"]}"/>{out}</svg>'
+    if v['key'] == 'M_posters_unused':
+        import marks as _mk
+        q = "'"; pw = (W - 4 * 14) / 3; ph = H - 28
+        def poster(x, bg, ink, glyph, title, sub, photo=None):
+            ph_svg = ''
+            if photo:
+                ph_svg = (f'<clipPath id="pm{int(x)}"><rect x="{x + 18}" y="{14 + 18}" width="{pw - 36}" height="{ph * 0.46}" rx="16"/></clipPath>'
+                          f'<image href="{photo}" x="{x + 18}" y="{14 + 18}" width="{pw - 36}" height="{ph * 0.46}" preserveAspectRatio="xMidYMid slice" clip-path="url(#pm{int(x)})"/>')
+            g = f'<g transform="translate({x + 18},{14 + (ph * 0.46 + 36 if photo else 26)})">{glyph}</g>'
+            return (f'<rect x="{x}" y="14" width="{pw}" height="{ph}" rx="20" fill="{bg}"/>{ph_svg}{g}'
+                    f'<text x="{x + 18}" y="{14 + ph - 52}" font-family="{v["FH"]}" font-weight="800" font-size="30" fill="{ink}">{title}</text>'
+                    f'<text x="{x + 18}" y="{14 + ph - 26}" font-family="{v["F"]}" font-size="13" fill="{ink}" fill-opacity="0.75">{sub}</text>')
+        gl = lambda kind, w, m, a: _mk.glyph(kind, w, m, a).replace('<svg ', '<svg x="0" y="0" ', 1)
+        out = poster(14, v['acc'], '#FFFFFF', gl('flat', 54, '#FFFFFF', v['acc2']), 'Квартиры', '[N] вариантов в Екатеринбурге', IMG['living2'])
+        out += poster(28 + pw, v['acc2'], v['ink'], gl('renov', 120, v['ink'], '#FFFFFF'), 'Ремонт', 'смета за 2 минуты')
+        out += poster(42 + 2 * pw, '#FFFFFF', v['ink'], gl('house', 54, v['acc'], v['acc2']), 'Дома', 'каменные, по проекту', IMG['stone2'])
+        return f'<svg width="100%" height="100%" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Система постеров направлений"><rect width="{W}" height="{H}" fill="{v["sand"]}"/>{out}</svg>'
     if v['key'] == 'M':
         import random
         rnd = random.Random(6); out = ''
@@ -153,7 +193,7 @@ def system_board(v):
   </div>
   <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; height: 400px">
     <div style="grid-column: span 7; position: relative; overflow: hidden">{pattern(v)}
-      <span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px '{F}', sans-serif">[ паттерн — {('фасад из арок' if k == 'L' else 'ночной фасад: в части окон горит свет' if k == 'D' else ('модули: бирюза, туман и один жёлтый' if v['key'] == 'M' else 'знаки-направления'))} ]</span></div>
+      <span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px '{F}', sans-serif">[ паттерн — {(('кирпичная кладка с арочным проёмом' if v['key'] == 'K' else 'аркада из вложенных арок' if v['key'] == 'S' else 'фасад из арок') if k == 'L' else 'ночной фасад: в части окон горит свет' if k == 'D' else ('модули: бирюза, туман и один жёлтый' if v['key'] == 'M' else 'знаки-направления'))} ]</span></div>
     <div style="grid-column: span 5; background: {panel}; padding: 20px; display: flex; flex-direction: column; gap: 14px">
       {label(v, 'иконки — линия 1.8 px, сетка 24 px')}
       <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: 1">{icons}</div>

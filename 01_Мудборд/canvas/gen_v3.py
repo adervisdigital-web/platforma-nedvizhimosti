@@ -16,6 +16,7 @@ IMG = dict(
 
 import json as _json, os as _os
 IMG.update({k: '/_blob/' + v for k, v in _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'blobs4.json'), encoding='utf8')).items()})
+IMG.update({k: '/_blob/' + v for k, v in _json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'blobs2.json'), encoding='utf8')).items()})
 
 def fam(v):
     """Design family of a variant (new arch variants reuse the 'L' layouts) + switch the arch mark shape."""
@@ -129,7 +130,7 @@ def lockup(v, size, ink, sub, mono=None, mw=None, vertical=False, on_dark=False)
     ls_fix = f'margin-right: -{v["word_ls"]};' if v['word_ls'] not in ('0', '0em') else ''
     words = (f'<div style="display: inline-flex; flex-direction: column; gap: {max(4, round(size * 0.16))}px">'
              f'<span style="font: {v["word_w"]} {s}px/0.9 \'{FH}\', sans-serif; letter-spacing: {v["word_ls"]}; {ls_fix} color: {ink}; white-space: nowrap">ПЛАТФОРМА</span>'
-             f'<span style="display: flex; justify-content: space-between; font: 500 {max(9, round(size * 0.24))}px/1 \'{v["F"]}\', sans-serif; color: {sub}">{sub_letters}</span></div>')
+             f'<span style="display: flex; justify-content: space-between; width: 0; min-width: 100%; font: 500 {max(9, round(size * 0.24))}px/1 \'{v["F"]}\', sans-serif; color: {sub}">{sub_letters}</span></div>')
     d = 'column' if vertical else 'row'
     return f'<div style="display: flex; flex-direction: {d}; align-items: center; gap: {round(size * (0.5 if vertical else 0.42))}px">{m}{words}</div>'
 
@@ -180,7 +181,12 @@ def construction(v, H=420):
         body = f'<svg x="0" y="0" width="{W}" height="{H}" viewBox="0 0 36 36">{_mk.module_rects()}</svg>'
         notes = (f'<text x="{W + 40}" y="{5.2 * sc}" font-size="13" fill="{v["acc2"]}" font-family="{v["F"]}">← ваш модуль</text>'
                  f'<text x="{W + 40}" y="{24 * sc}" font-size="13" fill="{g}" font-family="{v["F"]}">сетка 3 × 3</text>'
-                 f'<text x="{W + 40}" y="{24 * sc + 20}" font-size="13" fill="{g}" font-family="{v["F"]}">модуль 10.4 · шаг 2.4</text>')
+                 f'<text x="{W + 40}" y="{24 * sc + 20}" font-size="13" fill="{g}" font-family="{v["F"]}">модуль 10.4 · шаг 2.4</text>'
+                 f'<line x1="0" y1="{-14}" x2="{W}" y2="{-14}" stroke="{g}" stroke-width="1"/><line x1="0" y1="-20" x2="0" y2="-8" stroke="{g}"/><line x1="{W}" y1="-20" x2="{W}" y2="-8" stroke="{g}"/>'
+                 f'<text x="{W / 2}" y="-20" font-size="12" fill="{g}" text-anchor="middle" font-family="{v["F"]}">3x</text>'
+                 f'<line x1="-14" y1="0" x2="-14" y2="{10.4 * sc}" stroke="{g}" stroke-width="1"/><text x="-20" y="{5.6 * sc}" font-size="12" fill="{g}" text-anchor="end" font-family="{v["F"]}">x</text>'
+                 f'<rect x="{-10.4 * sc * 0.5}" y="{-10.4 * sc * 0.5}" width="{W + 10.4 * sc}" height="{H + 10.4 * sc}" fill="none" stroke="{v["acc"]}" stroke-width="1" stroke-dasharray="2 5"/>'
+                 f'<text x="{W + 10.4 * sc * 0.5 + 6}" y="{H + 10.4 * sc * 0.5}" font-size="12" fill="{v["acc"]}" font-family="{v["F"]}">охранное поле ½x</text>')
         return f'<svg width="{W + 180}" height="{H}" viewBox="-30 -30 {W + 210} {H + 60}" style="overflow: visible" aria-label="Построение знака">{cells}{body}{notes}</svg>'
     if k == 'L':
         s = H / 40; W = 36 * s
@@ -325,6 +331,33 @@ def supergraphic(v, W=820, H=500):
                 f'<div style="font: 800 40px/1.05 {q}{FH}{q}, sans-serif; letter-spacing: -0.02em; color: {v["ink"]}">Собираем ваш дом<br>по модулям</div>'
                 f'<span style="font: 400 16px/1.5 {q}{F}{q}, sans-serif; color: {v["muted"]}">Квартира, ремонт и каменный дом — из одних и тех же надёжных шагов.</span>'
                 f'<span style="align-self: flex-start; padding: 14px 22px; background: {acc}; color: #FFFFFF; font: 600 16px {q}{F}{q}, sans-serif; border-radius: 14px">Собрать свой</span></div></div>')
+    if v['key'] in ('K', 'S'):
+        import marks as _mk
+        q = "'"
+        hgt = 600; sc = hgt / 40; wd = 36 * sc
+        if v['key'] == 'K':
+            _mk.SHAPE = 'masonry'
+            shape = f'<path d="{_mk.arch_d("masonry")}" fill="#FBF8F3" fill-opacity="0.96"/>'
+            hole = 'M10 40 V20 A8 8 0 0 1 26 20 V40 Z'
+            photo, head, sub, cta = IMG['kitchen'], 'Строим так,<br>чтобы стояло век.', 'Кладка, ремонт и ключи — в одном договоре. Квартиры, ремонт и каменные дома в Екатеринбурге.', 'Подобрать квартиру'
+            field, ink_h, ink_s, btn_bg, btn_ink = acc, '#FFFFFF', 'rgba(255,255,255,.86)', '#FBF8F3', v['ink']
+        else:
+            shape = ('<path d="M0 0 H36 V40 H26 V20 A8 8 0 0 0 10 20 V40 H0 Z" fill="#24493A"/>'
+                     '<path d="M11.6 37 V20 A6.4 6.4 0 0 1 24.4 20 V37 H23.2 V20 A5.2 5.2 0 0 0 12.8 20 V37 Z" fill="#F1EEE6"/>'
+                     '<path d="M7 37.6 H29 V40 H7 Z" fill="#F1EEE6"/>')
+            hole = 'M12.8 37 V20 A5.2 5.2 0 0 1 23.2 20 V37 Z'
+            photo, head, sub, cta = IMG['living2'], 'Ваш дом<br>уже ждёт.', 'Порог переступили — дальше наша забота. Квартира, ремонт и свой дом за городом.', 'Выбрать дом'
+            field, ink_h, ink_s, btn_bg, btn_ink = acc, '#FFFFFF', 'rgba(255,255,255,.86)', '#F1EEE6', v['ink']
+        cid = 'sg' + v['key']
+        svg = (f'<svg width="{wd:.0f}" height="{hgt}" viewBox="0 0 36 40" style="position: absolute; right: -170px; top: -40px" role="img" aria-label="Знак как рамка для фото">'
+               f'<defs><clipPath id="{cid}"><path d="{hole}"/></clipPath></defs>'
+               f'<image href="{photo}" x="6" y="10" width="24" height="30" preserveAspectRatio="xMidYMid slice" clip-path="url(#{cid})"/>{shape}</svg>')
+        return (f'<div style="width: 100%; height: 100%; background: {field}; position: relative; overflow: hidden">{svg}'
+                f'<div style="position: absolute; left: 48px; top: 52px; bottom: 48px; width: 320px; display: flex; flex-direction: column; justify-content: space-between; color: {ink_h}">'
+                f'<span style="font: 400 13px {q}{F}{q}, sans-serif; color: {ink_s}">[ знак — рамка для фото ]</span>'
+                f'<div style="font: {v["word_w"]} 42px/1.06 {q}{FH}{q}, sans-serif; letter-spacing: -0.02em">{head}</div>'
+                f'<div style="display: flex; flex-direction: column; gap: 16px"><span style="font: 400 16px/1.5 {q}{F}{q}, sans-serif; color: {ink_s}">{sub}</span>'
+                f'<span style="align-self: flex-start; padding: 14px 22px; background: {btn_bg}; color: {btn_ink}; font: 600 16px {q}{F}{q}, sans-serif">{cta}</span></div></div></div>')
     if k == 'L':
         # arch-window photo on terracotta field
         aw, ah = 330, 420
@@ -459,11 +492,12 @@ def posts(v):
 def style_board(v):
     F, FH, ink, muted, line, panel, acc = v['F'], v['FH'], v['ink'], v['muted'], v['line'], v['panel'], v['acc']
     pal = ''
+    rgb = lambda h: ' · '.join(str(int(h[i:i + 2], 16)) for i in (1, 3, 5))
     for n, c, f in v['palette']:
         light = c in ('#FFFFFF', '#F7F4EE', '#E4EFEC', '#F6B93B', '#F2EEE7', '#F4EFE8', '#E4D3BF', '#F1EEE6', '#D8CDB4', '#FBF9F5', '#D9CBB5', '#F2F1EE', '#A7ACB4', '#FFB547', '#F3F4F8')
         border = f'border: 1px solid {line};' if c in (v['bg'], '#FFFFFF') else ''
         pal += (f'<div style="flex: {f}; background: {c}; {border} padding: 10px; display: flex; flex-direction: column; justify-content: flex-end; '
-                f'font: 400 12px/1.4 \'{F}\', sans-serif; color: {"#1F1D1B" if light else "#FFFFFF"}">{n}<br>{c}</div>')
+                f'font: 400 12px/1.4 \'{F}\', sans-serif; color: {"#1F1D1B" if light else "#FFFFFF"}">{n}<br>{c}{('<br>' + rgb(c)) if v['key'] in ('K', 'S', 'M') else ''}</div>')
     h = 1640
     return head(f'{v["title"]} · {v["name"]} — стиль и носители', v, h) + f'''<div style="width: 1440px; height: {h}px; box-sizing: border-box; padding: 48px 56px; background: {v['bg']}; color: {v['text']}; font-family: '{F}', system-ui, sans-serif; display: flex; flex-direction: column; gap: 24px; overflow: hidden">
   <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid {line}; padding-bottom: 16px">
