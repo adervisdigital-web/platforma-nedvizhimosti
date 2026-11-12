@@ -23,6 +23,15 @@ BLOBS = {
     'e05ef6fc38a92410bfb373f11b4be3cd': 'gen/rem_bathroom.jpg', 'ab22bbc0ab515db845d3dee45c8b5d04': 'gen/rem_before_after.jpg', '3472f23568c92d74ff24b6057454790b': 'gen/rem_detail.jpg', 'de9f3f7fe15a4720d9b574a1e479b7c1': 'gen/rem_process.jpg',
     'cdd11a87d47dc7bbb0f3e9176798d679': 'gen/kv_living2.jpg', '59f13ed8e92015fcbfaa3bf5e84befd1': 'gen/kv_kids.jpg', '068979a2fe76a1232c5d8c3a5afedf7b': 'gen/kv_complex2.jpg', '70ba586a3b88e814a57ca48ecc8caddc': 'gen/house_stone2.jpg',
     'a9a387416fc9107965b27f505644a667': 'gen/site_build.jpg',
+    '665fca1a1a60ce4a04996b7366d97225': 'gen/life_M_facade.jpg',
+    'deeae2bee52d1f25efefb97e43607e27': 'gen/life_M_billboard.jpg',
+    '1a23212af49304f7d2fbe510ecb8ad0f': 'gen/life_M_keys.jpg',
+    '8b69769a5a8f1e8983afeb3c47c4ba2a': 'gen/life_M_helmet.jpg',
+    'd7b7f2a4a95cff1aae39d729a5b7a0c1': 'gen/life_M_bag.jpg',
+    '54c98986c2b735dfb105805cb75d881b': 'gen/life_M_fence.jpg',
+    'c26ee7495d37edce53ec50073a5c4001': 'gen/life_M_store.jpg',
+    'fba0e73342ddb38d45c1b9118255dfd0': 'gen/life_M_plate.jpg',
+    'c636d8ae29638d73820699ac3b7a6d47': 'gen/life_M_vest.jpg',
     '565177f2a1c587ef665ad6a337ad643c': 'gen/life_K_facade.jpg',
     '5f6fd39ab22cde011396e7dab91d32d2': 'gen/life_K_billboard.jpg',
     'a42b3320078503af324b741bc8b93ab7': 'gen/life_K_keys.jpg',
@@ -69,7 +78,7 @@ BLOBS = {
     '56263368762c30dafd39a97ae79a8581': 'gen/life_Y_store.jpg',
     '707063b1fe1b1b155674ecd5349c01b4': 'gen/life_Y_vest.jpg', '54a8cb8b2a50e5f05f21d5a0f2f7d073': 'gen/mk_facade.jpg', 'ffdaa51adb3c5d7e31c8fd6a6a5f75d1': 'gen/mk_billboard.jpg', '1bb80de6ed3a83f08009427e96bfeec5': 'gen/mk_keys.jpg', '108a4f5c54f07e918b981646718007eb': 'gen/mk_helmet.jpg', '94be6ec097df12c9c8e43aeaa5861c54': 'gen/mk_vest.jpg', 'f3ac65a57af9466d01fd447e312cbf65': 'gen/mk_bag.jpg', '337e60c28f17034e42ec701b320abb86': 'screen_catalog.jpg', '7b9920c5408169bf27f1722b29c1d985': 'pick_ural6.jpg',
 }
-NAMES = {'LogoL.dc.html': '1-1_Светлый_Арка_логотип', 'StyleL.dc.html': '1-2_Светлый_Арка_стиль', 'SystemL.dc.html': '1-3_Светлый_Арка_айдентика', 'SiteL.dc.html': '1-4_Светлый_Арка_сайт-приложение', 'LifeL.dc.html': '1-5_Светлый_Арка_в-жизни', 'LogoD.dc.html': '2-1_Тёмный_Портал_логотип', 'StyleD.dc.html': '2-2_Тёмный_Портал_стиль', 'SystemD.dc.html': '2-3_Тёмный_Портал_айдентика', 'SiteD.dc.html': '2-4_Тёмный_Портал_сайт-приложение', 'LifeD.dc.html': '2-5_Тёмный_Портал_в-жизни', 'LogoY.dc.html': '3-1_Яркий_Сборка_логотип', 'StyleY.dc.html': '3-2_Яркий_Сборка_стиль', 'SystemY.dc.html': '3-3_Яркий_Сборка_айдентика', 'SiteY.dc.html': '3-4_Яркий_Сборка_сайт-приложение', 'LifeY.dc.html': '3-5_Яркий_Сборка_в-жизни', 'LogoK.dc.html': '4-1_Красный_Кладка_логотип', 'StyleK.dc.html': '4-2_Красный_Кладка_стиль', 'SystemK.dc.html': '4-3_Красный_Кладка_айдентика', 'SiteK.dc.html': '4-4_Красный_Кладка_сайт-приложение', 'LifeK.dc.html': '4-5_Красный_Кладка_в-жизни', 'LogoS.dc.html': '5-1_Зелёный_Свод_логотип', 'StyleS.dc.html': '5-2_Зелёный_Свод_стиль', 'SystemS.dc.html': '5-3_Зелёный_Свод_айдентика', 'SiteS.dc.html': '5-4_Зелёный_Свод_сайт-приложение', 'LifeS.dc.html': '5-5_Зелёный_Свод_в-жизни'}
+NAMES = {'LogoL.dc.html': '1-1_Светлый_Арка_логотип', 'StyleL.dc.html': '1-2_Светлый_Арка_стиль', 'SystemL.dc.html': '1-3_Светлый_Арка_айдентика', 'SiteL.dc.html': '1-4_Светлый_Арка_сайт-приложение', 'LifeL.dc.html': '1-5_Светлый_Арка_в-жизни', 'LogoD.dc.html': '2-1_Тёмный_Портал_логотип', 'StyleD.dc.html': '2-2_Тёмный_Портал_стиль', 'SystemD.dc.html': '2-3_Тёмный_Портал_айдентика', 'SiteD.dc.html': '2-4_Тёмный_Портал_сайт-приложение', 'LifeD.dc.html': '2-5_Тёмный_Портал_в-жизни', 'LogoY.dc.html': '3-1_Яркий_Сборка_логотип', 'StyleY.dc.html': '3-2_Яркий_Сборка_стиль', 'SystemY.dc.html': '3-3_Яркий_Сборка_айдентика', 'SiteY.dc.html': '3-4_Яркий_Сборка_сайт-приложение', 'LifeY.dc.html': '3-5_Яркий_Сборка_в-жизни', 'LogoK.dc.html': '4-1_Красный_Кладка_логотип', 'StyleK.dc.html': '4-2_Красный_Кладка_стиль', 'SystemK.dc.html': '4-3_Красный_Кладка_айдентика', 'SiteK.dc.html': '4-4_Красный_Кладка_сайт-приложение', 'LifeK.dc.html': '4-5_Красный_Кладка_в-жизни', 'LogoS.dc.html': '5-1_Зелёный_Свод_логотип', 'StyleS.dc.html': '5-2_Зелёный_Свод_стиль', 'SystemS.dc.html': '5-3_Зелёный_Свод_айдентика', 'SiteS.dc.html': '5-4_Зелёный_Свод_сайт-приложение', 'LifeS.dc.html': '5-5_Зелёный_Свод_в-жизни', 'LogoM.dc.html': '6-1_Бирюзовый_Модуль_логотип', 'StyleM.dc.html': '6-2_Бирюзовый_Модуль_стиль', 'SystemM.dc.html': '6-3_Бирюзовый_Модуль_айдентика', 'SiteM.dc.html': '6-4_Бирюзовый_Модуль_сайт-приложение', 'LifeM.dc.html': '6-5_Бирюзовый_Модуль_в-жизни'}
 os.makedirs(H, exist_ok=True)
 pngs = []
 for f, n in NAMES.items():

@@ -7,7 +7,7 @@
 <meta name="description" content="ПЛАТФОРМА НЕДВИЖИМОСТИ — три варианта фирменного стиля: светлый, тёмный, яркий.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600&family=Unbounded:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600&family=Unbounded:wght@600&family=Geologica:wght@700&family=Golos+Text:wght@500;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F5F3EF;--card:#FFFFFF;--ink:#17181A;--muted:#64666B;--line:#E2DFD8;--soft:#ECE9E3;--brand:#17181A;--brand-ink:#FFFFFF;--focus:#2E4BFF;color-scheme:light}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111214;--card:#1A1B1E;--ink:#F1F0EC;--muted:#A3A5AA;--line:#2C2E33;--soft:#23252A;--brand:#F1F0EC;--brand-ink:#111214;--focus:#8FA0FF;color-scheme:dark}}
@@ -55,6 +55,10 @@ p.lead{color:var(--muted);max-width:760px;margin:0 0 28px;font-size:17px}
 .mk{display:block;overflow:visible;width:100%;height:auto}
 .mL .p1{fill:var(--m1)}
 .mD .p1{fill:var(--m1)}.mD .p2{fill:var(--m2)}.mD .p3{fill:var(--m3)}.mD .p4{fill:var(--m4)}
+.mM .p1{fill:var(--m1)}.mM .p2{fill:var(--m2)}
+.play .mM rect{animation:drop .45s cubic-bezier(.2,.8,.2,1) both}
+.play .mM rect:nth-child(2){animation-delay:.42s}.play .mM rect:nth-child(3){animation-delay:.08s}.play .mM rect:nth-child(4){animation-delay:.14s}.play .mM rect:nth-child(5){animation-delay:.2s}.play .mM rect:nth-child(6){animation-delay:.26s}.play .mM rect:nth-child(7){animation-delay:.32s}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .mY .p1{fill:var(--m1)}.mY .p2{fill:var(--m2)}.mY .p3{fill:var(--m3)}
 .play .mL{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
 @keyframes rise{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
@@ -210,6 +214,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', 
 
 /* mark colours per variant and background */
 function markVars(v, bg) {
+  if (v.mv) return v.mv[bg] || v.mv.light;
   if (v.key === 'L') return {m1: bg === 'brand' ? '#FBF9F5' : bg === 'photo' ? '#FFFFFF' : v.acc};
   if (v.key === 'D') {
     if (bg === 'light') return {m1: '#14120E', m2: '#7A7F87', m3: '#3A3D43', m4: '#FFB547'};
@@ -284,7 +289,7 @@ function viewOverview() {
   }).join('');
   return `<div class="kick">Екатеринбург · квартиры, ремонт, каменные дома</div>
     <h1>Варианты фирменного стиля</h1>
-    <p class="lead">Пять вариантов: светлый, тёмный, яркий и две версии «Арки» — с кладкой и со сводом. У каждого — логотип, стиль и носители, айдентика, сайт и приложение, бренд в жизни. Нажмите на лист, чтобы открыть его крупно, или откройте вариант целиком.</p>
+    <p class="lead">Шесть вариантов: светлый, тёмный, яркий, две версии «Арки» — с кладкой и со сводом — и «Модуль». У каждого — логотип, стиль и носители, айдентика, сайт и приложение, бренд в жизни. Нажмите на лист, чтобы открыть его крупно, или откройте вариант целиком.</p>
     <div class="grid3">${cards}</div>`;
 }
 

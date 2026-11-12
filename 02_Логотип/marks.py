@@ -22,7 +22,7 @@ def mark_D(w, front='#F2F1EE', top='#A7ACB4', side='#5C616B', glow='#FFB547', la
             f'<path d="M0 8 H28 V36 H20 V16 H8 V36 H0 Z" fill="{front}"/></svg>')
 
 
-def mark_Y(w, c1='#2E4BFF', c2='#FF6B2C', c3='#18B26B', label='Знак «Сборка»'):
+def _mark_Y_assembly(w, c1='#2E4BFF', c2='#FF6B2C', c3='#18B26B', label='Знак «Сборка»'):
     # П assembled from three mitred parts: квартиры (left), ремонт (top), дома (right)
     h = round(w * 36 / 40, 2)
     return (f'<svg width="{w}" height="{h}" viewBox="0 0 40 36" role="img" aria-label="{label}">'
@@ -127,3 +127,51 @@ def mark_L(w, ink='#B4532A', acc=None, label='Знак'):
     extra = f'<rect x="10" y="34" width="16" height="6" fill="{acc}"/>' if acc else ''
     return (f'<svg width="{w}" height="{h}" viewBox="0 0 36 40" role="img" aria-label="{label}">'
             f'<path d="{d}" fill="{ink}"/>{extra}</svg>')
+
+
+# ---------- «Модуль»: П из 7 модулей сетки 3×3, один модуль-акцент ----------
+SHAPE_Y = 'assembly'
+MOD = ('#0E9F8E', '#F6B93B')          # modules, accent module
+MOD_CELLS = [(0, 0), (1, 0), (2, 0), (0, 1), (2, 1), (0, 2), (2, 2)]
+MOD_S, MOD_G, MOD_R = 10.4, 2.4, 2.2
+
+
+def module_rects(cells=None, accent=(1, 0), main=None, acc=None, cls=False):
+    main = main or MOD[0]; acc = acc or MOD[1]
+    out = ''
+    for (c, r) in (cells or MOD_CELLS):
+        x, y = c * (MOD_S + MOD_G), r * (MOD_S + MOD_G)
+        a = (c, r) == accent
+        k = f' class="{"p2" if a else "p1"}"' if cls else f' fill="{acc if a else main}"'
+        out += f'<rect{k} x="{x:.1f}" y="{y:.1f}" width="{MOD_S}" height="{MOD_S}" rx="{MOD_R}"/>'
+    return out
+
+
+def mark_Y(w, c1='#2E4BFF', c2='#FF6B2C', c3='#18B26B', label='Знак'):
+    if SHAPE_Y != 'module':
+        return _mark_Y_assembly(w, c1, c2, c3, label)
+    if c1 == c2 == c3 and c1 != MOD[0]:          # one-colour version (white, black, grey)
+        inner = module_rects(main=c1, acc=c1)
+    else:
+        inner = module_rects()
+    return f'<svg width="{w}" height="{w}" viewBox="0 0 36 36" role="img" aria-label="{label}">{inner}</svg>'
+
+
+def glyph(kind, w, main=None, acc=None):
+    """Direction glyphs built from the same modules: квартиры (tower), ремонт (wall + module being placed), дома (house)."""
+    main = main or MOD[0]; acc = acc or MOD[1]
+    if kind == 'flat':
+        cells, a, vb = [(0, 0), (1, 0), (0, 1), (1, 1), (0, 2), (1, 2)], (1, 0), '0 0 23.2 36'
+        inner = module_rects(cells, a, main, acc)
+    elif kind == 'renov':
+        cells = [(0, 1), (1, 1), (2, 1), (0, 2), (2, 2)]
+        inner = module_rects(cells, None, main, acc)
+        inner += f'<rect x="{(MOD_S + MOD_G):.1f}" y="2" width="{MOD_S}" height="{MOD_S}" rx="{MOD_R}" fill="{acc}" transform="rotate(-12 18 7)"/>'
+        vb = '0 0 36 36'
+    else:
+        cells = [(0, 1), (1, 1), (2, 1), (0, 2), (2, 2)]
+        inner = module_rects(cells, None, main, acc)
+        inner += f'<path d="M0 10.4 L18 0 L36 10.4 Z" fill="{acc}"/>'
+        vb = '0 0 36 36'
+    W, H = [float(x) for x in vb.split()[2:]]
+    return f'<svg width="{w * W / 36:.1f}" height="{w * H / 36:.1f}" viewBox="{vb}" aria-hidden="true">{inner}</svg>'

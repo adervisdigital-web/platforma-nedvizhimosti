@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, 'C:/Users/MSI/AppData/Local/Temp/claude/10d39200edc2b63f/973356bb-8c70-4e3b-b6ae-d636a7404011/scratchpad/v3')
 from marks import mark_L, mark_D, mark_Y
-from gen_v3 import V, IMG, OUT, head, tail, label, lockup, mark, fam
+from gen_v3 import V, IMG, OUT, head, tail, label, lockup, mark, fam, mosaic
 import json, os
 
 EXTRA = json.load(open(os.path.dirname(os.path.abspath(__file__)) + '/blobs2.json', encoding='utf8'))
@@ -55,6 +55,18 @@ def icon(v, i, size=28, color=None):
 # ---------------- patterns ----------------
 def pattern(v, W=760, H=400):
     k = fam(v)
+    if v['key'] == 'M':
+        import random
+        rnd = random.Random(6); out = ''
+        s_, g_ = 52, 10
+        for r in range(H // (s_ + g_) + 1):
+            for c in range(W // (s_ + g_) + 1):
+                x, y = c * (s_ + g_) + 6, r * (s_ + g_) + 6
+                t = rnd.random()
+                col = v['acc2'] if t < 0.05 else v['acc'] if t < 0.42 else v['sand'] if t < 0.8 else None
+                out += (f'<rect x="{x}" y="{y}" width="{s_}" height="{s_}" rx="10" fill="{col}"/>' if col else
+                        f'<rect x="{x + 1}" y="{y + 1}" width="{s_ - 2}" height="{s_ - 2}" rx="10" fill="none" stroke="{v["line"]}" stroke-width="2"/>')
+        return f'<svg width="100%" height="100%" viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Паттерн из модулей"><rect width="{W}" height="{H}" fill="{v["bg"]}"/>{out}</svg>'
     if k == 'L':
         cols = [v['acc'], v['sand'], v['ink'], v.get('sand2', '#E7DCCB')]
         out = ''
@@ -141,7 +153,7 @@ def system_board(v):
   </div>
   <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; height: 400px">
     <div style="grid-column: span 7; position: relative; overflow: hidden">{pattern(v)}
-      <span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px '{F}', sans-serif">[ паттерн — {('фасад из арок' if k == 'L' else 'ночной фасад: в части окон горит свет' if k == 'D' else 'знаки-направления')} ]</span></div>
+      <span style="position: absolute; left: 14px; top: 14px; padding: 5px 9px; background: #FFFFFF; color: #1F1D1B; font: 400 12px '{F}', sans-serif">[ паттерн — {('фасад из арок' if k == 'L' else 'ночной фасад: в части окон горит свет' if k == 'D' else ('модули: бирюза, туман и один жёлтый' if v['key'] == 'M' else 'знаки-направления'))} ]</span></div>
     <div style="grid-column: span 5; background: {panel}; padding: 20px; display: flex; flex-direction: column; gap: 14px">
       {label(v, 'иконки — линия 1.8 px, сетка 24 px')}
       <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: 1">{icons}</div>
@@ -173,6 +185,10 @@ def system_board(v):
 # ---------------- site on laptop ----------------
 def hero_visual(v, H=300):
     k = fam(v)
+    if v['key'] == 'M':
+        s_ = (H - 2 * 10) / 3
+        cells = [(0, 0, 'p0'), (1, 0, 'acc'), (2, 0, 'p1'), (0, 1, 'mod'), (2, 1, 'p2'), (0, 2, 'p3'), (2, 2, 'mod')]
+        return f'<div style="display: flex; justify-content: flex-end">{mosaic(v, H, H, cells, [IMG["living2"], IMG["detail"], IMG["stone2"], IMG["kitchen"]], s=s_, g=10, r=16)}</div>'
     if k == 'L':
         return (f'<div style="position: relative; width: 100%; height: {H}px">'
                 f'<div style="position: absolute; right: 120px; top: 0; width: 230px; height: {H}px; border-radius: 115px 115px 0 0; overflow: hidden">{img(IMG["kitchen"], "Кухня-гостиная")}</div>'

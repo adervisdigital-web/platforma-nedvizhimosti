@@ -5,7 +5,7 @@ from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, '02_Логотип'))
-from marks import mark_L, mark_D, mark_Y, arch_d  # noqa: E402
+from marks import mark_L, mark_D, mark_Y, arch_d, module_rects  # noqa: E402
 
 MB = os.path.join(ROOT, '01_Мудборд')
 TH = os.path.join(MB, '_thumbs')
@@ -38,11 +38,19 @@ VARS = [
          palette=[('Песок', '#F1EEE6'), ('Хвоя', '#1D2620'), ('Зелень', '#2F5D46'), ('Лён', '#D8CDB4')],
          idea='Арка-«П» с дверной рамой и порогом внутри: вход в дом, который уже готов. Тёплый песок и глубокая зелень, мягкий шрифт Geologica.',
          svgs=[], photo='_source/gen/kv_living2.jpg'),
+    dict(n='6', key='Y', shape='module', title='Бирюзовый', name='Модуль', font='Golos Text', fw=800, ls='0.02em', k=0.95, sub='#676A70',
+         bg='#F7F4EE', ink='#15171C', acc='#0E9F8E', acc_ink='#FFFFFF', dark='#15171C',
+         palette=[('Молочный', '#F7F4EE'), ('Графит', '#15171C'), ('Бирюза', '#0E9F8E'), ('Солнце', '#F6B93B'), ('Туман', '#E4EFEC')],
+         idea='Платформа — конструктор: квартиру, ремонт и дом собирают из одинаковых модулей. «П» из 7 модулей сетки 3×3, пустые клетки — дверной проём, жёлтый модуль — это вы. Фото живут прямо внутри модулей.',
+         mv={'light': {'m1': '#0E9F8E', 'm2': '#F6B93B'}, 'dark': {'m1': '#0E9F8E', 'm2': '#F6B93B'}, 'brand': {'m1': '#FFFFFF', 'm2': '#F6B93B'}, 'photo': {'m1': '#FFFFFF', 'm2': '#F6B93B'}},
+         svgs=[], photo='_source/gen/kv_living2.jpg'),
 ]
 
 
 def anim_mark(key, cls='mk', shape='arch'):
     """Mark SVG with classed parts so CSS can animate it. Colours come from CSS variables."""
+    if shape == 'module':
+        return f'<svg class="{cls} mM" viewBox="0 0 36 36" role="img" aria-label="Знак «Модуль»">{module_rects(cls=True)}</svg>'
     if key == 'L':
         return ('<svg class="%s mL" viewBox="0 0 36 40" role="img" aria-label="Знак">'
                 '<path class="p1" d="%s"/></svg>') % (cls, arch_d(shape))
@@ -55,7 +63,10 @@ def anim_mark(key, cls='mk', shape='arch'):
             '<polygon class="p3" points="40,3 40,36 30,36 30,13"/></svg>') % cls
 
 
-def grid_overlay(key):
+def grid_overlay(key, shape='arch'):
+    if shape == 'module':
+        cells = ''.join(f'<rect x="{c * 12.8}" y="{r * 12.8}" width="10.4" height="10.4" rx="2.2"/>' for c in range(3) for r in range(3))
+        return f'<svg class="grid" style="left:-10%;top:-10%;width:120%;height:120%" viewBox="-3.6 -3.6 43.2 43.2" aria-hidden="true">{cells}</svg>'
     if key == 'L':
         lines = ''.join(f'<line x1="{x}" y1="-4" x2="{x}" y2="44"/>' for x in (0, 10, 18, 26, 36))
         lines += ''.join(f'<line x1="-4" y1="{y}" x2="40" y2="{y}"/>' for y in (0, 12, 20, 40))
@@ -101,7 +112,7 @@ def build():
     data = thumbs()
     vjs = [dict(n=v['n'], key=v['key'], title=v['title'], name=v['name'], font=v['font'], fw=v['fw'], ls=v['ls'], k=v['k'], sub=v['sub'],
                 bg=v['bg'], ink=v['ink'], acc=v['acc'], acc_ink=v['acc_ink'], dark=v['dark'], palette=v['palette'], idea=v['idea'],
-                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key'], shape=v.get('shape', 'arch')), grid=grid_overlay(v['key'])) for v in VARS]
+                photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key'], shape=v.get('shape', 'arch')), grid=grid_overlay(v['key'], v.get('shape', 'arch')), mv=v.get('mv')) for v in VARS]
     html = open(os.path.join(ROOT, 'tools', 'gallery_template.html'), encoding='utf8').read()
     html = html.replace('/*DATA*/', 'const VARS = ' + json.dumps(vjs, ensure_ascii=False) + ';\nconst SHEETS = ' + json.dumps(SHEETS, ensure_ascii=False) + ';')
     open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf8').write(html)

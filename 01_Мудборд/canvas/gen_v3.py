@@ -21,6 +21,9 @@ def fam(v):
     """Design family of a variant (new arch variants reuse the 'L' layouts) + switch the arch mark shape."""
     import marks as _mk
     _mk.SHAPE = v.get('shape', 'arch')
+    _mk.SHAPE_Y = 'module' if v.get('shape') == 'module' else 'assembly'
+    if v.get('shape') == 'module':
+        _mk.MOD = (v['acc'], v['acc2'])
     return v.get('fam', v['key'])
 
 
@@ -70,7 +73,36 @@ V = {
            why=['Читается как дверь — понятно без слов', 'Зелёный — спокойствие, природа, свой дом за городом', 'Рама и порог дают простую фирменную графику для рамок'],
            type_desc='Geologica — мягкий геометричный гротеск с кириллицей. Логотип 700, заголовки 600, текст 400.',
            mood='Спокойно и природно. Тёплый песок, глубокая зелень и много воздуха.'),
+ 'M': dict(key='M', fam='Y', shape='module', title='Бирюзовый', name='Модуль', file='M',
+           gf='family=Golos+Text:wght@400;500;600;700;800', F='Golos Text', FH='Golos Text', word_w=800, word_ls='0.02em', word_k=0.95,
+           bg='#F7F4EE', panel='#FFFFFF', ink='#15171C', text='#15171C', muted='#676A70', line='#E3DED4',
+           acc='#0E9F8E', acc_ink='#FFFFFF', acc2='#F6B93B', sand='#E4EFEC', dir=('#0E9F8E', '#0E9F8E', '#0E9F8E'),
+           palette=[('Молочный', '#F7F4EE', 40), ('Графит', '#15171C', 24), ('Бирюза', '#0E9F8E', 22), ('Солнце', '#F6B93B', 8), ('Туман', '#E4EFEC', 6)],
+           idea='Платформа — конструктор: квартиру, ремонт и дом собирают из одинаковых модулей. «П» сложена из 7 модулей сетки 3×3, пустые клетки — дверной проём. Жёлтый модуль — это вы: тот, который мы ставим на место.',
+           why=['Знак — система: из тех же модулей собираются иконки направлений', 'Фото помещаются прямо в модули — мозаика вместо баннеров', 'Бирюза свежая и спокойная, жёлтый — одна яркая точка внимания'],
+           type_desc='Golos Text — гротеск российских дизайнеров с кириллицей. Логотип 800, заголовки 700, текст 400.',
+           mood='Собрано и понятно. Молочный фон, бирюзовые модули и один жёлтый — как в конструкторе.'),
 }
+
+
+def mosaic(v, W, H, cells, photos, s=None, g=None, r=None, x0=0, y0=0):
+    """«Модуль» supergraphic: rounded modules on a grid; some modules hold photos, one is the accent."""
+    s = s or 96; g = g or 12; r = r or 18
+    defs = ''; body = ''
+    uid = abs(hash((W, H, len(cells), s))) % 100000
+    for i, (c, rr, kind) in enumerate(cells):
+        x, y = x0 + c * (s + g), y0 + rr * (s + g)
+        if kind == 'acc':
+            body += f'<rect x="{x}" y="{y}" width="{s}" height="{s}" rx="{r}" fill="{v["acc2"]}"/>'
+        elif kind == 'mod':
+            body += f'<rect x="{x}" y="{y}" width="{s}" height="{s}" rx="{r}" fill="{v["acc"]}"/>'
+        elif kind == 'ghost':
+            body += f'<rect x="{x + 1}" y="{y + 1}" width="{s - 2}" height="{s - 2}" rx="{r}" fill="none" stroke="{v["muted"]}" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="6 6"/>'
+        else:
+            src = photos[int(kind[1:]) % len(photos)]
+            defs += f'<clipPath id="mz{uid}_{i}"><rect x="{x}" y="{y}" width="{s}" height="{s}" rx="{r}"/></clipPath>'
+            body += f'<image href="{src}" x="{x}" y="{y}" width="{s}" height="{s}" preserveAspectRatio="xMidYMid slice" clip-path="url(#mz{uid}_{i})"/>'
+    return f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Мозаика из модулей"><defs>{defs}</defs>{body}</svg>'
 
 
 def mark(v, w, mono=None, on_dark=False):
@@ -141,6 +173,15 @@ def label(v, t, color=None):
 # ---------- construction drawings ----------
 def construction(v, H=420):
     k = fam(v); g = v['muted']; ink = v['ink']
+    if v['key'] == 'M':
+        import marks as _mk
+        sc = H / 36; W = 36 * sc
+        cells = ''.join(f'<rect x="{c * 12.8 * sc:.1f}" y="{r * 12.8 * sc:.1f}" width="{10.4 * sc:.1f}" height="{10.4 * sc:.1f}" rx="{2.2 * sc:.1f}" fill="none" stroke="{g}" stroke-width="1" stroke-dasharray="4 6"/>' for c in range(3) for r in range(3))
+        body = f'<svg x="0" y="0" width="{W}" height="{H}" viewBox="0 0 36 36">{_mk.module_rects()}</svg>'
+        notes = (f'<text x="{W + 40}" y="{5.2 * sc}" font-size="13" fill="{v["acc2"]}" font-family="{v["F"]}">← ваш модуль</text>'
+                 f'<text x="{W + 40}" y="{24 * sc}" font-size="13" fill="{g}" font-family="{v["F"]}">сетка 3 × 3</text>'
+                 f'<text x="{W + 40}" y="{24 * sc + 20}" font-size="13" fill="{g}" font-family="{v["F"]}">модуль 10.4 · шаг 2.4</text>')
+        return f'<svg width="{W + 180}" height="{H}" viewBox="-30 -30 {W + 210} {H + 60}" style="overflow: visible" aria-label="Построение знака">{cells}{body}{notes}</svg>'
     if k == 'L':
         s = H / 40; W = 36 * s
         lines = ''.join(f'<line x1="{x * s}" y1="-30" x2="{x * s}" y2="{H + 30}" stroke="{g}" stroke-width="1" stroke-dasharray="4 6" opacity="0.6"/>' for x in (0, 10, 18, 26, 36))
@@ -179,7 +220,10 @@ def directions(v):
     cells = ''
     for i, (n, s) in enumerate(zip(names, subs)):
         c = v['dir'][i]
-        if fam(v) == 'Y':
+        if v['key'] == 'M':
+            import marks as _mk
+            m = _mk.glyph(('flat', 'renov', 'house')[i], 44, v['acc'], v['acc2'])
+        elif fam(v) == 'Y':
             cols = ['#DADDE6'] * 3; cols[i] = c
             m = mark_Y(44, cols[0], cols[1], cols[2], f'Знак направления {n}')
         else:
@@ -269,6 +313,18 @@ def logo_board(v):
 # ---------- style board ----------
 def supergraphic(v, W=820, H=500):
     k = fam(v); acc = v['acc']; F = v['F']; FH = v['FH']
+    if v['key'] == 'M':
+        q = "'"
+        cells = [(0, 0, 'p0'), (1, 0, 'acc'), (2, 0, 'p1'), (0, 1, 'mod'), (2, 1, 'p2'), (0, 2, 'p3'), (2, 2, 'mod'), (1, 1, 'ghost'), (1, 2, 'ghost')]
+        ph = [IMG['kitchen'], IMG['detail'], IMG['stone'], IMG['bedroom']]
+        mz = mosaic(v, 3 * 132 + 2 * 14, 3 * 132 + 2 * 14, cells, ph, s=132, g=14, r=24)
+        return (f'<div style="width: 100%; height: 100%; background: {v["sand"]}; position: relative; overflow: hidden; display: flex; align-items: center; gap: 44px; padding: 0 44px; box-sizing: border-box">'
+                f'<div style="flex: none">{mz}</div>'
+                f'<div style="display: flex; flex-direction: column; gap: 20px">'
+                f'<span style="font: 400 13px {q}{F}{q}, sans-serif; color: {v["muted"]}">[ мозаика из модулей — фото внутри знака ]</span>'
+                f'<div style="font: 800 40px/1.05 {q}{FH}{q}, sans-serif; letter-spacing: -0.02em; color: {v["ink"]}">Собираем ваш дом<br>по модулям</div>'
+                f'<span style="font: 400 16px/1.5 {q}{F}{q}, sans-serif; color: {v["muted"]}">Квартира, ремонт и каменный дом — из одних и тех же надёжных шагов.</span>'
+                f'<span style="align-self: flex-start; padding: 14px 22px; background: {acc}; color: #FFFFFF; font: 600 16px {q}{F}{q}, sans-serif; border-radius: 14px">Собрать свой</span></div></div>')
     if k == 'L':
         # arch-window photo on terracotta field
         aw, ah = 330, 420
@@ -404,7 +460,7 @@ def style_board(v):
     F, FH, ink, muted, line, panel, acc = v['F'], v['FH'], v['ink'], v['muted'], v['line'], v['panel'], v['acc']
     pal = ''
     for n, c, f in v['palette']:
-        light = c in ('#FFFFFF', '#F2EEE7', '#F4EFE8', '#E4D3BF', '#F1EEE6', '#D8CDB4', '#FBF9F5', '#D9CBB5', '#F2F1EE', '#A7ACB4', '#FFB547', '#F3F4F8')
+        light = c in ('#FFFFFF', '#F7F4EE', '#E4EFEC', '#F6B93B', '#F2EEE7', '#F4EFE8', '#E4D3BF', '#F1EEE6', '#D8CDB4', '#FBF9F5', '#D9CBB5', '#F2F1EE', '#A7ACB4', '#FFB547', '#F3F4F8')
         border = f'border: 1px solid {line};' if c in (v['bg'], '#FFFFFF') else ''
         pal += (f'<div style="flex: {f}; background: {c}; {border} padding: 10px; display: flex; flex-direction: column; justify-content: flex-end; '
                 f'font: 400 12px/1.4 \'{F}\', sans-serif; color: {"#1F1D1B" if light else "#FFFFFF"}">{n}<br>{c}</div>')
