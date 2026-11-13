@@ -993,6 +993,42 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
 }
 .ldots{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .lead .lgrid{z-index:1}
+
+/* v35 — кнопка справа, статус и сканер */
+.hero .sbox.sbox3{display:grid;grid-template-columns:minmax(0,1fr) clamp(180px,14vw,230px);grid-template-areas:"f b" "s b";column-gap:10px;row-gap:0;background:none;padding:0;box-shadow:none;border-radius:0;width:min(1240px,calc(100% - clamp(290px,19vw,400px) - 24px))}
+.sbox3 #sf{grid-area:f;background:#fff;border-radius:30px 30px 0 0;padding:8px 8px 0;box-shadow:0 30px 70px #00000059}
+.sbox3 .sline{grid-area:s;position:relative;background:#fff;border-radius:0 0 30px 30px;margin:0!important;padding:12px 18px 14px!important;border-top:1px solid var(--line)!important;box-shadow:0 30px 70px #00000040}
+.sbox3 .sline::before{content:'';position:absolute;left:0;top:-1px;height:1px;width:30%;background:linear-gradient(90deg,#F5553C00,var(--red),#F5553C00);opacity:0;transform:translateX(-40%)}
+.sbox3 .sline.scan::before{animation:sscan .9s cubic-bezier(.4,0,.2,1)}
+@keyframes sscan{0%{opacity:1;transform:translateX(-40%)}100%{opacity:1;transform:translateX(370%)}}
+.sbox3 .sline{display:flex!important;flex-wrap:nowrap;align-items:center;gap:10px}.sbox3 .qf{flex:1 1 auto;min-width:0}
+.sstat{margin-left:auto;flex:none;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut);white-space:nowrap;font-variant-numeric:tabular-nums}
+.sstat i{width:6px;height:6px;border-radius:50%;background:#2FB36B;box-shadow:0 0 0 0 #2FB36B88;animation:livep 2s infinite}
+.sstat b{color:var(--ink);font-weight:700}
+.go3{grid-area:b;position:relative;overflow:hidden;border:0;border-radius:30px;background:var(--red-ui);color:#fff;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:18px 20px 16px;text-align:left;font:inherit;box-shadow:0 30px 60px #D83C2459;transition:background .2s,transform .15s}
+.go3:hover{background:#C4331D}.go3:active{transform:scale(.98)}.go3:focus-visible{outline:2px solid #fff;outline-offset:-6px}
+.g3-top{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.g3-ic{width:36px;height:36px;border-radius:50%;background:#ffffff26;display:flex;align-items:center;justify-content:center;transition:transform .3s}
+.go3:hover .g3-ic{transform:scale(1.08) rotate(-8deg)}
+.g3-n{display:flex;align-items:baseline;gap:8px}
+.g3-n b{font:300 clamp(46px,3.6vw,64px)/.9 Manrope;letter-spacing:-.04em;font-variant-numeric:tabular-nums;display:inline-block}
+.g3-n b.roll{animation:groll .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes groll{0%{transform:translateY(40%);opacity:0}100%{transform:none;opacity:1}}
+.g3-n small{font-size:13px;font-weight:600;opacity:.85}
+.g3-sw{position:absolute;inset:0;background:linear-gradient(105deg,#fff0 35%,#ffffff33 50%,#fff0 65%);transform:translateX(-100%);pointer-events:none}
+.go3.sweep .g3-sw{animation:gsw .8s ease}
+@keyframes gsw{to{transform:translateX(100%)}}
+@media(max-width:1200px){.hero .sbox.sbox3{width:100%}}
+@media(max-width:1600px){.sstat .lg{display:none}}
+@media(max-width:1000px){.sstat{display:none}}
+@media(max-width:800px){
+ .hero .sbox.sbox3{grid-template-columns:minmax(0,1fr);grid-template-areas:"f" "s" "b";row-gap:0}
+ .sbox3 #sf{border-radius:26px 26px 0 0;padding:8px 8px 0}
+ .sbox3 .sline{border-radius:0 0 26px 26px;padding:10px 12px 12px!important}
+ .go3{margin-top:10px;flex-direction:row;align-items:center;border-radius:22px;padding:12px 18px;min-height:64px}
+ .g3-n b{font-size:36px}
+}
+@media(prefers-reduced-motion:reduce){.sstat i{animation:none}.sbox3 .sline.scan::before,.g3-n b.roll,.go3.sweep .g3-sw{animation:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -1072,7 +1108,7 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
       <p class="sub">Продаём только то, что проверили сами: надёжные застройщики, сделки через эскроу, спецпредложения напрямую от застройщиков. Ремонт и дома делаем сами — с гарантией 5 лет.</p>
       <div class="trust"><span>0 ₽ комиссии</span><span>Эскроу-счета</span><span>Только по договору</span><span>Гарантия 5 лет</span></div>
     </div>
-    <div class="sbox">
+    <div class="sbox sbox3">
       <form class="sf sf2" id="sf" aria-label="Поиск квартир">
         <div class="sg" data-pop><button type="button" class="sgb" aria-expanded="false" aria-haspopup="true"><small>Что ищем</small><b id="sgType">Новостройки</b></button>
           <div class="pop"><div class="tabs" role="tablist" aria-label="Что ищете"><button type="button" role="tab" aria-selected="true">Новостройки</button><button type="button" role="tab" aria-selected="false">Вторичка</button><button type="button" role="tab" aria-selected="false">Дома</button><button type="button" role="tab" aria-selected="false">С ремонтом</button></div></div></div>
@@ -1080,9 +1116,10 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
           <div class="pop"><div class="v rooms"><button type="button" class="chip" aria-pressed="false">Студия</button><button type="button" class="chip" aria-pressed="true">1</button><button type="button" class="chip" aria-pressed="true">2</button><button type="button" class="chip" aria-pressed="false">3</button><button type="button" class="chip" aria-pressed="false">4+</button></div><span class="pnote">Можно выбрать несколько</span></div></div>
         <div class="sg sgi dd-wrap"><label for="pr">Бюджет до, млн ₽</label><input id="pr" placeholder="Любой" inputmode="decimal" autocomplete="off" aria-controls="prDD"><div class="dd" id="prDD" role="listbox" hidden></div></div>
         <div class="sg sgi grow dd-wrap"><label for="ad">Район или ЖК</label><input id="ad" placeholder="Академический, ЖК…" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
-        <button class="go2" type="submit" aria-label="Показать квартиры"><svg class="ico" aria-hidden="true"><use href="#search"/></svg><span>Показать <b id="goN"></b></span></button>
       </form>
-      <div class="sline"><span class="qfl">Быстро:</span><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span></div>
+      <div class="sline"><span class="qfl">Быстро:</span><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span><span class="sstat" aria-live="polite"><i></i><span id="sStat"></span></span></div>
+      <button class="go3" type="submit" form="sf" aria-label="Показать подходящие квартиры"><span class="g3-top"><span class="g3-ic"><svg class="ico"><use href="#search"/></svg></span><span class="g3-l">Показать</span></span>
+        <span class="g3-n"><b id="goN"></b><small id="goL">квартир</small></span><span class="g3-sw" aria-hidden="true"></span></button>
     </div>
   </div>
 </section>
@@ -2162,6 +2199,23 @@ segLabels();
   sec.addEventListener('pointerleave', () => { m.ton = 0; });
   new IntersectionObserver(es => { es[0].isIntersecting ? (reduce ? draw(0) : start()) : stop(); }).observe(sec);
   new ResizeObserver(build).observe(sec); build();
+})();
+
+// поиск: статус, сканер, перекат счётчика
+(() => {
+  const n = $('#goN'), btn = $('.go3'), line = $('.sbox3 .sline'); let last = n.textContent, t;
+  const tm = new Date(); tm.setMinutes(tm.getMinutes() - 7);
+  const hhmm = `${String(tm.getHours()).padStart(2, '0')}:${String(tm.getMinutes()).padStart(2, '0')}`;
+  function upd() {
+    const v = +n.textContent || 0;
+    $('#goL').textContent = plural(v, 'квартира', 'квартиры', 'квартир');
+    $('#sStat').innerHTML = `<span class="lg">обновлено в ${hhmm} · </span>подходит <b>${v}</b> из 144<span class="lg"> проверенных</span>`;
+    if (n.textContent !== last) { last = n.textContent;
+      [n, btn, line].forEach(el => el.classList.remove('roll', 'sweep', 'scan')); void n.offsetWidth;
+      n.classList.add('roll'); btn.classList.add('sweep'); line.classList.add('scan'); }
+  }
+  new MutationObserver(upd).observe(n, {childList: true, characterData: true, subtree: true});
+  upd();
 })();
 </script>
 </body>
