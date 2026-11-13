@@ -127,7 +127,7 @@ def build():
                 photo=v['photo'], sheets=data[v['n']], mark=anim_mark(v['key'], shape=v.get('shape', 'arch')), grid=grid_overlay(v['key'], v.get('shape', 'arch')), mv=v.get('mv'), bear=bear(v)) for v in VARS]
     html = open(os.path.join(ROOT, 'tools', 'gallery_template.html'), encoding='utf8').read()
     html = html.replace('/*DATA*/', 'const VARS = ' + json.dumps(vjs, ensure_ascii=False) + ';\nconst SHEETS = ' + json.dumps(SHEETS, ensure_ascii=False) + ';')
-    open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf8').write(html)
+    open(os.path.join(ROOT, 'arka.html'), 'w', encoding='utf8').write(html)
     print('index.html ok,', sum(len(x) for x in data.values()), 'sheets')
 
 
