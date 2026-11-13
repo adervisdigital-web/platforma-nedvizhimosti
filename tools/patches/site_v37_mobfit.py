@@ -53,3 +53,16 @@ if '/* v37 head */' not in s:
         '@media(prefers-reduced-motion:reduce){*{transition', 1)
 open(P + 'index.html', 'w', encoding='utf8').write(s)
 print('head ok')
+
+# выпадающие списки поиска на телефоне: не режутся первым экраном, на всю ширину формы
+s = open(P + 'index.html', encoding='utf8').read()
+if '/* v37 dd */' not in s:
+    s = s.replace('@media(prefers-reduced-motion:reduce){*{transition',
+        '/* v37 dd */@media(max-width:800px){.hero{overflow:visible}.js .hero .hbg,.hero .hbg{animation:none;transform:none}'
+        '.hero .sf2{position:relative}.hero .sf2 .dd-wrap,.hero .sf2 .sg[data-pop]{position:static}'
+        '.hero .sf2 .sgi .dd,.hero .sf2 .pop{left:0;right:0;top:auto;min-width:0;width:auto;margin-top:8px;z-index:30;box-shadow:0 24px 60px #00000052}'
+        '.hero .sf2 .dd button{padding:13px 14px;font-size:15px}.hero .sf2 .dd button small{white-space:nowrap}'
+        '.hero .sf2 .sg:nth-child(2) .pop{left:0;right:0}}\n'
+        '@media(prefers-reduced-motion:reduce){*{transition', 1)
+open(P + 'index.html', 'w', encoding='utf8').write(s)
+print('dd ok')
