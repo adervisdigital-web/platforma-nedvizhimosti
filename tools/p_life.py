@@ -35,7 +35,7 @@ def page():
              f'<div class="card" style="background:{NIGHT};color:{MILK};transform:rotate(-4deg)">{mark(46, MILK)}<div style="margin-top:auto">{word(MILK, 13, "#9A968F")}</div></div>'
              f'<div class="card" style="background:#FFFFFF;color:{INK};transform:rotate(3deg) translate(260px,-40px)">'
              f'<div style="display:flex;justify-content:space-between"><div><b style="font:600 15px Manrope">[Имя Фамилия]</b><div style="font-size:11px;color:{SUB}">Менеджер · Квартиры</div></div>{mark(24)}</div>'
-             f'<div style="margin-top:auto;font-size:11px;line-height:1.6">+7 [телефон]<br>[сайт] · Екатеринбург</div></div></div>')
+             f'<div style="margin-top:auto;font-size:11px;line-height:1.6">+7 965 500-29-18<br>[сайт] · Екатеринбург</div></div></div>')
     posts = (f'<div class="posts">'
              f'<div class="post" style="background:{RED};color:#FFFFFF"><div style="font:500 30px/1.02 Manrope;letter-spacing:-.02em">Ставим<br>точку<span style="color:{INK}">.</span></div><div style="margin-top:auto">{mark(34, "#FFFFFF", INK)}</div></div>'
              f'<div class="post" style="background:#000 url(photo/kv_living2.jpg) center/cover;color:#FFFFFF;justify-content:flex-end"><div style="background:linear-gradient(0deg,#000a,#0000);margin:-18px;padding:18px"><div style="font:500 20px/1.1 Manrope">Квартира с ремонтом{d}</div><div style="font-size:11px;opacity:.8">2-комн. · [ПЛОЩАДЬ] м² · от [ЦЕНА] ₽</div></div></div>'
@@ -74,8 +74,8 @@ def page():
   {ph('vest', 'спецодежда', 's6', 380, '62% 60%')}
   {ph('bag', 'пакет для документов', 's4', 340, '50% 65%')}
   {ph('plate', 'паспорт объекта', 's4', 340, '50% 35%')}
-  <div class="panel s4" style="background:{NIGHT};color:{MILK};height:340px"><div class="cap">тон</div>
-    <div style="font:500 24px/1.25 Manrope;margin-top:14px">Коротко и по делу{d}<br>Без «элитного»{d}<br>Цифры — только реальные{d}</div></div>
+  <div class="panel s4" style="background:{NIGHT};color:{MILK};height:340px"><div class="cap">три обещания</div>
+    <div style="font:500 24px/1.25 Manrope;margin-top:14px">Проверено{d}<br>Выгодно{d}<br>Ясно{d}</div></div>
   <div class="panel s6" style="background:#E7E4DE"><div class="cap">визитки</div>{cards}</div>
   <div class="panel s6" style="background:#FFFFFF"><div class="cap">соцсети</div>{posts}</div>
 </div></div></body></html>'''
