@@ -184,6 +184,7 @@ def page():
     car = lambda n, cap, cls, pos='center': f'<figure class="ph {cls}"><img src="photo/P_{n}.jpg" alt="{cap}" style="object-position:{pos}"><figcaption>{cap}</figcaption></figure>'
     return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Платформа недвижимости — бренд</title>
+<script>function fit(){{var w=innerWidth;document.documentElement.style.zoom=w>1440?w/1440:1}}fit();addEventListener("resize",fit)</script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{{box-sizing:border-box}}html{{background:#00FF00}}body{{margin:0;background:{MILK};color:{INK};font:400 16px/1.5 Manrope,system-ui,sans-serif}}
@@ -199,10 +200,10 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 .dark{{background:{NIGHT};color:{MILK}}}.red{{background:{RED};color:#fff}}.gray{{background:{GRAY}}}.white{{background:#fff}}
 .dark .lab,.red .lab{{color:#ffffff8c}}.red .lab b{{color:{NIGHT}}}
 /* cover */
-.cover{{height:clamp(640px,52vw,1200px);background:{RED};display:grid;grid-template-columns:1fr 1fr}}
-.cover .l svg{{width:clamp(150px,10vw,260px);height:auto}}
+.cover{{height:780px;background:{RED};display:grid;grid-template-columns:1fr 1fr}}
+.cover .l svg{{width:150px;height:auto}}
 .cover .l{{padding:80px 96px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}}
-.cover .r{{background:url(photo/worker.jpg) 50% 22%/cover;position:relative}}
+.cover .r{{background:url(photo/advisor.jpg) 50% 30%/cover;position:relative}}
 .cover .r::after{{content:'';position:absolute;inset:0;background:linear-gradient(90deg,{RED} 0%,#F5553C00 22%)}}
 .cover .meta{{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.8}}
 /* about */
@@ -310,7 +311,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
     <div>{mark(150, WHITE, NIGHT)}<div style="margin-top:56px">{word(WHITE, 30, "#FFE1DB")}</div></div>
     <div style="font:400 26px/1.2 Manrope;letter-spacing:-.01em">Квартира<i class="o n"></i> Ремонт<i class="o n"></i> Дом<i class="o n"></i></div>
   </div>
-  <div class="r" role="img" aria-label="Прораб в красной каске"></div>
+  <div class="r" role="img" aria-label="Консультант Платформы с ключами от квартиры"></div>
 </section>
 
 <section class="dark"><div class="in">
@@ -321,8 +322,8 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
   </div>
   <div class="trio">
     <div><b>Квартиры{D}</b><span>Новостройки и вторичное жильё Екатеринбурга только от проверенных застройщиков. Подбор, самая выгодная ипотека, сопровождение сделки.</span></div>
-    <div><b>Ремонт{D}</b><span>Бригады, за которые мы ручаемся. Смета и сроки — до начала работ, приёмка каждого этапа.</span></div>
-    <div><b>Дома{D}</b><span>Каменные дома по готовым и индивидуальным проектам — от фундамента до ключей, руками проверенных строителей.</span></div>
+    <div><b>Ремонт{D}</b><span>Ремонт у партнёров, за которых мы ручаемся. Смета и сроки — до начала работ, приёмка каждого этапа.</span></div>
+    <div><b>Дома{D}</b><span>Каменные дома от проверенных строителей-партнёров — по готовым и индивидуальным проектам.</span></div>
   </div>
 </div></section>
 
@@ -407,9 +408,9 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
   <div class="lab"><b>10</b> Носители</div><h2>В городе и на стройке{D}</h2>
   <div class="g">
     {car('facade', 'световая вывеска офиса', 'c8')}
-    <div style="grid-column:span 4;display:grid;gap:16px">{car('helmet', 'каска', 'c4', '50% 62%')}{car('keys', 'брелок', 'c4', '60% 50%')}</div>
-    {car('fence', 'ограждение стройки', 'c6', '50% 60%')}{car('billboard', 'билборд', 'c6', '68% 45%')}
-    {car('vest', 'спецодежда', 'c4b', '62% 60%')}{car('bag', 'пакет для документов', 'c4b', '50% 65%')}{car('plate', 'паспорт объекта', 'c4b', '50% 35%')}
+    <div style="grid-column:span 4;display:grid;gap:16px">{car('helmet', 'каска инспектора', 'c4', '50% 62%')}{car('keys', 'брелок', 'c4', '60% 50%')}</div>
+    {car('fence', 'ограждение объекта партнёра', 'c6', '50% 60%')}{car('billboard', 'билборд', 'c6', '68% 45%')}
+    {car('vest', 'жилет инспектора', 'c4b', '62% 60%')}{car('bag', 'пакет для документов', 'c4b', '50% 65%')}{car('plate', 'паспорт объекта с отметкой о проверке', 'c4b', '50% 35%')}
   </div>
 </div></section>
 
@@ -421,7 +422,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
       <div class="post" style="background:{RED};color:#fff"><div style="font:500 34px/1.05 Manrope;letter-spacing:-.03em">Проверено<i class="o n"></i><br>Выгодно<i class="o n"></i><br>Ясно<i class="o n"></i></div>{mark(40, WHITE, NIGHT)}</div>
       <div class="post" style="background:url(photo/kv_living2.jpg) center/cover;color:#fff;justify-content:flex-end"><div style="position:absolute;inset:0;background:linear-gradient(0deg,#000a,#0000 60%)"></div><div style="position:relative"><div style="font:500 20px/1.15 Manrope">Квартира с ремонтом{D}</div><div style="font-size:12px;opacity:.85">2-комн. · [ПЛОЩАДЬ] м² · от [ЦЕНА] ₽</div></div></div>
       <div class="post" style="background:{NIGHT};color:{MILK}"><div style="font-size:11px;letter-spacing:.2em;color:#8A867F">ВАШ ДОМ</div><div><div style="font:500 26px/1.1 Manrope">Этап 3 из 7 принят{D}</div>
-        <div style="display:flex;gap:5px;margin-top:14px">{"".join(f'<i style="display:block;width:22px;height:5px;border-radius:3px;background:{RED if i < 3 else "#3A3A3D"}"></i>' for i in range(7))}</div><div style="font-size:12px;color:#8A867F;margin-top:10px">Кладка стен · приёмка прораба</div></div></div>
+        <div style="display:flex;gap:5px;margin-top:14px">{"".join(f'<i style="display:block;width:22px;height:5px;border-radius:3px;background:{RED if i < 3 else "#3A3A3D"}"></i>' for i in range(7))}</div><div style="font-size:12px;color:#8A867F;margin-top:10px">Кладка стен · проверено Платформой</div></div></div>
     </div></div>
 </div></section>
 

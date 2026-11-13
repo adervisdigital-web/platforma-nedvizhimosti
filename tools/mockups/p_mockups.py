@@ -64,13 +64,13 @@ def art_html(v, surf):
     if surf == 'fence':
         body = (f'<div style="position:absolute;inset:0;background:{RED};display:flex;align-items:center;justify-content:space-between;padding:0 64px 0 70px;box-sizing:border-box">'
                 f'{h_lock(80, 30, MILK, INK, "#FFE1DA")}'
-                f'<div style="display:flex;align-items:center;gap:34px"><div style="font:500 40px/1.05 Manrope,sans-serif;letter-spacing:-.02em;color:{MILK};text-align:right">Здесь строится<br>каменный дом<span style="color:{INK}">.</span></div>'
+                f'<div style="display:flex;align-items:center;gap:34px"><div style="font:500 40px/1.05 Manrope,sans-serif;letter-spacing:-.02em;color:{MILK};text-align:right">Этот дом<br>проверен<span style="color:{INK}">.</span></div>'
                 f'<span style="padding:22px 34px;border-radius:999px;background:{MILK};color:{INK};font:600 24px Manrope,sans-serif;white-space:nowrap">+7 965 500-29-18</span></div></div>')
         return M.page(V, w, h, body, RED)
     if surf == 'store':
         return M.page(V, w, h, C(h_lock(70, 26)))
     if surf == 'plate':
-        rows = (('Объект', 'Индивидуальный жилой дом'), ('Материал', 'кирпич, 2 этажа'), ('Заказчик', '[ФИО]'), ('Подрядчик', 'ПЛАТФОРМА НЕДВИЖИМОСТЬ'),
+        rows = (('Объект', 'Индивидуальный жилой дом'), ('Материал', 'кирпич, 2 этажа'), ('Заказчик', '[ФИО]'), ('Подрядчик', '[НАЗВАНИЕ]'), ('Проверено', 'ПЛАТФОРМА НЕДВИЖИМОСТЬ'),
                 ('Начало работ', '[ДАТА]'), ('Окончание', '[ДАТА]'), ('Прораб', '[ФИО]'), ('Телефон', '+7 965 500-29-18'))
         rr = ''.join(f'<div style="display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid #D9D5CE;font:400 10.5px Manrope,sans-serif"><span style="color:#6E6A63">{a}</span><span style="color:{INK};text-align:right">{b}</span></div>' for a, b in rows)
         body = (f'<div style="position:absolute;left:30px;right:30px;top:34px;bottom:34px;display:flex;flex-direction:column;gap:12px">'
