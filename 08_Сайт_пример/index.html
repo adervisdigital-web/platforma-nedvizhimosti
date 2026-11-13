@@ -11,6 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 88 84'%3E%3Crect x='-6' y='-6' width='88' height='84' rx='18' fill='%230E0E0F'/%3E%3Cpath d='M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z' fill='%23F4F2EE'/%3E%3Ccircle cx='67' cy='63' r='9' fill='%23F5553C'/%3E%3C/svg%3E">
 <link rel="preload" as="image" href="photo/ekb_dusk.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Платформа недвижимости","telephone":"+7 965 500-29-18","areaServed":"Екатеринбург","url":"https://p.forma196.ru"}</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--red:#F5553C;--red-d:#E0442C;--night:#0E0E0F;--graph:#1C1C1E;--milk:#F4F2EE;--gray:#ECEAE6;--ink:#161617;--mut:#6B675F;--red-ui:#D83C24;--line:#E2DED7;--soft:#F6F4F0}
@@ -193,7 +194,7 @@ input[type=range]{width:100%;accent-color:var(--red);height:28px}
 .tl b{display:block;font-size:17px}.tl span{color:var(--mut);font-size:14px}
 
 /* promises */
-.prom{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:50px}
+.prom{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:44px}
 .prom div{background:#fff;border-radius:26px;padding:30px}
 .prom b{display:block;font:400 54px/1 Manrope;letter-spacing:-.05em;margin-bottom:18px}.prom span{color:#4A4741;font-size:16px}
 
@@ -446,6 +447,20 @@ input[type=range]:disabled{cursor:default}
 .qnav{display:flex;gap:8px}.qnav .btn{flex:1}.qnav [hidden]{display:none}
 .quiz .rng label b{font-size:18px}
 .ib.share svg{fill:none}
+
+/* v13 — карта */
+.map{isolation:isolate}
+#lmap{position:absolute;inset:0;z-index:0;background:#EEECE8;font:inherit}
+.leaflet-tile-pane{filter:grayscale(1) sepia(.12) contrast(.92) brightness(1.06)}
+.map.live svg.base,.map.live #pins{display:none}
+.mapcap{z-index:500}
+.lpin .pin{position:absolute;cursor:pointer}
+.lpin .pin.dn{transform:translate(-50%,10px)}.lpin .pin.dn::after{bottom:auto;top:-6px}.lpin .pin.dn.on{transform:translate(-50%,10px) scale(1.08)}
+.leaflet-control-attribution{font-size:10px;background:#ffffffcc!important}
+.leaflet-bar a{width:34px!important;height:34px!important;line-height:34px!important;color:var(--ink)!important}
+.leaflet-bar{border:0!important;box-shadow:0 6px 16px #0000001f!important;border-radius:12px!important;overflow:hidden}
+.leaflet-container a.leaflet-popup-close-button{display:none}
+@media(max-width:800px){.hfl,#hproj{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.hfl button,#hproj button{flex:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -665,8 +680,8 @@ input[type=range]:disabled{cursor:default}
     <div class="cam"><img src="photo/cam_build.jpg" alt="Трансляция с камеры: дом из газоблока, монтаж стропил" loading="lazy"><span class="live"><i></i>LIVE</span><span class="ts" id="camTs"></span><span class="cn">Камера 1 · участок</span></div>
     <div class="box"><div class="k">Этап 4 из 7</div><b>Кровля — монтаж стропил</b><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i><i></i></div></div>
     <div class="box">
-      <div class="act done"><i class="ok"></i><div>Акт № 3 «Стены»<small>подписан</small></div></div>
-      <div class="act" id="actRow"><i></i><div>Акт № 4 «Кровля»<small id="actSt">ждёт подписи</small></div><button type="button" id="actBtn">Подписать</button></div>
+      <div class="act done"><i class="ok"></i><div>Акт 3 · стены<small>подписан</small></div></div>
+      <div class="act" id="actRow"><i></i><div>Акт 4 · кровля<small id="actSt">ждёт подписи</small></div><button type="button" id="actBtn">Подписать</button></div>
     </div>
     <div class="box"><div class="k">Следующий платёж по рассрочке</div><b>311 100 ₽ · 15 декабря</b></div>
   </div></div>
@@ -684,7 +699,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" style="padding-top:0"><div class="w">
-  <div class="br">[ <b>●</b> Обещания ]</div>
+  <div class="br">[ <b>●</b> Обещания ]</div><h2 class="t">Обещаем — и&nbsp;пишем это в&nbsp;<span class="nw">договор<i class="o"></i></span></h2>
   <div class="prom">
     <div><b>Проверено<i class="o"></i></b><span>Продаём квартиры только от застройщиков, которых проверили сами. Ремонт и дома делаем своими силами. Красная точка рядом с объектом — наша подпись под ним.</span></div>
     <div><b>Выгодно<i class="o"></i></b><span>Спецпредложения напрямую от застройщиков, индивидуальные ставки банков и 0 ₽ комиссии для покупателя. Показываем только самые выгодные варианты.</span></div>
@@ -752,6 +767,7 @@ input[type=range]:disabled{cursor:default}
   <div class="ch-m"><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a><a href="tel:+79655002918">Позвонить</a></div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const fmtM = n => (n / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2}) + ' млн ₽';
@@ -790,6 +806,30 @@ function showChecks(k) { $('#clist').innerHTML = CHECKS[k].map(([a, b]) => `<li>
 showChecks('dev');
 $$('.ctabs button').forEach(b => b.addEventListener('click', () => { $$('.ctabs button').forEach(x => x.setAttribute('aria-pressed', x === b)); showChecks(b.dataset.k); }));
 
+// карта Екатеринбурга
+const GEO = {'Академический': [56.7905, 60.516], 'Уралмаш': [56.893, 60.59], 'ВИЗ': [56.842, 60.553], 'Центр': [56.8385, 60.6045], 'Ботанический': [56.7985, 60.628],
+  'Юго-Западный': [56.8135, 60.561], 'Старая Сортировка': [56.886, 60.533], 'Пионерский': [56.865, 60.641], 'Широкая речка': [56.7995, 60.49]};
+let lmap = null, layer = null, lastPts = [];
+function mapRender(list) {
+  if (!window.L) return;
+  if (!lmap) {
+    $('.map').classList.add('live'); $('.map').insertAdjacentHTML('afterbegin', '<div id="lmap"></div>');
+    lmap = L.map('lmap', {scrollWheelZoom: false, zoomControl: false}).setView([56.84, 60.59], 11);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '© участники OpenStreetMap'}).addTo(lmap);
+    L.control.zoom({position: 'bottomright', zoomInTitle: 'Приблизить', zoomOutTitle: 'Отдалить'}).addTo(lmap);
+    lmap.attributionControl.setPrefix(false);
+    layer = L.layerGroup().addTo(lmap);
+  }
+  layer.clearLayers(); const seen = {};
+  lastPts = list.map((it, k) => {
+    const g = GEO[it.d] || [56.84, 60.6], n = seen[it.d] = (seen[it.d] || 0) + 1, ll = n === 3 ? [g[0] - .004, g[1] + .024] : g;
+    L.marker(ll, {riseOnHover: true, icon: L.divIcon({className: 'lpin', iconSize: null, html: `<button class="pin${k === 0 ? ' on' : ''}${n === 2 ? ' dn' : ''}" data-i="${it.id}">${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 1})} млн</button>`})}).addTo(layer);
+    return ll;
+  });
+  mapFit();
+}
+function mapFit() { if (lmap && lastPts.length) lmap.fitBounds(lastPts, {padding: [60, 60], maxZoom: 13}); }
+$('#mapBtn').addEventListener('click', () => setTimeout(() => { if (lmap) { lmap.invalidateSize(); mapFit(); } }, 60));
 const store = {get(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify([...v])); } catch (e) {} }};
 const fav = new Set(store.get('pn_fav')), cmp = new Set(store.get('pn_cmp'));
 let shown = ITEMS, filtered = false, expanded = false;
@@ -824,6 +864,7 @@ function render() {
   const list = [...shown].sort(SORT[$('.seg.sort [aria-pressed=true]').dataset.s]);
   const vis = filtered || expanded ? list : list.slice(0, 6);
   $('#cards').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<div class="empty"><b>Таких квартир сейчас нет<i class="o"></i></b>Оставьте заявку — подберём под ваши условия, как только появятся.<a class="btn red" href="#lead">Оставить заявку</a></div>';
+  mapRender(list);
   $('#pins').innerHTML = list.map((it, k) => `<button class="pin${k === 0 ? ' on' : ''}" data-i="${it.id}" style="left:${it.x / 430 * 100}%;top:${it.y / 680 * 100}%">${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 1})} млн</button>`).join('');
   $('#cnt').textContent = `${list.length} ${plural(list.length, 'предложение', 'предложения', 'предложений')}`;
   $('#more').hidden = filtered || expanded || list.length <= 6;
@@ -987,7 +1028,7 @@ $('#hx').innerHTML = HOUSES.map(h => `<article class="hc" data-h="${h.id}">
   <button class="ph" type="button" data-open="${h.id}" aria-label="Подробнее: ${h.line} ${h.n}"><img src="photo/houses/${h.ph[0]}.jpg" alt="Дом «${h.line} ${h.n}»" loading="lazy"><span class="ln" style="--c:${h.c}"><i></i>${h.line}</span></button>
   <div class="b"><h3>${h.line}<span>${h.n}</span></h3><div class="mt">«${h.motto}»</div>
     <div class="sp"><span>${h.n} м²</span><span>${flTxt(h.fl)}</span><span>${h.rooms.replace(" + кабинет", "")} комн.${h.rooms.includes("кабинет") ? " + кабинет" : ""}</span><span>потолки ${h.ceil}</span></div>
-    <div class="pr">Тёплый контур — от <b>${fmtM(hFrom(h))}</b> · в рассрочку от ${hMonth(h).toLocaleString('ru-RU')} ₽/мес</div>
+    <div class="pr">Тёплый контур — от <b>${fmtM(hFrom(h))}</b> · <span class="nw">в рассрочку от ${hMonth(h).toLocaleString('ru-RU')} ₽/мес</span></div>
     <div class="ac"><button class="btn dark" type="button" data-open="${h.id}">Планировки и фото</button><button class="btn ghost" type="button" data-calc="${h.id}">Рассчитать</button></div></div>
 </article>`).join('');
 $('#hproj').innerHTML = HOUSES.map(h => `<button type="button" aria-pressed="${h === hSel}" data-p="${h.id}">${h.line.split(' ')[0]} ${h.n}</button>`).join('');
