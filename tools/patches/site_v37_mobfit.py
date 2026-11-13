@@ -29,3 +29,14 @@ s = s.replace('@media(prefers-reduced-motion:reduce){*{transition',
     '@media(prefers-reduced-motion:reduce){*{transition', 1)
 open(P + 'index.html', 'w', encoding='utf8').write(s)
 print('way ok')
+
+# телефоны не переносятся
+s = open(P + 'index.html', encoding='utf8').read()
+if 'a[href^="tel:"]{white-space:nowrap}' not in s:
+    s = s.replace('@media(prefers-reduced-motion:reduce){*{transition', 'a[href^="tel:"]{white-space:nowrap}\n@media(prefers-reduced-motion:reduce){*{transition', 1)
+open(P + 'index.html', 'w', encoding='utf8').write(s)
+k = open(P + 'kabinet.html', encoding='utf8').read()
+if 'a[href^="tel:"]{white-space:nowrap}' not in k:
+    k = k.replace('@media(prefers-reduced-motion:reduce)', 'a[href^="tel:"]{white-space:nowrap}\n@media(prefers-reduced-motion:reduce)', 1)
+    open(P + 'kabinet.html', 'w', encoding='utf8').write(k)
+print('tel ok')
