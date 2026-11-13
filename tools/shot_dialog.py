@@ -6,7 +6,8 @@ SITE = os.path.join(ROOT, '08_Сайт_пример')
 OUT = sys.argv[1]
 s = open(os.path.join(SITE, 'index.html'), encoding='utf8').read()
 t = s.replace('<head>', '<head><script>try{localStorage.clear()}catch(e){}</script>').replace(
-    '</body>', "<script>setTimeout(()=>{$$('.ib.cmp')[0].click();$$('.ib.cmp')[1].click();$$('.ib.cmp')[3].click();showCmp();},300)</script></body>")
+    '</body>', "<script>setTimeout(()=>{$$('.ib.cmp')[0].click();$$('.ib.cmp')[1].click();$$('.ib.cmp')[3].click();"
+    + ("quick(ITEMS[1]);" if len(sys.argv) > 2 and sys.argv[2] == 'quick' else "showCmp();") + "},300)</script></body>")
 pages = {'_dlg.html': t, '_dlgm.html': '<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0}iframe{border:0;width:390px;height:844px}</style></head><body><iframe src="_dlg.html"></iframe></body></html>'}
 for n, c in pages.items():
     open(os.path.join(SITE, n), 'w', encoding='utf8').write(c)

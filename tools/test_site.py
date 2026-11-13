@@ -18,6 +18,7 @@ $('#cmpBtn').click();R.push('dlg='+$('#dlg').open+' tr='+$$('.ctab tr').length);
 const lp=$('#lp');lp.value='89655002918';lp.dispatchEvent(new Event('input'));R.push('tel='+lp.value);
 $$('.cat')[1].click();R.push('cat done='+$$('.card').length+' '+$('#fltT').textContent);
 $$('button.mort')[0].click();R.push('calc='+$('#cpv').textContent);
+if($('#qvFav')===null){$$('.card .qv')[0].click();R.push('quick='+$('#dlg').open+' '+$('#dlgT').textContent+' checks='+$$('.qvc span').length);$('#qvFav').click();$('#dlg').close();R.push('range--p='+$('#cp').style.getPropertyValue('--p'));}
 R.push('cmpCnt='+$('#cmpCnt').textContent+' fav='+$('#favCnt').textContent+' cats='+$$('[data-c]').map(e=>e.textContent).join('/'));
 }catch(x){R.push('ERR '+x.message)}R.push('errors='+__e.join(';'));document.body.setAttribute('data-r',R.join(' || '))},600)</script>'''
 open(out, 'w', encoding='utf8').write(s.replace('<head>', '<head>' + pre).replace('</body>', test + '</body>'))
