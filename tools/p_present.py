@@ -203,8 +203,8 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 .cover{{height:780px;background:{RED};display:grid;grid-template-columns:1fr 1fr}}
 .cover .l svg{{width:150px;height:auto}}
 .cover .l{{padding:80px 96px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}}
-.cover .r{{background:url(photo/ekb_city.jpg) 33% 50%/cover;position:relative}}
-.cover .r::after{{display:none}}
+.cover .r{{background:url(photo/ekb_city.jpg) 12% 50%/cover;position:relative}}
+.cover .r::after{{content:'';position:absolute;inset:0;background:linear-gradient(90deg,{RED} 0%,#F5553Cf2 8%,#F5553Cc7 18%,#F5553C80 30%,#F5553C33 44%,#F5553C0d 56%,#F5553C00 66%)}}
 .cover .meta{{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.8}}
 /* about */
 .about{{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:end}}
