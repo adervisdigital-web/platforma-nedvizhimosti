@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Личный кабинет — Платформа недвижимости</title>
+<meta name="description" content="Демо личного кабинета: камера на объекте, этапы и акты, платежи по рассрочке, документы и чат с прорабом.">
+<meta name="theme-color" content="#0E0E0F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 88 84'%3E%3Crect x='-6' y='-6' width='88' height='84' rx='18' fill='%230E0E0F'/%3E%3Cpath d='M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z' fill='%23F4F2EE'/%3E%3Ccircle cx='67' cy='63' r='9' fill='%23F5553C'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#F5553C;--red-ui:#D83C24;--night:#0E0E0F;--graph:#1C1C1E;--milk:#F4F2EE;--gray:#ECEAE6;--ink:#161617;--mut:#6B675F;--line:#E2DED7;--soft:#F6F4F0;--ok:#2E9E62}
+*{box-sizing:border-box}html,body{height:100%}[hidden]{display:none!important}
+body{margin:0;background:var(--milk);color:var(--ink);font:400 15px/1.5 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+h1,h2,h3{text-wrap:balance;margin:0}
+i.o{display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em;font-style:normal}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:0;font-weight:600;font-size:15px;transition:background .2s,transform .15s}
+.btn:hover{transform:translateY(-1px)}.btn.red{background:var(--red-ui);color:#fff}.btn.red:hover{background:#C4331D}.btn.dark{background:var(--ink);color:#fff}.btn.ghost{background:#fff;border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.ico{width:20px;height:20px;flex:none}
+.logo{display:flex;align-items:center;gap:12px}.logo b{display:block;font:300 13px/1 Manrope;letter-spacing:.42em}.logo small{display:block;font:400 7px/1 Manrope;letter-spacing:.5em;margin-top:6px;opacity:.6}
+.demo{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border:1px dashed currentColor;border-radius:999px;padding:4px 10px;opacity:.75}
+
+/* вход */
+.login{min-height:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+.lside{position:relative;background:var(--night) url(photo/houses/n235_1.jpg) center/cover;color:var(--milk);padding:40px;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh}
+.lside::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0e0e0fb3 0%,#0e0e0f33 40%,#0e0e0fe6 100%)}
+.lside>*{position:relative}
+.lside h1{font:400 clamp(40px,4.4vw,84px)/1 Manrope;letter-spacing:-.05em;max-width:640px}
+.lside ul{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:8px;font-size:16px}.lside li{display:flex;gap:10px;align-items:center}.lside li::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--red)}
+.lform{display:flex;flex-direction:column;justify-content:center;padding:40px clamp(24px,6vw,110px);gap:14px;max-width:640px}
+.lform h2{font:400 40px/1.05 Manrope;letter-spacing:-.04em}
+.lform p{margin:0;color:var(--mut)}
+.f{background:#fff;border-radius:16px;padding:10px 16px;min-height:66px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line)}
+.f:focus-within{border-color:var(--ink)}.f label{font-size:12px;color:var(--mut)}
+.f input{border:0;background:transparent;font:600 18px Manrope;padding:2px 0 0;width:100%;outline:none;color:var(--ink);letter-spacing:.02em}
+.f .err{display:none;color:#B8321D;font-size:12px;font-weight:600}.f.bad{border-color:#E0442C;background:#FFF5F3}.f.bad .err{display:block}
+.hint{font-size:13px;color:var(--mut)}.lk{font-weight:700;border-bottom:1px solid var(--line);align-self:flex-start;background:none;border-top:0;border-left:0;border-right:0;padding:0 0 2px}
+
+/* приложение */
+.app{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+.app[hidden],.login[hidden]{display:none}
+.side{position:sticky;top:0;height:100vh;background:var(--night);color:var(--milk);padding:26px 18px;display:flex;flex-direction:column;gap:26px}
+.objs{display:grid;gap:8px}
+.obj{display:flex;gap:12px;align-items:center;text-align:left;border:1px solid #ffffff1f;background:transparent;color:var(--milk);border-radius:16px;padding:10px}
+.obj img{width:48px;height:48px;border-radius:12px;object-fit:cover}.obj b{display:block;font-size:14px}.obj small{display:block;font-size:12px;color:#A9A49B}
+.obj[aria-pressed=true]{background:#ffffff14;border-color:#ffffff3d}
+.snav{display:grid;gap:2px}
+.snav button{display:flex;align-items:center;gap:12px;border:0;background:transparent;color:#C9C5BE;border-radius:12px;padding:11px 12px;font-weight:600;font-size:14px;text-align:left}
+.snav button:hover{background:#ffffff0d;color:#fff}.snav button[aria-current=page]{background:var(--milk);color:var(--ink)}
+.snav .bd{margin-left:auto;background:var(--red-ui);color:#fff;font-size:11px;border-radius:999px;padding:1px 7px}
+.side .foot{margin-top:auto;font-size:13px;color:#A9A49B;display:grid;gap:8px}.side .foot a{color:var(--milk);font-weight:700}
+.main{min-width:0;padding:0 clamp(16px,3vw,56px) 60px}
+.top{display:flex;align-items:center;gap:16px;padding:22px 0;position:sticky;top:0;background:#F4F2EEf0;backdrop-filter:blur(10px);z-index:5}
+.top h1{font:500 clamp(24px,2.2vw,34px)/1.1 Manrope;letter-spacing:-.03em}.top small{display:block;color:var(--mut);font-size:13px;margin-top:4px}
+.top .sp{flex:1}.av{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.out{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-weight:600;font-size:13px}
+.view{display:none;gap:14px}.view.on{display:grid}
+.card{background:#fff;border-radius:24px;padding:22px}
+.card h3{font:500 22px/1.15 Manrope;letter-spacing:-.02em}
+.k{font-size:12px;color:var(--mut)}
+.g2{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.cam{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/10;background:#222}
+.cam img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:filter .3s}
+.live{position:absolute;left:12px;top:12px;background:var(--red-ui);color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;border-radius:7px;padding:4px 8px;display:flex;align-items:center;gap:6px}
+.live i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.4s infinite}@keyframes blink{50%{opacity:.25}}
+.live.arch{background:#000a}.live.arch i{display:none}
+.ts{position:absolute;right:12px;top:12px;color:#fff;font:600 12px ui-monospace,Consolas,monospace;background:#0008;border-radius:7px;padding:4px 8px}
+.cn{position:absolute;left:12px;bottom:12px;color:#fff;font-size:12px;font-weight:700;background:#0008;border-radius:7px;padding:4px 9px}
+.bar{display:flex;gap:4px;margin:14px 0 6px}.bar i{flex:1;height:7px;border-radius:4px;background:var(--gray)}.bar i.on{background:var(--ink)}.bar i.now{background:var(--red)}
+.next{margin-top:16px;background:#FEECE8;border-radius:18px;padding:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}.next b{display:block;font-size:14px;color:#B8321D}.next span{font-size:15px;font-weight:600}.next .btn{margin-left:auto;min-height:44px}
+.next.okk{background:#E9F6EF}
+.stagecard{display:flex;flex-direction:column}.feed{list-style:none;margin:auto 0 0;padding:16px 0 0}.feed li{display:flex;gap:12px;font-size:14px;padding:9px 0;border-top:1px solid #0000000d}.feed li span{color:var(--mut);font-size:12px;min-width:96px}.next.okk b{color:var(--ok)}
+.tile{background:#fff;border-radius:22px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;border:0;text-align:left}
+.tile b{font:500 24px/1.15 Manrope;letter-spacing:-.02em}.tile span{font-size:13px;color:var(--mut)}
+button.tile:hover{box-shadow:0 14px 30px #0000000f}
+.stl{list-style:none;margin:14px 0 0;padding:0}
+.stl li{display:grid;grid-template-columns:22px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-top:1px solid #0000000d;position:relative}
+.stl li i{width:14px;height:14px;border-radius:50%;background:var(--gray);justify-self:center}
+.stl li.done i{background:var(--ink)}.stl li.now i{background:var(--red);box-shadow:0 0 0 6px #F5553C2b}
+.stl li b{font-size:15px;font-weight:600}.stl li.fut b{color:var(--mut);font-weight:500}.stl li small{font-size:13px;color:var(--mut);text-align:right}
+.camsel{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 15px;font-weight:600;font-size:13px}.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.acts{display:grid;gap:10px}
+.act{display:flex;align-items:center;gap:14px;background:#fff;border-radius:20px;padding:16px 18px}
+.act .st{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--gray)}
+.act.signed .st{background:var(--ink);color:#fff}.act.pending .st{background:#FEECE8;color:var(--red-ui)}
+.act b{display:block;font-size:16px}.act small{color:var(--mut);font-size:13px}.act .btn{margin-left:auto;min-height:42px;font-size:14px}
+.act .lnk{margin-left:auto;font-weight:700;font-size:13px;border:0;background:none;color:var(--mut)}
+.pay-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.big{font:300 clamp(44px,4vw,72px)/1 Manrope;letter-spacing:-.05em}.big small{font-size:20px;color:var(--mut)}
+.prog{height:10px;border-radius:5px;background:var(--gray);overflow:hidden;margin:14px 0 8px}.prog i{display:block;height:100%;background:var(--ink);border-radius:5px}
+.sch{width:100%;border-collapse:collapse;font-size:14px}.sch td{padding:12px 6px;border-top:1px solid #0000000d}.sch td:last-child{text-align:right;font-weight:700}
+.sch .pd td{color:var(--mut)}.sch .nx td{color:var(--ink)}.sch .nx td:first-child::after{content:'следующий';margin-left:8px;font-size:11px;font-weight:700;color:#fff;background:var(--red-ui);border-radius:999px;padding:2px 8px}
+.tag{font-size:11px;font-weight:700;border-radius:999px;padding:3px 9px}.tag.ok{background:#E9F6EF;color:#1F7A4A}.tag.wait{background:var(--soft);color:var(--mut)}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.doc{display:flex;gap:14px;align-items:center;background:#fff;border-radius:20px;padding:16px;border:0;text-align:left}
+.doc .ft{width:46px;height:56px;border-radius:10px;background:var(--soft);display:flex;align-items:flex-end;justify-content:center;font-size:10px;font-weight:800;color:var(--mut);padding-bottom:8px;position:relative;flex:none}
+.doc .ft::before{content:'';position:absolute;right:0;top:0;width:14px;height:14px;background:linear-gradient(225deg,var(--milk) 50%,#DDD8D0 50%);border-top-right-radius:10px}
+.doc b{display:block;font-size:15px}.doc small{color:var(--mut);font-size:13px}
+.doc:hover{box-shadow:0 14px 30px #0000000f}
+.chat{display:grid;grid-template-rows:1fr auto auto;height:min(680px,calc(100vh - 170px));background:#fff;border-radius:24px;overflow:hidden}
+.msgs{overflow:auto;padding:20px;display:flex;flex-direction:column;gap:10px;background:var(--soft)}
+.m{max-width:min(520px,82%);padding:11px 15px;border-radius:18px;background:#fff;align-self:flex-start;border-bottom-left-radius:6px;font-size:15px}
+.m small{display:block;font-size:11px;color:var(--mut);margin-bottom:2px;font-weight:700}
+.m.me{align-self:flex-end;background:var(--ink);color:#fff;border-radius:18px;border-bottom-right-radius:6px}.m.me small{color:#A9A49B}
+.m img{border-radius:12px;margin-top:8px;max-height:220px;object-fit:cover;width:100%}
+.qq{display:flex;gap:6px;padding:10px 14px 0;overflow-x:auto;background:#fff}.qq button{flex:none}
+.cf{display:flex;gap:8px;padding:12px 14px}.cf input{flex:1;border:1px solid var(--line);border-radius:999px;padding:0 18px;height:48px;font:500 15px Manrope;outline:none}.cf input:focus{border-color:var(--ink)}
+.cf button{width:48px;height:48px;border-radius:50%;border:0;background:var(--red-ui);color:#fff;font-size:19px}
+.tabs{display:none}
+dialog{border:0;border-radius:24px;padding:0;width:min(520px,calc(100vw - 32px));background:var(--milk);color:var(--ink);box-shadow:0 40px 100px #0000004d}
+dialog.wide{width:min(1100px,calc(100vw - 32px))}
+dialog::backdrop{background:#0e0e0f99;backdrop-filter:blur(4px)}
+.dh{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}.dh h3{font:500 22px Manrope;letter-spacing:-.02em}.dh button{margin-left:auto;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:19px}
+.db{padding:20px 22px 24px;display:grid;gap:14px;max-height:calc(100vh - 140px);overflow:auto}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:60;background:var(--ink);color:#fff;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:calc(100vw - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1000px){
+ .login{grid-template-columns:minmax(0,1fr)}.lside{min-height:auto;padding:28px 20px 34px;gap:60px}.lform{padding:30px 20px 40px}
+ .app{grid-template-columns:minmax(0,1fr)}.side{display:none}
+ .main{padding:0 16px 96px}.top{padding:14px 0}.top .logo-m{display:flex}
+ .g2,.pay-top{grid-template-columns:minmax(0,1fr)}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tabs{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fffffff2;backdrop-filter:blur(12px);border-top:1px solid var(--line);justify-content:space-around;padding:6px 0 calc(8px + env(safe-area-inset-bottom))}
+ .tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:600;color:var(--mut);border:0;background:none;min-width:52px;padding:4px 2px}
+ .tabs button[aria-current=page]{color:var(--ink)}.tabs button[aria-current=page] svg{stroke:var(--red)}
+ .app .objm{display:flex}.chat{height:calc(100svh - 230px)}.out{display:none}
+}
+.objm{display:none;gap:6px;overflow-x:auto;margin-top:-4px;padding-bottom:4px}
+@media(min-width:1700px){body{font-size:16px}.card h3{font-size:26px}.tile b{font-size:28px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5V20h-5.5v-5h-5v5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><rect x="3" y="6.5" width="13" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 10.5l5-3v9l-5-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-steps" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.3" fill="currentColor"/><circle cx="12" cy="12" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="12" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-act" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V20.5H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 14l2 2 3.5-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pay" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M5 4h9l5 5v11H5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L15.5 5.5l3 3L9 18z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- вход -->
+<div class="login" id="login">
+  <div class="lside">
+    <a class="logo" href="index.html" aria-label="На сайт"><svg width="38" height="36" fill="#F4F2EE"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+    <div><h1>Ваш дом — в&nbsp;прямом эфире<i class="o"></i></h1>
+      <ul><li>Камера на объекте 24/7</li><li>Этапы и акты — подпись с телефона</li><li>Рассрочка 0 % и график платежей</li><li>Документы и чат с прорабом</li></ul></div>
+    <span class="demo">Демо-кабинет: данные придуманы для примера</span>
+  </div>
+  <form class="lform" id="lform" novalidate>
+    <h2>Вход в личный кабинет<i class="o"></i></h2>
+    <p>Доступ открываем сразу после подписания договора — по номеру, указанному в нём.</p>
+    <div class="f" id="fPhone"><label for="ph">Телефон</label><input id="ph" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"><span class="err">Введите номер полностью — 10 цифр после +7</span></div>
+    <div class="f" id="fCode" hidden><label for="code">Код из СМС</label><input id="code" inputmode="numeric" maxlength="4" placeholder="• • • •" autocomplete="one-time-code"><span class="err">Код — 4 цифры</span></div>
+    <span class="hint" id="lHint" hidden>Демо: подойдут любые 4 цифры.</span>
+    <button class="btn red" type="submit" id="lBtn">Получить код</button>
+    <button class="lk" type="button" id="skip">Посмотреть без входа</button>
+  </form>
+</div>
+
+<!-- кабинет -->
+<div class="app" id="app" hidden>
+  <aside class="side">
+    <a class="logo" href="index.html" aria-label="На сайт"><svg width="34" height="32" fill="#F4F2EE"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+    <div class="objs" id="objs" role="group" aria-label="Мои объекты"></div>
+    <nav class="snav" id="snav" aria-label="Разделы кабинета"></nav>
+    <div class="foot"><span class="demo">Демо-кабинет</span><span>Менеджер Ольга · <a href="tel:+79655002918">+7 965 500-29-18</a></span><a href="index.html">← На сайт</a></div>
+  </aside>
+  <main class="main">
+    <div class="top"><div><h1 id="tName"></h1><small id="tSub"></small></div><span class="sp"></span><button class="out" id="logout" type="button">Выйти</button><span class="av" title="Анна">А</span></div>
+    <div class="objm" id="objm" role="group" aria-label="Мои объекты"></div>
+    <section class="view" data-v="home" aria-label="Обзор"></section>
+    <section class="view" data-v="cams" aria-label="Камеры"></section>
+    <section class="view" data-v="steps" aria-label="Этапы и акты"></section>
+    <section class="view" data-v="pay" aria-label="Платежи"></section>
+    <section class="view" data-v="docs" aria-label="Документы"></section>
+    <section class="view" data-v="chat" aria-label="Чат"></section>
+  </main>
+  <nav class="tabs" id="tabs" aria-label="Разделы кабинета"></nav>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽', mln = n => (n / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2}) + ' млн ₽';
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('on'), 3200); }
+const dlg = $('#dlg');
+function openDlg(t, html, wide) { $('#dlgT').textContent = t; $('#dlgB').innerHTML = html; dlg.classList.toggle('wide', !!wide); dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', ''); }
+$('#dlgX').addEventListener('click', () => dlg.close()); dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+// демо-данные (по реальным условиям заказчика: тёплый контур от 75 000 ₽/м², взнос 30 %, рассрочка 0 % до 5 лет, гарантия 5 лет)
+const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+const OBJ = {
+  house: {
+    name: 'Северный Урал 235', sub: 'Дом из газоблока · Берёзовский, участок 14', thumb: 'photo/houses/n235_1.jpg',
+    cams: [['Участок', 'photo/cam_build.jpg'], ['Въезд', 'photo/cam_build2.jpg']],
+    stages: [['Фундамент', '12 августа', 'done'], ['Стены', '24 сентября', 'done'], ['Перекрытия', '10 октября', 'done'], ['Кровля', 'до 25 ноября', 'now'], ['Окна и двери', 'до 10 декабря'], ['Инженерные сети', 'до 30 января'], ['Тёплый контур сдан', 'до 15 февраля']],
+    acts: [['Акт 1 · фундамент', '12 августа', 1], ['Акт 2 · стены', '24 сентября', 1], ['Акт 3 · перекрытия', '10 октября', 1], ['Акт 4 · кровля', 'стропила и мауэрлат, обрешётка', 0]],
+    pay: {total: 235 * 75000, pv: .3, months: 36, first: [2026, 9], paid: 1, kind: 'Рассрочка 0 % на 3 года'},
+    team: [['Андрей', 'прораб'], ['Ольга', 'менеджер']],
+    feed: [['сегодня, 10:12', 'Андрей прислал фото: обрешётка готова'], ['сегодня, 09:40', 'Акт 4 · кровля отправлен на подпись'], ['вчера', 'Привезли металлочерепицу, партия проверена'], ['15 октября', 'Платёж по рассрочке получен']],
+    docs: [['Договор строительства', 'PDF · 24 стр.'], ['Смета на тёплый контур', 'XLSX · 6 листов'], ['Проект «Северный Урал 235» · 1 этаж', 'Планировка · 154,73 м²', 'photo/houses/n235_p1.jpg'], ['Проект «Северный Урал 235» · 2 этаж', 'Планировка · 69,12 м²', 'photo/houses/n235_p2.jpg'], ['График платежей', 'PDF · 2 стр.'], ['Гарантийный сертификат', 'PDF · 5 лет'], ['Акты 1–3', 'PDF · подписаны']],
+    chat: [['Андрей', 'Доброе утро! Сегодня закончили обрешётку, завтра начинаем укладку кровли.', 'photo/cam_build.jpg'], ['Андрей', 'Акт по кровле отправил в кабинет — посмотрите, когда будет минутка.'], ['me', 'Спасибо! А окна какого цвета ставим — как в проекте, графит?'], ['Ольга', 'Да, графит снаружи, белые внутри — как в смете, пункт 4.2.']],
+  },
+  reno: {
+    name: 'Ремонт квартиры', sub: '2-комн., 63,7 м² · ЖК Кварц, ВИЗ', thumb: 'photo/rem_bathroom.jpg',
+    cams: [['Гостиная', 'photo/rem_process.jpg']],
+    stages: [['Демонтаж и черновые работы', '20 сентября', 'done'], ['Электрика и сантехника', '15 октября', 'done'], ['Стяжка и штукатурка', 'до 20 ноября', 'now'], ['Чистовая отделка', 'до 15 декабря'], ['Сдача и уборка', 'до 22 декабря']],
+    acts: [['Акт 1 · демонтаж', '20 сентября', 1], ['Акт 2 · электрика и сантехника', '15 октября', 1], ['Акт 3 · стяжка', 'полы во всех комнатах', 0]],
+    pay: {total: 63.7 * 35000, stagesPay: [.3, .2, .2, .2, .1], paidStages: 2, kind: 'Оплата по этапам'},
+    team: [['Сергей', 'прораб'], ['Ольга', 'менеджер']],
+    feed: [['сегодня, 11:05', 'Сергей прислал фото: стяжка в спальнях'], ['сегодня, 11:00', 'Акт 3 · стяжка отправлен на подпись'], ['вчера', 'Плитку для ванной привезли и проверили'], ['16 октября', 'Оплата этапа 2 получена']],
+    docs: [['Договор подряда', 'PDF · 12 стр.'], ['Смета с материалами', 'XLSX · 4 листа'], ['Дизайн-проект', 'PDF · 18 стр.'], ['Гарантийный сертификат', 'PDF · 5 лет']],
+    chat: [['Сергей', 'Стяжка в спальнях готова, сохнет 7 дней. В гостиной заливаем завтра.', 'photo/rem_process.jpg'], ['me', 'Отлично! Плитку для ванной уже привезли?'], ['Сергей', 'Да, на объекте, проверили партию — всё целое.']],
+  },
+};
+const NAV = [['home', 'Обзор', 'i-home'], ['cams', 'Камеры', 'i-cam'], ['steps', 'Этапы и акты', 'i-act'], ['pay', 'Платежи', 'i-pay'], ['docs', 'Документы', 'i-doc'], ['chat', 'Чат', 'i-chat']];
+let cur = 'house', view = 'home', camI = 0, camDay = 0;
+const O = () => OBJ[cur];
+const pending = o => o.acts.filter(a => !a[2]).length;
+
+// платежи
+function schedule(o) {
+  const p = o.pay;
+  if (p.months) {
+    const rest = p.total * (1 - p.pv), m = rest / p.months, rows = [];
+    for (let i = 0; i < p.months; i++) { const d = new Date(p.first[0], p.first[1] + i, 15); rows.push({d: `15 ${MONTHS[d.getMonth()]} ${d.getFullYear()}`, sum: m, st: i < p.paid ? 'pd' : i === p.paid ? 'nx' : ''}); }
+    return {rows, paidSum: p.total * p.pv + m * p.paid, next: rows[p.paid]};
+  }
+  const rows = p.stagesPay.map((k, i) => ({d: o.stages[i][0], sum: p.total * k, st: i < p.paidStages ? 'pd' : i === p.paidStages ? 'nx' : ''}));
+  return {rows, paidSum: rows.filter(r => r.st === 'pd').reduce((a, r) => a + r.sum, 0), next: rows[p.paidStages]};
+}
+
+function camHTML(o, i, big) {
+  const c = o.cams[i], arch = big && camDay > 0;
+  return `<div class="cam"><img src="${c[1]}" alt="Камера ${i + 1}: ${c[0].toLowerCase()}" style="${arch ? 'filter:saturate(.75) brightness(.92)' : ''}">
+    <span class="live${arch ? ' arch' : ''}"><i></i>${arch ? 'АРХИВ' : 'LIVE'}</span><span class="ts" data-ts="${arch ? camDay : 0}"></span><span class="cn">Камера ${i + 1} · ${c[0].toLowerCase()}</span></div>`;
+}
+function stagesHTML(o) {
+  return `<ol class="stl">${o.stages.map(s => `<li class="${s[2] || 'fut'}"><i></i><b>${s[0]}</b><small>${s[2] === 'done' ? 'принято ' + s[1] : s[2] === 'now' ? 'идёт · ' + s[1] : s[1]}</small></li>`).join('')}</ol>`;
+}
+function actsHTML(o) {
+  return `<div class="acts">${o.acts.map((a, i) => `<div class="act ${a[2] ? 'signed' : 'pending'}"><span class="st"><svg class="ico"><use href="${a[2] ? '#i-check' : '#i-pen'}"/></svg></span><div><b>${a[0]}</b><small>${a[2] ? 'подписан ' + a[1] : 'ждёт вашей подписи · ' + a[1]}</small></div>
+    ${a[2] ? `<button class="lnk" type="button" data-doc="${i}">Открыть</button>` : `<button class="btn red" type="button" data-sign="${i}">Подписать</button>`}</div>`).join('')}</div>`;
+}
+
+function render() {
+  const o = O(), si = o.stages.findIndex(s => s[2] === 'now'), sc = schedule(o), pa = pending(o), pend = o.acts.findIndex(a => !a[2]);
+  $('#tName').textContent = o.name; $('#tSub').textContent = o.sub;
+  const objBtn = (k, v) => `<button class="obj" type="button" data-obj="${k}" aria-pressed="${k === cur}"><img src="${v.thumb}" alt=""><span><b>${v.name}</b><small>${v.sub.split(' · ')[0]}</small></span></button>`;
+  $('#objs').innerHTML = Object.entries(OBJ).map(([k, v]) => objBtn(k, v)).join('');
+  $('#objm').innerHTML = Object.entries(OBJ).map(([k, v]) => `<button class="chip" type="button" data-obj="${k}" aria-pressed="${k === cur}">${v.name.split(' · ')[0]}</button>`).join('');
+  const navBtn = n => `<button type="button" data-go="${n[0]}" ${n[0] === view ? 'aria-current="page"' : ''}><svg class="ico"><use href="#${n[2]}"/></svg>${n[1]}${n[0] === 'steps' && pa ? `<span class="bd">${pa}</span>` : ''}</button>`;
+  $('#snav').innerHTML = NAV.map(navBtn).join('');
+  $('#tabs').innerHTML = NAV.map(n => `<button type="button" data-go="${n[0]}" ${n[0] === view ? 'aria-current="page"' : ''}><svg class="ico"><use href="#${n[2]}"/></svg>${n[1].split(' ')[0]}</button>`).join('');
+
+  $('[data-v=home]').innerHTML = `<div class="g2">
+      <div class="card" style="padding:14px">${camHTML(o, 0)}<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 6px 2px"><span class="k">Трансляция с объекта</span><button class="chip" type="button" data-go="cams">Все камеры</button></div></div>
+      <div class="card stagecard"><div class="k">Этап ${si + 1} из ${o.stages.length}</div><h3>${o.stages[si][0]}</h3>
+        <div class="bar">${o.stages.map((s, i) => `<i class="${i < si ? 'on' : i === si ? 'now' : ''}"></i>`).join('')}</div><span class="k">Плановая дата — ${o.stages[si][1].replace('до ', '')}</span>
+        ${pend >= 0 ? `<div class="next"><div><b>Нужно ваше действие</b><span>Подписать ${o.acts[pend][0].toLowerCase()}</span></div><button class="btn red" type="button" data-sign="${pend}">Подписать</button></div>`
+                    : `<div class="next okk"><div><b>Всё подписано</b><span>Следующий акт придёт после этапа</span></div></div>`}
+        <ul class="feed" aria-label="Последние события">${o.feed.map(f => `<li><span>${f[0]}</span>${f[1]}</li>`).join('')}</ul></div></div>
+    <div class="g4">
+      <button class="tile" type="button" data-go="pay"><span>Следующий платёж</span><b>${sc.next ? rub(sc.next.sum) : '—'}</b><span>${sc.next ? sc.next.d : 'всё оплачено'}</span></button>
+      <button class="tile" type="button" data-go="pay"><span>${o.pay.kind}</span><b>${Math.round(sc.paidSum / o.pay.total * 100)} % оплачено</b><span>из ${mln(o.pay.total)}</span></button>
+      <button class="tile" type="button" data-go="chat"><span>Прораб</span><b>${o.team[0][0]}</b><span>на связи с 8:00 до 20:00</span></button>
+      <div class="tile"><span>Гарантия</span><b>5 лет</b><span>по договору</span></div></div>
+    <div class="card"><h3>Этапы<i class="o"></i></h3>${stagesHTML(o)}</div>`;
+
+  $('[data-v=cams]').innerHTML = `<div class="card" style="padding:14px">${camHTML(o, camI, 1)}</div>
+    <div class="card"><div class="camsel">${o.cams.map((c, i) => `<button class="chip" type="button" data-cam="${i}" aria-pressed="${i === camI}">Камера ${i + 1} · ${c[0].toLowerCase()}</button>`).join('')}</div>
+      <div class="k" style="margin:16px 0 8px">Архив записей</div><div class="camsel">${['Сейчас', 'Вчера', '3 дня назад', 'Неделю назад'].map((d, i) => `<button class="chip" type="button" data-day="${[0, 1, 3, 7][i]}" aria-pressed="${[0, 1, 3, 7][i] === camDay}">${d}</button>`).join('')}</div>
+      <p class="k" style="margin:14px 0 0">Записи хранятся 30 дней. Скачать фрагмент можно по запросу менеджеру.</p></div>`;
+
+  $('[data-v=steps]').innerHTML = `<div class="g2"><div class="card"><h3>Акты<i class="o"></i></h3><p class="k" style="margin:6px 0 14px">Каждый этап закрываем промежуточным актом. Подпись — кодом из СМС.</p>${actsHTML(o)}</div>
+    <div class="card"><h3>Этапы<i class="o"></i></h3>${stagesHTML(o)}</div></div>`;
+
+  const p = o.pay;
+  $('[data-v=pay]').innerHTML = `<div class="pay-top"><div class="card"><div class="k">${p.kind}</div><div class="big">${sc.next ? rub(sc.next.sum).replace(' ₽', '') : '0'} <small>₽</small></div>
+      <span class="k">${sc.next ? 'следующий платёж · ' + sc.next.d : 'всё оплачено'}</span><div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="btn red" type="button" id="payBtn">Оплатить</button><button class="btn ghost" type="button" data-doc-name="График платежей">График в PDF</button></div></div>
+    <div class="card"><div class="k">Оплачено</div><div class="big">${Math.round(sc.paidSum / p.total * 100)} <small>%</small></div><div class="prog"><i style="width:${sc.paidSum / p.total * 100}%"></i></div>
+      <span class="k">${rub(sc.paidSum)} из ${rub(p.total)}${p.pv ? ' · первый взнос 30 % внесён' : ''}</span></div></div>
+    <div class="card"><h3>График<i class="o"></i></h3><table class="sch"><tbody>${(p.months ? sc.rows.slice(0, 8) : sc.rows).map(r => `<tr class="${r.st}"><td>${r.d}</td><td>${r.st === 'pd' ? '<span class="tag ok">оплачен</span>' : r.st === 'nx' ? '' : '<span class="tag wait">по графику</span>'}</td><td>${rub(r.sum)}</td></tr>`).join('')}</tbody></table>
+      ${p.months ? `<p class="k" style="margin:12px 0 0">И ещё ${p.months - 8} платежей до ${sc.rows[sc.rows.length - 1].d}. Без процентов и комиссий. Досрочно — без ограничений.</p>` : ''}</div>`;
+
+  $('[data-v=docs]').innerHTML = `<div class="docs">${o.docs.map((d, i) => `<button class="doc" type="button" data-d="${i}"><span class="ft">${d[2] ? 'PLAN' : d[1].split(' ')[0]}</span><span><b>${d[0]}</b><small>${d[1]}</small></span></button>`).join('')}</div>`;
+
+  $('[data-v=chat]').innerHTML = `<div class="chat"><div class="msgs" id="msgs">${o.chat.map(msgHTML).join('')}</div>
+    <div class="qq">${['Когда следующий этап?', 'Пришлите фото', 'Вопрос по оплате'].map(q => `<button class="chip" type="button" data-q>${q}</button>`).join('')}</div>
+    <form class="cf" id="cf"><input id="cin" placeholder="Сообщение прорабу и менеджеру" aria-label="Сообщение" autocomplete="off"><button aria-label="Отправить">→</button></form></div>`;
+  $$('.view').forEach(v => v.classList.toggle('on', v.dataset.v === view));
+  const ms = $('#msgs'); if (ms) ms.scrollTop = ms.scrollHeight;
+  tick();
+}
+function msgHTML(m) { return m[0] === 'me' ? `<div class="m me"><small>Вы</small>${m[1]}</div>` : `<div class="m"><small>${m[0]} · ${(O().team.find(t => t[0] === m[0]) || ['', ''])[1]}</small>${m[1]}${m[2] ? `<img src="${m[2]}" alt="Фото с объекта">` : ''}</div>`; }
+function tick() { const now = new Date(); $$('[data-ts]').forEach(el => { const d = new Date(now - el.dataset.ts * 864e5); el.textContent = d.toLocaleDateString('ru-RU') + ' · ' + (el.dataset.ts > 0 ? '14:00:00' : now.toLocaleTimeString('ru-RU')); }); }
+setInterval(tick, 1000);
+
+function go(v) { view = v; render(); try { history.replaceState(null, '', '#' + v); } catch (e) {} scrollTo({top: 0}); }
+function sign(i) {
+  const a = O().acts[i];
+  openDlg(a[0], `<p style="margin:0">Подтвердите, что работы по этапу приняты: <b>${a[1]}</b>. Подписывая, вы соглашаетесь с объёмом и качеством работ этапа.</p>
+    <div class="f" id="fSms"><label for="sms">Код из СМС на +7 9•• •••-••-18</label><input id="sms" inputmode="numeric" maxlength="4" placeholder="• • • •" autocomplete="one-time-code"><span class="err">Код — 4 цифры</span></div>
+    <span class="hint">Демо: подойдут любые 4 цифры. Есть замечания — <button type="button" class="lk" id="toChat" style="display:inline">напишите прорабу</button>, он приедет и исправит до подписи.</span>
+    <button class="btn red" type="button" id="doSign">Подписать акт</button>`);
+  $('#sms').focus();
+  $('#toChat').addEventListener('click', () => { dlg.close(); go('chat'); });
+  $('#doSign').addEventListener('click', () => {
+    if (!/^\d{4}$/.test($('#sms').value)) { $('#fSms').classList.add('bad'); return; }
+    const o = O(); a[2] = 1; a[1] = 'сегодня';
+    const si = o.stages.findIndex(s => s[2] === 'now'); if (si >= 0) { o.stages[si][2] = 'done'; o.stages[si][1] = 'сегодня'; if (o.stages[si + 1]) o.stages[si + 1][2] = 'now'; }
+    o.feed.unshift(['только что', `${a[0]} подписан`]);
+    o.chat.push([o.team[0][0], `Спасибо за подпись! Этап «${o.stages[si][0].toLowerCase()}» закрыт — переходим к следующему.`]);
+    dlg.close(); render(); toast(`${a[0]} подписан`);
+  });
+}
+function openDoc(i) {
+  const d = O().docs[i];
+  if (d[2]) openDlg(d[0], `<img src="${d[2]}" alt="Планировка" style="border-radius:16px;background:#EBEBEB"><a class="btn ghost" href="${d[2]}" target="_blank" rel="noopener">Открыть в полном размере</a>`, 1);
+  else toast(`${d[0]}: документ откроется после запуска кабинета`);
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-go],[data-obj],[data-sign],[data-cam],[data-day],[data-d],[data-doc],[data-doc-name],[data-q],#payBtn');
+  if (!t) return;
+  if (t.dataset.go) go(t.dataset.go);
+  else if (t.dataset.obj) { cur = t.dataset.obj; camI = 0; camDay = 0; render(); }
+  else if (t.dataset.sign) sign(+t.dataset.sign);
+  else if (t.dataset.cam) { camI = +t.dataset.cam; render(); }
+  else if (t.dataset.day !== undefined) { camDay = +t.dataset.day; render(); }
+  else if (t.dataset.d !== undefined) openDoc(+t.dataset.d);
+  else if (t.dataset.doc !== undefined) toast(`${O().acts[t.dataset.doc][0]}: подписанный PDF откроется после запуска`);
+  else if (t.dataset.docName) toast(`${t.dataset.docName}: PDF откроется после запуска кабинета`);
+  else if (t.id === 'payBtn') toast('Оплата картой и СБП подключится после запуска кабинета');
+  else if (t.dataset.q !== undefined) send(t.textContent);
+});
+document.addEventListener('submit', e => { if (e.target.id !== 'cf') return; e.preventDefault(); const v = $('#cin').value.trim(); if (v) { send(v); } });
+const REPLY = [[/этап|когда|срок/i, 0, s => `Текущий этап — «${O().stages.find(x => x[2] === 'now')?.[0].toLowerCase() || 'завершён'}», плановая дата ${O().stages.find(x => x[2] === 'now')?.[1].replace('до ', '') || '—'}. Идём по графику.`],
+  [/фото|покаж/i, 0, () => 'Держите свежий кадр с объекта.', 1], [/оплат|плат|рассроч/i, 1, () => 'Следующий платёж — в разделе «Платежи», там же график. Без процентов, досрочно — можно.']];
+function send(text) {
+  const o = O(); o.chat.push(['me', text]); render();
+  const r = REPLY.find(x => x[0].test(text)), who = o.team[r ? r[1] : 1][0];
+  setTimeout(() => { o.chat.push([who, r ? r[2]() : 'Принял, отвечу в течение часа.', r && r[3] ? o.cams[0][1] : '']); if (view === 'chat') render(); }, 800);
+}
+
+// вход
+const ph = $('#ph');
+ph.addEventListener('input', () => {
+  let d = ph.value.replace(/\D/g, ''); $('#fPhone').classList.remove('bad');
+  if (!d) { ph.value = ''; return; } if (d[0] === '8') d = '7' + d.slice(1); if (d[0] !== '7') d = '7' + d; const p = d.slice(1, 11);
+  ph.value = '+7' + (p.length ? ' (' + p.slice(0, 3) : '') + (p.length > 3 ? ') ' + p.slice(3, 6) : '') + (p.length > 6 ? '-' + p.slice(6, 8) : '') + (p.length > 8 ? '-' + p.slice(8, 10) : '');
+});
+$('#code').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); $('#fCode').classList.remove('bad'); });
+function enter() { $('#login').hidden = true; $('#app').hidden = false; try { sessionStorage.setItem('pn_cab', '1'); } catch (e) {} render(); }
+$('#lform').addEventListener('submit', e => {
+  e.preventDefault();
+  if ($('#fCode').hidden) {
+    if (ph.value.replace(/\D/g, '').length !== 11) { $('#fPhone').classList.add('bad'); ph.focus(); return; }
+    $('#fCode').hidden = false; $('#lHint').hidden = false; $('#lBtn').textContent = 'Войти'; $('#code').focus(); toast('Код отправлен в СМС');
+  } else {
+    if (!/^\d{4}$/.test($('#code').value)) { $('#fCode').classList.add('bad'); $('#code').focus(); return; }
+    enter();
+  }
+});
+$('#skip').addEventListener('click', enter);
+$('#logout').addEventListener('click', () => { try { sessionStorage.removeItem('pn_cab'); } catch (e) {} $('#app').hidden = true; $('#login').hidden = false; });
+const h = location.hash.slice(1);
+if (NAV.some(n => n[0] === h)) view = h;
+let logged = false; try { logged = sessionStorage.getItem('pn_cab') === '1'; } catch (e) {}
+if (logged || h) enter();
+</script>
+</body>
+</html>
