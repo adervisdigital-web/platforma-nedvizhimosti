@@ -9,7 +9,7 @@ PH = os.path.join(OUT, 'photo')
 os.makedirs(PH, exist_ok=True)
 
 NIGHT, GRAPH, MILK, RED, GRAY, INK, SUB, WHITE = '#0E0E0F', '#1C1C1E', '#F4F2EE', '#F5553C', '#ECEAE6', '#161617', '#8A867F', '#FFFFFF'
-ARCH = 'M0 60 V24 A24 24 0 0 1 48 24 V60 H34 V24 A10 10 0 0 0 14 24 V60 Z'
+ARCH = 'M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z'
 
 for s in ('facade', 'fence', 'billboard', 'store', 'helmet', 'keys', 'bag', 'vest', 'plate'):
     shutil.copy(os.path.join(ROOT, '_source', 'gen', f'life_P_{s}.jpg'), os.path.join(PH, f'P_{s}.jpg'))
@@ -20,8 +20,8 @@ for s in ('desktop', 'mobile'):
 
 
 def mark(w, c=MILK, dot=RED, label='Знак «П.»'):
-    return (f'<svg width="{w}" height="{w * 60 / 68:.1f}" viewBox="0 0 68 60" role="img" aria-label="{label}" style="overflow:visible;display:block">'
-            f'<path d="{ARCH}" fill="{c}"/><circle cx="61" cy="54" r="6" fill="{dot}"/></svg>')
+    return (f'<svg width="{w}" height="{w * 72 / 76:.1f}" viewBox="0 0 76 72" role="img" aria-label="{label}" style="overflow:visible;display:block">'
+            f'<path d="{ARCH}" fill="{c}"/><circle cx="67" cy="63" r="9" fill="{dot}"/></svg>')
 
 
 def word(c, size, sub, align='flex-start', gap=None):
@@ -52,23 +52,24 @@ def mix(h, t):  # t = доля цвета, остальное белый
     return '#%02X%02X%02X' % tuple(round(v * t + 255 * (1 - t)) for v in (r, g, b))
 
 
-def construction(s=7.4):
+def construction(s=6.6):
     L = '#B9B4AB'
     g = ''
-    for x in (0, 14, 24, 34, 48, 55, 67):
-        g += f'<line x1="{x}" y1="-8" x2="{x}" y2="68" stroke="{L}" stroke-width=".18" stroke-dasharray=".8 .9"/>'
-    for y in (0, 24, 48, 60):
-        g += f'<line x1="-8" y1="{y}" x2="76" y2="{y}" stroke="{L}" stroke-width=".18" stroke-dasharray=".8 .9"/>'
-    g += (f'<circle cx="24" cy="24" r="24" fill="none" stroke="{RED}" stroke-width=".22"/><circle cx="24" cy="24" r="10" fill="none" stroke="{RED}" stroke-width=".22"/>'
-          f'<circle cx="24" cy="24" r=".7" fill="{RED}"/><circle cx="61" cy="54" r="9" fill="none" stroke="{L}" stroke-width=".18" stroke-dasharray=".8 .9"/>')
+    for x in (0, 15, 24, 33, 48, 58, 76):
+        g += f'<line x1="{x}" y1="-8" x2="{x}" y2="80" stroke="{L}" stroke-width=".18" stroke-dasharray=".8 .9"/>'
+    for y in (0, 24, 26, 54, 72):
+        g += f'<line x1="-8" y1="{y}" x2="84" y2="{y}" stroke="{L}" stroke-width=".18" stroke-dasharray=".8 .9"/>'
+    g += (f'<circle cx="24" cy="24" r="24" fill="none" stroke="{RED}" stroke-width=".22"/><circle cx="24" cy="26" r="9" fill="none" stroke="{RED}" stroke-width=".22"/>'
+          f'<circle cx="24" cy="24" r=".7" fill="{RED}"/>')
     t = 'font-family="Manrope" font-size="2.3" letter-spacing=".05"'
-    notes = (f'<text x="24" y="-10" {t} fill="{SUB}" text-anchor="middle">R 24 · r 10 — общий центр</text>'
-             f'<text x="7" y="64.6" {t} fill="{SUB}" text-anchor="middle">14</text><text x="41" y="64.6" {t} fill="{SUB}" text-anchor="middle">14</text>'
-             f'<text x="24" y="64.6" {t} fill="{SUB}" text-anchor="middle">20</text>'
-             f'<text x="61" y="67" {t} fill="{RED}" text-anchor="middle">Ø 12 = точка</text>'
-             f'<text x="74" y="23.4" {t} fill="{SUB}">ось</text><text x="74" y="59.4" {t} fill="{SUB}">база</text>')
-    return (f'<svg width="{88 * s:.0f}" height="{82 * s:.0f}" viewBox="-8 -14 88 82" role="img" aria-label="Построение знака">'
-            f'<path d="{ARCH}" fill="{INK}"/><circle cx="61" cy="54" r="6" fill="{RED}"/>{g}{notes}</svg>')
+    notes = (f'<text x="24" y="-10" {t} fill="{SUB}" text-anchor="middle">R 24 · проём r 9</text>'
+             f'<text x="7.5" y="77" {t} fill="{SUB}" text-anchor="middle">15</text><text x="40.5" y="77" {t} fill="{SUB}" text-anchor="middle">15</text>'
+             f'<text x="24" y="77" {t} fill="{SUB}" text-anchor="middle">18</text>'
+             f'<text x="53" y="77" {t} fill="{SUB}" text-anchor="middle">10</text>'
+             f'<text x="67" y="77" {t} fill="{RED}" text-anchor="middle">Ø 18 = точка</text>'
+             f'<text x="-7" y="49" {t} fill="{SUB}" transform="rotate(-90 -7 49)" text-anchor="middle">высота 72 = 4 точки</text>')
+    return (f'<svg width="{92 * s:.0f}" height="{94 * s:.0f}" viewBox="-10 -14 92 94" role="img" aria-label="Построение знака">'
+            f'<path d="{ARCH}" fill="{INK}"/><circle cx="67" cy="63" r="9" fill="{RED}"/>{g}{notes}</svg>')
 
 
 def pattern(cols, rows, cell, bg, fg, reds):
@@ -77,10 +78,10 @@ def pattern(cols, rows, cell, bg, fg, reds):
     for r in range(rows):
         for c in range(cols):
             x, y = c * cell + cell * .2, r * cell + cell * .24
-            k = cell * .6 / 68
+            k = cell * .56 / 76
             dot = RED if (r, c) in reds else fg
             out += (f'<g transform="translate({x:.1f},{y:.1f}) scale({k:.4f})"><path d="{ARCH}" fill="{fg}"/>'
-                    f'<circle cx="61" cy="54" r="6" fill="{dot}"/></g>')
+                    f'<circle cx="67" cy="63" r="9" fill="{dot}"/></g>')
     return f'<svg viewBox="0 0 {w} {h}" preserveAspectRatio="xMidYMid slice" style="display:block;width:100%;height:100%;background:{bg}" aria-hidden="true">{out}</svg>'
 
 
@@ -334,8 +335,8 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
     {construction()}
     <div><div class="lab"><b>02</b> Знак</div><h2>Буква «П» и точка{D}</h2>
       <p class="lead">«П» — первая буква названия и арка входа в новый дом. Рядом — точка, наша отметка «проверено»: за этим входом нет сюрпризов.</p>
-      <div class="facts"><div><b>Арка = вход</b>Скруглённая «П» читается и как буква, и как дверной проём. Свод построен на двух окружностях с общим центром.</div>
-      <div><b>Точка = проверено</b>Единственный цветной элемент знака — наша подпись. Стоит на базовой линии, Ø 12 — чуть тоньше ножки «П». На красном фоне точка становится чёрной.</div>
+      <div class="facts"><div><b>Арка = вход</b>Скруглённая «П» читается и как буква, и как дверной проём. Высокий узкий проём — силуэт входной двери.</div>
+      <div><b>Точка = проверено</b>Единственный цветной элемент знака — наша подпись. Стоит на базовой линии, Ø 18 — крупнее ножки «П» и отделена от неё зазором. На красном фоне точка становится чёрной.</div>
       <div><b>Охранное поле</b>Свободное место вокруг знака — не меньше диаметра точки.</div></div></div>
   </div>
   <div class="sizes">{sizes}<span style="max-width:260px;line-height:1.5">Знак читается даже в 16 px — во вкладке браузера и в уведомлении на телефоне.</span></div>

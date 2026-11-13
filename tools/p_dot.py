@@ -7,12 +7,12 @@ os.makedirs(OUT, exist_ok=True)
 
 NIGHT, GRAPH, MILK, PEACH, SAND, INK = '#0E0E0F', '#1C1C1E', '#F4F2EE', '#F5553C', '#9A968F', '#161617'
 LIGHT = '#ECEAE6'
-ARCH = 'M0 60 V24 A24 24 0 0 1 48 24 V60 H34 V24 A10 10 0 0 0 14 24 V60 Z'
+ARCH = 'M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z'
 
 
 def mark(w, c=MILK, dot=PEACH, label='Знак «П.»'):
-    return (f'<svg width="{w}" height="{w * 60 / 68:.1f}" viewBox="0 0 68 60" role="img" aria-label="{label}" style="overflow:visible">'
-            f'<path d="{ARCH}" fill="{c}"/><circle cx="61" cy="54" r="6" fill="{dot}"/></svg>')
+    return (f'<svg width="{w}" height="{w * 72 / 76:.1f}" viewBox="0 0 76 72" role="img" aria-label="{label}" style="overflow:visible">'
+            f'<path d="{ARCH}" fill="{c}"/><circle cx="67" cy="63" r="9" fill="{dot}"/></svg>')
 
 
 def word(c, size=16, sub=SAND, gap=10):
@@ -33,18 +33,18 @@ def hlock(w, size, c=MILK, dot=PEACH, sub=SAND):
 
 
 def construction():
-    s = 5.2  # px per unit
+    s = 4.6  # px per unit
     g = ''
-    for x in (0, 14, 24, 34, 48, 55, 67):
-        g += f'<line x1="{x}" y1="-6" x2="{x}" y2="66" stroke="{SAND}" stroke-width=".25" stroke-dasharray="1 1.2"/>'
-    for y in (0, 24, 48, 60):
-        g += f'<line x1="-6" y1="{y}" x2="74" y2="{y}" stroke="{SAND}" stroke-width=".25" stroke-dasharray="1 1.2"/>'
-    g += f'<circle cx="24" cy="24" r="24" fill="none" stroke="{SAND}" stroke-width=".3"/><circle cx="24" cy="24" r="10" fill="none" stroke="{SAND}" stroke-width=".3"/>'
-    notes = (f'<text x="24" y="-9" font-size="3" fill="{SAND}" text-anchor="middle" font-family="Manrope">R 24 · r 10</text>'
-             f'<text x="7" y="64.5" font-size="3" fill="{SAND}" text-anchor="middle" font-family="Manrope">14</text>'
-             f'<text x="61" y="64.5" font-size="3" fill="{PEACH}" text-anchor="middle" font-family="Manrope">● 12</text>')
-    return (f'<svg width="{78 * s}" height="{76 * s}" viewBox="-6 -12 80 80" role="img" aria-label="Построение знака">'
-            f'<path d="{ARCH}" fill="{MILK}" fill-opacity=".92"/><circle cx="61" cy="54" r="6" fill="{PEACH}"/>{g}{notes}</svg>')
+    for x in (0, 15, 24, 33, 48, 58, 76):
+        g += f'<line x1="{x}" y1="-6" x2="{x}" y2="78" stroke="{SAND}" stroke-width=".25" stroke-dasharray="1 1.2"/>'
+    for y in (0, 24, 26, 54, 72):
+        g += f'<line x1="-6" y1="{y}" x2="82" y2="{y}" stroke="{SAND}" stroke-width=".25" stroke-dasharray="1 1.2"/>'
+    g += f'<circle cx="24" cy="24" r="24" fill="none" stroke="{SAND}" stroke-width=".3"/><circle cx="24" cy="26" r="9" fill="none" stroke="{SAND}" stroke-width=".3"/>'
+    notes = (f'<text x="24" y="-9" font-size="3" fill="{SAND}" text-anchor="middle" font-family="Manrope">R 24 · r 9</text>'
+             f'<text x="7.5" y="77" font-size="3" fill="{SAND}" text-anchor="middle" font-family="Manrope">15</text>'
+             f'<text x="67" y="77" font-size="3" fill="{PEACH}" text-anchor="middle" font-family="Manrope">● 18</text>')
+    return (f'<svg width="{88 * s}" height="{92 * s}" viewBox="-6 -12 88 92" role="img" aria-label="Построение знака">'
+            f'<path d="{ARCH}" fill="{MILK}" fill-opacity=".92"/><circle cx="67" cy="63" r="9" fill="{PEACH}"/>{g}{notes}</svg>')
 
 
 def page():

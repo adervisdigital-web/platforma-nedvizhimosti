@@ -18,13 +18,13 @@ _run = subprocess.run
 M.subprocess.run = lambda args, **kw: _run([args[0], f'--user-data-dir={UD}'] + list(args[1:]), **kw) if args and args[0] == CHROME else _run(args, **kw)
 
 NIGHT, INK, MILK, RED, GRAY, SUB = '#0E0E0F', '#161617', '#F4F2EE', '#F5553C', '#ECEAE6', '#8A867F'
-ARCH = 'M0 60 V24 A24 24 0 0 1 48 24 V60 H34 V24 A10 10 0 0 0 14 24 V60 Z'
+ARCH = 'M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z'
 V = dict(key='P', fam='P', F='Manrope', FH='Manrope', gf='family=Manrope:wght@300;400;500;600;800')
 
 
 def mark(w, c=INK, dot=RED):
-    return (f'<svg width="{w}" height="{w * 60 / 68:.1f}" viewBox="0 0 68 60" style="overflow:visible;display:block">'
-            f'<path d="{ARCH}" fill="{c}"/><circle cx="61" cy="54" r="6" fill="{dot}"/></svg>')
+    return (f'<svg width="{w}" height="{w * 72 / 76:.1f}" viewBox="0 0 76 72" style="overflow:visible;display:block">'
+            f'<path d="{ARCH}" fill="{c}"/><circle cx="67" cy="63" r="9" fill="{dot}"/></svg>')
 
 
 def word(c, size, sub=SUB, align='center'):

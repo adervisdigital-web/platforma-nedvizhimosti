@@ -6,7 +6,7 @@ OUT = os.path.join(ROOT, '06_П_точка')
 PH = os.path.join(OUT, 'photo')
 os.makedirs(PH, exist_ok=True)
 NIGHT, GRAPH, MILK, RED, GRAY, INK, SUB = '#0E0E0F', '#1C1C1E', '#F4F2EE', '#F5553C', '#ECEAE6', '#161617', '#8A867F'
-ARCH = 'M0 60 V24 A24 24 0 0 1 48 24 V60 H34 V24 A10 10 0 0 0 14 24 V60 Z'
+ARCH = 'M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z'
 
 for s in ('facade', 'fence', 'billboard', 'store', 'helmet', 'keys', 'bag', 'vest', 'plate'):
     shutil.copy(os.path.join(ROOT, '_source', 'gen', f'life_P_{s}.jpg'), os.path.join(PH, f'{s}.jpg'))
@@ -15,8 +15,8 @@ for s in ('kv_living2', 'kv_kitchen', 'house_stone2', 'rem_bathroom'):
 
 
 def mark(w, c=INK, dot=RED):
-    return (f'<svg width="{w}" height="{w * 60 / 68:.1f}" viewBox="0 0 68 60" style="overflow:visible;display:block" aria-hidden="true">'
-            f'<path d="{ARCH}" fill="{c}"/><circle cx="61" cy="54" r="6" fill="{dot}"/></svg>')
+    return (f'<svg width="{w}" height="{w * 72 / 76:.1f}" viewBox="0 0 76 72" style="overflow:visible;display:block" aria-hidden="true">'
+            f'<path d="{ARCH}" fill="{c}"/><circle cx="67" cy="63" r="9" fill="{dot}"/></svg>')
 
 
 def word(c, size, sub=SUB, align='flex-start'):

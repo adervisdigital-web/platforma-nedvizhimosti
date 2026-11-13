@@ -7,7 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HUB = os.path.join(ROOT, '_hub')
 os.makedirs(HUB, exist_ok=True)
 NIGHT, GRAPH, MILK, RED, SUB = '#0E0E0F', '#1C1C1E', '#F4F2EE', '#F5553C', '#8A867F'
-ARCH = 'M0 60 V24 A24 24 0 0 1 48 24 V60 H34 V24 A10 10 0 0 0 14 24 V60 Z'
+ARCH = 'M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z'
 
 ITEMS = [  # (папка/страница, превью-источник, кадр, заголовок, описание, png для скачивания)
     ('07_Презентация/', '07_Презентация/Презентация_бренда.png', (0, 0, 1440, 900), 'Презентация бренда',
@@ -30,8 +30,8 @@ ITEMS = [  # (папка/страница, превью-источник, кад
 
 
 def mark(w, c=MILK, dot=RED):
-    return (f'<svg width="{w}" height="{w * 60 / 68:.1f}" viewBox="0 0 68 60" aria-hidden="true" style="display:block;overflow:visible">'
-            f'<path d="{ARCH}" fill="{c}"/><circle cx="61" cy="54" r="6" fill="{dot}"/></svg>')
+    return (f'<svg width="{w}" height="{w * 72 / 76:.1f}" viewBox="0 0 76 72" aria-hidden="true" style="display:block;overflow:visible">'
+            f'<path d="{ARCH}" fill="{c}"/><circle cx="67" cy="63" r="9" fill="{dot}"/></svg>')
 
 
 def thumbs():
