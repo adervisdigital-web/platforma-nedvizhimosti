@@ -10,11 +10,11 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--milk);color:var(--ink);font:400 15px/1.5 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}img{display:block;max-width:100%}
-.w{max-width:2240px;margin:0 auto;padding:0 clamp(16px,3.6vw,96px)}
+.w{max-width:none;margin:0;padding:0 clamp(16px,3.4vw,110px)}
 :focus-visible{outline:2px solid var(--red);outline-offset:2px}
 .nw{white-space:nowrap}
 i.o{display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em;font-style:normal}
-i.o.n{background:var(--ink)}i.o.w{background:#fff}
+i.o.n{background:var(--ink)}i.o.wh{background:#fff}
 .br{font-size:12px;letter-spacing:.06em;color:var(--mut)}.br b{color:var(--red);font-weight:600}
 h2.t{font:400 clamp(36px,3.9vw,104px)/1.02 Manrope;letter-spacing:-.045em;margin:16px 0 0}
 .mute{color:#A9A49B}
@@ -36,20 +36,22 @@ nav.main a.on::after{content:'';display:inline-block;width:5px;height:5px;border
 .hicon .cnt{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}
 .hicon .cnt.on{display:flex}
 
-/* hero */
-.hero{padding:18px 0 0}
-.hgrid{position:relative;display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:24px;min-height:clamp(720px,calc(100vh - 110px),1180px)}
-.hl{padding:40px 0 260px;position:relative;z-index:2}
-.hero h1{font:400 clamp(46px,6.6vw,176px)/.95 Manrope;letter-spacing:-.06em;margin:0}
+/* hero — фото во весь экран */
+.hero{position:relative;min-height:clamp(560px,calc(100vh - 76px),1400px);min-height:clamp(560px,calc(100svh - 76px),1400px);display:flex;color:#fff;overflow:hidden;background:#2a211c}
+.hbg{position:absolute;inset:0;background:url(photo/hero_window.jpg) 64% center/cover;transform:scale(1.02)}
+.hbg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0d0a08e6 0%,#0d0a08a8 30%,#0d0a0833 58%,#0000 74%),linear-gradient(0deg,#000a 0%,#0000 38%)}
+.hin{position:relative;z-index:1;width:100%;display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding-top:clamp(40px,8vh,130px);padding-bottom:clamp(24px,4.5vh,64px)}
+.hl{max-width:min(1100px,58vw)}
+.hero .br{color:#ffffffb8}
+.hero h1{font:400 clamp(46px,6.6vw,184px)/.95 Manrope;letter-spacing:-.06em;margin:0;color:#fff}
 .hero h1 em{font-style:normal;color:var(--red)}
-.hero .sub{font-size:clamp(16px,1.15vw,24px);max-width:min(640px,90%)!important;line-height:1.5;color:#4A4741;max-width:520px;margin:30px 0 0}
-.hph{position:relative;border-radius:32px;overflow:hidden;background:#999 url(photo/keys.jpg) 38% center/cover}
-.hph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0000 55%,#0006)}
-.chipv{position:absolute;right:22px;top:22px;z-index:1;background:#fffffff0;backdrop-filter:blur(10px);border-radius:18px;padding:14px 16px;width:300px;box-shadow:0 20px 40px #0002}
+.hero .sub{font-size:clamp(16px,1.15vw,25px);line-height:1.5;color:#ffffffd9;max-width:min(680px,90%);margin:30px 0 0}
+.chipv{position:absolute;right:clamp(16px,3.4vw,110px);bottom:clamp(24px,4.5vh,64px);z-index:2;background:#ffffffeb;color:var(--ink);backdrop-filter:blur(12px);border-radius:20px;padding:16px 18px;width:clamp(290px,18vw,380px);box-shadow:0 20px 50px #0003}
 .chipv h3{margin:0 0 8px;font:700 14px Manrope;display:flex;align-items:center;gap:8px}.chipv h3 i{width:10px;height:10px;border-radius:50%;background:var(--red)}
-.chipv ul{list-style:none;margin:0;padding:0;font-size:13px}.chipv li{display:flex;gap:8px;align-items:center;padding:5px 0;border-top:1px solid #0000000d}.chipv li svg{color:var(--red);width:16px;height:16px}
-.hcap{position:absolute;right:24px;bottom:22px;z-index:1;color:#fff;font-size:13px;opacity:.9}
-.sbox{position:absolute;left:0;bottom:36px;z-index:3;width:min(1180px,66%);background:#fff;border-radius:26px;padding:12px;box-shadow:0 30px 70px #00000021}
+.chipv ul{list-style:none;margin:0;padding:0;font-size:13px}.chipv li{display:flex;gap:8px;align-items:center;padding:6px 0;border-top:1px solid #0000000d}.chipv li svg{color:var(--red);width:16px;height:16px}
+.hcap{position:absolute;right:clamp(16px,3.4vw,110px);bottom:clamp(24px,4.5vh,64px);z-index:1;color:#fff;font-size:13px;opacity:.85}
+.sbox{position:relative;z-index:3;width:min(1240px,calc(100% - clamp(290px,18vw,380px) - 24px));background:#fff;color:var(--ink);border-radius:26px;padding:12px;box-shadow:0 30px 70px #00000040}
+.after{padding:clamp(20px,2vw,40px) 0 0}
 .tabs{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:16px;width:max-content;max-width:100%;overflow:auto}
 .tabs button{border:0;background:transparent;border-radius:12px;padding:11px 18px;font-weight:600;font-size:14px;white-space:nowrap}
 .tabs button[aria-selected=true]{background:var(--ink);color:#fff}
@@ -121,15 +123,18 @@ nav.main a.on::after{content:'';display:inline-block;width:5px;height:5px;border
 .mapcap{position:absolute;left:14px;top:14px;background:#fff;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:600;box-shadow:0 6px 16px #0001;display:flex;gap:8px;align-items:center}.mapcap i{width:8px;height:8px;border-radius:50%;background:var(--red)}
 
 /* manifesto */
-.man{background:var(--night);color:var(--milk)}
-.mtext{font:400 clamp(28px,3.5vw,92px)/1.1 Manrope;letter-spacing:-.04em;margin:26px 0 0;max-width:min(1800px,92%);color:#6E6B66}
+.man{position:relative;background:var(--night);color:var(--milk);overflow:hidden}
+.man::before{content:'';position:absolute;left:0;right:0;top:0;height:clamp(420px,48vw,1100px);background:url(photo/ekb_aerial.jpg) center 40%/cover;opacity:.55}
+.man::after{content:'';position:absolute;left:0;right:0;top:0;height:clamp(420px,48vw,1100px);background:linear-gradient(90deg,#0e0e0fcc 0%,#0e0e0f80 45%,#0e0e0f33 100%),linear-gradient(180deg,#0e0e0f80 0%,#0e0e0f4d 40%,#0e0e0f 100%)}
+.man>.w{position:relative;z-index:1}.man .mtext{padding-top:clamp(40px,8vw,240px)}
+.mtext{font:400 clamp(28px,3.5vw,92px)/1.1 Manrope;letter-spacing:-.04em;margin:26px 0 0;max-width:min(1800px,92%);color:#ffffff8f}
 .mtext b{font-weight:400;color:var(--milk)}.mtext em{font-style:normal;color:var(--red)}
 .mgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:70px;align-items:stretch}
-.field{position:relative;border-radius:26px;background:var(--graph);padding:30px 30px 64px;display:grid;grid-template-columns:repeat(22,1fr);align-content:center;min-height:clamp(420px,30vw,720px)}
+.field{position:relative;border-radius:26px;background:#1C1C1Ef2;backdrop-filter:blur(6px);padding:30px 30px 64px;display:grid;grid-template-columns:repeat(22,1fr);align-content:center;min-height:clamp(420px,30vw,720px)}
 .field i{display:block;width:clamp(10px,.62vw,18px);height:clamp(10px,.62vw,18px);border-radius:50%;background:#4A484D;margin:clamp(7px,.6vw,16px) auto;transition:opacity .45s,transform .45s,background .45s}
 .field i.off{opacity:.2}.field i.win{background:var(--red);transform:scale(2.4);opacity:1}
 .fcap{position:absolute;left:30px;right:30px;bottom:24px;display:flex;justify-content:space-between;font-size:13px;color:#A9A49B}.fcap b{color:var(--milk);font-weight:600}
-.checks{border-radius:26px;background:var(--graph);padding:30px;display:flex;flex-direction:column}
+.checks{border-radius:26px;background:#1C1C1Ef2;backdrop-filter:blur(6px);padding:30px;display:flex;flex-direction:column}
 .checks h3{margin:0;font:500 26px/1.15 Manrope;letter-spacing:-.02em}
 .ctabs{display:flex;gap:6px;margin:18px 0 6px}.ctabs button{border:1px solid #ffffff26;background:transparent;color:var(--milk);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600}.ctabs button[aria-pressed=true]{background:var(--milk);color:var(--ink)}
 .clist{list-style:none;margin:0;padding:0}.clist li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid #ffffff17;font-size:16px}.clist li span{color:#A9A49B;font-size:13px;text-align:right}
@@ -206,19 +211,20 @@ footer h4{color:var(--milk);font-size:14px;margin:0 0 12px}footer a{display:bloc
 @media(min-width:1700px){body{font-size:16px}.res{grid-template-columns:minmax(0,1fr) minmax(460px,34%)}.hd{height:84px}
  .cat b{font-size:20px}.pt{min-height:300px;padding:32px}.pt h3{font-size:clamp(30px,1.9vw,48px);max-width:520px}.pt p{font-size:16px;max-width:440px}
  .pc h3{font-size:clamp(28px,1.8vw,44px)}.pc p{font-size:16px}.prom b{font-size:clamp(54px,3.6vw,96px)}.prom span{font-size:17px}.clist li{font-size:18px;padding:18px 0}.checks h3{font-size:34px}
- .chipv{width:340px;padding:18px 20px}.chipv ul{font-size:14px}.f{min-height:76px}.f input,.chip{font-size:16px}.go{min-height:76px;font-size:17px}.tabs button{font-size:15px;padding:12px 20px}}
+ .chipv ul{font-size:14px}.f{min-height:76px}.f input,.chip{font-size:16px}.go{min-height:76px;font-size:17px}.tabs button{font-size:15px;padding:12px 20px}}
 @media(min-width:1700px){.br{font-size:14px}nav.main{font-size:15px;gap:30px}.tel{font-size:16px}
  .mid .t{font-size:20px}.mid .a,.mid .line{font-size:14px}.tags span{font-size:13px}.vbtn{font-size:13px}.price{font-size:27px}.ppm,.mort{font-size:13px}.mort b{font-size:15px}
  .cat span{font-size:13px}.pc .br2,.clist li span{font-size:14px}.stats span{font-size:17px;max-width:280px}.tl b{font-size:19px}.tl span{font-size:15px}
  .rng label{font-size:16px}.rates button{font-size:14px}.crow{font-size:16px}.note{font-size:13px}.way .stp{font-size:16px}.fcap{font-size:15px}.mapcap{font-size:13px}.pin{font-size:13px}}
+@media(min-width:2600px){#cards.grid{--cols:4}}
 @media(min-width:2200px){#cards.grid{--cols:3}body{font-size:17px}.br{font-size:15px}.pc p,.prom span{font-size:19px}}
-@media(max-width:1200px){.hgrid{grid-template-columns:minmax(0,1fr);min-height:0}.hl{padding:20px 0 0}.hph{min-height:440px}.sbox{position:relative;bottom:auto;margin-top:-90px;width:auto;margin-left:12px;margin-right:12px}.hero h1{font-size:76px}
+@media(max-width:1200px){.chipv,.hcap{display:none}.sbox{width:100%}.hl{max-width:none}.hero h1{font-size:76px}
  .res{grid-template-columns:minmax(0,1fr)}.map{position:relative;top:0;height:380px;order:-1}.cats{grid-template-columns:repeat(3,minmax(0,1fr))}nav.main{display:none}.card{grid-template-columns:260px minmax(0,1fr) 210px}}
 @media(max-width:800px){
  .w{padding:0 16px}.hero h1{font-size:46px}.hero .sub{font-size:16px;margin-top:18px}h2.t{font-size:36px}.mtext{font-size:28px}
  .hd{gap:12px;height:64px}.tel,.hicon.hide-m{display:none}
- .hph{min-height:360px;border-radius:24px}.chipv{left:12px;right:12px;width:auto;top:12px;padding:10px 12px}.chipv ul{display:none}
- .sbox{margin:-60px 6px 0}.sf{grid-template-columns:minmax(0,1fr)}.go{width:100%}
+ .hero{min-height:0}.hbg{background-position:70% center}.hbg::after{background:linear-gradient(180deg,#0d0a08b3 0%,#0d0a0866 45%,#0d0a08cc 100%)}.hin{padding-top:36px;gap:28px}
+ .sf{grid-template-columns:minmax(0,1fr)}.go{width:100%}
  .cats{grid-template-columns:repeat(2,minmax(0,1fr))}.promo,.mgrid,.pgrid,.calc,.rgrid,.lgrid,.prom,.fgr{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
  .card{grid-template-columns:minmax(0,1fr)}.rcol{border-left:0;border-top:1px solid var(--line);padding:12px 0 0}
  .sec,.lead{padding:64px 0}.field{grid-template-columns:repeat(14,1fr);min-height:300px;padding:18px 18px 56px}.field i{width:8px;height:8px;margin:5px auto}.field i.x14{display:none}
@@ -251,17 +257,15 @@ footer h4{color:var(--milk);font-size:14px;margin:0 0 12px}footer a{display:bloc
 </div></header>
 
 <main>
-<section class="hero" id="search"><div class="w">
-  <div class="hgrid">
+<section class="hero" id="search">
+  <div class="hbg" role="img" aria-label="Пара у панорамного окна новой квартиры, Екатеринбург на закате"></div>
+  <div class="chipv"><h3><i></i>ЖК [НАЗВАНИЕ] — проверен</h3>
+    <ul><li><svg><use href="#check"/></svg>Разрешение на строительство</li><li><svg><use href="#check"/></svg>Проектная декларация, эскроу</li><li><svg><use href="#check"/></svg>Прошлые дома сданы в срок</li><li><svg><use href="#check"/></svg>Нет банкротных дел</li></ul></div>
+  <div class="w hin">
     <div class="hl">
       <div class="br">[ <b>●</b> Екатеринбург · новостройки и вторичка ]</div>
-      <h1 style="margin-top:22px">Квартиры, за&nbsp;которые мы <em class="nw">ручаемся<i class="o n"></i></em></h1>
+      <h1 style="margin-top:22px">Квартиры, за&nbsp;которые мы <em class="nw">ручаемся<i class="o wh"></i></em></h1>
       <p class="sub">Продаём только то, что проверили сами: надёжные застройщики, чистые сделки, самые выгодные условия. Ремонт и дом — у партнёров, в которых мы уверены.</p>
-    </div>
-    <div class="hph" role="img" aria-label="Пара с ключами от новой квартиры">
-      <div class="chipv"><h3><i></i>ЖК [НАЗВАНИЕ] — проверен</h3>
-        <ul><li><svg><use href="#check"/></svg>Разрешение на строительство</li><li><svg><use href="#check"/></svg>Проектная декларация, эскроу</li><li><svg><use href="#check"/></svg>Прошлые дома сданы в срок</li><li><svg><use href="#check"/></svg>Нет банкротных дел</li></ul></div>
-      <span class="hcap">Ключи — после проверки, а не до.</span>
     </div>
     <div class="sbox">
       <div class="tabs" role="tablist" aria-label="Что ищете"><button role="tab" aria-selected="true">Новостройки</button><button role="tab" aria-selected="false">Вторичка</button><button role="tab" aria-selected="false">С ремонтом</button><button role="tab" aria-selected="false">Дома</button></div>
@@ -274,7 +278,9 @@ footer h4{color:var(--milk);font-size:14px;margin:0 0 12px}footer a{display:bloc
       <div class="sline"><button class="sw" role="switch" aria-checked="true" aria-label="Только проверенные"></button>Только проверенные застройщики<a href="#list"><svg class="ico"><use href="#pin"/></svg>На карте</a></div>
     </div>
   </div>
+</section>
 
+<section class="after"><div class="w">
   <div class="cats" role="list" aria-label="Подборки">
     <a class="cat red" role="listitem" href="#list"><b>Самые выгодные этой недели</b><span>отобрали за вас</span></a>
     <a class="cat" role="listitem" href="#list" style="background-image:url(photo/kv_complex2.jpg)"><b>Сданные дома</b><span>[N] квартир</span></a>
