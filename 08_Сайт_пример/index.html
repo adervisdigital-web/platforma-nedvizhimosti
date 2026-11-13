@@ -916,6 +916,7 @@ main section[id],.after{scroll-margin-top:96px}
  .fold .paper{padding:20px 16px 16px}.fold .cl li p{font-size:13.5px}
 }
 @media(prefers-reduced-motion:reduce){.js .fold .flap,.js .fold .paper{transform:none}}
+.ba.wide{aspect-ratio:2688/1120}.ba img{object-position:50% 50%}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -989,7 +990,7 @@ main section[id],.after{scroll-margin-top:96px}
         <div class="sg sgi grow dd-wrap"><label for="ad">Район или ЖК</label><input id="ad" placeholder="Академический, ЖК…" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
         <button class="go2" type="submit" aria-label="Показать квартиры"><svg class="ico" aria-hidden="true"><use href="#search"/></svg><span>Показать <b id="goN"></b></span></button>
       </form>
-      <div class="sline"><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span><a href="#list"><svg class="ico"><use href="#pin"/></svg>На карте</a></div>
+      <div class="sline"><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span></div>
     </div>
   </div>
 </section>
@@ -1119,7 +1120,7 @@ main section[id],.after{scroll-margin-top:96px}
   <div class="br">[ <b>●</b> Ремонт ]</div>
   <h2 class="t">Ремонт без многоточий<i class="o"></i></h2>
   <div class="rwrap">
-    <div class="ba wide" id="baBox"><img src="photo/ba_before.jpg" alt="Квартира без отделки: бетон, большие окна"><img class="after" src="photo/ba_after.jpg" alt="Та же квартира после нашего ремонта: гостиная с диваном"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span>
+    <div class="ba wide" id="baBox"><img src="photo/ba_before.jpg?v=2" alt="Квартира без отделки: бетонные стены и пол, панорамное окно"><img class="after" src="photo/ba_after.jpg?v=2" alt="Та же квартира после нашего ремонта: гостиная с диваном и креслом"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span>
       <span class="bacap">Одна и та же комната · 63 м² · 9 недель</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после ремонта"></div>
     <ol class="bsteps" id="bSteps">
       <li><button type="button" data-v="85"><i>1</i><b>Замер и смета</b><span>Каждая позиция и итог — до оплаты.</span></button></li>
@@ -1692,7 +1693,6 @@ $('#adList').innerHTML = [...new Set(ITEMS.flatMap(it => [it.d, it.zk]))].map(v 
 // карта на телефоне
 $('#mapBtn').addEventListener('click', e => { const on = $('.res').classList.toggle('showmap'); e.currentTarget.setAttribute('aria-pressed', on); e.currentTarget.lastChild.textContent = on ? 'Списком' : 'На карте'; });
 
-$('.sline a').addEventListener('click', () => { if (innerWidth <= 800 && !$('.res').classList.contains('showmap')) $('#mapBtn').click(); });
 
 // шапка с тенью и кнопка чата — после первого экрана
 const hdr = $('header'), fab = $('#chatFab');
