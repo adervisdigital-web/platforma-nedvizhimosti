@@ -3,6 +3,7 @@ import os, sys
 sys.path.insert(0, 'tools')
 import p_mark_variants2 as V2
 import p_mark_variants3 as V3
+import p_mark_variants4 as V4
 V = V2.V
 
 T = os.path.join(os.environ['TEMP'], 'pn_be')
