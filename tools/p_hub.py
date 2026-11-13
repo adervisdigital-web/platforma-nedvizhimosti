@@ -71,7 +71,7 @@ h2{{margin:0;font:400 28px/1.15 Manrope;letter-spacing:-.02em}}
 footer{{border-top:1px solid #ffffff1a;padding:28px 0 40px;color:{SUB};font-size:13px}}
 @media(max-width:800px){{.w{{padding:0 16px}}header{{padding:36px 0 30px}}.meta{{text-align:left}}h1{{font-size:34px;margin-top:40px}}.lead{{font-size:16px;margin-bottom:32px}}.grid{{grid-template-columns:minmax(0,1fr);gap:18px}}.wm b{{font-size:17px}}}}
 </style></head><body><div class="w">
-<header><div class="lg">{mark(64)}<div class="wm"><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТЬ</small></div></div>
+<header><div class="lg">{mark(64)}<div class="wm"><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></div></div>
 <div class="meta">Фирменный стиль<br>Екатеринбург · 2026</div></header>
 <h1>Квартира<i class="o"></i> Ремонт<i class="o"></i> Дом<i class="o"></i><br>Ставим точку<i class="o"></i></h1>
 <p class="lead">Материалы по бренду: презентация, пример сайта, логотип и носители.</p>

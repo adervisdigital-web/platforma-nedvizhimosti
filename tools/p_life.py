@@ -22,7 +22,7 @@ def mark(w, c=INK, dot=RED):
 def word(c, size, sub=SUB, align='flex-start'):
     return (f'<div style="display:flex;flex-direction:column;align-items:{align}">'
             f'<div style="font:300 {size}px/1 Manrope,sans-serif;letter-spacing:.42em;margin-right:-.42em;color:{c};white-space:nowrap">ПЛАТФОРМА</div>'
-            f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;margin-right:-.5em;color:{sub};white-space:nowrap;margin-top:{size * .55:.0f}px">НЕДВИЖИМОСТЬ</div></div>')
+            f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;margin-right:-.5em;color:{sub};white-space:nowrap;margin-top:{size * .55:.0f}px">НЕДВИЖИМОСТИ</div></div>')
 
 
 def ph(name, cap, cls='', h=360, pos='center'):

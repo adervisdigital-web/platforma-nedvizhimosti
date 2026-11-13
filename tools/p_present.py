@@ -28,7 +28,7 @@ def word(c, size, sub, align='flex-start', gap=None):
     gap = round(size * .55) if gap is None else gap
     return (f'<div style="display:flex;flex-direction:column;align-items:{align}">'
             f'<div style="font:300 {size}px/1 Manrope,sans-serif;letter-spacing:.42em;margin-right:-.42em;color:{c};white-space:nowrap">ПЛАТФОРМА</div>'
-            f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;margin-right:-.5em;color:{sub};white-space:nowrap;margin-top:{gap}px">НЕДВИЖИМОСТЬ</div></div>')
+            f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;margin-right:-.5em;color:{sub};white-space:nowrap;margin-top:{gap}px">НЕДВИЖИМОСТИ</div></div>')
 
 
 def hlock(w, size, c=MILK, dot=RED, sub=SUB):
@@ -169,7 +169,7 @@ def page():
                                                   ('Подзаголовок · 28 / 500', 500, 28, '-.02em', 'Только проверенные застройщики и бригады'),
                                                   ('Цена · 22 / 700', 700, 22, '-.01em', '[ЦЕНА] ₽ · [N] ₽/м²'),
                                                   ('Текст · 15 / 400', 400, 15, '0', 'Этот ЖК прошёл нашу проверку: надёжный застройщик, понятные сроки сдачи, выгодная ипотека.'),
-                                                  ('Подпись · 11 / 400 · разрядка', 400, 11, '.5em', 'НЕДВИЖИМОСТЬ · ЕКАТЕРИНБУРГ')))
+                                                  ('Подпись · 11 / 400 · разрядка', 400, 11, '.5em', 'ПЛАТФОРМА НЕДВИЖИМОСТИ · ЕКАТЕРИНБУРГ')))
     versions = ''.join(f'<div class="ver" style="background:{bg}">{hlock(64, 19, c, d, s)}<span style="color:{s}">{t}</span></div>'
                        for bg, c, d, s, t in ((NIGHT, MILK, RED, '#8A867F', 'основная · на тёмном'),
                                               (MILK, INK, RED, SUB, 'на светлом · сайт и печать'),

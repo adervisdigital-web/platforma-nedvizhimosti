@@ -18,7 +18,7 @@ def mark(w, c=MILK, dot=PEACH, label='Знак «П.»'):
 def word(c, size=16, sub=SAND, gap=10):
     return (f'<div style="display:flex;flex-direction:column;align-items:center">'
             f'<div style="font:300 {size}px/1 Manrope,sans-serif;letter-spacing:.42em;margin-right:-.42em;color:{c};white-space:nowrap">ПЛАТФОРМА</div>'
-            f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;margin-right:-.5em;color:{sub};white-space:nowrap;margin-top:{gap}px">НЕДВИЖИМОСТЬ</div></div>')
+            f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;margin-right:-.5em;color:{sub};white-space:nowrap;margin-top:{gap}px">НЕДВИЖИМОСТИ</div></div>')
 
 
 def vlock(w, size, c=MILK, dot=PEACH, sub=SAND):
@@ -28,7 +28,7 @@ def vlock(w, size, c=MILK, dot=PEACH, sub=SAND):
 def hlock(w, size, c=MILK, dot=PEACH, sub=SAND):
     wd = (f'<div style="display:flex;flex-direction:column;align-items:flex-start">'
           f'<div style="font:300 {size}px/1 Manrope,sans-serif;letter-spacing:.42em;color:{c};white-space:nowrap">ПЛАТФОРМА</div>'
-          f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;color:{sub};white-space:nowrap;margin-top:9px">НЕДВИЖИМОСТЬ</div></div>')
+          f'<div style="font:400 {size * .55:.1f}px/1 Manrope,sans-serif;letter-spacing:.5em;color:{sub};white-space:nowrap;margin-top:9px">НЕДВИЖИМОСТИ</div></div>')
     return f'<div style="display:flex;align-items:center;gap:{round(w * .45)}px">{mark(w, c, dot)}{wd}</div>'
 
 
