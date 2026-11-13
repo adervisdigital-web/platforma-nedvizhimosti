@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Мобильная версия — Платформа недвижимости</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 88 84'%3E%3Crect x='-6' y='-6' width='88' height='84' rx='18' fill='%230E0E0F'/%3E%3Cpath d='M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z' fill='%23F4F2EE'/%3E%3Ccircle cx='67' cy='63' r='9' fill='%23F5553C'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#F5553C;--night:#0E0E0F;--milk:#F4F2EE;--mut:#8A867F}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{background:radial-gradient(1200px 700px at 70% 20%,#1F1F22 0%,#0E0E0F 60%);color:var(--milk);font:400 15px/1.5 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}
+.wrap{min-height:100vh;display:grid;grid-template-columns:minmax(260px,420px) auto;gap:clamp(40px,7vw,120px);align-items:center;justify-content:center;padding:40px clamp(16px,4vw,60px)}
+.logo{display:flex;align-items:center;gap:12px}.logo svg{width:38px;height:36px;fill:var(--milk)}.logo b{display:block;font:300 14px/1 Manrope;letter-spacing:.42em}.logo small{display:block;font:400 7.6px/1 Manrope;letter-spacing:.5em;color:var(--mut);margin-top:6px}
+h1{font:300 clamp(38px,3.6vw,58px)/1.02 Manrope;letter-spacing:-.045em;margin:40px 0 0}h1 i{display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.04em}
+.lead{color:#B9B4AB;margin:18px 0 0;max-width:380px}
+.k{font-size:12px;color:var(--mut);margin:34px 0 10px;letter-spacing:.02em}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:#ffffff12}
+.seg button{border:0;background:none;border-radius:999px;padding:10px 18px;font-weight:600;font-size:14px;color:#C9C5BE}
+.seg button[aria-pressed=true]{background:var(--milk);color:#161617}
+.jump{display:flex;flex-wrap:wrap;gap:6px}
+.jump button{border:1px solid #ffffff26;background:#ffffff08;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;transition:background .2s,border-color .2s}
+.jump button:hover{background:#ffffff1a;border-color:#ffffff40}
+.jump button::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:1px}
+.links{display:flex;gap:16px;margin-top:34px;font-size:13px;color:#B9B4AB}.links a{border-bottom:1px solid #ffffff33;padding-bottom:2px}.links a:hover{color:#fff}
+.qr{margin-top:26px;font-size:12px;color:var(--mut);max-width:360px}
+/* iPhone */
+.phone{position:relative;width:calc(390px + 28px);height:calc(844px + 28px);padding:14px;border-radius:66px;background:linear-gradient(145deg,#2C2C30,#151517);box-shadow:0 60px 120px #000c,inset 0 0 0 2px #3A3A3E,inset 0 0 0 9px #0B0B0C;transform-origin:center;transform:scale(var(--sc,1))}
+.phone::before{content:'';position:absolute;left:-3px;top:170px;width:4px;height:64px;border-radius:2px;background:#2A2A2D;box-shadow:0 84px 0 #2A2A2D}
+.phone::after{content:'';position:absolute;right:-3px;top:230px;width:4px;height:96px;border-radius:2px;background:#2A2A2D}
+.screen{position:relative;width:390px;height:844px;border-radius:52px;overflow:hidden;background:#F4F2EE}
+.screen iframe{display:block;width:390px;height:797px;border:0}
+.sbar{height:47px;display:flex;justify-content:space-between;align-items:center;padding:4px 32px 0 40px;background:#0E0E0F;color:#fff;font:600 15px/1 -apple-system,Manrope,sans-serif;transition:background .3s,color .3s}
+.sbar.lt{background:#F4F2EE;color:#161617}.sbar .r{display:flex;gap:6px;align-items:center}.sbar svg{height:12px;fill:currentColor}
+.island{position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000;z-index:5;pointer-events:none}
+.ph-wrap{display:flex;justify-content:center;align-items:center;height:calc((844px + 28px) * var(--sc,1));width:calc((390px + 28px) * var(--sc,1))}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;justify-items:center;text-align:left}.side{max-width:420px}}
+@media(max-width:500px){.phone-col{display:none}.wrap{min-height:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="side">
+    <a class="logo" href="index.html"><svg viewBox="0 0 76 72" aria-hidden="true"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+    <h1>Мобильная версия<i></i></h1>
+    <p class="lead">Живой сайт в экране iPhone 390×844 — листайте колесом мыши, нажимайте кнопки, открывайте меню, чат и карточки.</p>
+    <div class="k">Страница</div>
+    <div class="seg" role="group" aria-label="Страница"><button type="button" aria-pressed="true" data-p="index.html">Сайт</button><button type="button" aria-pressed="false" data-p="kabinet.html">Личный кабинет</button></div>
+    <div class="k" id="jk">Перейти к разделу</div>
+    <div class="jump" id="jump">
+      <button type="button" data-s="search">Первый экран</button><button type="button" data-s="list">Квартиры</button><button type="button" data-s="how">Отбор</button><button type="button" data-s="calc">Ипотека</button>
+      <button type="button" data-s="houses">Дома</button><button type="button" data-s="ba">Ремонт</button><button type="button" data-s="cab">Кабинет</button><button type="button" data-s="rev">Отзывы</button><button type="button" data-s="pact">Договор</button><button type="button" data-s="lead">Заявка</button>
+    </div>
+    <div class="links"><a href="index.html">Открыть сайт целиком</a><a href="kabinet.html">Кабинет отдельно</a></div>
+    <p class="qr">На телефоне откройте ссылку на сайт напрямую — эта страница для просмотра с компьютера.</p>
+  </div>
+  <div class="phone-col"><div class="ph-wrap"><div class="phone"><div class="screen"><div class="island"></div><div class="sbar" id="sbar"><span id="clk">9:41</span><span class="r"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 2.5a9 9 0 0 1 6.4 2.6l1.1-1.2A10.6 10.6 0 0 0 8 1 10.6 10.6 0 0 0 .5 3.9l1.1 1.2A9 9 0 0 1 8 2.5zm0 3.5a5.5 5.5 0 0 1 3.9 1.6l1.1-1.1A7 7 0 0 0 8 4.5a7 7 0 0 0-5 2l1.1 1.1A5.5 5.5 0 0 1 8 6zm0 3.5a2 2 0 0 1 1.4.6L8 11.6 6.6 10.1A2 2 0 0 1 8 9.5z"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="17" height="8" rx="1.8"/><rect x="24" y="4" width="2" height="4" rx="1" opacity=".5"/></svg></span></div><iframe id="fr" src="index.html" title="Мобильная версия сайта"></iframe></div></div></div></div>
+</div>
+<script>
+const fr = document.getElementById('fr');
+function fit() { const k = Math.min(1, (innerHeight - 40) / 872); document.documentElement.style.setProperty('--sc', k.toFixed(3)); }
+addEventListener('resize', fit); fit();
+function clk() { const d = new Date(); document.getElementById('clk').textContent = d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0'); } clk(); setInterval(clk, 20000);
+setInterval(() => { try { const w = fr.contentWindow, d = fr.contentDocument, site = !/kabinet/.test(w.location.pathname); const h = d.querySelector('.hero');
+  const dark = site ? (h && w.scrollY < h.offsetHeight - 60) || !!d.querySelector('.mnav:not([hidden])') : !d.getElementById('app') || d.getElementById('app').hidden;
+  document.getElementById('sbar').classList.toggle('lt', !dark); } catch (e) {} }, 300);
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  fr.src = b.dataset.p; const site = b.dataset.p === 'index.html';
+  document.getElementById('jump').hidden = !site; document.getElementById('jk').hidden = !site;
+}));
+document.querySelectorAll('#jump button').forEach(b => b.addEventListener('click', () => {
+  try { const d = fr.contentDocument, t = d.getElementById(b.dataset.s); if (t) fr.contentWindow.scrollTo({top: t.getBoundingClientRect().top + fr.contentWindow.scrollY - 70, behavior: 'smooth'}); }
+  catch (e) { fr.src = 'index.html#' + b.dataset.s; }
+}));
+</script>
+</body>
+</html>
