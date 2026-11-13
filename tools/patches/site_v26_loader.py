@@ -32,6 +32,7 @@ CSS = r'''
 .ldr-pc{position:absolute;right:clamp(16px,3.4vw,110px);bottom:calc(clamp(28px,6vh,64px) + 14px);font:500 13px Manrope;color:#8A867F;font-variant-numeric:tabular-nums}
 .ldr-city{position:absolute;left:clamp(16px,3.4vw,110px);bottom:calc(clamp(28px,6vh,64px) + 14px);font:500 13px Manrope;color:#8A867F}
 .ldr.quick .ldr-arch{animation-duration:.01s,.01s;animation-delay:0s,0s}.ldr.quick .ldr-dot{animation-duration:.3s;animation-delay:.05s}.ldr.quick .ldr-word b,.ldr.quick .ldr-word small{animation-duration:.2s;animation-delay:0s}
+.shot .hbg,.shot .hl>*,.shot .hero h1 i.o,.shot .sbox,.shot .chipv{animation:none!important}
 .js:not(.ready) .hbg,.js:not(.ready) .hl>*,.js:not(.ready) .hero h1 i.o,.js:not(.ready) .sbox,.js:not(.ready) .chipv{animation-play-state:paused}
 @media(max-width:800px){.ldr-in{flex-direction:column;gap:22px;text-align:center}.ldr-mark{width:72px;height:68px}.ldr-word b{font-size:22px}}
 @media(prefers-reduced-motion:reduce){.ldr{transition:opacity .4s}.ldr.out{transform:none;opacity:0}.ldr-arch{animation:none;fill:var(--milk);stroke-width:0}.ldr-dot,.ldr-word b,.ldr-word small{animation:none;opacity:1;transform:none;letter-spacing:.42em}.ldr-word small{letter-spacing:.5em}}
@@ -45,6 +46,8 @@ LDR = f'''<div class="ldr" id="ldr" aria-hidden="true">
 </div>
 <script>
 (() => {{
+  if (/[?&]shot(&|$)/.test(location.search)) {{ document.getElementById('ldr').classList.add('gone'); document.documentElement.classList.add('shot'); html_ready(); return; }}
+  function html_ready() {{ document.documentElement.classList.add('ready'); }}
   const L = document.getElementById('ldr'), bar = document.getElementById('ldrBar'), pc = document.getElementById('ldrPc'), html = document.documentElement;
   let seen = false; try {{ seen = sessionStorage.getItem('pn_ldr') === '1'; sessionStorage.setItem('pn_ldr', '1'); }} catch (e) {{}}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, MIN = seen || reduce ? 500 : 1700, MAX = 4000, t0 = performance.now();
