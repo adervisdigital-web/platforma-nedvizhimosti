@@ -203,8 +203,8 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 .cover{{height:780px;background:{RED};display:grid;grid-template-columns:1fr 1fr}}
 .cover .l svg{{width:150px;height:auto}}
 .cover .l{{padding:80px 96px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}}
-.cover .r{{background:url(photo/advisor.jpg) 50% 30%/cover;position:relative}}
-.cover .r::after{{content:'';position:absolute;inset:0;background:linear-gradient(90deg,{RED} 0%,#F5553C00 22%)}}
+.cover .r{{background:url(photo/ekb_aerial.jpg) 46% 50%/cover;position:relative}}
+.cover .r::after{{display:none}}
 .cover .meta{{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.8}}
 /* about */
 .about{{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:end}}
@@ -311,7 +311,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
     <div>{mark(150, WHITE, NIGHT)}<div style="margin-top:56px">{word(WHITE, 30, "#FFE1DB")}</div></div>
     <div style="font:400 26px/1.2 Manrope;letter-spacing:-.01em">Квартира<i class="o n"></i> Ремонт<i class="o n"></i> Дом<i class="o n"></i></div>
   </div>
-  <div class="r" role="img" aria-label="Консультант Платформы с ключами от квартиры"></div>
+  <div class="r" role="img" aria-label="Екатеринбург на закате: новые кварталы у пруда"></div>
 </section>
 
 <section class="dark"><div class="in">
