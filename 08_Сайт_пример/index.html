@@ -718,10 +718,123 @@ main section[id],.after{scroll-margin-top:96px}
 .ba img.after{padding:0}
 .ba input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:3}
 .ba{cursor:ew-resize;touch-action:pan-y}.ba .hdl::after{transition:transform .2s}.ba.drag .hdl::after{transform:translate(-50%,-50%) scale(1.12)}
+
+/* v24 — поиск-капсула */
+.hero .sbox{background:transparent;box-shadow:none;padding:0;border-radius:0;width:min(1180px,calc(100% - clamp(290px,19vw,400px) - 24px))}
+.sf.sf2{display:flex;align-items:stretch;gap:0;margin:0;background:#fff;border-radius:999px;padding:8px;box-shadow:0 30px 70px #00000059,0 0 0 1px #ffffff40;transition:background .25s}
+.sf2.open{background:#ECEAE6}
+.sg{position:relative;flex:1 1 0;min-width:0;border-radius:999px;transition:background .2s,box-shadow .2s}
+.sg.grow{flex:1.45 1 0}
+.sg+.sg::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--line);transition:opacity .2s}
+.sg:hover::before,.sg:hover+.sg::before,.sg.on::before,.sg.on+.sg::before,.sg:focus-within::before,.sg:focus-within+.sg::before{opacity:0}
+.sg:hover{background:var(--soft)}.sf2.open .sg:hover{background:#ffffff8c}
+.sg.on,.sg:focus-within{background:#fff;box-shadow:0 8px 26px #00000024}
+.sgb{all:unset;box-sizing:border-box;display:block;width:100%;height:100%;padding:12px 26px;cursor:pointer;border-radius:999px}
+.sg small,.sgi label{display:block;font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.sg b{display:block;font-size:15px;font-weight:500;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.sgi{display:flex;flex-direction:column;justify-content:center;padding:12px 26px;cursor:text}
+.sgi input{border:0;background:transparent;font:500 15px Manrope;padding:2px 0 0;width:100%;outline:none;color:var(--ink)}
+.sgi input::placeholder{color:var(--mut)}
+.go2{flex:none;align-self:center;display:flex;align-items:center;gap:10px;height:62px;padding:0 26px 0 22px;margin-left:6px;border:0;border-radius:999px;background:var(--red-ui);color:#fff;font:700 16px Manrope;cursor:pointer;transition:background .2s,transform .15s}
+.go2:hover{background:#C4331D}.go2:active{transform:scale(.97)}.go2 .ico{width:22px;height:22px}.go2 b{font-weight:800}
+.pop{position:absolute;left:0;top:calc(100% + 12px);z-index:25;min-width:260px;background:#fff;border-radius:26px;box-shadow:0 24px 60px #00000038;padding:12px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .2s,transform .2s}
+.sg.on .pop{opacity:1;transform:none;pointer-events:auto}
+.pop .tabs{display:grid;gap:4px;background:none;padding:0;width:auto}
+.pop .tabs button{text-align:left;padding:12px 16px;border-radius:14px;font-size:15px}
+.pop .tabs button[aria-selected=true]{background:var(--ink);color:#fff}
+.pop .rooms{display:flex;gap:6px;margin:0}.pop .rooms .chip{min-width:48px;height:48px;border:1px solid var(--line);border-radius:999px;padding:0 14px;font-size:15px}
+.pop .rooms .chip[aria-pressed=true]{border-color:var(--ink)}
+.pnote{display:block;font-size:12px;color:var(--mut);margin:10px 4px 2px}
+.sgi .dd{top:calc(100% + 12px);left:0;right:auto;min-width:100%;border-radius:22px;padding:8px}
+.hero .sline{margin:14px 4px 0;color:#fff}
+.hero .qf button{background:#ffffff1f;border-color:#ffffff40;color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:8px 14px;font-size:13px}
+.hero .qf button:hover{background:#ffffff33}.hero .qf button[aria-pressed=true]{background:#fff;color:var(--ink);border-color:#fff}
+.hero .sline a{color:#fff}
+@media(max-width:1200px){.hero .sbox{width:100%}}
+@media(max-width:800px){
+ .sf.sf2{flex-direction:column;border-radius:26px;padding:8px;gap:2px}
+ .sg{border-radius:18px}.sg+.sg::before{left:18px;right:18px;top:0;bottom:auto;width:auto;height:1px}
+ .sgb,.sgi{padding:12px 16px}.go2{width:100%;justify-content:center;margin:6px 0 0;height:56px}
+ .pop{left:0;right:0;min-width:0}.pop .rooms{flex-wrap:wrap}
+}
+
+/* v25 — договор на столе */
+.desk{margin:0;position:relative}
+.dk-in{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:1824/1536;box-shadow:0 40px 90px #00000080;container-type:inline-size;transform:perspective(1600px) rotateX(var(--drx,0deg)) rotateY(var(--dry,0deg));transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.desk.move .dk-in{transition:transform .12s linear}
+.dk-ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.paper{position:absolute;left:29.6%;top:10.4%;width:44.3%;height:63.7%;padding:3.4cqw 3.2cqw 2.6cqw;display:flex;flex-direction:column;color:#1B1A19;mix-blend-mode:multiply}
+.pp-h{display:flex;justify-content:space-between;align-items:center;gap:1cqw;font-size:1.05cqw;color:#6B675F;border-bottom:.12cqw solid #1B1A19;padding-bottom:1cqw}
+.pp-logo{display:flex;align-items:center;gap:.7cqw;letter-spacing:.18em;font-size:.95cqw;color:#1B1A19}.pp-logo svg{width:2.2cqw;height:2.1cqw;fill:#1B1A19}
+.pp-t{font:700 1.6cqw/1.2 Manrope;margin:1.8cqw 0 .8cqw}
+.desk .cl{list-style:none;margin:0;padding:0}
+.desk .cl li{display:grid;grid-template-columns:3cqw 1fr;gap:.4cqw;padding:.7cqw .6cqw;margin:0 -.6cqw;border-radius:.6cqw;transition:background .35s,opacity .5s,transform .5s}
+.desk .cl li span{font:700 1.15cqw/1.45 Manrope;color:#6B675F;position:relative}
+.desk .cl li p{margin:0;font-size:1.3cqw;line-height:1.45}
+.desk .cl li span::after{content:'';position:absolute;left:-1.6cqw;top:.35cqw;width:.9cqw;height:.45cqw;border-left:.25cqw solid var(--red);border-bottom:.25cqw solid var(--red);transform:rotate(-45deg) scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.js .desk .cl li{opacity:0;transform:translateY(.6cqw)}
+.desk.in .cl li{opacity:1;transform:none}.desk.in .cl li.ok span::after{transform:rotate(-45deg) scale(1)}
+.desk .cl.hl li{opacity:.3}.desk .cl.hl li.on{opacity:1;background:#F5553C40}
+.desk .sign{display:grid;grid-template-columns:1fr 1fr;gap:2cqw;margin-top:auto}
+.desk .sign .k{display:block;font-size:1cqw;color:#6B675F}
+.desk .sign .ln{display:block;position:relative;height:3.6cqw;border-bottom:.12cqw solid #1B1A19}
+.sig{position:absolute;left:0;bottom:.2cqw;width:11cqw;height:3.2cqw;fill:none;stroke:#1F2A5A;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:260;stroke-dashoffset:260}
+.desk.signed .sig{transition:stroke-dashoffset 1.3s cubic-bezier(.6,0,.3,1);stroke-dashoffset:0}
+.desk .seal{position:absolute;left:9cqw;bottom:.6cqw;width:2.4cqw;height:2.4cqw;border-radius:50%;background:var(--red);transform:scale(3.5);opacity:0;transition:transform .45s cubic-bezier(.5,1.6,.5,1),opacity .2s}
+.desk.sealed .seal{transform:none;opacity:1}
+.you{position:absolute;left:0;bottom:.5cqw;font-size:1.05cqw;font-weight:700;color:var(--red-ui);border-bottom:1px dashed var(--red-ui);mix-blend-mode:normal}
+.you::after{content:'';display:inline-block;width:.12cqw;height:1.2cqw;background:var(--red-ui);margin-left:.3cqw;vertical-align:-.15cqw;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.desk figcaption{margin-top:14px;font-size:12px;color:#8A867F;text-align:center}
+@media(min-width:1101px){.pgrid2{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}}
+@media(max-width:1100px){.desk{max-width:720px}}
+@media(max-width:800px){.desk{border-radius:20px;overflow:hidden;box-shadow:0 30px 60px #00000080}.dk-in{width:210%;margin:-13% 0 -27% -55%;border-radius:0;transform:none!important;box-shadow:none}.desk figcaption{margin:0;padding:12px 0 2px;background:var(--night)}}
+@media(prefers-reduced-motion:reduce){.js .desk .cl li{opacity:1;transform:none}.sig{stroke-dashoffset:0}.desk .seal{transform:none;opacity:1}.you::after{animation:none}}
+
+/* v26 — заставка */
+.ldr{position:fixed;inset:0;z-index:200;background:var(--night);color:var(--milk);display:flex;align-items:center;justify-content:center;transition:transform .8s cubic-bezier(.75,0,.2,1)}
+.ldr.out{transform:translateY(-100%)}.ldr.gone{display:none}
+.ldr-in{display:flex;align-items:center;gap:26px}
+.ldr-mark{width:96px;height:91px;overflow:visible}
+.ldr-arch{fill:#F4F2EE00;stroke:var(--milk);stroke-width:1.2;stroke-dasharray:330;stroke-dashoffset:330;animation:ldraw .9s cubic-bezier(.6,0,.3,1) .1s forwards,lfill .35s ease .95s forwards}
+.ldr-dot{fill:var(--red);transform-box:fill-box;transform-origin:50% 100%;transform:translateY(-140px) scale(.6);opacity:0;animation:ldrop .7s cubic-bezier(.3,.9,.4,1) 1.05s forwards}
+@keyframes ldraw{to{stroke-dashoffset:0}}@keyframes lfill{to{fill:#F4F2EE;stroke-width:0}}
+@keyframes ldrop{0%{transform:translateY(-140px) scale(.6);opacity:0}55%{transform:translateY(4px) scale(1.15,.82);opacity:1}75%{transform:translateY(-6px) scale(.95,1.05);opacity:1}100%{transform:none;opacity:1}}
+.ldr-word b{display:block;font:300 30px/1 Manrope;letter-spacing:.9em;opacity:0;animation:lword .9s cubic-bezier(.2,.7,.2,1) .7s forwards}
+.ldr-word small{display:block;font:400 11px/1 Manrope;letter-spacing:.5em;color:#8A867F;margin-top:12px;opacity:0;animation:lfade .6s ease 1.1s forwards}
+@keyframes lword{to{letter-spacing:.42em;opacity:1}}@keyframes lfade{to{opacity:1}}
+.ldr-bar{position:absolute;left:clamp(16px,3.4vw,110px);right:clamp(16px,3.4vw,110px);bottom:clamp(28px,6vh,64px);height:2px;background:#ffffff1a}
+.ldr-bar i{display:block;height:100%;width:0;background:var(--red);transition:width .3s ease}
+.ldr-pc{position:absolute;right:clamp(16px,3.4vw,110px);bottom:calc(clamp(28px,6vh,64px) + 14px);font:500 13px Manrope;color:#8A867F;font-variant-numeric:tabular-nums}
+.ldr-city{position:absolute;left:clamp(16px,3.4vw,110px);bottom:calc(clamp(28px,6vh,64px) + 14px);font:500 13px Manrope;color:#8A867F}
+.ldr.quick .ldr-arch{animation-duration:.01s,.01s;animation-delay:0s,0s}.ldr.quick .ldr-dot{animation-duration:.3s;animation-delay:.05s}.ldr.quick .ldr-word b,.ldr.quick .ldr-word small{animation-duration:.2s;animation-delay:0s}
+.js:not(.ready) .hbg,.js:not(.ready) .hl>*,.js:not(.ready) .hero h1 i.o,.js:not(.ready) .sbox,.js:not(.ready) .chipv{animation-play-state:paused}
+@media(max-width:800px){.ldr-in{flex-direction:column;gap:22px;text-align:center}.ldr-mark{width:72px;height:68px}.ldr-word b{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.ldr{transition:opacity .4s}.ldr.out{transform:none;opacity:0}.ldr-arch{animation:none;fill:var(--milk);stroke-width:0}.ldr-dot,.ldr-word b,.ldr-word small{animation:none;opacity:1;transform:none;letter-spacing:.42em}.ldr-word small{letter-spacing:.5em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<div class="ldr" id="ldr" aria-hidden="true">
+  <div class="ldr-in"><svg class="ldr-mark" viewBox="0 0 76 72"><path class="ldr-arch" d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle class="ldr-dot" cx="67" cy="63" r="9"/></svg>
+    <div class="ldr-word"><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></div></div>
+  <span class="ldr-city">Екатеринбург</span><span class="ldr-pc" id="ldrPc">0 %</span><div class="ldr-bar"><i id="ldrBar"></i></div>
+</div>
+<script>
+(() => {
+  const L = document.getElementById('ldr'), bar = document.getElementById('ldrBar'), pc = document.getElementById('ldrPc'), html = document.documentElement;
+  let seen = false; try { seen = sessionStorage.getItem('pn_ldr') === '1'; sessionStorage.setItem('pn_ldr', '1'); } catch (e) {}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, MIN = seen || reduce ? 500 : 1700, MAX = 4000, t0 = performance.now();
+  if (seen) L.classList.add('quick');
+  let p = 0, loaded = false, done = false;
+  const set = v => { p = v; bar.style.width = v + '%'; pc.textContent = Math.round(v) + ' %'; };
+  const tick = setInterval(() => { const el = performance.now() - t0; const target = loaded ? 100 : Math.min(92, 92 * (1 - Math.exp(-el / 900))); set(p + (target - p) * .25);
+    if ((loaded && el > MIN && p > 99) || el > MAX) finish(); }, 40);
+  function finish() { if (done) return; done = true; clearInterval(tick); set(100);
+    setTimeout(() => { html.classList.add('ready'); L.classList.add('out'); setTimeout(() => L.classList.add('gone'), 900); }, 120); }
+  addEventListener('load', () => { loaded = true; });
+})();
+</script>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
   <symbol id="cmp" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M3 8h8M13 16h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
@@ -760,12 +873,14 @@ main section[id],.after{scroll-margin-top:96px}
       <div class="trust"><span>0 ₽ комиссии</span><span>Эскроу-счета</span><span>Только по договору</span><span>Гарантия 5 лет</span></div>
     </div>
     <div class="sbox">
-      <div class="tabs" role="tablist" aria-label="Что ищете"><button role="tab" aria-selected="true">Новостройки</button><button role="tab" aria-selected="false">Вторичка</button><button role="tab" aria-selected="false">Дома</button><button role="tab" aria-selected="false">С ремонтом</button></div>
-      <form class="sf" id="sf" aria-label="Поиск">
-        <div class="f"><label>Комнат</label><div class="v"><button type="button" class="chip" aria-pressed="false">Студия</button><button type="button" class="chip" aria-pressed="true">1</button><button type="button" class="chip" aria-pressed="true">2</button><button type="button" class="chip" aria-pressed="false">3</button><button type="button" class="chip" aria-pressed="false">4+</button></div></div>
-        <div class="f dd-wrap"><label for="pr">Цена до, млн ₽</label><input id="pr" placeholder="любая" inputmode="decimal" autocomplete="off" aria-controls="prDD"><div class="dd" id="prDD" role="listbox" hidden></div></div>
-        <div class="f dd-wrap"><label for="ad">Район, ЖК, улица</label><input id="ad" placeholder="Академический, ЖК…" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
-        <button class="btn red go" type="submit">Показать <span id="goN"></span></button>
+      <form class="sf sf2" id="sf" aria-label="Поиск квартир">
+        <div class="sg" data-pop><button type="button" class="sgb" aria-expanded="false" aria-haspopup="true"><small>Что ищем</small><b id="sgType">Новостройки</b></button>
+          <div class="pop"><div class="tabs" role="tablist" aria-label="Что ищете"><button type="button" role="tab" aria-selected="true">Новостройки</button><button type="button" role="tab" aria-selected="false">Вторичка</button><button type="button" role="tab" aria-selected="false">Дома</button><button type="button" role="tab" aria-selected="false">С ремонтом</button></div></div></div>
+        <div class="sg" data-pop><button type="button" class="sgb" aria-expanded="false" aria-haspopup="true"><small>Комнаты</small><b id="sgRooms">1, 2</b></button>
+          <div class="pop"><div class="v rooms"><button type="button" class="chip" aria-pressed="false">Студия</button><button type="button" class="chip" aria-pressed="true">1</button><button type="button" class="chip" aria-pressed="true">2</button><button type="button" class="chip" aria-pressed="false">3</button><button type="button" class="chip" aria-pressed="false">4+</button></div><span class="pnote">Можно выбрать несколько</span></div></div>
+        <div class="sg sgi dd-wrap"><label for="pr">Бюджет до, млн ₽</label><input id="pr" placeholder="Любой" inputmode="decimal" autocomplete="off" aria-controls="prDD"><div class="dd" id="prDD" role="listbox" hidden></div></div>
+        <div class="sg sgi grow dd-wrap"><label for="ad">Район или ЖК</label><input id="ad" placeholder="Академический, ЖК…" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
+        <button class="go2" type="submit" aria-label="Показать квартиры"><svg class="ico" aria-hidden="true"><use href="#search"/></svg><span>Показать <b id="goN"></b></span></button>
       </form>
       <div class="sline"><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span><a href="#list"><svg class="ico"><use href="#pin"/></svg>На карте</a></div>
     </div>
@@ -967,18 +1082,23 @@ main section[id],.after{scroll-margin-top:96px}
       <li><button type="button" data-cl="4,6" aria-describedby="vw3"><b>Ясно<i class="o"></i></b><span id="vw3">Цена, срок и следующий шаг — на бумаге до начала работ. Без звёздочек и многоточий.</span></button></li>
     </ol>
   </div>
-  <figure class="sheet" aria-label="Обязательства Платформы в договоре">
-    <div class="sh-h"><span>Договор № ПН-2026</span><span>г. Екатеринбург</span></div>
-    <div class="sh-t">Раздел 3. Обязательства Платформы</div>
-    <ol class="cl">
-      <li data-n="1"><span>3.1</span><p>Комиссия с покупателя — <b>0&nbsp;₽</b>. Мы получаем вознаграждение от застройщика.</p></li>
-      <li data-n="2"><span>3.2</span><p>Ставку по ипотеке подбираем среди <b>6 банков-партнёров</b> и показываем расчёт до подачи заявки.</p></li>
-      <li data-n="3"><span>3.3</span><p>Деньги за новостройку хранятся на <b>эскроу-счёте</b> в банке до сдачи дома.</p></li>
-      <li data-n="4"><span>3.4</span><p>Каждый этап ремонта и стройки закрываем <b>промежуточным актом</b>. Цена в смете не меняется без вашей подписи.</p></li>
-      <li data-n="5"><span>3.5</span><p>Гарантия на ремонт и дома — <b>5&nbsp;лет</b>. Устраняем недостатки за свой счёт.</p></li>
-      <li data-n="6"><span>3.6</span><p>Если партнёр подвёл — <b>решаем вопрос за вас</b>: переговоры, претензия, замена подрядчика.</p></li>
-    </ol>
-    <div class="sign"><div><span class="k">Платформа недвижимости</span><span class="ln"><i class="seal" aria-hidden="true"></i></span></div><div><span class="k">Клиент</span><span class="ln"></span></div></div>
+  <figure class="desk" id="desk" aria-label="Договор с обязательствами Платформы на столе">
+    <div class="dk-in"><img src="photo/desk_contract.jpg" alt="" loading="lazy" class="dk-ph">
+      <div class="paper">
+        <div class="pp-h"><span class="pp-logo"><svg viewBox="0 0 76 72" aria-hidden="true"><use href="#mark"/></svg>ПЛАТФОРМА НЕДВИЖИМОСТИ</span><span>Договор № ПН-2026-0147</span></div>
+        <div class="pp-t">3. Обязательства Платформы</div>
+        <ol class="cl">
+          <li data-n="1"><span>3.1</span><p>Комиссия с покупателя — <b>0&nbsp;₽</b>. Вознаграждение платит застройщик.</p></li>
+          <li data-n="2"><span>3.2</span><p>Ставку подбираем среди <b>6 банков</b> и показываем расчёт до заявки.</p></li>
+          <li data-n="3"><span>3.3</span><p>Деньги за новостройку — на <b>эскроу-счёте</b> до сдачи дома.</p></li>
+          <li data-n="4"><span>3.4</span><p>Каждый этап закрываем <b>актом</b>. Смета не меняется без вашей подписи.</p></li>
+          <li data-n="5"><span>3.5</span><p>Гарантия на ремонт и дома — <b>5&nbsp;лет</b>.</p></li>
+          <li data-n="6"><span>3.6</span><p>Если партнёр подвёл — <b>решаем вопрос за вас</b>.</p></li>
+        </ol>
+        <div class="sign"><div><span class="k">Платформа</span><span class="ln"><svg class="sig" viewBox="0 0 120 34" aria-hidden="true"><path d="M3 26c8-3 12-18 18-19 5-1-2 21 4 20 6-1 9-15 14-15 4 0 0 13 5 13 6 0 9-12 15-12 5 0 2 9 7 9 9 0 20-10 36-14"/></svg><i class="seal"></i></span></div>
+          <div><span class="k">Клиент</span><span class="ln"><a class="you" href="#lead">ваша подпись</a></span></div></div>
+      </div>
+    </div>
     <figcaption>Пример раздела договора. Точные формулировки — в договоре по вашему объекту.</figcaption>
   </figure>
 </div></section>
@@ -1606,7 +1726,16 @@ const cl = $('.cl');
 function vow(b) { const on = b && b.dataset.cl.split(','); $$('.vows button').forEach(x => x.classList.toggle('on', x === b)); cl.classList.toggle('hl', !!b); $$('.cl li').forEach(li => li.classList.toggle('on', !!on && on.includes(li.dataset.n))); }
 $$('.vows button').forEach(b => { b.addEventListener('mouseenter', () => vow(b)); b.addEventListener('focus', () => vow(b)); b.addEventListener('click', () => vow(b.classList.contains('on') ? null : b)); });
 $('.vows').addEventListener('mouseleave', () => vow(null));
-new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { $('.sheet').classList.add('in'); o.disconnect(); } }, {threshold: .6}).observe($('.sheet'));
+(() => { const desk = $('#desk');
+  function play() { const lis = $$('.cl li', desk); desk.classList.add('in'); const st = reduce ? 0 : 260;
+    lis.forEach((li, k) => setTimeout(() => li.classList.add('ok'), st * (k + 1)));
+    setTimeout(() => desk.classList.add('signed'), st * (lis.length + 1)); setTimeout(() => desk.classList.add('sealed'), st * (lis.length + 1) + (reduce ? 0 : 1300)); }
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { play(); o.disconnect(); } }, {threshold: .45}).observe(desk);
+  if (!reduce && matchMedia('(hover:hover)').matches) {
+    desk.addEventListener('mousemove', e => { const r = desk.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      desk.classList.add('move'); desk.style.setProperty('--dry', (x * 6).toFixed(2) + 'deg'); desk.style.setProperty('--drx', (-y * 5).toFixed(2) + 'deg'); });
+    desk.addEventListener('mouseleave', () => { desk.classList.remove('move'); desk.style.setProperty('--dry', '0deg'); desk.style.setProperty('--drx', '0deg'); });
+  } })();
 
 // MacBook + iPhone: масштаб экранов и наклон за курсором
 const devs = $('#devs');
@@ -1744,6 +1873,22 @@ calcExtra();
   box.addEventListener('pointerdown', e => { on = true; box.classList.add('drag'); box.setPointerCapture(e.pointerId); at(e); e.preventDefault(); });
   box.addEventListener('pointermove', e => { if (on) at(e); });
   ['pointerup', 'pointercancel'].forEach(t => box.addEventListener(t, () => { on = false; box.classList.remove('drag'); })); })();
+
+// поиск-капсула: панели сегментов и подписи
+const sf2 = $('#sf');
+function segClose(except) { $$('.sg[data-pop]').forEach(g => { if (g !== except) { g.classList.remove('on'); $('.sgb', g).setAttribute('aria-expanded', 'false'); } }); sf2.classList.toggle('open', !!except); }
+$$('.sg[data-pop]').forEach(g => $('.sgb', g).addEventListener('click', e => { e.stopPropagation(); const on = !g.classList.contains('on'); segClose(on ? g : null); g.classList.toggle('on', on); e.currentTarget.setAttribute('aria-expanded', on); }));
+$$('.sgi input').forEach(inp => inp.addEventListener('focus', () => segClose(null)));
+document.addEventListener('click', e => { if (!e.target.closest('.sg')) segClose(null); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') segClose(null); });
+function segLabels() {
+  $('#sgType').textContent = ($('.pop .tabs [aria-selected=true]') || {}).textContent || 'Новостройки';
+  const r = $$('.sf .chip').filter(c => c.getAttribute('aria-pressed') === 'true').map(c => c.textContent);
+  $('#sgRooms').textContent = r.length ? r.join(', ') : 'Любые';
+}
+$$('.pop .tabs button').forEach(b => b.addEventListener('click', () => { segLabels(); if (b.textContent !== 'Дома') setTimeout(() => segClose(null), 120); }));
+$$('.sf .chip').forEach(c => c.addEventListener('click', segLabels));
+segLabels();
 </script>
 </body>
 </html>
