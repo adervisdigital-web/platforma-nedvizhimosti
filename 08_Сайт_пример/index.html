@@ -503,6 +503,157 @@ input[type=range]:disabled{cursor:default}
 .seenl button{flex:none;width:220px;border:0;background:#fff;border-radius:18px;padding:8px;text-align:left;display:grid;gap:6px}
 .seenl img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px}.seenl b{font-size:15px;padding:0 6px}.seenl span{font-size:12px;color:var(--mut);padding:0 6px 4px}
 @media(prefers-reduced-motion:reduce){.js .hbg,.js .hl>*,.js .hero h1 i.o,.js .sbox,.js .chipv,.dlg[open],.bkok .big{animation:none!important}}
+
+/* v18 — обещания = договор */
+.pact{background:var(--night);color:var(--milk);overflow:hidden}
+.pact .br{color:#8A867F}.pact h2.t{color:var(--milk);max-width:780px}
+.pgrid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);gap:clamp(40px,6vw,140px);align-items:center}
+.vows{list-style:none;margin:48px 0 0;padding:0;counter-reset:none}
+.vows li{border-top:1px solid #ffffff1f}.vows li:last-child{border-bottom:1px solid #ffffff1f}
+.vows button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:baseline;width:100%;padding:26px 0;cursor:pointer}
+.vows b{white-space:nowrap;min-width:5.6em;font:300 clamp(40px,3.5vw,88px)/1 Manrope;letter-spacing:-.05em;color:#ffffff59;transition:color .3s}
+.vows span{color:#8A867F;font-size:clamp(15px,1vw,18px);transition:color .3s}
+.vows button:hover b,.vows button:focus-visible b,.vows button.on b{color:var(--milk)}
+.vows button:hover span,.vows button.on span{color:#C9C5BE}
+.vows button:focus-visible{outline:2px solid var(--red);outline-offset:4px}
+.sheet{margin:0;background:#FBFAF7;color:var(--ink);border-radius:6px;padding:clamp(26px,2.6vw,48px);box-shadow:0 40px 90px #00000080,0 0 0 1px #ffffff0d;transform:rotate(1.2deg);position:relative;
+  background-image:linear-gradient(#0000 calc(100% - 1px),#0000000a 0);background-size:100% 30px}
+.sheet::before{content:'';position:absolute;inset:10px -10px -10px 10px;background:#E9E5DE;border-radius:6px;z-index:-1;transform:rotate(-2.2deg)}
+.sh-h{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);border-bottom:1px solid var(--ink);padding-bottom:10px}
+.sh-t{font:600 15px Manrope;margin:18px 0 6px}
+.cl{list-style:none;margin:0;padding:0}
+.cl li{display:grid;grid-template-columns:38px 1fr;gap:6px;padding:10px 8px;margin:0 -8px;border-radius:8px;transition:background .3s,opacity .3s}
+.cl li span{font:600 13px Manrope;color:var(--mut);padding-top:2px}.cl li p{margin:0;font-size:15px;line-height:1.5}
+.cl li b{font-weight:700}
+.cl.hl li{opacity:.35}.cl.hl li.on{opacity:1;background:#FEECE8}.cl.hl li.on span{color:var(--red-ui)}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:22px}
+.sign .k{display:block;font-size:12px;color:var(--mut)}.sign .ln{display:block;position:relative;height:40px;border-bottom:1px solid var(--ink)}
+.seal{position:absolute;left:30%;bottom:6px;width:26px;height:26px;border-radius:50%;background:var(--red)}
+.js .seal{transform:scale(4);opacity:0;transition:transform .45s cubic-bezier(.5,1.6,.5,1),opacity .2s}
+.js .sheet.in .seal{transform:none;opacity:1}
+.sheet figcaption{margin-top:18px;font-size:12px;color:var(--mut)}
+@media(min-width:1700px){.cl li p{font-size:17px}.sh-t{font-size:17px}}
+@media(max-width:1100px){.pgrid2{grid-template-columns:minmax(0,1fr)}.sheet{transform:none;max-width:640px}}
+@media(max-width:800px){.vows button{grid-template-columns:minmax(0,1fr);gap:8px;padding:20px 0}.vows b{font-size:44px}.sheet{padding:22px 18px}.sheet::before{display:none}.cl li p{font-size:14px}.sign{gap:14px}}
+@media(prefers-reduced-motion:reduce){.js .seal{transform:none;opacity:1}}
+
+/* v19 — MacBook + iPhone */
+.cab .cgrid{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(30px,4vw,90px)}
+.dvx{display:block;position:relative;--rx:0deg;--ry:0deg;--px:0px;--py:0px;cursor:pointer}
+.stage{display:block;position:relative;aspect-ratio:1.42;transform:perspective(1500px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.dvx.move .stage{transition:transform .12s linear}
+.mbp{position:absolute;left:0;top:4%;width:88%;display:block}
+.lid{display:block;position:relative;background:#1A1A1C;border-radius:3.2% 3.2% 0 0/5% 5% 0 0;padding:2.6% 2.6% 3.4%;box-shadow:inset 0 0 0 1.5px #3A3A3E}
+.cam-dot{position:absolute;left:50%;top:1.1%;width:.7%;aspect-ratio:1;border-radius:50%;background:#2E2E33;transform:translateX(-50%)}
+.mbp .vp{display:block;position:relative;aspect-ratio:1440/900;overflow:hidden;border-radius:4px;background:#F4F2EE}
+.mbp iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;transform-origin:0 0;transform:scale(var(--ks,.5));pointer-events:none}
+.base{display:block;position:relative;height:0;padding-bottom:3.6%;margin:0 -7%;background:linear-gradient(180deg,#D9D7D3 0%,#B8B5B0 55%,#8E8B86 100%);border-radius:0 0 14px 14px / 0 0 60% 60%}
+.base i{position:absolute;left:50%;top:0;width:15%;height:40%;background:#A8A5A0;border-radius:0 0 8px 8px;transform:translateX(-50%)}
+.iph{position:absolute;right:0;bottom:3%;width:24%;display:block;background:#1A1A1C;border-radius:16%/7.4%;padding:2.3%;box-shadow:0 30px 60px #0000004d,inset 0 0 0 1.5px #3A3A3E;transform:translate(var(--px),var(--py));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.dvx.move .iph{transition:transform .12s linear}
+.iph .vp{display:block;position:relative;aspect-ratio:390/844;overflow:hidden;border-radius:13%/6%;background:#F4F2EE}
+.iph iframe{position:absolute;left:0;top:0;width:390px;height:844px;border:0;transform-origin:0 0;transform:scale(var(--kp,.4));pointer-events:none}
+.isl{position:absolute;left:50%;top:3.6%;width:30%;height:2.6%;background:#0B0B0C;border-radius:99px;transform:translateX(-50%)}
+.shadow{position:absolute;left:4%;right:6%;bottom:-2%;height:8%;background:radial-gradient(closest-side,#0000003d,#0000);filter:blur(6px)}
+.devcap{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:18px;font-size:13px;font-weight:600;color:var(--mut);transition:color .2s}
+.devcap i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.dvx:hover .devcap,.dvx:focus-visible .devcap{color:var(--ink)}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.dvx:not(.move) .iph{animation:bob 5s ease-in-out infinite}
+@media(max-width:1200px){.cab .cgrid{grid-template-columns:minmax(0,1fr)}.dvx{max-width:820px;margin:10px auto 0}}
+@media(prefers-reduced-motion:reduce){.dvx .iph{animation:none!important}.stage,.iph{transition:none!important}}
+
+/* v20 — меню-капсула */
+:root{--hh:84px}
+header,header.sc{position:fixed;left:0;right:0;top:12px;z-index:30;background:transparent;backdrop-filter:none;box-shadow:none;pointer-events:none}
+header .hd{pointer-events:auto;height:64px;max-width:calc(100% - 2 * clamp(16px,3.4vw,110px));margin:0 auto;padding:0 10px 0 24px!important;border-radius:999px;gap:26px;
+  background:#F4F2EEe0;backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);box-shadow:0 12px 34px #0000001f,inset 0 0 0 1px #ffffff99;transition:background .35s,box-shadow .35s,color .35s}
+header.ontop .hd{background:#0E0E0F47;color:#fff;box-shadow:inset 0 0 0 1px #ffffff2e}
+header.ontop .logo svg{fill:#fff}header.ontop .logo small,header.ontop .tel small{color:#ffffffb3}
+header.ontop .hicon,header.ontop .hcab{background:#ffffff1f;border-color:#ffffff40;color:#fff}
+nav.main{position:relative;align-self:stretch;align-items:center}
+nav.main a{position:relative;padding:8px 2px;opacity:.72;transition:opacity .2s}nav.main a.on::after{display:none}
+nav.main .nd{position:absolute;bottom:12px;left:0;width:6px;height:6px;border-radius:50%;background:var(--red);transform:translateX(var(--nx,-20px));opacity:var(--no,0);transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .3s}
+.tel small{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#2FB36B;box-shadow:0 0 0 0 #2FB36B88;animation:livep 2s infinite}
+@keyframes livep{70%{box-shadow:0 0 0 7px #2FB36B00}100%{box-shadow:0 0 0 0 #2FB36B00}}
+.hero{min-height:clamp(640px,100svh,1400px)}
+.hero .hin{padding-top:calc(var(--hh) + clamp(28px,6vh,100px))}
+main section[id],.after{scroll-margin-top:96px}
+.map{top:96px}
+@media(max-width:800px){:root{--hh:70px}header,header.sc{top:8px}header .hd{height:56px;padding:0 6px 0 16px!important;max-width:calc(100% - 16px)}}
+/* поиск */
+.sbox{border-radius:28px;padding:12px;box-shadow:0 30px 70px #00000052,0 0 0 1px #ffffff26}
+.dd-wrap{position:relative}
+.dd{position:absolute;left:-1px;right:-1px;top:calc(100% + 6px);z-index:20;background:#fff;border-radius:16px;box-shadow:0 20px 50px #0000002e;padding:6px;display:grid;gap:2px;max-height:300px;overflow:auto}
+.dd[hidden]{display:none}
+.dd button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.dd button small{color:var(--mut);font-weight:500}.dd button:hover,.dd button.act{background:var(--soft)}
+.qf{display:flex;gap:6px;flex-wrap:wrap}.qf button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--ink)}
+.qf button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* живая карточка ЖК */
+.chipv{padding:18px 20px 16px;width:clamp(300px,19vw,400px)}
+.cv-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cv-st{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--mut)}
+.cv-st::before{content:'';width:8px;height:8px;border-radius:50%;background:#C9C5BE;transition:background .3s}
+.cv-st.ok{color:#B8321D}.cv-st.ok::before{background:var(--red);box-shadow:0 0 0 4px #F5553C2e}
+.cv-dots{display:flex;gap:5px}.cv-dots button{width:7px;height:7px;border-radius:50%;border:0;padding:0;background:#D9D5CE}.cv-dots button[aria-current=true]{background:var(--ink);width:16px;border-radius:4px}
+.chipv h3{font:600 17px Manrope;margin:0}.chipv>small{display:block;font-size:12px;color:var(--mut);margin:2px 0 6px}
+.chipv li{opacity:.35;transition:opacity .3s}.chipv li svg{transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.chipv li.ok{opacity:1}.chipv li.ok svg{transform:none}
+.cv-go{display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid #0000000f;font-size:13px;font-weight:700;opacity:0;transition:opacity .3s}.cv-go.on{opacity:1}
+.cv-go::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--red);align-self:center}
+/* ремонт: одна комната */
+.rwrap{margin-top:44px}
+.ba.wide{aspect-ratio:21/9;border-radius:30px}
+.ba.wide .l1,.ba.wide .l2{top:18px;font-size:13px;padding:7px 14px}.ba.wide .l1{left:18px}.ba.wide .l2{right:18px}
+.bacap{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:#0E0E0Fb3;backdrop-filter:blur(8px);color:#fff;font-size:13px;font-weight:600;border-radius:999px;padding:8px 16px;pointer-events:none;white-space:nowrap}
+.bsteps{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.bsteps button{all:unset;box-sizing:border-box;display:grid;grid-template-columns:30px 1fr;column-gap:12px;row-gap:2px;width:100%;height:100%;background:#fff;border-radius:20px;padding:16px;cursor:pointer;transition:background .3s,color .3s}
+.bsteps i{grid-row:span 2;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;transition:all .3s}
+.bsteps b{font-size:15px}.bsteps span{font-size:13px;color:var(--mut);transition:color .3s}
+.bsteps li.cur button{background:var(--ink);color:#fff}.bsteps li.cur i{background:var(--red);border-color:var(--red);color:#fff}.bsteps li.cur span{color:#C9C5BE}
+.bsteps li.past i{border-color:var(--ink);background:var(--ink);color:#fff}
+.bsteps button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+@media(max-width:1100px){.bsteps{grid-template-columns:repeat(2,minmax(0,1fr))}.ba.wide{aspect-ratio:16/10}}
+@media(max-width:800px){.bsteps{grid-template-columns:minmax(0,1fr)}.ba.wide{aspect-ratio:4/3.4}.bacap{font-size:11px;padding:6px 12px}}
+@media(prefers-reduced-motion:reduce){.live-dot{animation:none}}
+
+/* v21 — подборки */
+.cats{isolation:isolate}
+.cat{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s,opacity .35s;background-size:cover;will-change:transform}
+.cat::after{content:'';position:absolute;right:16px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--red);transform:scale(0);transition:transform .4s cubic-bezier(.3,1.6,.5,1);box-shadow:0 0 0 0 #F5553C66}
+.cat.red::after{background:#fff}
+.cat b,.cat span{transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+@media(hover:hover){
+ .cats:hover .cat:not(:hover){opacity:.72}
+ .cat:hover{transform:translateY(-8px);box-shadow:0 26px 50px #0000002e}
+ .cat:hover::after{transform:scale(1);animation:catp 1.6s .4s infinite}
+ .cat:hover b,.cat:hover span{transform:translateY(-4px)}
+}
+@keyframes catp{70%{box-shadow:0 0 0 10px #F5553C00}100%{box-shadow:0 0 0 0 #F5553C00}}
+.cat.red{overflow:hidden}
+.cfield{position:absolute;inset:16px 16px auto 16px;height:58%;display:grid;grid-template-columns:repeat(7,1fr);align-content:start;gap:9px 0}
+.cfield i{width:7px;height:7px;border-radius:50%;background:#ffffffb3;justify-self:center;transition:opacity .5s,transform .5s,background .5s}
+.cfield i.off{opacity:.18}.cfield i.win{background:var(--night);transform:scale(2.4);opacity:1}
+/* промо */
+.pt{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
+@media(hover:hover){.pt:hover{transform:translateY(-6px);box-shadow:0 26px 50px #0000002a}}
+.pt .dotgrid{background:none!important;display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:22px;align-items:center;width:160px;height:auto;right:10px;bottom:10px}
+.pt .dotgrid i{width:9px;height:9px;border-radius:50%;justify-self:center;background:#ffffff40}
+.pt.dark .dotgrid i{background:#ffffff2e}.pt.white .dotgrid i{background:var(--red)}
+.pt .dotgrid i.hot{background:#fff}.pt.dark .dotgrid i.hot{background:var(--red)}.pt.white .dotgrid i.hot{background:var(--ink)}
+@keyframes wave{0%,100%{transform:scale(1)}40%{transform:scale(1.7)}}
+.pt:hover .dotgrid i{animation:wave .7s calc(var(--d) * 55ms) ease-out}
+.pt .gl{transition:background .25s,color .25s,padding .25s}
+.pt:hover .gl{padding-right:30px;position:relative}
+.pt .gl::after{content:'';position:absolute;right:14px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--red);opacity:0;transition:opacity .25s}
+.pt:hover .gl::after{opacity:1}
+/* карта статично на всю высоту списка */
+.res{align-items:stretch}
+.map{position:relative;top:auto;height:auto;min-height:560px}
+@media(max-width:1200px){.map{height:380px;min-height:0}}
+@media(prefers-reduced-motion:reduce){.cat,.pt{transition:none}.cat:hover::after{animation:none}.pt:hover .dotgrid i{animation:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -522,12 +673,12 @@ input[type=range]:disabled{cursor:default}
 </svg>
 
 <div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
-<header><div class="w hd">
+<header class="ontop"><div class="w hd">
   <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
-  <nav class="main" aria-label="Разделы"><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
+  <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
   <span class="sp"></span>
   <a class="btn hcab" href="kabinet.html"><svg class="ico" style="width:18px;height:18px"><use href="#user"/></svg>Кабинет</a>
-  <a class="tel" href="tel:+79655002918">+7 965 500-29-18<small>Екатеринбург, ежедневно</small></a>
+  <a class="tel" href="tel:+79655002918">+7 965 500-29-18<small><i class="live-dot"></i>на связи до 21:00</small></a>
   <button class="hicon hide-m" id="cmpBtn" aria-label="Сравнение"><svg class="ico"><use href="#cmp"/></svg><span class="cnt" id="cmpCnt">0</span></button>
   <a class="hicon tel-m" href="tel:+79655002918" aria-label="Позвонить: +7 965 500-29-18"><svg class="ico"><use href="#phone"/></svg></a>
   <button class="hicon" id="favBtn" aria-label="Избранное"><svg class="ico"><use href="#heart"/></svg><span class="cnt" id="favCnt">0</span></button>
@@ -536,8 +687,7 @@ input[type=range]:disabled{cursor:default}
 <main>
 <section class="hero" id="search">
   <div class="hbg" role="img" aria-label="Екатеринбург в сумерках: новые жилые дома и стройка"></div>
-  <div class="chipv"><h3><i></i>ЖК Липовый сквер — проверен</h3>
-    <ul><li><svg><use href="#check"/></svg>Разрешение на строительство</li><li><svg><use href="#check"/></svg>Проектная декларация, эскроу</li><li><svg><use href="#check"/></svg>Прошлые дома сданы в срок</li><li><svg><use href="#check"/></svg>Нет банкротных дел</li></ul></div>
+  <div class="chipv" id="chipv" aria-live="polite"><div class="cv-h"><span class="cv-st" id="cvSt">Проверяем</span><span class="cv-dots" id="cvDots"></span></div><h3 id="cvName"></h3><small id="cvSub"></small><ul id="cvList"></ul><a class="cv-go" id="cvGo" href="#list"></a></div>
   <div class="w hin">
     <div class="hl">
       <div class="br">[ <b>●</b> Екатеринбург · новостройки и вторичка ]</div>
@@ -549,18 +699,18 @@ input[type=range]:disabled{cursor:default}
       <div class="tabs" role="tablist" aria-label="Что ищете"><button role="tab" aria-selected="true">Новостройки</button><button role="tab" aria-selected="false">Вторичка</button><button role="tab" aria-selected="false">Дома</button><button role="tab" aria-selected="false">С ремонтом</button></div>
       <form class="sf" id="sf" aria-label="Поиск">
         <div class="f"><label>Комнат</label><div class="v"><button type="button" class="chip" aria-pressed="false">Студия</button><button type="button" class="chip" aria-pressed="true">1</button><button type="button" class="chip" aria-pressed="true">2</button><button type="button" class="chip" aria-pressed="false">3</button><button type="button" class="chip" aria-pressed="false">4+</button></div></div>
-        <div class="f"><label for="pr">Цена до, млн ₽</label><input id="pr" placeholder="например, 8" inputmode="decimal"></div>
-        <div class="f"><label for="ad">Район, ЖК, улица</label><input id="ad" placeholder="Академический, ЖК…" list="adList" autocomplete="off"><datalist id="adList"></datalist></div>
+        <div class="f dd-wrap"><label for="pr">Цена до, млн ₽</label><input id="pr" placeholder="любая" inputmode="decimal" autocomplete="off" aria-controls="prDD"><div class="dd" id="prDD" role="listbox" hidden></div></div>
+        <div class="f dd-wrap"><label for="ad">Район, ЖК, улица</label><input id="ad" placeholder="Академический, ЖК…" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
         <button class="btn red go" type="submit">Показать <span id="goN"></span></button>
       </form>
-      <div class="sline"><button class="sw" role="switch" aria-checked="true" aria-label="Только проверенные"></button>Только проверенные застройщики<a href="#list"><svg class="ico"><use href="#pin"/></svg>На карте</a></div>
+      <div class="sline"><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span><a href="#list"><svg class="ico"><use href="#pin"/></svg>На карте</a></div>
     </div>
   </div>
 </section>
 
 <section class="after"><div class="w">
   <div class="cats" role="list" aria-label="Подборки">
-    <a class="cat red" role="listitem" href="#list" data-f="best"><b>Самые выгодные этой недели</b><span>отобрали за вас</span></a>
+    <a class="cat red" role="listitem" href="#list" data-f="best"><span class="cfield" aria-hidden="true"></span><b>Самые выгодные этой недели</b><span>отобрали за вас</span></a>
     <a class="cat" role="listitem" href="#list" data-f="done" style="background-image:url(photo/kv_complex2.jpg)"><b>Сданные дома</b><span data-c="done"></span></a>
     <a class="cat" role="listitem" href="#list" data-f="fin" style="background-image:url(photo/kv_living2.jpg)"><b>С отделкой</b><span data-c="fin"></span></a>
     <a class="cat" role="listitem" href="#list" data-f="fam" style="background-image:url(photo/kv_kids.jpg)"><b>Семейная ипотека</b><span data-c="fam"></span></a>
@@ -679,14 +829,15 @@ input[type=range]:disabled{cursor:default}
 <section class="sec" id="ba" style="padding-top:0"><div class="w">
   <div class="br">[ <b>●</b> Ремонт ]</div>
   <h2 class="t">Ремонт без многоточий<i class="o"></i></h2>
-  <div class="rgrid">
-    <div class="ba" id="baBox"><img src="photo/rem_process.jpg" alt="Квартира до ремонта"><img class="after" src="photo/rem_bathroom.jpg" alt="После ремонта"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после"></div>
-    <ol class="tl">
-      <li><i>1</i><div><b>Замер и смета</b><span>Каждая позиция и итог — до того, как вы платите.</span></div></li>
-      <li><i>2</i><div><b>Предварительный договор</b><span>Объём работ, сроки и цена — на бумаге.</span></div></li>
-      <li><i>3</i><div><b>Работа по этапам</b><span>Каждый этап закрываем промежуточным актом.</span></div></li>
-      <li><i>4</i><div><b>Ход работ — в кабинете</b><span>Камера на объекте и отчёты по этапам.</span></div></li>
-      <li><i>✓</i><div><b>Гарантия 5 лет</b><span>По договору. Точка.</span></div></li>
+  <div class="rwrap">
+    <div class="ba wide" id="baBox"><img src="photo/ba_before.jpg" alt="Квартира без отделки: бетон, большие окна"><img class="after" src="photo/ba_after.jpg" alt="Та же квартира после нашего ремонта: гостиная с диваном"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span>
+      <span class="bacap">Одна и та же комната · 63 м² · 9 недель</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после ремонта"></div>
+    <ol class="bsteps" id="bSteps">
+      <li><button type="button" data-v="85"><i>1</i><b>Замер и смета</b><span>Каждая позиция и итог — до оплаты.</span></button></li>
+      <li><button type="button" data-v="67"><i>2</i><b>Договор</b><span>Объём, сроки и цена — на бумаге.</span></button></li>
+      <li><button type="button" data-v="49"><i>3</i><b>Работа по этапам</b><span>Каждый этап — по акту.</span></button></li>
+      <li><button type="button" data-v="31"><i>4</i><b>Ход работ в кабинете</b><span>Камера и отчёты по этапам.</span></button></li>
+      <li><button type="button" data-v="10"><i>✓</i><b>Гарантия 5 лет</b><span>По договору. Точка.</span></button></li>
     </ol>
   </div>
   <div class="calc" style="margin-top:40px">
@@ -718,16 +869,14 @@ input[type=range]:disabled{cursor:default}
     </ul>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn red" href="kabinet.html">Открыть демо-кабинет</a><a class="btn ghost" href="#lead">Как получить доступ</a></div>
   </div>
-  <div class="cphone" aria-label="Пример личного кабинета на телефоне"><div class="scr">
-    <div class="sh"><div><b>Северный Урал 235</b><small>газоблок · Берёзовский</small></div><span class="av"><svg width="18" height="17" fill="#F4F2EE"><use href="#mark"/></svg></span></div>
-    <div class="cam"><img src="photo/cam_build.jpg" alt="Трансляция с камеры: дом из газоблока, монтаж стропил" loading="lazy"><span class="live"><i></i>LIVE</span><span class="ts" id="camTs"></span><span class="cn">Камера 1 · участок</span></div>
-    <div class="box"><div class="k">Этап 4 из 7</div><b>Кровля — монтаж стропил</b><div class="bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i><i></i></div></div>
-    <div class="box">
-      <div class="act done"><i class="ok"></i><div>Акт 3 · стены<small>подписан</small></div></div>
-      <div class="act" id="actRow"><i></i><div>Акт 4 · кровля<small id="actSt">ждёт подписи</small></div><button type="button" id="actBtn">Подписать</button></div>
-    </div>
-    <div class="box"><div class="k">Следующий платёж по рассрочке</div><b>311 100 ₽ · 15 декабря</b></div>
-  </div></div>
+  <a class="dvx" id="devs" href="kabinet.html" aria-label="Открыть демо-кабинет: ноутбук и телефон">
+    <span class="stage">
+      <span class="mbp"><span class="lid"><span class="cam-dot"></span><span class="vp"><iframe src="kabinet.html#home" title="Личный кабинет на ноутбуке" loading="lazy" tabindex="-1" scrolling="no"></iframe></span></span><span class="base"><i></i></span></span>
+      <span class="iph"><span class="vp"><iframe src="kabinet.html#home" title="Личный кабинет на телефоне" loading="lazy" tabindex="-1" scrolling="no"></iframe></span><span class="isl"></span></span>
+      <span class="shadow"></span>
+    </span>
+    <span class="devcap"><i></i>Это настоящий демо-кабинет — нажмите, чтобы открыть</span>
+  </a>
 </div></section>
 
 <section class="sec" id="rev"><div class="w">
@@ -741,20 +890,30 @@ input[type=range]:disabled{cursor:default}
   </div>
 </div></section>
 
-<section class="sec" style="padding-top:0"><div class="w">
-  <div class="br">[ <b>●</b> Обещания ]</div><h2 class="t">Обещаем — и&nbsp;пишем это в&nbsp;<span class="nw">договор<i class="o"></i></span></h2>
-  <div class="prom">
-    <div><b>Проверено<i class="o"></i></b><span>Продаём квартиры только от застройщиков, которых проверили сами. Ремонт и дома делаем своими силами. Красная точка рядом с объектом — наша подпись под ним.</span></div>
-    <div><b>Выгодно<i class="o"></i></b><span>Спецпредложения напрямую от застройщиков, индивидуальные ставки банков и 0 ₽ комиссии для покупателя. Показываем только самые выгодные варианты.</span></div>
-    <div><b>Ясно<i class="o"></i></b><span>Работаем только по договору. Цена, срок и следующий шаг известны заранее — без звёздочек и многоточий.</span></div>
+<section class="sec pact" id="pact"><div class="w pgrid2">
+  <div class="pl">
+    <div class="br">[ <b>●</b> Обещания ]</div>
+    <h2 class="t">Обещаем — и&nbsp;пишем это в&nbsp;<span class="nw">договор<i class="o"></i></span></h2>
+    <ol class="vows" role="list">
+      <li><button type="button" data-cl="3,5" aria-describedby="vw1"><b>Проверено<i class="o"></i></b><span id="vw1">Квартиры — только от застройщиков, которых проверили сами. Ремонт и дома делают наши бригады.</span></button></li>
+      <li><button type="button" data-cl="1,2" aria-describedby="vw2"><b>Выгодно<i class="o"></i></b><span id="vw2">Спецпредложения напрямую от застройщиков и индивидуальные ставки банков. Комиссии для покупателя нет.</span></button></li>
+      <li><button type="button" data-cl="4,6" aria-describedby="vw3"><b>Ясно<i class="o"></i></b><span id="vw3">Цена, срок и следующий шаг — на бумаге до начала работ. Без звёздочек и многоточий.</span></button></li>
+    </ol>
   </div>
-  <div class="gstrip">
-    <div><b>0 ₽</b><span>комиссии для покупателя</span></div>
-    <div><b>5 лет</b><span>гарантия на ремонт и дома</span></div>
-    <div><b>Эскроу</b><span>деньги за новостройку — в банке до сдачи дома</span></div>
-    <div><b>Договор</b><span>и акт на каждый этап работ</span></div>
-    <div><b>Рядом</b><span>если партнёр подвёл — помогаем решить вопрос</span></div>
-  </div>
+  <figure class="sheet" aria-label="Обязательства Платформы в договоре">
+    <div class="sh-h"><span>Договор № ПН-2026</span><span>г. Екатеринбург</span></div>
+    <div class="sh-t">Раздел 3. Обязательства Платформы</div>
+    <ol class="cl">
+      <li data-n="1"><span>3.1</span><p>Комиссия с покупателя — <b>0&nbsp;₽</b>. Мы получаем вознаграждение от застройщика.</p></li>
+      <li data-n="2"><span>3.2</span><p>Ставку по ипотеке подбираем среди <b>6 банков-партнёров</b> и показываем расчёт до подачи заявки.</p></li>
+      <li data-n="3"><span>3.3</span><p>Деньги за новостройку хранятся на <b>эскроу-счёте</b> в банке до сдачи дома.</p></li>
+      <li data-n="4"><span>3.4</span><p>Каждый этап ремонта и стройки закрываем <b>промежуточным актом</b>. Цена в смете не меняется без вашей подписи.</p></li>
+      <li data-n="5"><span>3.5</span><p>Гарантия на ремонт и дома — <b>5&nbsp;лет</b>. Устраняем недостатки за свой счёт.</p></li>
+      <li data-n="6"><span>3.6</span><p>Если партнёр подвёл — <b>решаем вопрос за вас</b>: переговоры, претензия, замена подрядчика.</p></li>
+    </ol>
+    <div class="sign"><div><span class="k">Платформа недвижимости</span><span class="ln"><i class="seal" aria-hidden="true"></i></span></div><div><span class="k">Клиент</span><span class="ln"></span></div></div>
+    <figcaption>Пример раздела договора. Точные формулировки — в договоре по вашему объекту.</figcaption>
+  </figure>
 </div></section>
 
 <section class="lead" id="lead"><span class="dotgrid" aria-hidden="true"></span><div class="w lgrid">
@@ -871,7 +1030,7 @@ function mapRender(list) {
   });
   mapFit();
 }
-function mapFit() { if (lmap && lastPts.length) lmap.fitBounds(lastPts, {padding: [60, 60], maxZoom: 13}); }
+function mapFit() { if (!lmap || !lastPts.length) return; lmap.invalidateSize(); const h = $('.map').clientHeight, view = Math.min(h, Math.round(innerHeight * .85)); lmap.fitBounds(lastPts, {paddingTopLeft: [60, 70], paddingBottomRight: [60, Math.max(60, h - view + 60)], maxZoom: 13}); }
 $('#mapBtn').addEventListener('click', () => setTimeout(() => { if (lmap) { lmap.invalidateSize(); mapFit(); } }, 60));
 const store = {get(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch (e) { return []; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify([...v])); } catch (e) {} }};
 const fav = new Set(store.get('pn_fav')), cmp = new Set(store.get('pn_cmp'));
@@ -967,7 +1126,6 @@ $('#sf').addEventListener('submit', e => {
   applyFilter(ITEMS.filter(it => match(it, f)), lab); $('#list').scrollIntoView({behavior: 'smooth'});
 });
 liveCount();
-$('.sw').addEventListener('click', e => { const sw = e.currentTarget; sw.setAttribute('aria-checked', 'false'); toast('Непроверенных объектов у нас нет — мы их не продаём'); setTimeout(() => sw.setAttribute('aria-checked', 'true'), 900); });
 
 // сравнение и избранное
 const dlg = $('#dlg');
@@ -1131,9 +1289,6 @@ function rcalc() {
 ['#ra', '#rl'].forEach(q => $(q).addEventListener('input', rcalc)); rcalc();
 
 // кабинет: время камеры и подпись акта
-function camTime() { const d = new Date(); $('#camTs').textContent = d.toLocaleDateString('ru-RU') + ' · ' + d.toLocaleTimeString('ru-RU'); }
-camTime(); setInterval(camTime, 1000);
-$('#actBtn').addEventListener('click', e => { const r = $('#actRow'); r.classList.add('done'); $('i', r).classList.add('ok'); $('#actSt').textContent = 'подписан только что'; e.currentTarget.remove(); });
 
 // помощник 24/7 (на макете — ответы по готовым темам; на сайте — ИИ + своя CRM заказчика)
 const FAQ = [
@@ -1357,6 +1512,119 @@ new IntersectionObserver((es, o) => { if (!es[0].isIntersecting) return; o.disco
     (function f(t) { const k = Math.min(1, (t - t0) / 380), e = 1 - Math.pow(1 - k, 3); node.nodeValue = Math.round(from + (to - from) * e).toLocaleString('ru-RU') + ' '; if (k < 1) raf = requestAnimationFrame(f); })(t0);
   }).observe(el, {childList: true});
 });
+
+// обещания ↔ пункты договора
+const cl = $('.cl');
+function vow(b) { const on = b && b.dataset.cl.split(','); $$('.vows button').forEach(x => x.classList.toggle('on', x === b)); cl.classList.toggle('hl', !!b); $$('.cl li').forEach(li => li.classList.toggle('on', !!on && on.includes(li.dataset.n))); }
+$$('.vows button').forEach(b => { b.addEventListener('mouseenter', () => vow(b)); b.addEventListener('focus', () => vow(b)); b.addEventListener('click', () => vow(b.classList.contains('on') ? null : b)); });
+$('.vows').addEventListener('mouseleave', () => vow(null));
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { $('.sheet').classList.add('in'); o.disconnect(); } }, {threshold: .6}).observe($('.sheet'));
+
+// MacBook + iPhone: масштаб экранов и наклон за курсором
+const devs = $('#devs');
+function fitDevs() { const m = $('.mbp .vp'), p = $('.iph .vp'); if (!m) return; devs.style.setProperty('--ks', m.clientWidth / 1440); devs.style.setProperty('--kp', p.clientWidth / 390); }
+addEventListener('resize', fitDevs); fitDevs(); new ResizeObserver(fitDevs).observe(devs);
+if (!reduce && matchMedia('(hover:hover)').matches) {
+  devs.addEventListener('mousemove', e => {
+    const r = devs.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    devs.classList.add('move');
+    devs.style.setProperty('--ry', (x * 14).toFixed(2) + 'deg'); devs.style.setProperty('--rx', (-y * 10).toFixed(2) + 'deg');
+    devs.style.setProperty('--px', (x * 22).toFixed(1) + 'px'); devs.style.setProperty('--py', (y * 16).toFixed(1) + 'px');
+  });
+  devs.addEventListener('mouseleave', () => { devs.classList.remove('move'); ['--rx', '--ry'].forEach(v => devs.style.setProperty(v, '0deg')); ['--px', '--py'].forEach(v => devs.style.setProperty(v, '0px')); });
+}
+
+// меню: капсула и скользящая точка
+const hdrEl = $('header'), nav = $('nav.main'), nd = $('nav.main .nd');
+function ndTo(a) { if (!a) { nav.style.setProperty('--no', 0); return; } nav.style.setProperty('--nx', (a.offsetLeft + a.offsetWidth / 2 - 3) + 'px'); nav.style.setProperty('--no', 1); }
+const ndActive = () => ndTo($('nav.main a.on'));
+$$('nav.main a').forEach(a => a.addEventListener('mouseenter', () => ndTo(a)));
+nav.addEventListener('mouseleave', ndActive);
+new MutationObserver(ndActive).observe(nav, {subtree: true, attributes: true, attributeFilter: ['class']});
+setTimeout(ndActive, 300); addEventListener('resize', ndActive);
+function hdrUpd() { hdrEl.classList.toggle('ontop', scrollY < $('.hero').offsetHeight - 90); }
+addEventListener('scroll', hdrUpd, {passive: true}); hdrUpd();
+
+// поиск: быстрые фильтры
+const QF = {ready: it => !it.due, fin: it => it.fin !== 'Без отделки', fam: it => it.t === 'new', deal: it => it.disc || it.special};
+const qfOn = () => $$('.qf [aria-pressed=true]').map(b => b.dataset.qf);
+const _match = match;
+match = (it, f) => _match(it, f) && qfOn().every(k => QF[k](it));
+$$('.qf button').forEach(b => b.addEventListener('click', () => { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); liveCount(); }));
+
+// поиск: выпадающие подсказки
+function ddOpen(dd, items, pick) {
+  if (!items.length) { dd.hidden = true; return; }
+  dd.innerHTML = items.map((x, i) => `<button type="button" role="option" data-i="${i}">${x[0]}${x[1] ? `<small>${x[1]}</small>` : ''}</button>`).join('');
+  dd.hidden = false; $$('button', dd).forEach(b => b.addEventListener('mousedown', e => { e.preventDefault(); pick(items[b.dataset.i]); dd.hidden = true; }));
+}
+function ddKeys(inp, dd) {
+  inp.addEventListener('keydown', e => {
+    const bs = $$('button', dd); if (dd.hidden || !bs.length) return; let i = bs.findIndex(b => b.classList.contains('act'));
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); i = (i + (e.key === 'ArrowDown' ? 1 : -1) + bs.length) % bs.length; bs.forEach((b, k) => b.classList.toggle('act', k === i)); }
+    else if (e.key === 'Enter' && i >= 0) { e.preventDefault(); bs[i].dispatchEvent(new MouseEvent('mousedown')); }
+    else if (e.key === 'Escape') dd.hidden = true;
+  });
+  inp.addEventListener('blur', () => setTimeout(() => dd.hidden = true, 120));
+}
+const pr = $('#pr'), ad = $('#ad');
+const cntBy = fn => ITEMS.filter(it => fn(it) && match(it, {...readForm(), max: 0, q: ''})).length;
+function prShow() { ddOpen($('#prDD'), [5, 8, 12, 15].map(m => [`до ${m} млн ₽`, `${cntBy(it => it.p <= m * 1e6)} кв.`, m]).concat([['Любая цена', '', '']]), x => { pr.value = x[2]; liveCount(); }); }
+pr.addEventListener('focus', prShow); pr.addEventListener('input', () => $('#prDD').hidden = true); ddKeys(pr, $('#prDD'));
+const PLACES = [...new Set(ITEMS.map(it => it.d))].map(d => [d, 'район']).concat([...new Set(ITEMS.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => [z, 'жилой комплекс']));
+function adShow() {
+  const q = ad.value.trim().toLowerCase();
+  ddOpen($('#adDD'), PLACES.filter(p => !q || p[0].toLowerCase().includes(q)).slice(0, 7).map(p => [p[0], `${p[1]} · ${cntBy(it => (it.zk + ' ' + it.d).includes(p[0]))} кв.`]), x => { ad.value = x[0]; liveCount(); });
+}
+ad.addEventListener('focus', adShow); ad.addEventListener('input', adShow); ddKeys(ad, $('#adDD'));
+
+// живая карточка «ЖК проверен»
+const ZKS = [...new Set(ITEMS.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => ({z, d: ITEMS.find(it => it.zk === z).d, n: ITEMS.filter(it => it.zk === z).length}));
+const ZCHK = ['Разрешение на строительство', 'Проектная декларация, эскроу', 'Прошлые дома сданы в срок', 'Нет банкротных дел'];
+let zi = 0, zt = [], zPause = false;
+function zShow(i) {
+  zt.forEach(clearTimeout); zt = []; zi = (i + ZKS.length) % ZKS.length; const z = ZKS[zi];
+  $('#cvName').textContent = z.z; $('#cvSub').textContent = `${z.d} · новостройка`;
+  $('#cvList').innerHTML = ZCHK.map(c => `<li><svg><use href="#check"/></svg>${c}</li>`).join('');
+  $('#cvDots').innerHTML = ZKS.map((_, k) => `<button type="button" aria-label="${ZKS[k].z}" aria-current="${k === zi}"></button>`).join('');
+  $$('#cvDots button').forEach((b, k) => b.addEventListener('click', () => zShow(k)));
+  const st = $('#cvSt'), go = $('#cvGo'); st.textContent = 'Проверяем'; st.classList.remove('ok'); go.classList.remove('on');
+  go.textContent = `${z.n} ${plural(z.n, 'квартира', 'квартиры', 'квартир')} в этом ЖК`;
+  const step = reduce ? 0 : 450;
+  $$('#cvList li').forEach((li, k) => zt.push(setTimeout(() => li.classList.add('ok'), step * (k + 1))));
+  zt.push(setTimeout(() => { st.textContent = 'Проверен'; st.classList.add('ok'); go.classList.add('on'); }, step * 5));
+  zt.push(setTimeout(function nx() { if (zPause) { zt.push(setTimeout(nx, 1500)); return; } zShow(zi + 1); }, step * 5 + 4200));
+}
+$('#cvGo').addEventListener('click', e => { e.preventDefault(); const z = ZKS[zi].z; applyFilter(ITEMS.filter(it => it.zk === z), z); $('#list').scrollIntoView({behavior: 'smooth'}); });
+$('#chipv').addEventListener('mouseenter', () => zPause = true); $('#chipv').addEventListener('mouseleave', () => zPause = false);
+zShow(0);
+
+// ремонт: шторка ↔ этапы
+const baR = $('#baR');
+function baSet(v) { baR.value = v; $('#baBox .after').style.clipPath = `inset(0 0 0 ${v}%)`; $('#baH').style.left = v + '%';
+  const k = Math.min(4, Math.floor((100 - v) / 18)); $$('#bSteps li').forEach((li, i) => { li.classList.toggle('cur', i === k); li.classList.toggle('past', i < k); }); }
+baR.addEventListener('input', () => baSet(+baR.value));
+function baTo(to, ms = 900) { if (reduce) { baSet(to); return; } const from = +baR.value, t0 = performance.now();
+  (function f(t) { const k = Math.min(1, (t - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; baSet(from + (to - from) * e); if (k < 1) requestAnimationFrame(f); })(t0); }
+$$('#bSteps button').forEach(b => b.addEventListener('click', () => baTo(+b.dataset.v, 600)));
+baSet(50);
+new IntersectionObserver((es, o) => { if (!es[0].isIntersecting) return; o.disconnect(); baTo(92, 700); setTimeout(() => baTo(8, 1600), 750); setTimeout(() => baTo(50, 900), 2500); }, {threshold: .5}).observe($('#baBox'));
+
+// подборки: живое поле точек в «Самые выгодные»
+(() => {
+  const f = $('.cfield'), N = 42, W = 23; f.innerHTML = '<i></i>'.repeat(N); const ds = $$('i', f);
+  if (reduce) { ds.forEach((d, i) => d.classList.toggle('off', i !== W)); ds[W].classList.add('win'); return; }
+  function run() {
+    ds.forEach(d => d.classList.remove('off', 'win')); const order = ds.map((_, i) => i).filter(i => i !== W).sort(() => Math.random() - .5); let k = 0;
+    const t = setInterval(() => { for (let j = 0; j < 3 && k < order.length; j++, k++) ds[order[k]].classList.add('off');
+      if (k >= order.length) { clearInterval(t); ds[W].classList.add('win'); setTimeout(run, 2600); } }, 110);
+  }
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { run(); o.disconnect(); } }).observe(f);
+})();
+// промо: точки волной
+$$('.pt .dotgrid').forEach(g => { const C = 7, R = 5; g.innerHTML = Array.from({length: C * R}, (_, i) => { const x = i % C, y = Math.floor(i / C); return `<i style="--d:${(C - 1 - x) + (R - 1 - y)}"${(x + y) % 9 === 4 ? ' class="hot"' : ''}></i>`; }).join(''); });
+// карта: пересчёт размера, когда список меняет высоту
+if (window.ResizeObserver) { let mt; new ResizeObserver(() => { clearTimeout(mt); mt = setTimeout(mapFit, 120); }).observe($('.map')); }
 </script>
 </body>
 </html>
