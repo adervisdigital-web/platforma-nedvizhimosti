@@ -32,6 +32,8 @@ $('#qvLead').click();R.push('book: '+$('#dlgT').textContent+' days='+$$('#dlgB [
 $('#dlgB [data-t]:not(:disabled)').click();$('#bkP').value='';$('#bkGo').click();R.push('bkBad='+$('#bkF').classList.contains('bad'));
 $('#bkP').value='9001234567';$('#bkP').dispatchEvent(new Event('input'));$('#bkGo').click();R.push('booked: '+$('#dlgT').textContent+' | '+$('.bkok h4').textContent+' ics='+!!$('.bkok a[download]'));$('#dlg').close();
 R.push('seen='+$$('#seenL button').length+' hidden='+$('#seen').hidden);}
+if($('#baBox')){const bx=$('#baBox'),br=bx.getBoundingClientRect(),pe=(t,x)=>bx.dispatchEvent(new PointerEvent(t,{clientX:br.left+br.width*x,clientY:br.top+50,pointerId:1,bubbles:true}));
+pe('pointerdown',.2);pe('pointermove',.8);pe('pointerup',.8);R.push('baDrag='+Math.round($('#baR').value)+' clip='+$('#baBox .after').style.clipPath+' step='+(($('#bSteps li.cur b')||{}).textContent));}
 R.push('cmpCnt='+$('#cmpCnt').textContent+' fav='+$('#favCnt').textContent+' cats='+$$('[data-c]').map(e=>e.textContent).join('/'));
 }catch(x){R.push('ERR '+x.message)}R.push('errors='+__e.join(';'));document.body.setAttribute('data-r',R.join(' || '))},600)</script>'''
 open(out, 'w', encoding='utf8').write(s.replace('<head>', '<head>' + pre).replace('</body>', test + '</body>'))
