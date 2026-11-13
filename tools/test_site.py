@@ -15,7 +15,12 @@ $('#fltX').click();R.push('reset cards='+$$('.card').length+' more='+$('#moreBtn
 $$('.seg.sort button')[1].click();R.push('cheapest='+$('.card .price').textContent);
 $$('.seg.view button')[1].click();R.push('sortStill='+$('.seg.sort [aria-pressed=true]').textContent);
 $('#cmpBtn').click();R.push('dlg='+$('#dlg').open+' tr='+$$('.ctab tr').length);$('#dlg').close();
+if($('#qNext')){$('#qNext').click();R.push('quiz2 flat: '+$('#qMatch').textContent);$$('#leadForm .ch button')[1].click();R.push('house: '+$('#qMatch').textContent);
+$$('#leadForm .ch button')[3].click();R.push('mort: '+$('#qMatch').textContent);$('#qNext').click();R.push('step='+$('#qStep').textContent+' send='+!$('#qSend').hidden);
+$('#leadForm').requestSubmit();R.push('badPhone='+$('#lp').closest('.f').classList.contains('bad'));}
 const lp=$('#lp');lp.value='89655002918';lp.dispatchEvent(new Event('input'));R.push('tel='+lp.value);
+if($('#qSend')){$('#leadForm').requestSubmit();R.push('sent='+$('#leadForm').classList.contains('sent'));}
+R.push('prog='+getComputedStyle($('#prog')).getPropertyValue('--s')+' labels='+$$('.br b').map(b=>b.textContent).join(''));
 $$('.cat')[1].click();R.push('cat done='+$$('.card').length+' '+$('#fltT').textContent);
 $$('button.mort')[0].click();R.push('calc='+$('#cpv').textContent);
 if($('#qvFav')===null){$$('.card .qv')[0].click();R.push('quick='+$('#dlg').open+' '+$('#dlgT').textContent+' checks='+$$('.qvc span').length);$('#qvFav').click();$('#dlg').close();R.push('range--p='+$('#cp').style.getPropertyValue('--p'));}

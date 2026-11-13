@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><script>document.documentElement.classList.add("js")</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Платформа недвижимости — квартиры, дома и ремонт в Екатеринбурге</title>
 <meta name="description" content="Квартиры от проверенных застройщиков Екатеринбурга без комиссии, свой ремонт с гарантией 5 лет и дома в рассрочку до 5 лет.">
@@ -157,7 +157,7 @@ nav.main a.on::after{content:'';display:inline-block;width:5px;height:5px;border
 .pc .b{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
 .pc h3{margin:0;font:500 28px/1.05 Manrope;letter-spacing:-.03em}.pc p{margin:0;color:#4A4741}
 .pc .br2{font-size:13px;color:var(--mut);line-height:1.8}
-.pc a.lk{margin-top:auto;font-weight:700;display:inline-flex;gap:8px;align-items:center}.pc a.lk::after{content:'→';color:var(--red)}
+.pc a.lk{margin-top:auto;font-weight:700;display:inline-flex;gap:8px;align-items:center}.pc a.lk::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--red)}
 .way{margin-top:14px;background:var(--ink);color:var(--milk);border-radius:26px;padding:22px 24px 22px 30px;display:flex;align-items:center;gap:18px}
 .way .btn{flex:none;margin-left:12px}
 .way .stp{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;white-space:nowrap}.way .stp i{width:12px;height:12px;border-radius:50%;background:#56545A}.way .stp:last-of-type i{background:var(--red)}
@@ -428,6 +428,24 @@ input[type=range]:disabled{cursor:default}
 .plan{display:block;background:#EBEBEB;border-radius:20px;overflow:hidden}.plan img{width:100%;height:auto}
 @media(max-width:1200px){.hx{grid-template-columns:repeat(2,minmax(0,1fr))}.hc,.hc:nth-child(-n+2){grid-column:span 1}.hc:first-child{grid-column:span 2}}
 @media(max-width:800px){.hx{grid-template-columns:minmax(0,1fr)}.hc:first-child{grid-column:span 1}.hdl,.htext{grid-template-columns:minmax(0,1fr)}.hth button{width:72px}}
+
+/* v10 — линия прокрутки с точкой */
+.prog{position:fixed;left:0;right:0;top:0;height:2px;z-index:36;pointer-events:none}
+.prog i{position:absolute;left:0;top:0;height:2px;width:calc(var(--s,0) * 100%);background:var(--ink)}
+.prog b{position:absolute;top:-4px;left:calc(var(--s,0) * 100% - 5px);width:10px;height:10px;border-radius:50%;background:var(--red);transition:opacity .3s}
+.prog.end b{opacity:0}
+.js .fbig i.o{transform:scale(0);transform-origin:50% 100%;transition:transform .8s cubic-bezier(.3,1.7,.5,1) .15s}
+.js .fbig.in i.o{transform:scale(1)}
+/* подбор за 3 шага */
+.quiz fieldset{border:0;margin:0;padding:0;display:none;gap:12px}.quiz fieldset.on{display:grid}
+.quiz legend{font:500 24px/1.2 Manrope;letter-spacing:-.02em;padding:0;margin-bottom:12px}
+.qh{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mut)}
+.qd{display:flex;gap:6px}.qd i{width:9px;height:9px;border-radius:50%;background:var(--line);transition:background .3s}.qd i.on{background:var(--red)}
+.ch2{display:flex;gap:6px;flex-wrap:wrap}.ch2 button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600;min-height:40px}.ch2 button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.qm{margin:0;background:var(--soft);border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.45}.qm b{font-size:17px}
+.qnav{display:flex;gap:8px}.qnav .btn{flex:1}.qnav [hidden]{display:none}
+.quiz .rng label b{font-size:18px}
+.ib.share svg{fill:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -442,9 +460,11 @@ input[type=range]:disabled{cursor:default}
   <symbol id="calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12.5h1M12 12.5h1M8.5 16.5h1M12 16.5h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="msg" viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.3a11 11 0 0 0 6.4 6.4l1.3-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.6 16.6 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="share" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 13v6h14v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
 </svg>
 
+<div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
 <header><div class="w hd">
   <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
   <nav class="main" aria-label="Разделы"><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
@@ -499,7 +519,7 @@ input[type=range]:disabled{cursor:default}
 
 <section class="sec" id="list"><div class="w">
   <div class="lhead">
-    <div><div class="br">[ <b>01</b> Предложения ]</div><h2 class="t">Отобрали на этой <span class="nw">неделе<i class="o"></i></span><span class="cnt2" id="cnt"></span></h2></div>
+    <div><div class="br">[ <b>●</b> Предложения ]</div><h2 class="t">Отобрали на этой <span class="nw">неделе<i class="o"></i></span><span class="cnt2" id="cnt"></span></h2></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><div class="seg sort" role="group" aria-label="Сортировка"><button aria-pressed="true" data-s="best">Самые выгодные</button><button aria-pressed="false" data-s="cheap">Дешевле</button><button aria-pressed="false" data-s="due">Срок сдачи</button></div><button class="btn ghost mapbtn" id="mapBtn" aria-pressed="false"><svg class="ico"><use href="#pin"/></svg>На карте</button><div class="seg view" role="group" aria-label="Вид"><button aria-pressed="false" data-v="list">Список</button><button aria-pressed="false" data-v="grid">Плитка</button></div></div>
   </div>
   <div class="flt" id="flt" hidden><span id="fltT"></span><button type="button" id="fltX">Сбросить ×</button></div>
@@ -521,7 +541,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec man" id="how"><div class="w">
-  <div class="br" style="color:#8A867F">[ <b>02</b> Отбор ]</div>
+  <div class="br" style="color:#8A867F">[ <b>●</b> Отбор ]</div>
   <p class="mtext"><b>Застройщиков проверяем.</b> Ремонт и&nbsp;дома делаем сами — по&nbsp;договору и&nbsp;с&nbsp;гарантией 5&nbsp;лет. <b>Продаём только то, за&nbsp;что <em class="nw">ручаемся<i class="o"></i></em></b></p>
   <div class="mgrid">
     <div class="field" id="field" role="img" aria-label="Из сотен предложений остаётся одно, отмеченное красной точкой"><div class="fcap"><span id="fcapL">Весь рынок</span><b id="fcapR"></b></div></div>
@@ -540,7 +560,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" id="partners"><div class="w">
-  <div class="br">[ <b>03</b> Что мы делаем ]</div>
+  <div class="br">[ <b>●</b> Что мы делаем ]</div>
   <h2 class="t">Квартира<i class="o"></i> Дом<i class="o"></i> Ремонт<i class="o"></i></h2>
   <div class="pgrid">
     <div class="pc"><div class="ph"><img src="photo/inspect.jpg" alt="Инженер проверяет строящийся дом" loading="lazy"><span>Продаём</span></div><div class="b"><h3>Квартиры<i class="o"></i></h3><p>Новостройки от проверенных застройщиков — со спецпредложениями напрямую от них. Вторичка — после проверки юриста. Комиссии для покупателя нет.</p><div class="devs"><span>Брусника</span><span>Атомстройкомплекс</span><span>УГМК</span><span>Прогресс</span><span>Атлас</span></div><a class="lk" href="#list">Смотреть квартиры</a></div></div>
@@ -551,7 +571,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" id="calc" style="padding-top:0"><div class="w">
-  <div class="br">[ <b>04</b> Ипотека ]</div>
+  <div class="br">[ <b>●</b> Ипотека ]</div>
   <h2 class="t">Посчитайте платёж — без звёздочек<i class="o"></i></h2>
   <div class="banks">Работаем с банками: <span>Сбер</span><span>ВТБ</span><span>Альфа-Банк</span><span>ДОМ.РФ</span><span>Россельхозбанк</span><span>УБРИР</span> — и получаем для клиентов индивидуальные ставки.</div>
   <div class="calc">
@@ -575,7 +595,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" id="houses" style="padding-top:0"><div class="w">
-  <div class="lhead"><div><div class="br">[ <b>05</b> Дома ]</div><h2 class="t">Свой дом — в рассрочку до&nbsp;5&nbsp;лет<i class="o"></i></h2></div>
+  <div class="lhead"><div><div class="br">[ <b>●</b> Дома ]</div><h2 class="t">Свой дом — в рассрочку до&nbsp;5&nbsp;лет<i class="o"></i></h2></div>
     <p style="max-width:480px;color:#4A4741;margin:0">Пять проектов в трёх линейках — Северный, Южный и Средний Урал. Планировку и фасад настроим под вашу семью; строим из газоблока, кирпича, керамоблока или дерева.</p></div>
   <div class="hfl seg2" id="hfl" role="group" aria-label="Линейка"><button aria-pressed="true" data-l="">Все проекты</button><button aria-pressed="false" data-l="Северный Урал">Северный Урал</button><button aria-pressed="false" data-l="Южный Урал">Южный Урал</button><button aria-pressed="false" data-l="Средний Урал">Средний Урал</button><button aria-pressed="false" data-fl="1">Одноэтажные</button><button aria-pressed="false" data-fl="2">Двухэтажные</button></div>
   <div class="hx" id="hx"></div>
@@ -600,7 +620,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" id="ba" style="padding-top:0"><div class="w">
-  <div class="br">[ <b>06</b> Ремонт — делаем сами ]</div>
+  <div class="br">[ <b>●</b> Ремонт ]</div>
   <h2 class="t">Ремонт без многоточий<i class="o"></i></h2>
   <div class="rgrid">
     <div class="ba" id="baBox"><img src="photo/rem_process.jpg" alt="Квартира до ремонта"><img class="after" src="photo/rem_bathroom.jpg" alt="После ремонта"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после"></div>
@@ -630,7 +650,7 @@ input[type=range]:disabled{cursor:default}
 
 <section class="sec cab" id="cab"><div class="w cgrid">
   <div>
-    <div class="br">[ <b>07</b> Личный кабинет ]</div>
+    <div class="br">[ <b>●</b> Личный кабинет ]</div>
     <h2 class="t">Ваш дом — в&nbsp;прямом <span class="nw">эфире<i class="o"></i></span></h2>
     <p class="lead2">Камера на объекте подключается сразу после начала работ. Смотрите стройку или ремонт с телефона, подписывайте акты этапов и следите за платежами — в одном месте.</p>
     <ul class="cfeat">
@@ -653,7 +673,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" id="rev"><div class="w">
-  <div class="lhead"><div><div class="br">[ <b>08</b> Отзывы ]</div><h2 class="t">Говорят те, у кого уже <span class="nw">точка<i class="o"></i></span></h2></div><div class="rvh"><span class="demo">Демо-отзывы для макета — заменим настоящими</span><div class="arr"><button type="button" data-d="-1" aria-label="Предыдущие отзывы">←</button><button type="button" data-d="1" aria-label="Следующие отзывы">→</button></div></div></div>
+  <div class="lhead"><div><div class="br">[ <b>●</b> Отзывы ]</div><h2 class="t">Говорят те, у кого уже <span class="nw">точка<i class="o"></i></span></h2></div><div class="rvh"><span class="demo">Демо-отзывы для макета — заменим настоящими</span><div class="arr"><button type="button" data-d="-1" aria-label="Предыдущие отзывы">←</button><button type="button" data-d="1" aria-label="Следующие отзывы">→</button></div></div></div>
   <div class="rv" tabindex="0" aria-label="Отзывы клиентов">
     <article class="rc"><div class="ph"><img src="photo/kv_living2.jpg" alt="" loading="lazy"><span>Новостройка</span></div><div class="b"><q>Искали двушку под семейную ипотеку полгода. Здесь за неделю показали три варианта и честно сказали, почему не стоит брать четвёртый: у застройщика переносы сдачи. Купили — дом сдали в срок.</q><div class="who"><i>М</i><div><b>Марина и Олег</b><span>2-комн. квартира, ЖК Кварц</span></div></div></div></article>
     <article class="rc"><div class="ph"><img src="photo/rem_bathroom.jpg" alt="" loading="lazy"><span>Ремонт</span></div><div class="b"><q>Больше всего боялся, что смета вырастет. Не выросла: что записали в предварительный договор, то и заплатили. После каждого этапа — акт, без «доплатите за материалы».</q><div class="who"><i>Д</i><div><b>Дмитрий</b><span>ремонт 2-комн. квартиры</span></div></div></div></article>
@@ -664,7 +684,7 @@ input[type=range]:disabled{cursor:default}
 </div></section>
 
 <section class="sec" style="padding-top:0"><div class="w">
-  <div class="br">[ <b>09</b> Обещания ]</div>
+  <div class="br">[ <b>●</b> Обещания ]</div>
   <div class="prom">
     <div><b>Проверено<i class="o"></i></b><span>Продаём квартиры только от застройщиков, которых проверили сами. Ремонт и дома делаем своими силами. Красная точка рядом с объектом — наша подпись под ним.</span></div>
     <div><b>Выгодно<i class="o"></i></b><span>Спецпредложения напрямую от застройщиков, индивидуальные ставки банков и 0 ₽ комиссии для покупателя. Показываем только самые выгодные варианты.</span></div>
@@ -682,13 +702,20 @@ input[type=range]:disabled{cursor:default}
 <section class="lead" id="lead"><span class="dotgrid" aria-hidden="true"></span><div class="w lgrid">
   <div><h2 class="t">Расскажите, что ищете. Мы&nbsp;уже знаем, кому можно <span class="nw">доверять<i class="o n"></i></span></h2><p>Подберём варианты среди проверенных предложений и перезвоним. Или позвоните сами: <a href="tel:+79655002918" style="font-weight:700;border-bottom:2px solid #fff">+7 965 500-29-18</a>. На вопросы отвечаем круглосуточно — в чате, Telegram и MAX.</p>
     <div class="msg"><a href="#" data-chat>Чат на сайте</a><a href="#">Telegram</a><a href="#">MAX</a></div></div>
-  <form class="form" id="leadForm" novalidate>
-    <div class="ch" role="group" aria-label="Что ищете"><button type="button" aria-pressed="true">Квартиру</button><button type="button" aria-pressed="false">Дом</button><button type="button" aria-pressed="false">Ремонт</button><button type="button" aria-pressed="false">Ипотеку</button></div>
-    <div class="f"><label for="ln">Как к вам обращаться</label><input id="ln" autocomplete="name" placeholder="Имя"></div>
-    <div class="f"><label for="lp">Телефон</label><input id="lp" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" aria-describedby="lpErr"><span class="err" id="lpErr">Введите номер полностью — 10 цифр после +7</span></div>
-    <button class="btn red" type="submit">Подобрать варианты</button>
-    <small>Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
-    <div class="done"><b>Спасибо<i class="o"></i></b>Перезвоним в рабочее время.</div>
+  <form class="form quiz" id="leadForm" novalidate>
+    <div class="qh"><span id="qStep">Шаг 1 из 3</span><span class="qd" aria-hidden="true"><i class="on"></i><i></i><i></i></span></div>
+    <fieldset class="on" data-s="1"><legend>Что ищете?</legend>
+      <div class="ch" role="group" aria-label="Что ищете"><button type="button" aria-pressed="true" data-q="flat">Квартиру</button><button type="button" aria-pressed="false" data-q="house">Дом</button><button type="button" aria-pressed="false" data-q="reno">Ремонт</button><button type="button" aria-pressed="false" data-q="mort">Ипотеку</button></div></fieldset>
+    <fieldset data-s="2"><legend id="q2l">Какой бюджет?</legend>
+      <div class="rng"><label for="qb"><span id="qbl">Бюджет до</span> <b id="qbv"></b></label><input type="range" id="qb" min="3" max="30" step="0.5" value="9"></div>
+      <div class="ch2" id="qr" role="group" aria-label="Комнат"><button type="button" aria-pressed="false" data-r="0">Студия</button><button type="button" aria-pressed="true" data-r="1">1</button><button type="button" aria-pressed="true" data-r="2">2</button><button type="button" aria-pressed="false" data-r="3">3</button><button type="button" aria-pressed="false" data-r="4">4+</button></div>
+      <p class="qm" id="qMatch" aria-live="polite"></p></fieldset>
+    <fieldset data-s="3"><legend>Куда прислать подборку?</legend>
+      <div class="f"><label for="ln">Как к вам обращаться</label><input id="ln" autocomplete="name" placeholder="Имя"></div>
+      <div class="f"><label for="lp">Телефон</label><input id="lp" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" aria-describedby="lpErr"><span class="err" id="lpErr">Введите номер полностью — 10 цифр после +7</span></div></fieldset>
+    <div class="qnav"><button type="button" class="btn ghost" id="qBack" hidden>Назад</button><button type="button" class="btn red" id="qNext">Дальше</button><button class="btn red" type="submit" id="qSend" hidden>Получить подборку</button></div>
+    <small>Нажимая «Получить подборку», вы соглашаетесь на обработку персональных данных.</small>
+    <div class="done"><b>Заявка принята<i class="o"></i></b>Менеджер позвонит и пришлёт подборку. Если удобнее — напишите в чат на сайте.</div>
   </form>
 </div></section>
 </main>
@@ -978,14 +1005,14 @@ $$('#hfl button').forEach(b => b.addEventListener('click', () => {
   HOUSES.forEach(h => { $(`.hc[data-h="${h.id}"]`).hidden = !(b.dataset.l === undefined ? h.fl === +b.dataset.fl : !b.dataset.l || h.line === b.dataset.l); });
 }));
 function houseView(h) {
-  dlg.classList.add('wide');
+  dlg.classList.add('wide'); setHash('house-' + h.id);
   openDlg(`${h.line} ${h.n}`, `<div class="hdl"><div><div class="hmain"><img id="hvMain" src="photo/houses/${h.ph[0]}.jpg" alt="${h.line} ${h.n}"></div>
       <div class="hth">${h.ph.map((p, i) => `<button type="button" data-p="${p}" aria-pressed="${i === 0}" aria-label="Фото ${i + 1}"><img src="photo/houses/${p}.jpg" alt=""></button>`).join('')}</div></div>
     <div><span class="ln" style="--c:${h.c}"><i></i>Линейка «${h.line}»</span><p class="mt2">«${h.motto}»</p>
       <dl class="qvp"><div><dt>Площадь</dt><dd>${h.n} м²</dd></div><div><dt>Этажность</dt><dd>${flTxt(h.fl)}</dd></div><div><dt>Жилых комнат</dt><dd>${h.rooms}</dd></div><div><dt>Потолки</dt><dd>${h.ceil}</dd></div></dl>
       <ul class="feats">${h.feats.map(f => `<li><svg><use href="#check"/></svg>${f}</li>`).join('')}</ul>
       <div class="qvm" style="margin-top:16px"><div><small>Тёплый контур от ${fmtM(hFrom(h))} · взнос 30 %</small><b>от ${hMonth(h).toLocaleString('ru-RU')} ₽/мес</b><small>внутренняя рассрочка на 5 лет</small></div><button type="button" id="hvCalc">Рассчитать</button></div>
-      <div class="qva"><a class="btn red" href="tel:+79655002918">Позвонить</a><a class="btn white" href="#lead" id="hvLead">Обсудить проект</a></div>
+      <div class="qva"><a class="btn red" href="tel:+79655002918">Позвонить</a><a class="btn white" href="#lead" id="hvLead">Обсудить проект</a><button type="button" class="ib share" data-share aria-label="Поделиться ссылкой"><svg class="ico"><use href="#share"/></svg></button></div>
       <p class="hnote">Планировку и фасад настроим под вашу семью. Материал стен — на выбор.</p></div></div>
     <p class="hidea">${h.idea}</p><div class="htext">${h.text.map(t => `<p>${t}</p>`).join('')}</div>
     <div class="hpl"><h4>Планировка</h4>${h.plans.length > 1 ? `<div class="seg2" id="plTabs">${h.plans.map((p, i) => `<button type="button" aria-pressed="${i === 0}" data-i="${i}">${p[0]}</button>`).join('')}</div>` : `<span style="color:var(--mut)">${h.plans[0][0]}</span>`}</div>
@@ -995,7 +1022,7 @@ function houseView(h) {
   $('#hvCalc').addEventListener('click', () => { dlg.close(); pickHouse(h, true); });
   $('#hvLead').addEventListener('click', () => dlg.close());
 }
-dlg.addEventListener('close', () => dlg.classList.remove('wide'));
+dlg.addEventListener('close', () => { dlg.classList.remove('wide'); if (/^#(obj|house)-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); });
 function hcalc() {
   const a = +$('#ha').value, y = +$('#ht').value, mode = $('#hmode [aria-pressed=true]').dataset.m;
   const sum = a * 100000, pv = sum * .3, rest = sum - pv;
@@ -1082,6 +1109,7 @@ $$('.arr button').forEach(b => b.addEventListener('click', () => { const rv = $(
 
 // быстрый просмотр объекта
 function quick(it) {
+  setHash('obj-' + it.id);
   const r = rateOf(it), pay = Math.round(ann(it.p, r)), tg = tagOf(it), ck = CHECKS[it.t === 'sec' ? 'sec' : 'dev'];
   openDlg(title(it), `<div class="qvg"><div><div class="qvph"><img src="photo/${it.img}.jpg" alt="${title(it)}">${tg ? `<span class="tag">${tg}</span>` : ''}</div>
     <div class="qvc"><b><i></i>${it.t === 'sec' ? 'Что проверил юрист' : 'Что мы проверили у застройщика'}</b>${ck.map(c => `<span><svg><use href="#check"/></svg>${c[0]}</span>`).join('')}</div></div>
@@ -1090,7 +1118,7 @@ function quick(it) {
       <div><dt>Сдача</dt><dd>${it.due ? it.st.replace('Сдача — ', '') : it.t === 'sec' ? 'Готовое жильё' : 'Дом сдан'}</dd></div><div><dt>Отделка</dt><dd>${it.fin}</dd></div></dl>
     <div class="qvm"><div><small>В ипотеку · ${it.t === 'new' ? 'семейная' : 'рыночная'} ${r} %, взнос 20 %</small><b>от ${pay.toLocaleString('ru-RU')} ₽/мес</b></div><button type="button" id="qvCalc">Рассчитать</button></div>
     ${it.fin === 'Без отделки' ? `<a class="qvr" href="#ba" onclick="dlg.close()">+ наш ремонт под ключ — от ${fmtM(it.s * 20000)}, гарантия 5 лет</a>` : ''}
-    <div class="qva"><a class="btn red" href="tel:+79655002918">Позвонить</a><a class="btn white" href="#lead" id="qvLead">Записаться на просмотр</a>
+    <div class="qva"><a class="btn red" href="tel:+79655002918">Позвонить</a><a class="btn white" href="#lead" id="qvLead">Записаться на просмотр</a><button type="button" class="ib share" data-share aria-label="Поделиться ссылкой"><svg class="ico"><use href="#share"/></svg></button>
       <button class="ib fav" id="qvFav" aria-pressed="${fav.has(it.id)}" aria-label="В избранное"><svg class="ico"><use href="#heart"/></svg></button></div></div></div>`);
   $('#qvCalc').addEventListener('click', () => { dlg.close(); mortFrom(it); });
   $('#qvLead').addEventListener('click', () => { dlg.close(); });
@@ -1114,6 +1142,68 @@ $('.sline a').addEventListener('click', () => { if (innerWidth <= 800 && !$('.re
 const hdr = $('header'), fab = $('#chatFab');
 function onScroll() { hdr.classList.toggle('sc', scrollY > 10); fab.classList.toggle('show', scrollY > $('.hero').offsetHeight * .6); }
 addEventListener('scroll', onScroll, {passive: true}); onScroll();
+
+// ссылки на объект и дом
+function setHash(h) { try { history.replaceState(null, '', '#' + h); } catch (e) {} }
+document.addEventListener('click', async e => {
+  if (!e.target.closest('[data-share]')) return;
+  const url = location.href, title = $('#dlgT').textContent + ' — Платформа недвижимости';
+  try { if (navigator.share) { await navigator.share({title, url}); return; } await navigator.clipboard.writeText(url); toast('Ссылка скопирована — отправьте её родным'); }
+  catch (x) { if (x.name !== 'AbortError') toast('Скопируйте ссылку из адресной строки'); }
+});
+(() => { const m = location.hash.match(/^#(obj|house)-(\w+)$/); if (!m) return;
+  const t = m[1] === 'obj' ? ITEMS[+m[2]] : byId(m[2]); if (t) (m[1] === 'obj' ? quick : houseView)(t); })();
+
+// линия прокрутки: к концу страницы — точка
+const prog = $('#prog');
+function progUpd() { const h = document.documentElement.scrollHeight - innerHeight, k = h > 0 ? Math.min(1, scrollY / h) : 0; prog.style.setProperty('--s', k); prog.classList.toggle('end', k > .995); }
+addEventListener('scroll', progUpd, {passive: true}); addEventListener('resize', progUpd); progUpd();
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { $('.fbig').classList.add('in'); o.disconnect(); } }, {threshold: .6}).observe($('.fbig'));
+
+// подбор за 3 шага
+let qs = 1, qType = 'flat';
+const Q2 = {
+  flat: {l: 'Какой бюджет на квартиру?', bl: 'Бюджет до', min: 3, max: 20, step: .5, v: 9, rooms: true},
+  house: {l: 'Какой бюджет на дом?', bl: 'Бюджет до', min: 10, max: 40, step: 1, v: 20},
+  reno: {l: 'Какая площадь квартиры?', bl: 'Площадь', min: 20, max: 160, step: 1, v: 55},
+  mort: {l: 'Сколько стоит квартира?', bl: 'Стоимость', min: 3, max: 20, step: .5, v: 8},
+};
+function qMatch() {
+  const c = Q2[qType], v = +$('#qb').value, mil = v * 1e6;
+  $('#qbv').textContent = qType === 'reno' ? v + ' м²' : v.toLocaleString('ru-RU') + ' млн ₽';
+  let t;
+  if (qType === 'flat') {
+    const rooms = $$('#qr [aria-pressed=true]').map(b => +b.dataset.r);
+    const n = ITEMS.filter(it => it.p <= mil && (!rooms.length || rooms.some(r => r === 4 ? it.r >= 4 : it.r === r))).length;
+    t = n ? `Подходит <b>${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}</b> из проверенных. Пришлём их и новые, как только появятся.` : 'Сейчас таких нет — подберём под ваши условия и сообщим первыми.';
+  } else if (qType === 'house') {
+    const ok = HOUSES.filter(h => hFrom(h) <= mil);
+    t = ok.length ? `Укладываются: <b>${ok.map(h => h.line + ' ' + h.n).join(', ')}</b>. Остаток можно платить по этапам или в рассрочку до 5 лет.` : 'Подберём площадь и материал под ваш бюджет — проекты настраиваются.';
+  } else if (qType === 'reno') {
+    t = `Ориентир с материалами: <b>от ${fmtM(v * 20000)}</b> за базовую отделку до ${fmtM(v * 100000)} за премиум. Точную цену даст смета после замера.`;
+  } else {
+    t = `По семейной ипотеке 6 % со взносом 20 % на 30 лет: <b>от ${Math.round(ann(mil, 6)).toLocaleString('ru-RU')} ₽/мес</b>. Подберём банк с индивидуальной ставкой.`;
+  }
+  $('#qMatch').innerHTML = t;
+  $('#qr').hidden = !c.rooms;
+}
+function qSet(type) {
+  qType = type; const c = Q2[type], r = $('#qb');
+  Object.assign(r, {min: c.min, max: c.max, step: c.step}); r.value = c.v;
+  $('#q2l').textContent = c.l; $('#qbl').textContent = c.bl; qMatch(); fillAll();
+}
+function qGo(n) {
+  qs = n; $$('#leadForm fieldset').forEach(f => f.classList.toggle('on', +f.dataset.s === n));
+  $('#qStep').textContent = `Шаг ${n} из 3`; $$('.qd i').forEach((d, i) => d.classList.toggle('on', i < n));
+  $('#qBack').hidden = n === 1; $('#qNext').hidden = n === 3; $('#qSend').hidden = n !== 3;
+  if (n === 3) $('#ln').focus();
+}
+$$('#leadForm .ch button').forEach(b => b.addEventListener('click', () => qSet(b.dataset.q)));
+$$('#qr button').forEach(b => b.addEventListener('click', () => { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); qMatch(); }));
+$('#qb').addEventListener('input', qMatch);
+$('#qNext').addEventListener('click', () => qGo(qs + 1));
+$('#qBack').addEventListener('click', () => qGo(qs - 1));
+qSet('flat');
 </script>
 </body>
 </html>
