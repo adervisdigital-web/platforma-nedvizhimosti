@@ -701,7 +701,7 @@ input[type=range]:disabled{cursor:default}
 
 <section class="lead" id="lead"><span class="dotgrid" aria-hidden="true"></span><div class="w lgrid">
   <div><h2 class="t">Расскажите, что ищете. Мы&nbsp;уже знаем, кому можно <span class="nw">доверять<i class="o n"></i></span></h2><p>Подберём варианты среди проверенных предложений и перезвоним. Или позвоните сами: <a href="tel:+79655002918" style="font-weight:700;border-bottom:2px solid #fff">+7 965 500-29-18</a>. На вопросы отвечаем круглосуточно — в чате, Telegram и MAX.</p>
-    <div class="msg"><a href="#" data-chat>Чат на сайте</a><a href="#">Telegram</a><a href="#">MAX</a></div></div>
+    <div class="msg"><a href="#" data-chat>Чат на сайте</a><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a></div></div>
   <form class="form quiz" id="leadForm" novalidate>
     <div class="qh"><span id="qStep">Шаг 1 из 3</span><span class="qd" aria-hidden="true"><i class="on"></i><i></i><i></i></span></div>
     <fieldset class="on" data-s="1"><legend>Что ищете?</legend>
@@ -727,7 +727,7 @@ input[type=range]:disabled{cursor:default}
       <p style="margin:18px 0 6px;color:#F4F2EE;font-size:20px;font-weight:600"><a href="tel:+79655002918" style="display:inline">+7 965 500-29-18</a></p><span>Екатеринбург, [адрес офиса]</span><span style="display:block;margin-top:4px">p.forma196.ru</span></div>
     <div><h4>Купить</h4><a href="#search">Новостройки</a><a href="#search">Вторичка</a><a href="#list">С ремонтом</a><a href="#calc">Ипотека</a></div>
     <div><h4>Делаем сами</h4><a href="#ba">Ремонт</a><a href="#houses">Дома</a><a href="#cab">Личный кабинет</a></div>
-    <div><h4>Компания</h4><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><a href="#lead">Связаться</a><a href="#">Telegram</a><a href="#">MAX</a></div>
+    <div><h4>Компания</h4><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><a href="#lead">Связаться</a><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a></div>
   </div>
   <div class="fbot"><span>ИП Сафоев Шерзод Рустамович · ИНН 661709849922 · ОГРНИП 326965800115079</span><span>Пример сайта. Объекты, цены и названия ЖК — демо-данные, отзывы — демо.</span></div>
 </div></footer>
@@ -749,7 +749,7 @@ input[type=range]:disabled{cursor:default}
   <div class="ch-b" id="chatLog" aria-live="polite"></div>
   <div class="ch-q" id="chatQ"></div>
   <form class="ch-f" id="chatForm"><input id="chatIn" placeholder="Напишите вопрос" aria-label="Ваш вопрос" autocomplete="off"><button aria-label="Отправить">→</button></form>
-  <div class="ch-m"><a href="#">Telegram</a><a href="#">MAX</a><a href="tel:+79655002918">Позвонить</a></div>
+  <div class="ch-m"><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a><a href="tel:+79655002918">Позвонить</a></div>
 </div>
 
 <script>
@@ -1204,6 +1204,9 @@ $('#qb').addEventListener('input', qMatch);
 $('#qNext').addEventListener('click', () => qGo(qs + 1));
 $('#qBack').addEventListener('click', () => qGo(qs - 1));
 qSet('flat');
+
+// мессенджеры: ников пока нет — ведём в чат на сайте
+$$('[data-soon]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); toast(`${a.dataset.soon} подключим к запуску — пока пишите здесь, ответим сразу`); }));
 </script>
 </body>
 </html>
