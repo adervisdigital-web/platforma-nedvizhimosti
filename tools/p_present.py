@@ -178,9 +178,9 @@ def page():
     sizes = ''.join(f'<div style="display:flex;flex-direction:column;align-items:center;gap:12px">{mark(w, INK)}<span>{w} px</span></div>' for w in (96, 64, 40, 24, 16))
     slogans = ''.join(f'<div class="slg" style="background-image:url(photo/{img});background-position:{pos}"><div class="sh"></div>'
                       f'<div class="st">{t}</div><div class="sm">{hlock(30, 9, WHITE, RED, "#ffffffb0")}</div></div>'
-                      for img, pos, t in (('kv_building.jpg', 'center', f'Только проверенные<br>застройщики{D} Точка{D}'),
+                      for img, pos, t in (('slg_zhk.jpg', 'center', f'Только проверенные<br>застройщики{D} Точка{D}'),
                                           ('rem_bathroom.jpg', 'center', f'Ремонт<br>без многоточий{D}'),
-                                          ('family.jpg', '50% 30%', f'Свой дом{D}<br>Точка{D}')))
+                                          ('slg_house.jpg', 'center 60%', f'Свой дом{D}<br>Точка{D}')))
     car = lambda n, cap, cls, pos='center': f'<figure class="ph {cls}"><img src="photo/P_{n}.jpg" alt="{cap}" style="object-position:{pos}"><figcaption>{cap}</figcaption></figure>'
     return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Платформа недвижимости — бренд</title>
