@@ -11,7 +11,7 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 os.makedirs(OUT, exist_ok=True)
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 24
 KEYS = [('now', 'Сейчас: «П.»'), ('leg', '1 · Ножка-точка'), ('base', '2 · Платформа'), ('line', '3 · Монолиния'), ('frame', '4 · Прямой свод')]
-ALLN = dict(KEYS + [('roof', '5 · Козырёк'), ('podium', '6 · Подиум'), ('steps', '7 · Ступени'), ('dots', '8 · Отбор')])
+ALLN = dict(KEYS + [('roof', '5 · Козырёк'), ('podium', '6 · Подиум'), ('steps', '7 · Ступени'), ('dots', '8 · Отбор'), ('key', '9 · Замковый камень'), ('ellip', '10 · Из многоточия'), ('enf', '11 · Анфилада'), ('quest', '12 · Вопрос → точка')])
 if len(sys.argv) > 2:
     KEYS = [(k, ALLN[k]) for k in sys.argv[2].split(',')]
 OUTNAME = sys.argv[3] if len(sys.argv) > 3 else 'Похожие_знаки'
