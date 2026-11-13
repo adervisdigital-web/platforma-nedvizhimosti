@@ -968,6 +968,8 @@ header.ontop .hb-av{background:var(--ink)}
 .lead .dotgrid{width:64%;max-width:none}
 .lead .dotgrid:not(.lit){-webkit-mask-image:linear-gradient(90deg,#0000 0%,#0006 30%,#000 70%);mask-image:linear-gradient(90deg,#0000 0%,#0006 30%,#000 70%)}
 @media(max-width:800px){.ba.wide{aspect-ratio:4/3.6}.ba.wide .bacap{bottom:12px}}
+@media(max-width:800px){input,select,textarea,.sgi input,.hb-row input,.ch-f input,.f input{font-size:16px!important}.chat{left:0;right:0;top:0;bottom:auto;width:100%;height:100%;border-radius:0;box-shadow:none}.chat .ch-h{padding-top:max(16px,env(safe-area-inset-top))}.ch-f{padding-bottom:max(12px,env(safe-area-inset-bottom))}.ch-m{display:none}.ch-f button{flex:none}}
+html.chat-lock,html.chat-lock body{overflow:hidden}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -1700,8 +1702,12 @@ let greeted = false;
 function openChat(o) {
   $('#chat').hidden = !o; $('#chatFab').hidden = o; $('#chatFab').setAttribute('aria-expanded', o);
   if (o && !greeted) { say('Здравствуйте! Я помощник Платформы и отвечаю круглосуточно. Спросите про квартиры, ипотеку, ремонт или дома.'); greeted = true; }
-  if (o) $('#chatIn').focus();
+  if (o && matchMedia('(hover:hover)').matches) $('#chatIn').focus();
+  const mob = innerWidth <= 800; document.documentElement.classList.toggle('chat-lock', o && mob); if (o && mob) fitChat();
 }
+function fitChat() { const v = window.visualViewport, c = $('#chat'); if (!v || innerWidth > 800 || c.hidden) { c.style.height = c.style.top = ''; return; }
+  c.style.top = v.offsetTop + 'px'; c.style.height = v.height + 'px'; const lg = $('#chatLog'); lg.scrollTop = lg.scrollHeight; }
+if (window.visualViewport) { visualViewport.addEventListener('resize', fitChat); visualViewport.addEventListener('scroll', fitChat); }
 $('#chatFab').addEventListener('click', () => openChat(true));
 $('#chatX').addEventListener('click', () => openChat(false));
 $$('[data-chat]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); }));
