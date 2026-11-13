@@ -15,5 +15,5 @@ def trim(im):
 d = trim(Image.open(T + '/site_full.png'))
 m = trim(Image.open(T + '/site_m.png').crop((0, 0, 390, 14000)))
 d.convert('RGB').save(S + 'full_desktop.jpg', quality=86); m.convert('RGB').save(S + 'full_mobile.jpg', quality=86)
-d.crop((0, 0, 1440, 1700)).save(S + 'desktop.png'); m.crop((0, 0, 390, 2400)).save(S + 'mobile.png')
+Image.open(T + '/site_first.png').save(S + 'desktop.png'); m.crop((0, 0, 390, 2400)).save(S + 'mobile.png')
 print('desktop', d.size, 'mobile', m.size)
