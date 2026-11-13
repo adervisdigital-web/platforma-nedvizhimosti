@@ -27,6 +27,11 @@ if($('#qvFav')===null){$$('.card .qv')[0].click();R.push('quick='+$('#dlg').open
 if($('#hx')){R.push('houses='+$$('.hc').length);$$('#hfl button')[5].click();R.push('2fl='+$$('.hc:not([hidden])').length);$$('#hfl button')[0].click();
 $$('[data-open]')[0].click();R.push('hdlg='+$('#dlg').open+' '+$('#dlgT').textContent+' thumbs='+$$('.hth button').length);$$('#plTabs button')[1].click();R.push('plan='+$('#plImg').getAttribute('src'));
 $('#hvCalc').click();R.push('calc='+$('#hname').textContent+' area='+$('#ha').value+' pay='+$('#hpay').textContent);}
+if(typeof booking==='function'){const nf=ITEMS.find(i=>i.fin==='Без отделки');quick(nf);$$('#qvR button')[2].click();R.push('reno: '+$('#qvRk').textContent+' = '+$('#qvT').textContent);
+$('#qvLead').click();R.push('book: '+$('#dlgT').textContent+' days='+$$('#dlgB [data-d]').length+' free='+$$('#dlgB [data-t]:not(:disabled)').length);
+$('#dlgB [data-t]:not(:disabled)').click();$('#bkP').value='';$('#bkGo').click();R.push('bkBad='+$('#bkF').classList.contains('bad'));
+$('#bkP').value='9001234567';$('#bkP').dispatchEvent(new Event('input'));$('#bkGo').click();R.push('booked: '+$('#dlgT').textContent+' | '+$('.bkok h4').textContent+' ics='+!!$('.bkok a[download]'));$('#dlg').close();
+R.push('seen='+$$('#seenL button').length+' hidden='+$('#seen').hidden);}
 R.push('cmpCnt='+$('#cmpCnt').textContent+' fav='+$('#favCnt').textContent+' cats='+$$('[data-c]').map(e=>e.textContent).join('/'));
 }catch(x){R.push('ERR '+x.message)}R.push('errors='+__e.join(';'));document.body.setAttribute('data-r',R.join(' || '))},600)</script>'''
 open(out, 'w', encoding='utf8').write(s.replace('<head>', '<head>' + pre).replace('</body>', test + '</body>'))
