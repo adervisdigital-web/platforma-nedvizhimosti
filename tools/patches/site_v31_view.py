@@ -18,3 +18,10 @@ rep('@media(prefers-reduced-motion:reduce){*{transition',
     '@media(prefers-reduced-motion:reduce){*{transition')
 open(P + 'index.html', 'w', encoding='utf8').write(s)
 print('ok')
+
+# мобильная: шторка «до/после» не превращается в узкую полоску (2688/1120 перебивало 4/3.4)
+s = open(P + 'index.html', encoding='utf8').read()
+s = s.replace('@media(prefers-reduced-motion:reduce){*{transition',
+              '@media(max-width:800px){.ba.wide{aspect-ratio:4/3.6}.ba.wide .bacap{bottom:12px}}\n@media(prefers-reduced-motion:reduce){*{transition', 1)
+open(P + 'index.html', 'w', encoding='utf8').write(s)
+print('mobile ba ok')
