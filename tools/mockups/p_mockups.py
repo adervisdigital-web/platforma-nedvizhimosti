@@ -64,8 +64,8 @@ def art_html(v, surf):
     if surf == 'fence':
         body = (f'<div style="position:absolute;inset:0;background:{RED};display:flex;align-items:center;justify-content:space-between;padding:0 64px 0 70px;box-sizing:border-box">'
                 f'{h_lock(80, 30, MILK, INK, "#FFE1DA")}'
-                f'<div style="display:flex;align-items:center;gap:34px"><div style="font:500 40px/1.05 Manrope,sans-serif;letter-spacing:-.02em;color:{MILK};text-align:right">Строим<br>каменный дом<span style="color:{INK}">.</span></div>'
-                f'<span style="padding:22px 34px;border-radius:999px;background:{MILK};color:{INK};font:600 24px Manrope,sans-serif;white-space:nowrap">Хочу такой</span></div></div>')
+                f'<div style="display:flex;align-items:center;gap:34px"><div style="font:500 40px/1.05 Manrope,sans-serif;letter-spacing:-.02em;color:{MILK};text-align:right">Здесь строится<br>каменный дом<span style="color:{INK}">.</span></div>'
+                f'<span style="padding:22px 34px;border-radius:999px;background:{MILK};color:{INK};font:600 24px Manrope,sans-serif;white-space:nowrap">+7 [телефон]</span></div></div>')
         return M.page(V, w, h, body, RED)
     if surf == 'store':
         return M.page(V, w, h, C(h_lock(70, 26)))
