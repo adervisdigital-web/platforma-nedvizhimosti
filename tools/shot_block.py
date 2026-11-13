@@ -13,7 +13,7 @@ pages = {'_blk.html': t, '_blkm.html': '<!doctype html><html><head><meta charset
 for n, c in pages.items():
     open(os.path.join(SITE, n), 'w', encoding='utf8').write(c)
 C = r'C:\Users\MSI\AppData\Local\Google\Chrome\Application\chrome.exe'
-for n, size, png in (('_blk.html', '1440,1000', ID + '.png'), ('_blk.html', '1920,1080', ID + '_w.png'), ('_blkm.html', '600,1700', ID + '_m.png')):
+for n, size, png in (('_blk.html', '1440,1400', ID + '.png'), ('_blk.html', '1920,1080', ID + '_w.png'), ('_blkm.html', '600,1700', ID + '_m.png')):
     subprocess.run([C, '--headless=new', '--disable-gpu', '--user-data-dir=' + os.environ['TEMP'] + r'\pn_chrome_test', '--hide-scrollbars',
                     '--allow-file-access-from-files', '--virtual-time-budget=5000', f'--window-size={size}', '--screenshot=' + os.path.join(OUT, png),
                     'file:///' + os.path.join(SITE, n).replace('\\', '/')], capture_output=True)
