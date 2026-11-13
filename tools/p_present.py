@@ -345,7 +345,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 <section class="red"><div class="in">
   <div class="lab"><b>03</b> Идея</div>
   <h2>У каждой покупки —<br>свой знак препинания<i class="o n"></i></h2>
-  <div class="mf"><div class="mrow"><div class="gl">?</div><div><b>Покупка квартиры</b><span>Какой застройщик надёжен? Где ипотека выгоднее? Сдадут ли дом вовремя?</span></div></div><div class="mrow"><div class="gl">!</div><div><b>Ремонт</b><span>Смета выросла вдвое! Бригада пропала! Сроки сорваны!</span></div></div><div class="mrow"><div class="gl" style="padding-bottom:.35em">…</div><div><b>Стройка дома</b><span>Сроки, которые тянутся, и вопросы, на которые никто не отвечает…</span></div></div><div class="mrow"><div class="gl"><i class="o n" style="width:.5em;height:.5em;margin:0"></i></div><div><b>Платформа</b><span>Проверили. Выбрали самое выгодное. Построили. Точка.</span></div></div></div>
+  <div class="mf"><div class="mrow"><div class="gl">?</div><div><b>Покупка квартиры</b><span>Какой застройщик надёжен? Где ипотека выгоднее? Сдадут ли дом вовремя?</span></div></div><div class="mrow"><div class="gl">!</div><div><b>Ремонт</b><span>Смета выросла вдвое! Бригада пропала! Сроки сорваны!</span></div></div><div class="mrow"><div class="gl" style="padding-bottom:.35em">…</div><div><b>Стройка дома</b><span>Сроки, которые тянутся, и вопросы, на которые никто не отвечает…</span></div></div><div class="mrow"><div class="gl"><i class="o n" style="width:.5em;height:.5em;margin:0"></i></div><div><b>Платформа</b><span>Проверили. Выбрали самое выгодное. Передали ключи. Точка.</span></div></div></div>
   <div class="mfin">Мы ставим точку там,<br>где у других многоточие<i class="o n"></i></div>
 </div></section>
 
