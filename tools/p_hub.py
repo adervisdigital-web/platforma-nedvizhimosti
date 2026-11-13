@@ -33,11 +33,15 @@ def thumbs():
         im.save(os.path.join(HUB, f'{i + 1}.jpg'), quality=84)
 
 
+import time
+VER = time.strftime('%Y%m%d%H%M')
+
+
 def page():
     cards = ''
     for i, (href, _, _, title, desc, dl) in enumerate(ITEMS):
         dl_link = f'<a class="dl" href="{dl}" download>Скачать картинкой</a>' if dl else ''
-        cards += (f'<article class="card"><a class="pv" href="{href}"><img src="_hub/{i + 1}.jpg" alt="{title}" loading="lazy"></a>'
+        cards += (f'<article class="card"><a class="pv" href="{href}"><img src="_hub/{i + 1}.jpg?v={VER}" alt="{title}" loading="lazy"></a>'
                   f'<div class="tx"><span class="n">0{i + 1}</span><h2><a href="{href}">{title}<i class="o"></i></a></h2><p>{desc}</p>'
                   f'<div class="act"><a class="open" href="{href}">Открыть</a>{dl_link}</div></div></article>')
     return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
