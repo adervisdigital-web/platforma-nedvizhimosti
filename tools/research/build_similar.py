@@ -11,6 +11,10 @@ OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 os.makedirs(OUT, exist_ok=True)
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 24
 KEYS = [('now', 'Сейчас: «П.»'), ('leg', '1 · Ножка-точка'), ('base', '2 · Платформа'), ('line', '3 · Монолиния'), ('frame', '4 · Прямой свод')]
+ALLN = dict(KEYS + [('roof', '5 · Козырёк'), ('podium', '6 · Подиум'), ('steps', '7 · Ступени'), ('dots', '8 · Отбор')])
+if len(sys.argv) > 2:
+    KEYS = [(k, ALLN[k]) for k in sys.argv[2].split(',')]
+OUTNAME = sys.argv[3] if len(sys.argv) > 3 else 'Похожие_знаки'
 FLAGS = {}
 fp = os.path.join(T, 'flags.txt')
 if os.path.exists(fp):
@@ -168,7 +172,7 @@ for key, name in KEYS:
         d.text((x + 4, y + CH + 5), label, font=Fs, fill='#C2321E' if flag else '#77736C')
         report.append(f'{key}\t{i + 1}\t{app}\t{"ok" if ok else "нет картинки"}')
     y0 += SEC
-canvas.save(os.path.join(OUT, 'Похожие_знаки.png'))
-canvas.convert('RGB').save(os.path.join(OUT, 'Похожие_знаки.jpg'), quality=88)
-open(os.path.join(OUT, 'список.tsv'), 'w', encoding='utf8').write('знак\tместо\tзаявка\tкартинка\n' + '\n'.join(report))
+canvas.save(os.path.join(OUT, OUTNAME + '.png'))
+canvas.convert('RGB').save(os.path.join(OUT, OUTNAME + '.jpg'), quality=88)
+open(os.path.join(OUT, OUTNAME + '_список.tsv'), 'w', encoding='utf8').write('знак\tместо\tзаявка\tкартинка\n' + '\n'.join(report))
 print('ok', canvas.size)
