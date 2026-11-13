@@ -50,7 +50,7 @@ def art_html(v, surf):
         return M.page(V, w, h, body, NIGHT)
     if surf == 'billboard':
         body = (f'<div style="position:absolute;inset:0;background:{MILK};padding:34px 40px;box-sizing:border-box;display:flex;justify-content:space-between;align-items:stretch">'
-                f'<div style="font:500 64px/1.0 Manrope,sans-serif;letter-spacing:-.03em;color:{INK}">Квартира{dot}<br>Ремонт{dot}<br>Дом{dot}</div>'
+                f'<div style="font:500 64px/1.0 Manrope,sans-serif;letter-spacing:-.03em;color:{INK}">Квартира{dot}<br>Дом{dot}<br>Ремонт{dot}</div>'
                 f'<div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end">'
                 f'<div style="width:150px;height:150px;border-radius:14px;background:{RED};display:flex;align-items:center;justify-content:center">{mark(86, MILK, INK)}</div>'
                 f'{word(INK, 15, SUB, "flex-end")}</div></div>')

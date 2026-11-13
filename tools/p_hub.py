@@ -73,7 +73,7 @@ footer{{border-top:1px solid #ffffff1a;padding:28px 0 40px;color:{SUB};font-size
 </style></head><body><div class="w">
 <header><div class="lg">{mark(64)}<div class="wm"><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></div></div>
 <div class="meta">Фирменный стиль<br>Екатеринбург · 2026</div></header>
-<h1>Квартира<i class="o"></i> Ремонт<i class="o"></i> Дом<i class="o"></i><br>Ставим точку<i class="o"></i></h1>
+<h1>Квартира<i class="o"></i> Дом<i class="o"></i> Ремонт<i class="o"></i><br>Ставим точку<i class="o"></i></h1>
 <p class="lead">Материалы по бренду: презентация, пример сайта, логотип и носители.</p>
 <main class="grid">{cards}</main>
 <footer>Цены, площади, имена и контакты на макетах — заглушки до данных заказчика.</footer>

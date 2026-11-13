@@ -132,15 +132,15 @@ def profile():
     hl = ''.join(f'<div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9px;color:{SUB}">'
                  f'<div style="width:46px;height:46px;border-radius:50%;border:1.5px solid #DDD9D2;display:flex;align-items:center;justify-content:center;background:{bg}">{inner}</div>{t}</div>'
                  for t, bg, inner in (('Квартиры', GRAY, f'<b style="color:{RED};font-size:20px;line-height:0">.</b>'),
-                                      ('Ремонт', GRAY, f'<b style="color:{RED};font-size:20px;line-height:0">.</b>'),
                                       ('Дома', GRAY, f'<b style="color:{RED};font-size:20px;line-height:0">.</b>'),
+                                      ('Ремонт', GRAY, f'<b style="color:{RED};font-size:20px;line-height:0">.</b>'),
                                       ('Ипотека', GRAY, f'<b style="color:{RED};font-size:20px;line-height:0">.</b>')))
     return (f'<div style="background:#fff;position:absolute;inset:0;color:{INK};font-size:11px">'
             f'<div style="padding:52px 14px 10px;display:flex;justify-content:space-between;font-weight:700;font-size:13px">[ник] <span style="letter-spacing:2px">···</span></div>'
             f'<div style="display:flex;align-items:center;gap:16px;padding:0 14px">{icon(70, 35)}'
             f'<div style="display:flex;gap:14px;text-align:center;font-size:10px;color:{SUB}">'
             f'<div><b style="display:block;font-size:13px;color:{INK}">[N]</b>публикаций</div><div><b style="display:block;font-size:13px;color:{INK}">[N]</b>подписчиков</div></div></div>'
-            f'<div style="padding:10px 14px 0;line-height:1.4"><b>Платформа недвижимости</b><br>Квартиры<i class="o"></i> Ремонт<i class="o"></i> Дома<i class="o"></i><br>Только проверенные предложения<br><span style="color:{SUB}">Екатеринбург · +7 965 500-29-18</span></div>'
+            f'<div style="padding:10px 14px 0;line-height:1.4"><b>Платформа недвижимости</b><br>Квартиры<i class="o"></i> Дома<i class="o"></i> Ремонт<i class="o"></i><br>Только проверенные предложения<br><span style="color:{SUB}">Екатеринбург · +7 965 500-29-18</span></div>'
             f'<div style="display:flex;gap:6px;padding:10px 14px"><div style="flex:1;background:{RED};color:#fff;border-radius:8px;text-align:center;padding:7px;font-weight:700">Подписаться</div>'
             f'<div style="flex:1;background:{GRAY};border-radius:8px;text-align:center;padding:7px;font-weight:700">Написать</div></div>'
             f'<div style="display:flex;gap:12px;padding:4px 14px 12px">{hl}</div>'
@@ -309,7 +309,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
   <div class="l">
     <div class="meta"><span>Фирменный стиль</span><span>Екатеринбург · 2026</span></div>
     <div>{mark(150, WHITE, NIGHT)}<div style="margin-top:56px">{word(WHITE, 30, "#FFE1DB")}</div></div>
-    <div style="font:400 26px/1.2 Manrope;letter-spacing:-.01em">Квартира<i class="o n"></i> Ремонт<i class="o n"></i> Дом<i class="o n"></i></div>
+    <div style="font:400 26px/1.2 Manrope;letter-spacing:-.01em">Квартира<i class="o n"></i> Дом<i class="o n"></i> Ремонт<i class="o n"></i></div>
   </div>
   <div class="r" role="img" aria-label="Екатеринбург на закате: Городской пруд и Исеть-башня"></div>
 </section>
@@ -322,8 +322,8 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
   </div>
   <div class="trio">
     <div><b>Квартиры{D}</b><span>Новостройки и вторичное жильё Екатеринбурга только от проверенных застройщиков. Подбор, самая выгодная ипотека, сопровождение сделки.</span></div>
-    <div><b>Ремонт{D}</b><span>Ремонт у партнёров, за которых мы ручаемся. Смета и сроки — до начала работ, приёмка каждого этапа.</span></div>
     <div><b>Дома{D}</b><span>Каменные дома от проверенных строителей-партнёров — по готовым и индивидуальным проектам.</span></div>
+    <div><b>Ремонт{D}</b><span>Ремонт у партнёров, за которых мы ручаемся. Смета и сроки — до начала работ, приёмка каждого этапа.</span></div>
   </div>
 </div></section>
 
@@ -434,7 +434,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
     {phone('<img src="photo/site_mobile.png" alt="Главная страница на телефоне">', 300)}
   </div>
   <div class="notes">
-    <div><b>Вкладки</b>Квартиры, Ремонт, Дома — три направления в одном поиске.</div>
+    <div><b>Вкладки</b>Новостройки, вторичка, дома и квартиры с ремонтом — в одном поиске.</div>
     <div><b>Фильтры сразу</b>Тип, комнаты, цена и район — на первом экране, на кнопке — число найденных вариантов.</div>
     <div><b>Отметка «проверено»</b>Красная точка в карточке и на карте — застройщик или бригада прошли нашу проверку.</div>
     <div><b>Карточки и карта</b>Фото, цена и цена за м²; при наведении объект подсвечивается на карте.</div>

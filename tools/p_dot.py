@@ -90,7 +90,7 @@ def page():
 
   <div class="t s7" style="background:{NIGHT};border:1px solid #2A2B2F;justify-content:flex-start;align-items:flex-start;flex-direction:column;gap:22px;min-height:360px">
     <span class="cap" style="color:{SAND}">идея: точка</span>
-    <div class="idea" style="margin-top:28px">Квартира{dot}<br>Ремонт{dot}<br>Дом{dot}</div>
+    <div class="idea" style="margin-top:28px">Квартира{dot}<br>Дом{dot}<br>Ремонт{dot}</div>
     <div class="txt">Точка в знаке — это вы. Мы ставим точку в поиске квартиры, в ремонте и в стройке: доводим до результата. Точка становится фирменным приёмом — в слогане, на карте, в прогрессе стройки.</div>
   </div>
   <div class="s5" style="display:grid;grid-template-rows:1fr 1fr;gap:18px">
