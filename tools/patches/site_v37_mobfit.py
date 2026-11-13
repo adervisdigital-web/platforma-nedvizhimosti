@@ -40,3 +40,16 @@ if 'a[href^="tel:"]{white-space:nowrap}' not in k:
     k = k.replace('@media(prefers-reduced-motion:reduce)', 'a[href^="tel:"]{white-space:nowrap}\n@media(prefers-reduced-motion:reduce)', 1)
     open(P + 'kabinet.html', 'w', encoding='utf8').write(k)
 print('tel ok')
+
+# шапка телефона: кнопки ровно внутри капсулы
+s = open(P + 'index.html', encoding='utf8').read()
+if '/* v37 head */' not in s:
+    s = s.replace('@media(prefers-reduced-motion:reduce){*{transition',
+        '/* v37 head */@media(max-width:800px){header .hd{height:56px;padding:0 8px 0 14px!important;gap:6px}'
+        'header .hd .logo svg{width:32px;height:30px}'
+        '#mnBtn,.hb .hb-ic{width:40px!important;height:40px!important;border:0!important;border-radius:50%;background:#16161714!important;color:var(--ink);box-shadow:none!important}'
+        'header.ontop #mnBtn,header.ontop .hb .hb-ic{background:#ffffff1f!important;color:#fff}'
+        '.hb{gap:6px}.hb .hb-ic .cnt{top:-2px;right:-2px;box-shadow:0 0 0 2px #F4F2EE}header.ontop .hb .hb-ic .cnt{box-shadow:none}}\n'
+        '@media(prefers-reduced-motion:reduce){*{transition', 1)
+open(P + 'index.html', 'w', encoding='utf8').write(s)
+print('head ok')

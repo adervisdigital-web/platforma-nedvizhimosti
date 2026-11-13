@@ -46,7 +46,7 @@ h1{font:300 clamp(38px,3.6vw,58px)/1.02 Manrope;letter-spacing:-.045em;margin:40
     <h1>Мобильная версия<i></i></h1>
     <p class="lead">Живой сайт в экране iPhone 390×844 — листайте колесом мыши, нажимайте кнопки, открывайте меню, чат и карточки.</p>
     <div class="k">Страница</div>
-    <div class="seg" role="group" aria-label="Страница"><button type="button" aria-pressed="true" data-p="index.html">Сайт</button><button type="button" aria-pressed="false" data-p="kabinet.html">Личный кабинет</button></div>
+    <div class="seg" role="group" aria-label="Страница"><button type="button" aria-pressed="true" data-p="index.html?v=37">Сайт</button><button type="button" aria-pressed="false" data-p="kabinet.html">Личный кабинет</button></div>
     <div class="k" id="jk">Перейти к разделу</div>
     <div class="jump" id="jump">
       <button type="button" data-s="search">Первый экран</button><button type="button" data-s="list">Квартиры</button><button type="button" data-s="how">Отбор</button><button type="button" data-s="calc">Ипотека</button>
@@ -55,7 +55,7 @@ h1{font:300 clamp(38px,3.6vw,58px)/1.02 Manrope;letter-spacing:-.045em;margin:40
     <div class="links"><a href="index.html">Открыть сайт целиком</a><a href="kabinet.html">Кабинет отдельно</a></div>
     <p class="qr">На телефоне откройте ссылку на сайт напрямую — эта страница для просмотра с компьютера.</p>
   </div>
-  <div class="phone-col"><div class="ph-wrap"><div class="phone"><div class="screen"><div class="island"></div><div class="sbar" id="sbar"><span id="clk">9:41</span><span class="r"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 2.5a9 9 0 0 1 6.4 2.6l1.1-1.2A10.6 10.6 0 0 0 8 1 10.6 10.6 0 0 0 .5 3.9l1.1 1.2A9 9 0 0 1 8 2.5zm0 3.5a5.5 5.5 0 0 1 3.9 1.6l1.1-1.1A7 7 0 0 0 8 4.5a7 7 0 0 0-5 2l1.1 1.1A5.5 5.5 0 0 1 8 6zm0 3.5a2 2 0 0 1 1.4.6L8 11.6 6.6 10.1A2 2 0 0 1 8 9.5z"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="17" height="8" rx="1.8"/><rect x="24" y="4" width="2" height="4" rx="1" opacity=".5"/></svg></span></div><iframe id="fr" src="index.html" title="Мобильная версия сайта"></iframe></div></div></div></div>
+  <div class="phone-col"><div class="ph-wrap"><div class="phone"><div class="screen"><div class="island"></div><div class="sbar" id="sbar"><span id="clk">9:41</span><span class="r"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 2.5a9 9 0 0 1 6.4 2.6l1.1-1.2A10.6 10.6 0 0 0 8 1 10.6 10.6 0 0 0 .5 3.9l1.1 1.2A9 9 0 0 1 8 2.5zm0 3.5a5.5 5.5 0 0 1 3.9 1.6l1.1-1.1A7 7 0 0 0 8 4.5a7 7 0 0 0-5 2l1.1 1.1A5.5 5.5 0 0 1 8 6zm0 3.5a2 2 0 0 1 1.4.6L8 11.6 6.6 10.1A2 2 0 0 1 8 9.5z"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="17" height="8" rx="1.8"/><rect x="24" y="4" width="2" height="4" rx="1" opacity=".5"/></svg></span></div><iframe id="fr" src="index.html?v=37" title="Мобильная версия сайта"></iframe></div></div></div></div>
 </div>
 <script>
 const fr = document.getElementById('fr');
@@ -70,7 +70,7 @@ setInterval(() => { try { const w = fr.contentWindow, d = fr.contentDocument, si
   document.getElementById('sbar').classList.toggle('lt', !dark); } catch (e) {} }, 300);
 document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
-  fr.src = b.dataset.p; const site = b.dataset.p === 'index.html';
+  fr.src = b.dataset.p; const site = /index/.test(b.dataset.p);
   document.getElementById('jump').hidden = !site; document.getElementById('jk').hidden = !site;
 }));
 document.querySelectorAll('#jump button').forEach(b => b.addEventListener('click', () => {
