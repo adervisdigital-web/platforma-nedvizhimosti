@@ -1029,6 +1029,53 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
  .g3-n b{font-size:36px}
 }
 @media(prefers-reduced-motion:reduce){.sstat i{animation:none}.sbox3 .sline.scan::before,.g3-n b.roll,.go3.sweep .g3-sw{animation:none}}
+
+/* v36 — мобильное меню, иконки, правки */
+.tic{width:22px;height:22px;color:currentColor}.tic .td{fill:#8A867F;transition:fill .25s}
+.tb2 a.on .tic .td,.mn-l a:hover::before{fill:var(--red)}
+@media(max-width:800px){
+ .tabbar.tb2{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));padding:6px;border:0;border-radius:24px;background:#0E0E0Fe6;backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);box-shadow:0 18px 40px #00000059,inset 0 0 0 1px #ffffff14;justify-content:space-between;transition:transform .35s cubic-bezier(.3,.8,.2,1)}
+ .tabbar.tb2.hide{transform:translateY(calc(100% + 24px))}
+ .tb2 a{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 2px 6px;border-radius:18px;color:#A9A49B;font-size:10px;font-weight:600;position:relative;transition:color .2s,background .2s}
+ .tb2 a.on{color:#fff;background:#ffffff12}
+ .tb2 a.on::after{content:'';position:absolute;top:4px;right:calc(50% - 16px);width:5px;height:5px;border-radius:50%;background:var(--red)}
+ .tb2 a.on .tic .td{fill:var(--red)}
+ .tb2 a:active{transform:scale(.94)}
+ footer{padding-bottom:120px}
+ .chat{z-index:60}
+ /* шапка — кнопка меню */
+ #mnBtn{cursor:pointer}
+}
+.mnav{position:fixed;inset:0;z-index:70;background:var(--night);color:var(--milk);display:flex;flex-direction:column;padding:max(16px,env(safe-area-inset-top)) 22px max(22px,env(safe-area-inset-bottom));overflow:auto}
+.mnav[hidden]{display:none}
+.mnav:not([hidden]){animation:mnin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes mnin{from{transform:translateY(-12px)}to{transform:none}}
+.mn-top{display:flex;align-items:center;justify-content:space-between;height:56px}
+.mn-st{display:flex;align-items:center;gap:8px;font-size:13px;color:#A9A49B}.mn-st i{width:7px;height:7px;border-radius:50%;background:#2FB36B;animation:livep 2s infinite}
+.mn-x{width:46px;height:46px;border-radius:50%;border:1px solid #ffffff2e;background:#ffffff12;color:#fff;font-size:22px;cursor:pointer}
+.mn-l{display:flex;flex-direction:column;margin-top:18px}
+.mn-l a{display:flex;align-items:center;gap:14px;font:300 38px/1.15 Manrope;letter-spacing:-.04em;padding:10px 0;border-bottom:1px solid #ffffff14;opacity:0;transform:translateY(10px);animation:mnit .45s cubic-bezier(.2,.8,.2,1) forwards}
+.mn-l a::after{content:'';width:9px;height:9px;border-radius:50%;background:var(--red);margin-left:auto;opacity:0;transition:opacity .2s}
+.mn-l a:hover::after,.mn-l a:focus-visible::after{opacity:1}
+.mn-l a:nth-child(2){animation-delay:.04s}.mn-l a:nth-child(3){animation-delay:.08s}.mn-l a:nth-child(4){animation-delay:.12s}.mn-l a:nth-child(5){animation-delay:.16s}.mn-l a:nth-child(6){animation-delay:.2s}
+@keyframes mnit{to{opacity:1;transform:none}}
+.mn-c{margin-top:auto;padding-top:28px;display:grid;gap:12px}
+.mn-tel{font:600 26px Manrope;letter-spacing:-.01em}
+.mn-b{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mn-b .btn.ghost{background:#ffffff12;border-color:#ffffff2e;color:#fff}
+.mn-cab{display:flex;align-items:center;gap:10px;font-weight:700;padding:14px 16px;border-radius:18px;background:#ffffff0d}.mn-cab svg{width:22px;height:21px;fill:#fff}
+html.mn-lock,html.mn-lock body{overflow:hidden}
+/* договор: галочки внутри листа */
+.desk.fold .cl li{grid-template-columns:46px 1fr}.desk.fold .cl li span{padding-left:16px}
+.desk.fold .cl li span::after{left:0}
+/* вкладки «Как мы ручаемся» в одну строку */
+.scan .ctabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.scan .ctabs::-webkit-scrollbar{display:none}.scan .ctabs button{white-space:nowrap;flex:none}
+/* ипотека: без дубля выбора программы */
+.cin>div:has(> #rates){display:none}
+/* кнопка чата сворачивается в круг */
+.chatfab .cf-t{display:block;max-width:160px;overflow:hidden;white-space:nowrap;transition:max-width .35s cubic-bezier(.3,.8,.2,1),opacity .25s}
+.chatfab.mini{padding:10px;gap:0}.chatfab.mini .cf-t{max-width:0;opacity:0}
+.chatfab.mini:hover,.chatfab.mini:focus-visible{padding:12px 22px 12px 14px;gap:12px}.chatfab.mini:hover .cf-t,.chatfab.mini:focus-visible .cf-t{max-width:160px;opacity:1}
+@media(prefers-reduced-motion:reduce){.mnav:not([hidden]),.mn-l a{animation:none;opacity:1;transform:none}.tabbar.tb2{transition:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -1060,12 +1107,18 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
   <symbol id="cmp" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M3 8h8M13 16h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2" fill="currentColor"/></symbol>
-  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12.5h1M12 12.5h1M8.5 16.5h1M12 16.5h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12.5h1M12 12.5h1M8.5 16.5h1M12 16.5h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="msg" viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.3a11 11 0 0 0 6.4 6.4l1.3-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.6 16.6 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="share" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 13v6h14v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="t-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle class="td" cx="10.5" cy="10.5" r="2"/></symbol>
+  <symbol id="t-map" viewBox="0 0 24 24"><path d="M12 21.5s-6.5-6-6.5-11.5a6.5 6.5 0 0 1 13 0c0 5.5-6.5 11.5-6.5 11.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle class="td" cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="t-pct" viewBox="0 0 24 24"><path d="M18 5L6 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="7" cy="7" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" cx="17" cy="17" r="2.8"/></symbol>
+  <symbol id="t-door" viewBox="0 0 24 24"><path d="M4.5 21V10a6 6 0 0 1 12 0v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 21v-9.5a2 2 0 0 1 4 0V21" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" cx="20" cy="19" r="2.2"/></symbol>
+  <symbol id="t-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v11H10l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8.5" cy="11" r="1.1" fill="currentColor"/><circle cx="12" cy="11" r="1.1" fill="currentColor"/><circle class="td" cx="15.5" cy="11" r="1.5"/></symbol>
+  <symbol id="t-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 15h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18.5" cy="15" r="2" fill="#F5553C"/></symbol>
   <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
 </svg>
 
@@ -1074,7 +1127,7 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
   <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
   <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
   <span class="sp"></span>
-  <a class="hicon tel-m" href="tel:+79655002918" aria-label="Позвонить: +7 965 500-29-18"><svg class="ico"><use href="#phone"/></svg></a>
+  <button type="button" class="hicon tel-m" id="mnBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><svg class="ico"><use href="#t-menu"/></svg></button>
   <div class="hb" role="group" aria-label="Связь, сравнение, избранное и кабинет">
     <div class="hb-call">
       <button type="button" class="hb-ph" id="hbPh" aria-expanded="false" aria-controls="hbPop">
@@ -1118,7 +1171,7 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
         <div class="sg sgi grow dd-wrap"><label for="ad">Район или ЖК</label><input id="ad" placeholder="Академический, ЖК…" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
       </form>
       <div class="sline"><span class="qfl">Быстро:</span><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span><span class="sstat" aria-live="polite"><i></i><span id="sStat"></span></span></div>
-      <button class="go3" type="submit" form="sf" aria-label="Показать подходящие квартиры"><span class="g3-top"><span class="g3-ic"><svg class="ico"><use href="#search"/></svg></span><span class="g3-l">Показать</span></span>
+      <button class="go3" type="submit" form="sf" aria-label="Показать подходящие квартиры"><span class="g3-top"><span class="g3-ic"><svg class="ico"><use href="#i-search"/></svg></span><span class="g3-l">Показать</span></span>
         <span class="g3-n"><b id="goN"></b><small id="goL">квартир</small></span><span class="g3-sw" aria-hidden="true"></span></button>
     </div>
   </div>
@@ -1380,18 +1433,29 @@ html.chat-lock,html.chat-lock body{overflow:hidden}
   <div class="fbot"><span>ИП Сафоев Шерзод Рустамович · ИНН 661709849922 · ОГРНИП 326965800115079</span><span>Пример сайта. Объекты, цены и названия ЖК — демо-данные, отзывы — демо.</span></div>
 </div></footer>
 
-<nav class="tabbar" aria-label="Меню приложения">
-  <a class="on" href="#search"><svg class="ico"><use href="#search"/></svg>Поиск</a>
-  <a href="#list"><svg class="ico"><use href="#pin"/></svg>Карта</a>
-  <a href="#calc"><svg class="ico"><use href="#calc"/></svg>Ипотека</a>
-  <a href="#cab"><svg class="ico"><use href="#user"/></svg>Кабинет</a>
-  <a href="#" data-chat><svg class="ico"><use href="#msg"/></svg>Чат 24/7</a>
+<nav class="tabbar tb2" id="tabbar" aria-label="Меню приложения">
+  <a class="on" href="#search" data-sec="search"><svg class="tic"><use href="#t-search"/></svg><span>Поиск</span></a>
+  <a href="#list" data-sec="list" data-map><svg class="tic"><use href="#t-map"/></svg><span>Карта</span></a>
+  <a href="#calc" data-sec="calc"><svg class="tic"><use href="#t-pct"/></svg><span>Ипотека</span></a>
+  <a href="#cab" data-sec="cab"><svg class="tic"><use href="#t-door"/></svg><span>Кабинет</span></a>
+  <a href="#" data-chat><svg class="tic"><use href="#t-chat"/></svg><span>Чат 24/7</span></a>
 </nav>
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Меню" hidden>
+  <div class="mn-top"><span class="mn-st"><i></i><span id="mnSt">на связи</span></span><button type="button" class="mn-x" id="mnX" aria-label="Закрыть меню">×</button></div>
+  <nav class="mn-l" aria-label="Разделы">
+    <a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a>
+  </nav>
+  <div class="mn-c">
+    <a class="mn-tel" href="tel:+79655002918">+7 965 500-29-18</a>
+    <div class="mn-b"><a class="btn red" href="tel:+79655002918">Позвонить</a><button type="button" class="btn ghost" data-chat>Чат 24/7</button></div>
+    <a class="mn-cab" href="kabinet.html"><svg viewBox="0 0 76 72" aria-hidden="true"><use href="#mark"/></svg>Личный кабинет</a>
+  </div>
+</div>
 
 <dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico" style="width:18px;height:18px"><use href="#msg"/></svg></i><span><b>Спросить</b><small>ответим 24/7</small></span></button>
+<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico" style="width:18px;height:18px"><use href="#msg"/></svg></i><span class="cf-t"><b>Спросить</b><small>ответим 24/7</small></span></button>
 <div class="chat" id="chat" role="dialog" aria-label="Помощник Платформы" hidden>
   <div class="ch-h"><svg width="30" height="28" fill="#F4F2EE"><use href="#mark"/></svg><div><b>Помощник Платформы</b><small><i></i>онлайн · отвечает круглосуточно</small></div><button class="ch-x" id="chatX" aria-label="Закрыть">×</button></div>
   <div class="ch-b" id="chatLog" aria-live="polite"></div>
@@ -1829,7 +1893,7 @@ $('#mapBtn').addEventListener('click', e => { const on = $('.res').classList.tog
 
 // шапка с тенью и кнопка чата — после первого экрана
 const hdr = $('header'), fab = $('#chatFab');
-function onScroll() { hdr.classList.toggle('sc', scrollY > 10); fab.classList.toggle('show', scrollY > $('.hero').offsetHeight * .6); }
+function onScroll() { hdr.classList.toggle('sc', scrollY > 10); fab.classList.toggle('show', scrollY > $('.hero').offsetHeight * .6); fab.classList.toggle('mini', scrollY > $('.hero').offsetHeight * 1.4); }
 addEventListener('scroll', onScroll, {passive: true}); onScroll();
 
 // ссылки на объект и дом
@@ -2216,6 +2280,22 @@ segLabels();
   }
   new MutationObserver(upd).observe(n, {childList: true, characterData: true, subtree: true});
   upd();
+})();
+
+// мобильное меню: капсула снизу и полноэкранная навигация
+(() => {
+  const tb = $('#tabbar'), mn = $('#mnav'), mb = $('#mnBtn'); let lastY = scrollY;
+  addEventListener('scroll', () => { const y = scrollY, d = y - lastY;
+    if (Math.abs(d) > 6) { tb.classList.toggle('hide', d > 0 && y > 300); lastY = y; } }, {passive: true});
+  const links = $$('a[data-sec]', tb);
+  const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.dataset.sec === e.target.id)); }), {rootMargin: '-45% 0px -50% 0px'});
+  links.forEach(a => { const t = document.getElementById(a.dataset.sec); if (t) spy.observe(t); });
+  $('[data-map]', tb).addEventListener('click', () => { if (innerWidth <= 800 && !$('.res').classList.contains('showmap')) $('#mapBtn').click(); });
+  function openMn(o) { mn.hidden = !o; mb.setAttribute('aria-expanded', o); document.documentElement.classList.toggle('mn-lock', o);
+    if (o) { const st = $('#hbStatus'); $('#mnSt').textContent = st ? st.textContent : 'на связи'; $('#mnX').focus(); } else mb.focus(); }
+  mb.addEventListener('click', () => openMn(true)); $('#mnX').addEventListener('click', () => openMn(false));
+  $$('.mn-l a, .mn-c [data-chat], .mn-cab', mn).forEach(a => a.addEventListener('click', () => openMn(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !mn.hidden) openMn(false); });
 })();
 </script>
 </body>

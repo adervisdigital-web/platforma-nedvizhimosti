@@ -34,6 +34,7 @@ $('#bkP').value='9001234567';$('#bkP').dispatchEvent(new Event('input'));$('#bkG
 R.push('seen='+$$('#seenL button').length+' hidden='+$('#seen').hidden);}
 if($('#baBox')){const bx=$('#baBox'),br=bx.getBoundingClientRect(),pe=(t,x)=>bx.dispatchEvent(new PointerEvent(t,{clientX:br.left+br.width*x,clientY:br.top+50,pointerId:1,bubbles:true}));
 pe('pointerdown',.2);pe('pointermove',.8);pe('pointerup',.8);R.push('baDrag='+Math.round($('#baR').value)+' clip='+$('#baBox .after').style.clipPath+' step='+(($('#bSteps li.cur b')||{}).textContent));}
+{const ids=[...document.querySelectorAll('[id]')].map(e=>e.id),d=ids.filter((x,i)=>ids.indexOf(x)!==i);R.push('dupIds='+(d.join(',')||'нет'));}
 R.push('cmpCnt='+$('#cmpCnt').textContent+' fav='+$('#favCnt').textContent+' cats='+$$('[data-c]').map(e=>e.textContent).join('/'));
 }catch(x){R.push('ERR '+x.message)}R.push('errors='+__e.join(';'));document.body.setAttribute('data-r',R.join(' || '))},600)</script>'''
 open(out, 'w', encoding='utf8').write(s.replace('<head>', '<head>' + pre).replace('</body>', test + '</body>'))
