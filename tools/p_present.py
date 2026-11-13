@@ -212,6 +212,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 .about .big{{font:300 44px/1.18 Manrope;letter-spacing:-.025em;margin:30px 0 0}}
 .trio{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:70px}}
 .trio div{{border-top:1px solid #ffffff24;padding-top:18px}}.trio b{{font:500 24px Manrope;display:block;margin-bottom:6px}}.trio span{{color:#A9A49B;font-size:15px}}
+.nums{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:70px}}.nums b{{display:block;font:300 92px/1 Manrope;letter-spacing:-.05em;color:{RED}}}.nums span{{display:block;color:#A9A49B;font-size:15px;margin-top:10px}}
 .photos2{{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:520px}}
 .photos2 div{{border-radius:4px;background-size:cover;background-position:center}}
 /* logo */
@@ -298,7 +299,7 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 .end{{height:860px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:70px}}
 @media(max-width:900px){{
 .in{{padding:64px 20px}}h2{{font-size:38px}}.cover{{grid-template-columns:1fr;height:auto}}.cover .l{{padding:40px 20px;min-height:520px}}.cover .r{{height:420px}}
-.about,.cons,.type,.icons,.soc,.pat,.ib{{grid-template-columns:minmax(0,1fr)}}.about .big{{font-size:30px}}.abc{{font-size:15px;word-break:break-all}}.idea{{min-height:0}}.uses .use{{min-height:150px}}.slg{{height:420px}}.ib{{gap:30px}}.pat{{height:auto}}.pat>*{{height:360px}}.trio,.uses,.slgs,.notes,.posts,.prin,.slist,.voice{{grid-template-columns:minmax(0,1fr)}}.mrow{{grid-template-columns:70px 1fr;gap:16px}}.mrow .gl{{font-size:56px;height:60px}}.mrow b{{font-size:22px}}.mrow span{{font-size:15px}}.mfin{{font-size:36px}}.prin b{{font-size:40px}}.slist div{{font-size:19px}}
+.about,.cons,.type,.icons,.soc,.pat,.ib{{grid-template-columns:minmax(0,1fr)}}.about .big{{font-size:30px}}.abc{{font-size:15px;word-break:break-all}}.idea{{min-height:0}}.uses .use{{min-height:150px}}.slg{{height:420px}}.ib{{gap:30px}}.pat{{height:auto}}.pat>*{{height:360px}}.trio,.nums,.uses,.slgs,.notes,.posts,.prin,.slist,.voice{{grid-template-columns:minmax(0,1fr)}}.mrow{{grid-template-columns:70px 1fr;gap:16px}}.mrow .gl{{font-size:56px;height:60px}}.mrow b{{font-size:22px}}.mrow span{{font-size:15px}}.mfin{{font-size:36px}}.prin b{{font-size:40px}}.slist div{{font-size:19px}}
 .vers{{grid-template-columns:1fr}}.ver{{height:280px;transform:none}}.ver>div{{transform:scale(.7)}}.pal{{grid-template-columns:1fr}}
 .idea .mega{{font-size:64px}}.aa{{font-size:160px}}.g>*{{grid-column:span 12!important;height:300px!important}}
 .stage{{height:auto}}.laptop{{position:relative;width:100%}}.lid .sc2{{height:260px}}.base{{margin:0}}.stage .phone{{position:relative;right:auto;top:auto;margin:40px auto 0}}
@@ -318,14 +319,15 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 <section class="dark"><div class="in">
   <div class="about">
     <div><div class="lab"><b>01</b> О бренде</div>
-      <div class="big">Рынок недвижимости полон многоточий. Мы ставим точку: проверяем застройщиков и строительные бригады, отбираем самые выгодные предложения и ведём вас от квартиры до своего дома{D}</div></div>
+      <div class="big">Рынок недвижимости полон многоточий. Мы ставим точку: продаём квартиры только от проверенных застройщиков, сами делаем ремонт и строим дома по своим проектам — по договору и с гарантией 5 лет{D}</div></div>
     <div class="photos2"><div style="background-image:url(photo/crane.jpg)"></div><div style="background-image:url(photo/redfacade.jpg)"></div></div>
   </div>
   <div class="trio">
-    <div><b>Квартиры{D}</b><span>Новостройки и вторичное жильё Екатеринбурга только от проверенных застройщиков. Подбор, самая выгодная ипотека, сопровождение сделки.</span></div>
-    <div><b>Дома{D}</b><span>Каменные дома от проверенных строителей-партнёров — по готовым и индивидуальным проектам.</span></div>
-    <div><b>Ремонт{D}</b><span>Ремонт у партнёров, за которых мы ручаемся. Смета и сроки — до начала работ, приёмка каждого этапа.</span></div>
+    <div><b>Квартиры{D}</b><span>Новостройки от проверенных застройщиков через эскроу и вторичка с проверкой юриста. Спецпредложения застройщиков, индивидуальные ставки банков, 0 ₽ комиссии для покупателя.</span></div>
+    <div><b>Дома{D}</b><span>Готовые проекты из газоблока, кирпича, керамоблока и дерева. Первый взнос 30 %, остальное — по этапам или в рассрочку до 5 лет.</span></div>
+    <div><b>Ремонт{D}</b><span>Делаем сами: от 20 000 до 100 000 ₽ за м² с материалами. Смета и договор до начала, акт на каждый этап, гарантия 5 лет.</span></div>
   </div>
+  <div class="nums"><div><b>5</b><span>лет на рынке Екатеринбурга</span></div><div><b>1985</b><span>сделок с квартирами</span></div><div><b>67</b><span>договоров на строительство домов</span></div><div><b>85</b><span>квартир с нашей отделкой</span></div></div>
 </div></section>
 
 <section class="dark hero-logo" aria-label="Логотип">{vlock(230, 40, MILK, RED, "#8A867F")}</section>
@@ -354,9 +356,9 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 <section class="dark"><div class="in">
   <div class="lab"><b>04</b> Принципы</div><h2>Три обещания{D}<br>Три точки{D}</h2>
   <div class="prin">
-    <div><b>Проверено{D}</b><span>Работаем только с застройщиками и строительными бригадами, которых проверили сами. Красная точка рядом с объектом — наша подпись под ним.</span></div>
-    <div><b>Выгодно{D}</b><span>Не выкладываем всё подряд. Сравниваем цены, ипотечные программы и условия — и показываем только самые выгодные предложения.</span></div>
-    <div><b>Ясно{D}</b><span>Цена, срок и следующий шаг известны до начала работ. Без звёздочек, мелкого шрифта и многоточий.</span></div>
+    <div><b>Проверено{D}</b><span>Квартиры — только от застройщиков, которых проверили сами. Ремонт и дома делаем своими силами. Красная точка рядом с объектом — наша подпись под ним.</span></div>
+    <div><b>Выгодно{D}</b><span>Спецпредложения напрямую от застройщиков, индивидуальные ставки банков и 0 ₽ комиссии для покупателя. Показываем только самые выгодные варианты.</span></div>
+    <div><b>Ясно{D}</b><span>Только по договору. Цена, срок и следующий шаг известны до начала работ — без звёздочек и многоточий.</span></div>
   </div>
   <div class="lab" style="margin-top:80px">Где живёт точка</div>
   <div class="uses">
@@ -400,8 +402,8 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
 <section class="dark"><div class="in">
   <div class="lab"><b>09</b> Голос</div><h2>Говорим коротко{D}<br>Заканчиваем точкой{D}</h2>
   <div class="slgs">{slogans}</div>
-  <div class="slist"><div>Сначала проверяем{D} Потом предлагаем{D}</div><div>Отбор — наша работа{D} Выбор — ваш{D}</div><div>Мы говорим «нет» многим, чтобы вы сказали «да» одному{D}</div><div>Ипотека, после которой не остаётся вопросов{D}</div><div>Квартира, ремонт и дом — от тех, за кого мы ручаемся{D}</div><div>Где у других многоточие — у нас точка{D}</div></div>
-  <div class="voice"><div class="yes"><h3>Так говорим</h3><p>Сдача — III квартал 2027{D}</p><p>Смета — [N] ₽, срок — [N] недель{D}</p><p>Застройщик проверен: документы и сданные дома{D}</p><p>Платёж — [N] ₽ в месяц, на [N] ₽ ниже среднего{D}</p></div>
+  <div class="slist"><div>Сначала проверяем{D} Потом предлагаем{D}</div><div>Отбор — наша работа{D} Выбор — ваш{D}</div><div>Мы говорим «нет» многим, чтобы вы сказали «да» одному{D}</div><div>Ипотека, после которой не остаётся вопросов{D}</div><div>Гарантия — 5 лет{D} Комиссия — 0 ₽{D}</div><div>Где у других многоточие — у нас точка{D}</div></div>
+  <div class="voice"><div class="yes"><h3>Так говорим</h3><p>Сдача — III квартал 2027{D}</p><p>Ремонт с материалами — от 20 000 ₽ за м²{D}</p><p>Застройщик проверен: документы и сданные дома{D}</p><p>Первый взнос — 30 %, рассрочка — до 5 лет{D}</p></div>
     <div class="no"><h3>Так не говорим</h3><p>Сдача в ближайшее время…</p><p>Цена от [N] ₽*</p><p>Надёжный застройщик!!!</p><p>Элитный. Премиальный. Уникальный.</p></div></div>
 </div></section>
 
@@ -409,9 +411,9 @@ p.lead{{font-size:20px;line-height:1.55;max-width:620px;color:inherit;opacity:.8
   <div class="lab"><b>10</b> Носители</div><h2>В городе и на стройке{D}</h2>
   <div class="g">
     {car('facade', 'световая вывеска офиса', 'c8')}
-    <div style="grid-column:span 4;display:grid;gap:16px">{car('helmet', 'каска инспектора', 'c4', '50% 62%')}{car('keys', 'брелок', 'c4', '60% 50%')}</div>
-    {car('fence', 'ограждение объекта партнёра', 'c6', '50% 60%')}{car('billboard', 'билборд', 'c6', '68% 45%')}
-    {car('vest', 'жилет инспектора', 'c4b', '62% 60%')}{car('bag', 'пакет для документов', 'c4b', '50% 65%')}{car('plate', 'паспорт объекта с отметкой о проверке', 'c4b', '50% 35%')}
+    <div style="grid-column:span 4;display:grid;gap:16px">{car('helmet', 'каска', 'c4', '50% 62%')}{car('keys', 'брелок', 'c4', '60% 50%')}</div>
+    {car('fence', 'ограждение объекта', 'c6', '50% 60%')}{car('billboard', 'билборд', 'c6', '68% 45%')}
+    {car('vest', 'рабочий жилет', 'c4b', '62% 60%')}{car('bag', 'пакет для документов', 'c4b', '50% 65%')}{car('plate', 'паспорт объекта с отметкой о проверке', 'c4b', '50% 35%')}
   </div>
 </div></section>
 

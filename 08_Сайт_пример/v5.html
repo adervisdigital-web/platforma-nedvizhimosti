@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Платформа недвижимости — квартиры в Екатеринбурге, за которые мы ручаемся</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#F5553C;--red-d:#E0442C;--night:#0E0E0F;--graph:#1C1C1E;--milk:#F4F2EE;--gray:#ECEAE6;--ink:#161617;--mut:#77736C;--line:#E2DED7;--soft:#F6F4F0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--milk);color:var(--ink);font:400 15px/1.5 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;cursor:pointer}img{display:block;max-width:100%}
+.w{max-width:none;margin:0;padding:0 clamp(16px,3.4vw,110px)}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.nw{white-space:nowrap}
+i.o{display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em;font-style:normal}
+i.o.n{background:var(--ink)}i.o.wh{background:#fff}
+.br{font-size:12px;letter-spacing:.06em;color:var(--mut)}.br b{color:var(--red);font-weight:600}
+h2.t{font:400 clamp(36px,3.9vw,104px)/1.02 Manrope;letter-spacing:-.045em;margin:16px 0 0}
+.mute{color:#A9A49B}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;border:0;font-weight:600;font-size:15px;transition:background .2s}
+.btn.red{background:var(--red);color:#fff}.btn.red:hover{background:var(--red-d)}
+.btn.dark{background:var(--ink);color:#fff}.btn.ghost{background:transparent;border:1px solid var(--line)}.btn.white{background:#fff;color:var(--ink)}
+.ico{width:20px;height:20px;flex:none}
+.sec{padding:110px 0}
+
+/* header */
+header{position:sticky;top:0;z-index:30;background:#F4F2EEeb;backdrop-filter:blur(12px)}
+.hd{display:flex;align-items:center;gap:30px;height:76px}
+.logo{display:flex;align-items:center;gap:12px}.logo b{display:block;font:300 14px/1 Manrope;letter-spacing:.42em}.logo small{display:block;font:400 7.6px/1 Manrope;letter-spacing:.5em;color:var(--mut);margin-top:6px}
+nav.main{display:flex;gap:26px;font-weight:600;font-size:14px}nav.main a{opacity:.75}nav.main a:hover,nav.main a.on{opacity:1}
+nav.main a.on::after{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);margin-left:4px;vertical-align:middle}
+.sp{flex:1}
+.tel{font-weight:700;font-size:15px;text-align:right}.tel small{display:block;font-weight:500;font-size:11px;color:var(--mut)}
+.hicon{position:relative;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center}
+.hicon .cnt{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}
+.hicon .cnt.on{display:flex}
+
+/* hero — фото во весь экран */
+.hero{position:relative;min-height:clamp(560px,calc(100vh - 76px),1400px);min-height:clamp(560px,calc(100svh - 76px),1400px);display:flex;color:#fff;overflow:hidden;background:#2a211c}
+.hbg{position:absolute;inset:0;background:url(photo/ekb_dusk.jpg) 62% 40%/cover;transform:scale(1.02)}
+.hbg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0d0a08e6 0%,#0d0a08a8 30%,#0d0a0833 58%,#0000 74%),linear-gradient(0deg,#000a 0%,#0000 38%)}
+.hin{position:relative;z-index:1;width:100%;display:flex;flex-direction:column;justify-content:space-between;gap:48px;padding-top:clamp(40px,8vh,130px);padding-bottom:clamp(24px,4.5vh,64px)}
+.hl{max-width:min(1100px,58vw)}
+.hero .br{color:#ffffffb8}
+.hero h1{font:400 clamp(46px,6.6vw,184px)/.95 Manrope;letter-spacing:-.06em;margin:0;color:#fff}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero .sub{font-size:clamp(16px,1.15vw,25px);line-height:1.5;color:#ffffffd9;max-width:min(680px,90%);margin:30px 0 0}
+.chipv{position:absolute;right:clamp(16px,3.4vw,110px);bottom:clamp(24px,4.5vh,64px);z-index:2;background:#ffffffeb;color:var(--ink);backdrop-filter:blur(12px);border-radius:20px;padding:16px 18px;width:clamp(290px,18vw,380px);box-shadow:0 20px 50px #0003}
+.chipv h3{margin:0 0 8px;font:700 14px Manrope;display:flex;align-items:center;gap:8px}.chipv h3 i{width:10px;height:10px;border-radius:50%;background:var(--red)}
+.chipv ul{list-style:none;margin:0;padding:0;font-size:13px}.chipv li{display:flex;gap:8px;align-items:center;padding:6px 0;border-top:1px solid #0000000d}.chipv li svg{color:var(--red);width:16px;height:16px}
+.hcap{position:absolute;right:clamp(16px,3.4vw,110px);bottom:clamp(24px,4.5vh,64px);z-index:1;color:#fff;font-size:13px;opacity:.85}
+.sbox{position:relative;z-index:3;width:min(1240px,calc(100% - clamp(290px,18vw,380px) - 24px));background:#fff;color:var(--ink);border-radius:26px;padding:12px;box-shadow:0 30px 70px #00000040}
+.after{padding:clamp(20px,2vw,40px) 0 0}
+@media(max-width:1200px){.hero .sbox{width:100%}}
+.tabs{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:16px;width:max-content;max-width:100%;overflow:auto}
+.tabs button{border:0;background:transparent;border-radius:12px;padding:11px 18px;font-weight:600;font-size:14px;white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--ink);color:#fff}
+.sf{display:grid;grid-template-columns:1.45fr 1fr 1.35fr auto;gap:8px;margin-top:10px;align-items:stretch}
+.f{background:var(--soft);border-radius:16px;padding:10px 16px;min-height:66px;display:flex;flex-direction:column;justify-content:center;border:1px solid transparent}
+.f:focus-within{border-color:var(--ink);background:#fff}
+.f label{font-size:11px;color:var(--mut)}.f .v{display:flex;gap:4px;margin-top:2px}
+.f input{border:0;background:transparent;font:600 15px Manrope;padding:2px 0 0;width:100%;outline:none;color:var(--ink)}
+.chip{border:0;background:transparent;padding:3px 9px;border-radius:9px;font-weight:600;font-size:14px}.chip[aria-pressed=true]{background:var(--ink);color:#fff}
+.go{min-height:66px;border-radius:16px;padding:0 26px}
+.sline{display:flex;align-items:center;gap:10px;margin:12px 6px 2px;font-size:13px;color:var(--mut);flex-wrap:wrap}
+.sw{position:relative;width:38px;height:22px;border-radius:11px;background:var(--red);border:0;flex:none}.sw::after{content:'';position:absolute;top:3px;left:19px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}.sw[aria-checked=false]{background:#C9C5BE}.sw[aria-checked=false]::after{left:3px}
+.sline a{margin-left:auto;font-weight:700;color:var(--ink);display:inline-flex;gap:6px;align-items:center}
+
+/* categories */
+.cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:28px}
+.cat{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:1/1.08;background:#ccc center/cover;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;border:0;text-align:left}
+.cat::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0000 40%,#000a);transition:background .3s}
+.cat:hover::before{background:linear-gradient(180deg,#0000 20%,#000c)}
+.cat b{position:relative;font:600 17px/1.15 Manrope}.cat span{position:relative;font-size:12px;opacity:.85;margin-top:2px}
+.cat.red{background:var(--red)}.cat.red::before{display:none}.cat.red b{font-size:20px}
+
+/* promo */
+.promo{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;margin-top:12px}
+.pt{position:relative;border-radius:24px;overflow:hidden;min-height:250px;padding:26px;display:flex;flex-direction:column;justify-content:space-between}
+.pt h3{margin:0;font:500 30px/1.05 Manrope;letter-spacing:-.03em;max-width:380px;position:relative}.pt p{margin:10px 0 0;font-size:14px;opacity:.88;max-width:330px;position:relative}
+.pt .gl{position:relative;align-self:flex-start;background:#fff;color:var(--ink);border-radius:999px;padding:11px 18px;font-weight:600;font-size:14px}
+.pt.red{background:var(--red);color:#fff}.pt.dark{background:var(--night);color:#fff}.pt.white{background:#fff}
+.pt.white .gl{background:var(--ink);color:#fff}
+.dotgrid{position:absolute;right:-6px;bottom:-6px;width:210px;height:150px;background-image:radial-gradient(circle,#ffffff38 5px,transparent 5.5px);background-size:22px 22px}
+.pt.white .dotgrid{background-image:radial-gradient(circle,#F5553C 5px,transparent 5.5px);opacity:.9}
+
+/* listings */
+.lhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.seg{display:flex;gap:4px;padding:4px;background:#fff;border-radius:14px}.seg button{border:0;background:transparent;border-radius:10px;padding:9px 14px;font-weight:600;font-size:13px}.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.res{display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:22px;margin-top:30px;align-items:start}
+.card{display:grid;grid-template-columns:330px minmax(0,1fr) 220px;gap:22px;border-radius:26px;padding:12px;margin-bottom:12px;background:#fff;transition:box-shadow .25s}
+.card:hover,.card.hl{box-shadow:0 20px 44px #00000012}
+.gal{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/3;background:var(--soft)}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.card:hover .gal img{transform:scale(1.04)}
+.gal .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;gap:4px;justify-content:center}.gal .dots i{width:6px;height:6px;border-radius:50%;background:#ffffff80}.gal .dots i.on{background:#fff}
+.gal .tag{position:absolute;left:10px;top:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:4px 10px}
+.gal .acts{position:absolute;right:10px;top:10px;display:flex;gap:6px}
+.ib{width:38px;height:38px;border-radius:50%;background:#ffffffe6;border:0;display:flex;align-items:center;justify-content:center}
+.ib[aria-pressed=true] svg{fill:var(--red);stroke:var(--red)}.ib.cmp[aria-pressed=true]{background:var(--ink)}.ib.cmp[aria-pressed=true] svg{stroke:#fff;fill:none}
+.mid{padding:10px 0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.mid .t{font:600 19px/1.3 Manrope;letter-spacing:-.01em}.mid .a{font-size:13px;color:var(--mut)}
+.mid .line{font-size:13px;color:#4A4741}
+.vbtn{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;border:0;background:#FEECE8;color:#B8321D;border-radius:999px;padding:6px 12px 6px 10px;font-size:12px;font-weight:700;position:relative}
+.vbtn i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.vpop{position:absolute;left:0;top:calc(100% + 8px);z-index:5;width:300px;background:#fff;color:var(--ink);border-radius:16px;box-shadow:0 20px 50px #0000002a;padding:14px 16px;font-weight:500;text-align:left;display:none}
+.vbtn[aria-expanded=true] .vpop{display:block}
+.vpop b{display:block;font-size:13px;margin-bottom:6px}.vpop span{display:flex;gap:8px;align-items:center;font-size:12px;padding:5px 0;border-top:1px solid #0000000d}.vpop span::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);flex:none}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}.tags span{background:var(--soft);border-radius:8px;padding:4px 9px;font-size:12px;font-weight:600}
+.rcol{border-left:1px solid var(--line);padding:10px 4px 10px 20px;display:flex;flex-direction:column;gap:3px}
+.price{font:700 24px Manrope;letter-spacing:-.01em}.ppm{font-size:12px;color:var(--mut)}
+.mort{margin-top:8px;background:var(--soft);border-radius:12px;padding:8px 10px;font-size:12px}.mort b{display:block;font-size:14px}
+.rcol .btn{margin-top:auto;min-height:44px;font-size:14px}
+.more{display:flex;justify-content:center;margin-top:16px}
+#cards.grid{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:14px}
+#cards.grid .card{grid-template-columns:minmax(0,1fr);margin:0;gap:12px;align-content:start}
+#cards.grid .rcol{border-left:0;border-top:1px solid var(--line);padding:12px 4px 4px}
+#cards.grid .mid{padding:2px 4px}
+.map{position:sticky;top:96px;border-radius:26px;overflow:hidden;height:min(calc(100vh - 120px),900px);background:#E9E6E0}
+.map svg.base{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;transform:translate(-50%,-100%);border:0;background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:5px 9px;border-radius:9px;white-space:nowrap;transition:background .2s,transform .2s}
+.pin::after{content:'';position:absolute;left:50%;bottom:-6px;width:10px;height:10px;border-radius:50%;background:inherit;transform:translateX(-50%);box-shadow:0 0 0 3px #fff}
+.pin.on{background:var(--red);transform:translate(-50%,-100%) scale(1.08);z-index:2}
+.mapcap{position:absolute;left:14px;top:14px;background:#fff;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:600;box-shadow:0 6px 16px #0001;display:flex;gap:8px;align-items:center}.mapcap i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+
+/* manifesto */
+.man{position:relative;background:var(--night);color:var(--milk);overflow:hidden}
+.man::before{content:'';position:absolute;left:0;right:0;top:0;height:clamp(420px,48vw,1100px);background:url(photo/ekb_aerial.jpg) center 40%/cover;opacity:.55}
+.man::after{content:'';position:absolute;left:0;right:0;top:0;height:clamp(420px,48vw,1100px);background:linear-gradient(90deg,#0e0e0fcc 0%,#0e0e0f80 45%,#0e0e0f33 100%),linear-gradient(180deg,#0e0e0f80 0%,#0e0e0f4d 40%,#0e0e0f 100%)}
+.man>.w{position:relative;z-index:1}.man::before,.man::after{display:none}
+.mtext{font:400 clamp(28px,3.5vw,92px)/1.1 Manrope;letter-spacing:-.04em;margin:26px 0 0;max-width:min(1800px,92%);color:#ffffff8f}
+.mtext b{font-weight:400;color:var(--milk)}.mtext em{font-style:normal;color:var(--red)}
+.mgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:70px;align-items:stretch}
+.field{position:relative;border-radius:26px;background:#1C1C1Ef2;backdrop-filter:blur(6px);padding:30px 30px 64px;display:grid;grid-template-columns:repeat(22,1fr);align-content:center;min-height:clamp(420px,30vw,720px)}
+.field i{display:block;width:clamp(10px,.62vw,18px);height:clamp(10px,.62vw,18px);border-radius:50%;background:#4A484D;margin:clamp(7px,.6vw,16px) auto;transition:opacity .45s,transform .45s,background .45s}
+.field i.off{opacity:.2}.field i.win{background:var(--red);transform:scale(2.4);opacity:1}
+.fcap{position:absolute;left:30px;right:30px;bottom:24px;display:flex;justify-content:space-between;font-size:13px;color:#A9A49B}.fcap b{color:var(--milk);font-weight:600}
+.checks{border-radius:26px;background:#1C1C1Ef2;backdrop-filter:blur(6px);padding:30px;display:flex;flex-direction:column}
+.checks h3{margin:0;font:500 26px/1.15 Manrope;letter-spacing:-.02em}
+.ctabs{display:flex;gap:6px;margin:18px 0 6px}.ctabs button{border:1px solid #ffffff26;background:transparent;color:var(--milk);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600}.ctabs button[aria-pressed=true]{background:var(--milk);color:var(--ink)}
+.clist{list-style:none;margin:0;padding:0}.clist li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid #ffffff17;font-size:16px}.clist li span{color:#A9A49B;font-size:13px;text-align:right}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:70px;border-top:1px solid #ffffff1f;padding-top:36px}
+.stats b{display:block;font:300 clamp(56px,5.4vw,140px)/1 Manrope;letter-spacing:-.05em;color:var(--red)}.stats span{color:#A9A49B;font-size:14px;display:block;margin-top:10px;max-width:220px}
+
+/* partners */
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:50px}
+.pc{background:#fff;border-radius:26px;overflow:hidden;display:flex;flex-direction:column}
+.pc .ph{aspect-ratio:16/11;overflow:hidden;position:relative}.pc .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.pc:hover .ph img{transform:scale(1.04)}
+.pc .ph span{position:absolute;left:14px;top:14px;background:#fff;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700}
+.pc .b{padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.pc h3{margin:0;font:500 28px/1.05 Manrope;letter-spacing:-.03em}.pc p{margin:0;color:#4A4741}
+.pc .br2{font-size:13px;color:var(--mut);line-height:1.8}
+.pc a.lk{margin-top:auto;font-weight:700;display:inline-flex;gap:8px;align-items:center}.pc a.lk::after{content:'→';color:var(--red)}
+.way{margin-top:14px;background:var(--ink);color:var(--milk);border-radius:26px;padding:22px 24px 22px 30px;display:flex;align-items:center;gap:18px}
+.way .btn{flex:none;margin-left:12px}
+.way .stp{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;white-space:nowrap}.way .stp i{width:12px;height:12px;border-radius:50%;background:#56545A}.way .stp:last-of-type i{background:var(--red)}
+.way .ln{flex:1;min-width:30px;height:2px;background:repeating-linear-gradient(90deg,#56545A 0 6px,transparent 6px 12px)}
+
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:14px;margin-top:44px}
+.cin{background:#fff;border-radius:26px;padding:32px;display:grid;gap:26px}
+.rng label{display:flex;justify-content:space-between;font-size:14px;color:var(--mut)}.rng label b{color:var(--ink);font-size:20px;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--red);height:28px}
+.rates{display:flex;gap:8px;flex-wrap:wrap}.rates button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;font-weight:600;font-size:13px;text-align:left}.rates button small{display:block;color:var(--mut);font-weight:500}
+.rates button[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.cout{background:var(--red);color:#fff;border-radius:26px;padding:32px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden}
+.cout .pay{font:300 clamp(52px,5vw,128px)/1 Manrope;letter-spacing:-.05em}.cout .pay small{font-size:22px;opacity:.8}
+.crow{display:flex;justify-content:space-between;border-top:1px solid #ffffff40;padding-top:14px;font-size:15px}.crow span{opacity:.85}
+.note{font-size:12px;opacity:.8}
+.cout .btn{background:#fff;color:var(--ink);margin-top:auto}
+
+/* renovation */
+.rgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;margin-top:44px;align-items:center}
+.ba{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:16/10.5;user-select:none;touch-action:pan-y;background:#ddd}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .after{clip-path:inset(0 0 0 50%)}
+.ba .hdl{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;transform:translateX(-1px);pointer-events:none}
+.ba .hdl::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23161617' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M9 7l-5 5 5 5M15 7l5 5-5 5'/%3E%3C/svg%3E") center/24px no-repeat;box-shadow:0 6px 20px #0003}
+.ba .l1,.ba .l2{position:absolute;top:14px;background:#000a;color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;pointer-events:none}.ba .l1{left:14px}.ba .l2{right:14px;background:var(--red)}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:13px 0;position:relative}
+.tl li::before{content:'';position:absolute;left:14px;top:36px;bottom:-13px;width:2px;background:var(--line)}.tl li:last-child::before{display:none}
+.tl i{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;background:var(--milk);position:relative}
+.tl li:last-child i{background:var(--red);border-color:var(--red);color:#fff}
+.tl b{display:block;font-size:17px}.tl span{color:var(--mut);font-size:14px}
+
+/* promises */
+.prom{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:50px}
+.prom div{background:#fff;border-radius:26px;padding:30px}
+.prom b{display:block;font:400 54px/1 Manrope;letter-spacing:-.05em;margin-bottom:18px}.prom span{color:#4A4741;font-size:16px}
+
+/* lead */
+.lead{background:var(--red);color:#fff;padding:110px 0;position:relative;overflow:hidden}
+.lead .dotgrid{width:520px;height:100%;top:0;right:0;bottom:auto;background-image:radial-gradient(circle,#ffffff2e 6px,transparent 6.5px);background-size:28px 28px}
+.lgrid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) clamp(380px,28vw,600px);gap:60px;align-items:center}
+.lead h2.t{color:#fff;font-size:clamp(38px,4.4vw,116px)}.lead p{font-size:18px;opacity:.92;max-width:540px}
+.form{background:#fff;color:var(--ink);border-radius:26px;padding:26px;display:grid;gap:12px}
+.form .ch{display:flex;gap:6px;flex-wrap:wrap}
+.form .ch button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:600}.form .ch button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.form small{color:var(--mut);font-size:12px}
+.done{display:none;text-align:center;padding:30px 10px}.done b{display:block;font:500 28px Manrope;margin-bottom:6px}
+.form.sent>*:not(.done){display:none}.form.sent .done{display:block}
+
+footer{background:var(--night);color:#A9A49B;padding:70px 0 100px;font-size:14px}
+.fbig{font:300 clamp(60px,11vw,170px)/.9 Manrope;letter-spacing:-.06em;color:var(--milk);margin-bottom:56px}
+.fgr{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
+footer h4{color:var(--milk);font-size:14px;margin:0 0 12px}footer a{display:block;padding:4px 0}footer a:hover{color:var(--milk)}
+.fbot{border-top:1px solid #ffffff1a;margin-top:44px;padding-top:22px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px}
+
+.tabbar{display:none}
+@media(min-width:1700px){body{font-size:16px}.res{grid-template-columns:minmax(0,1fr) minmax(460px,34%)}.hd{height:84px}
+ .cat b{font-size:20px}.pt{min-height:300px;padding:32px}.pt h3{font-size:clamp(30px,1.9vw,48px);max-width:520px}.pt p{font-size:16px;max-width:440px}
+ .pc h3{font-size:clamp(28px,1.8vw,44px)}.pc p{font-size:16px}.prom b{font-size:clamp(54px,3.6vw,96px)}.prom span{font-size:17px}.clist li{font-size:18px;padding:18px 0}.checks h3{font-size:34px}
+ .chipv ul{font-size:14px}.f{min-height:76px}.f input,.chip{font-size:16px}.go{min-height:76px;font-size:17px}.tabs button{font-size:15px;padding:12px 20px}}
+@media(min-width:1700px){.br{font-size:14px}nav.main{font-size:15px;gap:30px}.tel{font-size:16px}
+ .mid .t{font-size:20px}.mid .a,.mid .line{font-size:14px}.tags span{font-size:13px}.vbtn{font-size:13px}.price{font-size:27px}.ppm,.mort{font-size:13px}.mort b{font-size:15px}
+ .cat span{font-size:13px}.pc .br2,.clist li span{font-size:14px}.stats span{font-size:17px;max-width:280px}.tl b{font-size:19px}.tl span{font-size:15px}
+ .rng label{font-size:16px}.rates button{font-size:14px}.crow{font-size:16px}.note{font-size:13px}.way .stp{font-size:16px}.fcap{font-size:15px}.mapcap{font-size:13px}.pin{font-size:13px}}
+@media(min-width:2600px){#cards.grid{--cols:4}}
+@media(min-width:2200px){#cards.grid{--cols:3}body{font-size:17px}.br{font-size:15px}.pc p,.prom span{font-size:19px}}
+@media(max-width:1200px){.chipv,.hcap{display:none}.sbox{width:100%}.hl{max-width:none}.hero h1{font-size:76px}
+ .res{grid-template-columns:minmax(0,1fr)}.map{position:relative;top:0;height:380px;order:-1}.cats{grid-template-columns:repeat(3,minmax(0,1fr))}nav.main{display:none}.card{grid-template-columns:260px minmax(0,1fr) 210px}}
+@media(max-width:800px){
+ .w{padding:0 16px}.hero h1{font-size:46px}.hero .sub{font-size:16px;margin-top:18px}h2.t{font-size:36px}.mtext{font-size:28px}
+ .hd{gap:12px;height:64px}.tel,.hicon.hide-m{display:none}
+ .hero{min-height:0}.hbg{background-position:72% center}.hbg::after{background:linear-gradient(180deg,#0d0a08b3 0%,#0d0a0866 45%,#0d0a08cc 100%)}.hin{padding-top:36px;gap:28px}
+ .sf{grid-template-columns:minmax(0,1fr)}.go{width:100%}
+ .cats{grid-template-columns:repeat(2,minmax(0,1fr))}.promo,.mgrid,.pgrid,.calc,.rgrid,.lgrid,.prom,.fgr{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .card{grid-template-columns:minmax(0,1fr)}.rcol{border-left:0;border-top:1px solid var(--line);padding:12px 0 0}
+ .sec,.lead{padding:64px 0}.field{grid-template-columns:repeat(14,1fr);min-height:300px;padding:18px 18px 56px}.field i{width:8px;height:8px;margin:5px auto}.field i.x14{display:none}
+ .stats b{font-size:56px}.way{flex-wrap:wrap}.way .stp{white-space:normal}.cout .pay{font-size:52px}.prom b{font-size:44px}.lead h2.t{font-size:38px}.way .ln{display:none}
+ .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fffffff2;backdrop-filter:blur(12px);border-top:1px solid var(--line);justify-content:space-around;padding:6px 0 calc(8px + env(safe-area-inset-bottom))}
+ .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:600;color:var(--mut);min-width:60px;padding:4px}.tabbar a.on{color:var(--ink)}.tabbar a.on svg{stroke:var(--red)}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="cmp" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M3 8h8M13 16h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2" fill="currentColor"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12.5h1M12 12.5h1M8.5 16.5h1M12 16.5h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
+</svg>
+
+<header><div class="w hd">
+  <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+  <nav class="main" aria-label="Разделы"><a class="on" href="#search">Новостройки</a><a href="#search">Вторичка</a><a href="#calc">Ипотека</a><a href="#partners">Ремонт и дома</a><a href="#how">Как мы проверяем</a></nav>
+  <span class="sp"></span>
+  <a class="tel" href="tel:+79655002918">+7 965 500-29-18<small>Екатеринбург, ежедневно</small></a>
+  <button class="hicon hide-m" aria-label="Сравнение"><svg class="ico"><use href="#cmp"/></svg><span class="cnt" id="cmpCnt">0</span></button>
+  <button class="hicon" aria-label="Избранное"><svg class="ico"><use href="#heart"/></svg><span class="cnt" id="favCnt">0</span></button>
+</div></header>
+
+<main>
+<section class="hero" id="search">
+  <div class="hbg" role="img" aria-label="Екатеринбург в сумерках: новые жилые дома и стройка"></div>
+  <div class="chipv"><h3><i></i>ЖК [НАЗВАНИЕ] — проверен</h3>
+    <ul><li><svg><use href="#check"/></svg>Разрешение на строительство</li><li><svg><use href="#check"/></svg>Проектная декларация, эскроу</li><li><svg><use href="#check"/></svg>Прошлые дома сданы в срок</li><li><svg><use href="#check"/></svg>Нет банкротных дел</li></ul></div>
+  <div class="w hin">
+    <div class="hl">
+      <div class="br">[ <b>●</b> Екатеринбург · новостройки и вторичка ]</div>
+      <h1 style="margin-top:22px">Квартиры, за&nbsp;которые мы <em class="nw">ручаемся<i class="o wh"></i></em></h1>
+      <p class="sub">Продаём только то, что проверили сами: надёжные застройщики, чистые сделки, самые выгодные условия. Ремонт и дом — у партнёров, в которых мы уверены.</p>
+    </div>
+    <div class="sbox">
+      <div class="tabs" role="tablist" aria-label="Что ищете"><button role="tab" aria-selected="true">Новостройки</button><button role="tab" aria-selected="false">Вторичка</button><button role="tab" aria-selected="false">Дома</button><button role="tab" aria-selected="false">С ремонтом</button></div>
+      <form class="sf" onsubmit="return false" aria-label="Поиск">
+        <div class="f"><label>Комнат</label><div class="v"><button type="button" class="chip" aria-pressed="false">Студия</button><button type="button" class="chip" aria-pressed="true">1</button><button type="button" class="chip" aria-pressed="true">2</button><button type="button" class="chip" aria-pressed="false">3</button><button type="button" class="chip" aria-pressed="false">4+</button></div></div>
+        <div class="f"><label for="pr">Цена, ₽</label><input id="pr" placeholder="от — до" inputmode="numeric"></div>
+        <div class="f"><label for="ad">Район, ЖК, улица</label><input id="ad" placeholder="Академический, ЖК…"></div>
+        <a class="btn red go" href="#list">Показать [N]</a>
+      </form>
+      <div class="sline"><button class="sw" role="switch" aria-checked="true" aria-label="Только проверенные"></button>Только проверенные застройщики<a href="#list"><svg class="ico"><use href="#pin"/></svg>На карте</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="after"><div class="w">
+  <div class="cats" role="list" aria-label="Подборки">
+    <a class="cat red" role="listitem" href="#list"><b>Самые выгодные этой недели</b><span>отобрали за вас</span></a>
+    <a class="cat" role="listitem" href="#list" style="background-image:url(photo/kv_complex2.jpg)"><b>Сданные дома</b><span>[N] квартир</span></a>
+    <a class="cat" role="listitem" href="#list" style="background-image:url(photo/kv_living2.jpg)"><b>С отделкой</b><span>[N] квартир</span></a>
+    <a class="cat" role="listitem" href="#list" style="background-image:url(photo/kv_kids.jpg)"><b>Семейная ипотека</b><span>[N] квартир</span></a>
+    <a class="cat" role="listitem" href="#list" style="background-image:url(photo/kv_bedroom.jpg)"><b>Вторичка, проверенная юристом</b><span>[N] квартир</span></a>
+    <a class="cat" role="listitem" href="#partners" style="background-image:url(photo/house.jpg)"><b>Дома за городом</b><span>от проверенных строителей</span></a>
+  </div>
+  <div class="promo">
+    <a class="pt red" href="#list"><div><h3>Квартира с ремонтом — под ключ<i class="o n"></i></h3><p>Купите квартиру у нас — ремонт сделает партнёр, которого мы проверили. Ведём всё сами.</p></div><span class="gl">Смотреть квартиры</span><span class="dotgrid"></span></a>
+    <a class="pt dark" href="#calc"><div><h3>Самая выгодная ипотека<i class="o"></i></h3><p>Сравним программы банков и покажем, где платёж ниже.</p></div><span class="gl">Рассчитать платёж</span><span class="dotgrid"></span></a>
+    <a class="pt white" href="#how"><div><h3>Как мы проверяем<i class="o"></i></h3><p>Что смотрим у застройщика, у продавца на вторичке и у подрядчика.</p></div><span class="gl">Узнать</span><span class="dotgrid"></span></a>
+  </div>
+</div></section>
+
+<section class="sec" id="list"><div class="w">
+  <div class="lhead">
+    <div><div class="br">[ <b>01</b> Предложения ]</div><h2 class="t">[N] квартир прошли проверку<i class="o"></i></h2></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><div class="seg" role="group" aria-label="Сортировка"><button aria-pressed="true">Самые выгодные</button><button aria-pressed="false">Дешевле</button><button aria-pressed="false">Срок сдачи</button></div><div class="seg view" role="group" aria-label="Вид"><button aria-pressed="false" data-v="list">Список</button><button aria-pressed="false" data-v="grid">Плитка</button></div></div>
+  </div>
+  <div class="res">
+    <div><div id="cards"></div><div class="more"><button class="btn white">Показать ещё [N] проверенных</button></div></div>
+    <div class="map" aria-label="Карта предложений">
+      <svg class="base" viewBox="0 0 430 680" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="430" height="680" fill="#E9E6E0"/>
+        <g stroke="#fff" stroke-width="9" fill="none"><path d="M-10 120 H450"/><path d="M-10 300 H450"/><path d="M-10 480 H450"/><path d="M90 -10 V690"/><path d="M250 -10 V690"/><path d="M370 -10 V690"/></g>
+        <g stroke="#fff" stroke-width="4" fill="none"><path d="M-10 210 H450"/><path d="M-10 390 H450"/><path d="M-10 580 H450"/><path d="M170 -10 V690"/><path d="M315 -10 V690"/><path d="M20 -10 L440 660"/></g>
+        <path d="M-10 330 C80 300 140 360 210 340 S330 270 450 300 V340 C330 320 290 380 210 384 S80 340 -10 372 Z" fill="#CBDCE6"/>
+        <ellipse cx="205" cy="352" rx="46" ry="22" fill="#CBDCE6"/>
+        <rect x="265" y="140" width="80" height="120" rx="12" fill="#D8E2CF"/><rect x="40" y="510" width="110" height="60" rx="12" fill="#D8E2CF"/>
+      </svg>
+      <div id="pins"></div>
+      <span class="mapcap"><i></i>Красная точка — объект проверен</span>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec man" id="how"><div class="w">
+  <div class="br" style="color:#8A867F">[ <b>02</b> Отбор ]</div>
+  <p class="mtext"><b>Мы не строим и не ремонтируем.</b> Мы&nbsp;проверяем тех, кто это делает, — и&nbsp;<b>продаём только то, за&nbsp;что <em class="nw">ручаемся<i class="o"></i></em></b></p>
+  <div class="mgrid">
+    <div class="field" id="field" role="img" aria-label="Из сотен предложений остаётся одно, отмеченное красной точкой"><div class="fcap"><span id="fcapL">Весь рынок</span><b id="fcapR"></b></div></div>
+    <div class="checks">
+      <h3>Что мы проверяем<i class="o"></i></h3>
+      <div class="ctabs" role="group" aria-label="Кого проверяем"><button aria-pressed="true" data-k="dev">Застройщик</button><button aria-pressed="false" data-k="sec">Вторичка</button><button aria-pressed="false" data-k="par">Подрядчик</button></div>
+      <ul class="clist" id="clist"></ul>
+    </div>
+  </div>
+  <div class="stats">
+    <div><b>[N]</b><span>застройщиков прошли нашу проверку</span></div>
+    <div><b>[N]</b><span>подрядчиков по ремонту и строительству</span></div>
+    <div><b>[N]</b><span>сделок закрыли в Екатеринбурге</span></div>
+    <div><b>[N]</b><span>лет на рынке</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="partners"><div class="w">
+  <div class="br">[ <b>03</b> Партнёры ]</div>
+  <h2 class="t">Продаём мы. Делают — проверенные<i class="o"></i></h2>
+  <div class="pgrid">
+    <div class="pc"><div class="ph"><img src="photo/inspect.jpg" alt="Инженер проверяет строящийся дом" loading="lazy"><span>Застройщики</span></div><div class="b"><h3>Новостройки<i class="o"></i></h3><p>Только застройщики, которые прошли нашу проверку по документам и сданным домам.</p><div class="br2">[ эскроу ] [ сроки сдачи ] [ суды ] [ отзывы жильцов ]</div><a class="lk" href="#list">Смотреть квартиры</a></div></div>
+    <div class="pc"><div class="ph"><img src="photo/house.jpg" alt="Каменный дом за городом" loading="lazy"><span>Строители</span></div><div class="b"><h3>Дома<i class="o"></i></h3><p>Готовые и строящиеся дома от строителей, которых мы проверили.</p><div class="br2">[ построенные дома ] [ смета ] [ этапы оплаты ] [ гарантия ]</div><a class="lk" href="#lead">Подобрать дом</a></div></div>
+    <div class="pc"><div class="ph"><img src="photo/crew.jpg" alt="Бригада укладывает плитку" loading="lazy"><span>Подрядчики</span></div><div class="b"><h3>Ремонт<i class="o"></i></h3><p>После покупки — ремонт от партнёра. Смета до начала работ, приёмка по этапам.</p><div class="br2">[ портфолио ] [ договор ] [ гарантия ] [ приёмка этапов ]</div><a class="lk" href="#ba">Как это выглядит</a></div></div>
+  </div>
+  <div class="way"><span class="stp"><i></i>Подобрали квартиру</span><span class="ln"></span><span class="stp"><i></i>Провели сделку</span><span class="ln"></span><span class="stp"><i></i>Передали партнёру ремонт</span><span class="ln"></span><span class="stp"><i></i>Вы получили ключи</span><a class="btn red" href="tel:+79655002918">Один менеджер на всё</a></div>
+</div></section>
+
+<section class="sec" id="calc" style="padding-top:0"><div class="w">
+  <div class="br">[ <b>04</b> Ипотека ]</div>
+  <h2 class="t">Посчитайте платёж — без звёздочек<i class="o"></i></h2>
+  <div class="calc">
+    <div class="cin">
+      <div class="rng"><label for="cp">Стоимость квартиры <b id="cpv"></b></label><input type="range" id="cp" min="2000000" max="20000000" step="100000" value="7500000"></div>
+      <div class="rng"><label for="cd">Первый взнос <b id="cdv"></b></label><input type="range" id="cd" min="10" max="90" step="1" value="20"></div>
+      <div class="rng"><label for="ct">Срок <b id="ctv"></b></label><input type="range" id="ct" min="5" max="30" step="1" value="25"></div>
+      <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Программа (ставки — пример, точные подберём под вас)</div>
+        <div class="rates" id="rates"><button aria-pressed="true" data-r="6">Семейная<small>6 %</small></button><button aria-pressed="false" data-r="12">IT-ипотека<small>12 %</small></button><button aria-pressed="false" data-r="20">Рыночная<small>20 %</small></button></div></div>
+    </div>
+    <div class="cout" aria-live="polite">
+      <div class="note">Ежемесячный платёж</div>
+      <div class="pay" id="pay">—</div>
+      <div class="crow"><span>Сумма кредита</span><b id="loan">—</b></div>
+      <div class="crow"><span>Переплата за весь срок</span><b id="over">—</b></div>
+      <div class="crow"><span>Нужный доход, от</span><b id="inc">—</b></div>
+      <a class="btn" href="#lead">Подобрать самую выгодную программу</a>
+      <div class="note">Расчёт ориентировочный: аннуитетный платёж. Итоговые условия зависят от банка и программы.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="ba" style="padding-top:0"><div class="w">
+  <div class="br">[ <b>05</b> Ремонт от партнёров ]</div>
+  <h2 class="t">Ремонт без многоточий<i class="o"></i></h2>
+  <div class="rgrid">
+    <div class="ba" id="baBox"><img src="photo/rem_process.jpg" alt="Квартира до ремонта"><img class="after" src="photo/rem_bathroom.jpg" alt="После ремонта"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после"></div>
+    <ol class="tl">
+      <li><i>1</i><div><b>Покупаете квартиру у нас</b><span>Новостройка или вторичка — после нашей проверки.</span></div></li>
+      <li><i>2</i><div><b>Подбираем подрядчика</b><span>Из партнёров, которых мы проверили сами.</span></div></li>
+      <li><i>3</i><div><b>Смета до начала работ</b><span>Каждая позиция и итог — до того, как вы платите.</span></div></li>
+      <li><i>4</i><div><b>Приёмка по этапам</b><span>Мы на вашей стороне: проверяем, что сделано.</span></div></li>
+      <li><i>✓</i><div><b>Ключи от готовой квартиры</b><span>Точка.</span></div></li>
+    </ol>
+  </div>
+</div></section>
+
+<section class="sec" style="padding-top:0"><div class="w">
+  <div class="br">[ <b>06</b> Обещания ]</div>
+  <div class="prom">
+    <div><b>Проверено<i class="o"></i></b><span>Работаем только с застройщиками и подрядчиками, которых проверили сами. Красная точка рядом с объектом — наша подпись под ним.</span></div>
+    <div><b>Выгодно<i class="o"></i></b><span>Не выкладываем всё подряд. Сравниваем цены и условия — и показываем только самые выгодные предложения.</span></div>
+    <div><b>Ясно<i class="o"></i></b><span>Цена, срок и следующий шаг известны заранее. Без звёздочек, мелкого шрифта и многоточий.</span></div>
+  </div>
+</div></section>
+
+<section class="lead" id="lead"><span class="dotgrid" aria-hidden="true"></span><div class="w lgrid">
+  <div><h2 class="t">Расскажите, что ищете. Мы&nbsp;уже знаем, кому можно <span class="nw">доверять<i class="o n"></i></span></h2><p>Подберём варианты среди проверенных предложений и перезвоним. Или позвоните сами: <a href="tel:+79655002918" style="font-weight:700;border-bottom:2px solid #fff">+7 965 500-29-18</a></p></div>
+  <form class="form" id="leadForm" onsubmit="return false">
+    <div class="ch" role="group" aria-label="Что ищете"><button type="button" aria-pressed="true">Квартиру</button><button type="button" aria-pressed="false">Дом</button><button type="button" aria-pressed="false">С ремонтом</button><button type="button" aria-pressed="false">Ипотеку</button></div>
+    <div class="f"><label for="ln">Как к вам обращаться</label><input id="ln" autocomplete="name" placeholder="Имя"></div>
+    <div class="f"><label for="lp">Телефон</label><input id="lp" type="tel" autocomplete="tel" placeholder="+7"></div>
+    <button class="btn red" type="submit">Подобрать варианты</button>
+    <small>Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
+    <div class="done"><b>Спасибо<i class="o"></i></b>Перезвоним в рабочее время.</div>
+  </form>
+</div></section>
+</main>
+
+<footer><div class="w">
+  <div class="fbig">Ставим точку<i class="o"></i></div>
+  <div class="fgr">
+    <div><a class="logo" href="#" style="padding:0"><svg width="38" height="36" fill="#F4F2EE"><use href="#mark"/></svg><span><b style="color:#F4F2EE">ПЛАТФОРМА</b><small style="color:#8A867F">НЕДВИЖИМОСТИ</small></span></a>
+      <p style="margin:18px 0 6px;color:#F4F2EE;font-size:20px;font-weight:600"><a href="tel:+79655002918" style="display:inline">+7 965 500-29-18</a></p><span>Екатеринбург, [адрес офиса]</span></div>
+    <div><h4>Купить</h4><a href="#search">Новостройки</a><a href="#search">Вторичка</a><a href="#list">С ремонтом</a><a href="#calc">Ипотека</a></div>
+    <div><h4>С партнёрами</h4><a href="#ba">Ремонт</a><a href="#partners">Дома</a><a href="#how">Как мы проверяем</a></div>
+    <div><h4>Компания</h4><a href="#lead">Связаться</a><a href="#">Застройщикам и подрядчикам</a></div>
+  </div>
+  <div class="fbot"><span>ООО «[НАЗВАНИЕ]» · ОГРН [НОМЕР]</span><span>Пример сайта. Цены, площади, названия ЖК и цифры — заглушки до данных заказчика.</span></div>
+</div></footer>
+
+<nav class="tabbar" aria-label="Меню приложения">
+  <a class="on" href="#search"><svg class="ico"><use href="#search"/></svg>Поиск</a>
+  <a href="#list"><svg class="ico"><use href="#pin"/></svg>Карта</a>
+  <a href="#calc"><svg class="ico"><use href="#calc"/></svg>Ипотека</a>
+  <a href="#"><svg class="ico"><use href="#heart"/></svg>Избранное</a>
+  <a href="#"><svg class="ico"><use href="#user"/></svg>Профиль</a>
+</nav>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const ITEMS = [
+  {img: 'kv_living2', t: '2-комн. квартира, [ПЛОЩАДЬ] м², 7/12 этаж', a: 'ЖК [НАЗВАНИЕ] · Академический', line: 'Дом сдан · отделка от застройщика', tags: ['С отделкой', 'Семейная ипотека'], tag: 'Ниже рынка на [N] %', x: 120, y: 250},
+  {img: 'kv_kitchen', t: '1-комн. квартира, [ПЛОЩАДЬ] м², 4/9 этаж', a: 'ЖК [НАЗВАНИЕ] · Уралмаш', line: 'Сдача — [КВАРТАЛ] · прошлые дома сданы в срок', tags: ['Новостройка', 'Рядом метро'], tag: '', x: 300, y: 110},
+  {img: 'kv_kids', t: '3-комн. квартира, [ПЛОЩАДЬ] м², 10/16 этаж', a: 'ЖК [НАЗВАНИЕ] · ВИЗ', line: 'Дом сдан · школа и сад во дворе', tags: ['Семейная ипотека', 'Рядом со школой'], tag: 'Новинка', x: 190, y: 430},
+  {img: 'kv_bedroom', t: '2-комн. квартира, [ПЛОЩАДЬ] м², 3/5 этаж', a: 'ул. [УЛИЦА] · Центр', line: 'Вторичка · юридическая проверка пройдена', tags: ['Вторичка', 'С ремонтом'], tag: '', x: 330, y: 540, sec: 1},
+  {img: 'family_home', t: '3-комн. квартира, [ПЛОЩАДЬ] м², 6/10 этаж', a: 'ЖК [НАЗВАНИЕ] · Ботанический', line: 'Дом сдан · ремонт от партнёра — смета до начала работ', tags: ['С ремонтом', 'Семейная ипотека'], tag: 'Квартира + ремонт', x: 70, y: 600},
+  {img: 'kv_building', t: 'Студия, [ПЛОЩАДЬ] м², 12/24 этаж', a: 'ЖК [НАЗВАНИЕ] · Юго-Западный', line: 'Сдача — [КВАРТАЛ] · старт продаж', tags: ['Новостройка', 'Ипотека'], tag: '', x: 60, y: 160},
+];
+const CHECKS = {
+  dev: [['Разрешение на строительство', 'документы'], ['Проектная декларация и эскроу-счета', 'ЕИСЖС'], ['Прошлые дома сданы в срок', 'история'], ['Нет банкротных и крупных судебных дел', 'суды'], ['Отзывы жильцов сданных домов', 'люди']],
+  sec: [['Собственники и доли', 'Росреестр'], ['Обременения и аресты', 'выписка'], ['История переходов права', 'юрист'], ['Долги по коммунальным платежам', 'справки'], ['Перепланировки', 'план БТИ']],
+  par: [['Готовые объекты и портфолио', 'выезд'], ['Договор, смета, сроки', 'документы'], ['Гарантия на работы', 'условия'], ['Отзывы прошлых заказчиков', 'люди'], ['Приёмка по этапам', 'контроль']],
+};
+function showChecks(k) { $('#clist').innerHTML = CHECKS[k].map(([a, b]) => `<li>${a}<span>${b}</span></li>`).join(''); }
+showChecks('dev');
+$$('.ctabs button').forEach(b => b.addEventListener('click', () => { $$('.ctabs button').forEach(x => x.setAttribute('aria-pressed', x === b)); showChecks(b.dataset.k); }));
+
+$('#cards').innerHTML = ITEMS.map((it, i) => `
+<article class="card" data-i="${i}">
+  <div class="gal"><img src="photo/${it.img}.jpg" alt="${it.t}" loading="lazy">${it.tag ? `<span class="tag">${it.tag}</span>` : ''}
+    <div class="acts"><button class="ib cmp" aria-pressed="false" aria-label="Сравнить"><svg class="ico"><use href="#cmp"/></svg></button><button class="ib fav" aria-pressed="false" aria-label="В избранное"><svg class="ico"><use href="#heart"/></svg></button></div>
+    <div class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="mid"><div class="t">${it.t}</div><div class="a">${it.a}</div>
+    <button class="vbtn" aria-expanded="false"><i></i>${it.sec ? 'Сделка проверена юристом' : 'Застройщик проверен'}<span class="vpop" role="tooltip"><b>Что мы проверили</b>${CHECKS[it.sec ? 'sec' : 'dev'].slice(0, 4).map(c => `<span>${c[0]}</span>`).join('')}</span></button>
+    <div class="line">${it.line}</div><div class="tags">${it.tags.map(t => `<span>${t}</span>`).join('')}</div></div>
+  <div class="rcol"><div class="price">[ЦЕНА] ₽</div><div class="ppm">[N] ₽ за м²</div><div class="mort">В ипотеку<b>от [N] ₽/мес</b></div>
+    <button class="btn dark tel-btn">Показать телефон</button></div>
+</article>`).join('');
+$('#pins').innerHTML = ITEMS.map((it, i) => `<button class="pin${i === 0 ? ' on' : ''}" data-i="${i}" style="left:${it.x / 430 * 100}%;top:${it.y / 680 * 100}%">[ЦЕНА] ₽</button>`).join('');
+function hl(i) { $$('.pin').forEach(p => p.classList.toggle('on', p.dataset.i == i)); $$('.card').forEach(c => c.classList.toggle('hl', c.dataset.i == i)); }
+$$('.card').forEach(c => c.addEventListener('mouseenter', () => hl(c.dataset.i)));
+$$('.pin').forEach(p => p.addEventListener('click', () => { hl(p.dataset.i); $(`.card[data-i="${p.dataset.i}"]`).scrollIntoView({behavior: 'smooth', block: 'center'}); }));
+$$('.tel-btn').forEach(b => b.addEventListener('click', () => { b.outerHTML = '<a class="btn red" href="tel:+79655002918">+7 965 500-29-18</a>'; }));
+$$('.vbtn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); const o = b.getAttribute('aria-expanded') === 'true'; $$('.vbtn').forEach(x => x.setAttribute('aria-expanded', 'false')); b.setAttribute('aria-expanded', !o); }));
+document.addEventListener('click', () => $$('.vbtn').forEach(x => x.setAttribute('aria-expanded', 'false')));
+function counter(sel, out) { $$(sel).forEach(b => b.addEventListener('click', () => { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); const n = $$(sel + '[aria-pressed=true]').length; $(out).textContent = n; $(out).classList.toggle('on', n > 0); })); }
+counter('.ib.fav', '#favCnt'); counter('.ib.cmp', '#cmpCnt');
+$$('.chip').forEach(b => b.addEventListener('click', () => b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true')));
+function single(sel) { $$(sel).forEach(b => b.addEventListener('click', () => { $$(sel).forEach(x => x.setAttribute('aria-pressed', x === b)); })); }
+single('.seg button'); single('.form .ch button');
+$$('.tabs button').forEach(b => b.addEventListener('click', () => $$('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b))));
+$('.sw').addEventListener('click', e => { const s = e.currentTarget; s.setAttribute('aria-checked', s.getAttribute('aria-checked') !== 'true'); });
+
+// отбор: сотни точек → одна красная
+const field = $('#field'), COLS = 22, N = COLS * 12, cap = $('#fcapR'), capL = $('#fcapL');
+field.insertAdjacentHTML('afterbegin', Array.from({length: N}, (_, i) => `<i class="${i % COLS >= 14 ? 'x14' : ''}"></i>`).join(''));
+const dots = $$('#field i'), win = 5 * COLS + 9;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function finish() { dots[win].classList.add('win'); capL.textContent = 'Прошло проверку и сравнение'; cap.textContent = 'Ваш выбор'; }
+function runFunnel() {
+  dots.forEach(d => d.classList.remove('off', 'win'));
+  capL.textContent = 'Весь рынок'; cap.textContent = '';
+  const order = dots.map((_, i) => i).filter(i => i !== win).sort(() => Math.random() - .5);
+  if (reduce) { order.forEach(i => dots[i].classList.add('off')); finish(); return; }
+  let k = 0;
+  const tick = setInterval(() => {
+    for (let j = 0; j < 8 && k < order.length; j++, k++) dots[order[k]].classList.add('off');
+    capL.textContent = k < order.length * .5 ? 'Проверяем документы' : 'Сравниваем условия';
+    if (k >= order.length) { clearInterval(tick); finish(); setTimeout(runFunnel, 4000); }
+  }, 70);
+}
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { runFunnel(); o.disconnect(); } }, {threshold: .35}).observe(field);
+
+// ипотечный калькулятор
+const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+function calc() {
+  const P = +$('#cp').value, d = +$('#cd').value, y = +$('#ct').value, r = +$('#rates [aria-pressed=true]').dataset.r;
+  const L = P * (1 - d / 100), m = r / 1200, n = y * 12, pay = m ? L * m / (1 - Math.pow(1 + m, -n)) : L / n;
+  $('#cpv').textContent = fmt(P); $('#cdv').textContent = d + ' % · ' + fmt(P * d / 100); $('#ctv').textContent = y + ' лет';
+  $('#pay').innerHTML = Math.round(pay).toLocaleString('ru-RU') + ' <small>₽/мес</small>'; $('#loan').textContent = fmt(L); $('#over').textContent = fmt(pay * n - L); $('#inc').textContent = fmt(pay / .5);
+}
+['#cp', '#cd', '#ct'].forEach(s => $(s).addEventListener('input', calc));
+$$('#rates button').forEach(b => b.addEventListener('click', () => { $$('#rates button').forEach(x => x.setAttribute('aria-pressed', x === b)); calc(); }));
+calc();
+
+$('#baR').addEventListener('input', e => { const v = e.target.value; $('#baBox .after').style.clipPath = `inset(0 0 0 ${v}%)`; $('#baH').style.left = v + '%'; });
+$('#leadForm').addEventListener('submit', e => e.currentTarget.classList.add('sent'));
+const vbtns = $$('.view button');
+function setView(v) { $('#cards').classList.toggle('grid', v === 'grid'); vbtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v)); }
+vbtns.forEach(b => b.addEventListener('click', () => setView(b.dataset.v)));
+setView(innerWidth >= 1700 ? 'grid' : 'list');
+</script>
+</body>
+</html>
