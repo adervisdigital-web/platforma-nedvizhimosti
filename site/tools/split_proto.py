@@ -7,6 +7,7 @@ import json, os, re, shutil
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 P = os.path.join(ROOT, '08_Сайт_пример'); S = os.path.join(ROOT, 'site')
 T = os.path.join(S, 'app', 'templates'); PUB = os.path.join(S, 'public')
+if os.path.exists(os.path.join(S, 'src', 'EDITED.txt')): raise SystemExit('src/EDITED.txt: исходники уже правятся вручную — разборка прототипа перезапишет их. Остановлено.')
 src = open(os.path.join(P, 'index.html'), encoding='utf8').read()
 TR = dict(zip('абвгдеёжзийклмнопрстуфхцчшщъыьэюя', ['a', 'b', 'v', 'g', 'd', 'e', 'yo', 'zh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'kh', 'ts', 'ch', 'sh', 'shch', '', 'y', '', 'e', 'yu', 'ya']))
 slug = lambda s: re.sub(r'[^a-z0-9]+', '-', ''.join(TR.get(c, c) for c in s.lower())).strip('-')[:40]

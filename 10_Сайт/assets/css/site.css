@@ -1093,3 +1093,6 @@ a[href^="tel:"]{white-space:nowrap}
 /* v39 dots */.tic .td{fill:currentColor!important}.tb2 a.on .tic .td{fill:var(--red)!important}.tb2 a.on::after{display:none!important}
 /* v39 td */.tic{--td:currentColor}.tb2 a.on .tic,.mn-l a:hover .tic{--td:#F5553C}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ссылка на страницу объекта из окна быстрого просмотра */
+.qvpage{display:inline-block;margin-top:14px;font-weight:600;color:var(--ink);text-decoration:underline;text-underline-offset:3px}.qvpage:hover{color:var(--red-ui)}

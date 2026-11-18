@@ -1,0 +1,1 @@
+С задачи 8 (2026-11-18) src/js, app/templates и public/assets/css/site.css правятся вручную. tools/split_proto.py больше не запускать — он перезапишет правки.
