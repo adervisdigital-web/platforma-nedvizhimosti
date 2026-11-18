@@ -1,6 +1,6 @@
 <?php
 // JSON API для чтения: items, complexes, houses, reviews, settings. Возвращает [код, тело]. Приём заявок (POST lead) — задача 12.
-function pn_api(string $path, string $method = 'GET'): array {
+function pn_api(string $path, string $method = 'GET', array $post = []): array {
     $j = fn($v) => json_encode($v, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     $path = trim($path, '/');
     $src = fn() => pn_db_source();

@@ -62,8 +62,16 @@ function pn_sitemap(): string {
         . implode('', array_map(fn($u) => '<url><loc>' . pn_e($u) . '</loc></url>', $urls)) . "</urlset>\n";
 }
 
-function pn_route(string $method, string $path): array {
+function pn_route(string $method, string $path, array $post = [], array $files = []): array {
+    try { return pn_route_inner($method, $path, $post, $files); }
+    catch (PnHttp $e) {
+        if ($e->status >= 300 && $e->status < 400) return [$e->status, $e->headers, ''];
+        return [$e->status, ['Content-Type' => 'text/plain; charset=utf-8'], $e->getMessage()];
+    }
+}
+function pn_route_inner(string $method, string $path, array $post, array $files): array {
     $path = '/' . ltrim(rawurldecode(parse_url($path, PHP_URL_PATH) ?: '/'), '/');
+    if ($path === '/admin' || str_starts_with($path, '/admin/')) return pn_admin_route($method, $path, $post, $files);
     $demo = pn_config()['demo'];
     if ($path === '/' || $path === '/index.html') return pn_html_response(200, pn_render('layout', pn_page_vars()));
     if ($path === '/robots.txt') {
@@ -72,7 +80,7 @@ function pn_route(string $method, string $path): array {
     }
     if ($path === '/sitemap.xml' && !$demo) return [200, ['Content-Type' => 'application/xml; charset=utf-8'], pn_sitemap()];
     if (str_starts_with($path, '/api/')) {
-        [$code, $body] = pn_api(substr($path, 5), $method);
+        [$code, $body] = pn_api(substr($path, 5), $method, $post);
         return [$code, ['Content-Type' => 'application/json; charset=utf-8'], $body];
     }
     if (preg_match('~^/(kvartiry|doma)/([a-z0-9-]+)$~', $path)) return [301, ['Location' => "$path/"], ''];
