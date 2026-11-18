@@ -7,7 +7,7 @@ function pn_subpage(int $code, string $tpl, array $vars, array $seo, array $grap
     $s = Repo::settingsAll();
     $cfg = pn_config();
     $base = $depth ? str_repeat('../', $depth) : './';
-    $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css"><link rel="stylesheet" href="assets/css/object.css"><link rel="stylesheet" href="assets/css/catalog.css">';
+    $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css"><link rel="stylesheet" href="assets/css/object.css"><link rel="stylesheet" href="assets/css/catalog.css"><link rel="stylesheet" href="assets/css/services.css">';
     $robots = $cfg['demo'] ? '<meta name="robots" content="noindex">' : ($noindex ? '<meta name="robots" content="noindex, follow">' : '');   // фильтры в адресе — не индексировать
     return pn_render('page', ['base_tag' => $robots . '<base href="' . $base . '">',
         'seo_head' => $head, 'jsonld' => seo_jsonld($graph, $s), 'settings' => pn_public_settings($s),
@@ -99,7 +99,10 @@ function pn_route_inner(string $method, string $path, array $post, array $files)
         [$code, $body] = pn_api(substr($path, 5), $method, $post);
         return [$code, ['Content-Type' => 'application/json; charset=utf-8'], $body];
     }
-    if (preg_match('~^/(kvartiry|doma|zhk)(/rayon)?/([a-z0-9-]+)$~', $path) || $path === '/kvartiry') return [301, ['Location' => "$path/"], ''];
+    if (preg_match('~^/(kvartiry|doma|zhk)(/rayon)?/([a-z0-9-]+)$~', $path) || in_array($path, ['/kvartiry', '/doma', '/remont', '/ipoteka'], true)) return [301, ['Location' => "$path/"], ''];
+    if ($path === '/doma/') return pn_html_response(200, pn_page_houses());
+    if ($path === '/remont/') return pn_html_response(200, pn_page_remont());
+    if ($path === '/ipoteka/') return pn_html_response(200, pn_page_ipoteka());
     if (preg_match('~^/(kvartiry/(?:rayon/[a-z0-9-]+/|[a-z0-9-]+/)?)$~', $path, $m) && ($h = pn_page_catalog($m[1], $query)) !== null) return pn_html_response(200, $h);
     if (preg_match('~^/zhk/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_zhk($m[1], $query)) !== null) return pn_html_response(200, $h);
     if (preg_match('~^/kvartiry/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_apartment($m[1])) !== null) return pn_html_response(200, $h);

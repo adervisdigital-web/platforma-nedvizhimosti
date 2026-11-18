@@ -1,6 +1,20 @@
 // Каталог и страница ЖК: фильтры (сохраняются в адресе), сортировка, «Показать ещё», вид «На карте».
 (() => {
   const $ = (q, r = document) => r.querySelector(q), $$ = (q, r = document) => [...r.querySelectorAll(q)];
+  // ---- проекты домов: фильтр по линейке и этажности
+  const dm = $$('.dm-card');
+  if (dm.length) {
+    let line = '', fl = '';
+    const apply = () => {
+      let n = 0;
+      dm.forEach(c => { const ok = (!line || c.dataset.l === line) && (!fl || c.dataset.fl === fl); c.hidden = !ok; n += ok; });
+      $('[data-dm-empty]').hidden = n > 0;
+      $$('[data-line]').forEach(b => b.setAttribute('aria-pressed', b.dataset.line === line));
+      $$('.dm-f [data-fl]').forEach(b => b.setAttribute('aria-pressed', b.dataset.fl === fl));
+    };
+    $$('[data-line]').forEach(b => b.addEventListener('click', () => { line = b.dataset.line; apply(); }));
+    $$('.dm-f [data-fl]').forEach(b => b.addEventListener('click', () => { fl = fl === b.dataset.fl ? '' : b.dataset.fl; apply(); }));
+  }
   const list = $('[data-ct-list]'); if (!list) return;
   const form = $('[data-ct-form]'), sortSel = $('[data-ct-sort]'), cntEl = $('[data-ct-count]');
   const moreWrap = $('[data-ct-more-wrap]'), moreBtn = $('[data-ct-more]'), empty = $('[data-ct-empty]'), map = $('[data-ct-map]');

@@ -1,0 +1,68 @@
+/* Страницы услуг: /doma/, /remont/, /ipoteka/ и блок семейной ипотеки в каталоге. Префиксы dm-, sv-, ct-fam. */
+.ct-pills button{font:inherit;display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 16px;border-radius:99px;background:#fff;border:1px solid #16161718;color:var(--ink);font-weight:600;font-size:15px;cursor:pointer}
+.ct-pills button span{color:var(--mut);font-weight:500}
+.ct-pills button:hover{border-color:var(--ink)}
+.ct-pills button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}.ct-pills button[aria-pressed=true] span{color:#ffffff99}
+
+.ct-fam{display:grid;grid-template-columns:repeat(3,minmax(0,160px)) minmax(0,1fr);gap:1px;background:#16161714;border:1px solid #16161714;border-radius:20px;overflow:hidden;margin:0 0 16px}
+.ct-fam>div{background:#fff;padding:16px 20px;display:grid;gap:4px;align-content:center}
+.ct-fam span{font-size:13px;color:var(--mut)}.ct-fam b{font-size:22px;font-weight:600}
+.ct-fam-t p{margin:0;font-size:14px;line-height:1.5;color:var(--mut)}.ct-fam-t a{font-weight:600;color:var(--ink);text-decoration:none;font-size:14px}.ct-fam-t a:hover{color:var(--red-ui)}
+
+.dm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr));gap:18px}
+.dm-card{background:#fff;border-radius:24px;overflow:hidden;display:grid;grid-template-rows:auto 1fr;position:relative;transition:box-shadow .2s,translate .2s}
+.dm-card[hidden]{display:none}
+.dm-card:hover{box-shadow:0 16px 44px #00000014;translate:0 -2px}
+.dm-ph{display:block;aspect-ratio:16/10;overflow:hidden;background:#E6E3DE}
+.dm-ph img{width:100%;height:100%;object-fit:cover;display:block;transition:scale .4s}.dm-card:hover .dm-ph img{scale:1.03}
+.dm-body{padding:20px 22px 22px;display:grid;gap:6px;align-content:start}
+.dm-line{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:8px}
+.dm-line i{width:9px;height:9px;border-radius:50%;background:var(--c,var(--red))}
+.dm-body h2{font-size:clamp(24px,2vw,30px);font-weight:500;letter-spacing:-.02em;margin:0}
+.dm-body h2 a{color:var(--ink);text-decoration:none}.dm-body h2 a::after{content:"";position:absolute;inset:0}
+.dm-motto{margin:0;color:var(--mut)}
+.dm-par{list-style:none;padding:0;margin:8px 0 4px;display:flex;flex-wrap:wrap;gap:8px}
+.dm-par li{background:#F4F2EE;border-radius:12px;padding:8px 12px;font-size:13px;color:var(--mut);display:grid}
+.dm-par b{font-size:16px;color:var(--ink)}
+
+.sv-sec{margin-top:clamp(40px,5vw,72px)}
+.ob-calc.sv-sec .sv-h,.sv-h{font-size:clamp(24px,2.2vw,34px);font-weight:500;letter-spacing:-.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px}
+.sv-h::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--red)}
+.sv-steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.sv-steps li{counter-increment:s;background:#fff;border-radius:20px;padding:20px;display:grid;gap:6px;color:var(--mut);line-height:1.45;font-size:15px}
+.sv-steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:#0E0E0F;color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;margin-bottom:6px}
+.sv-steps b{color:var(--ink);font-size:17px}
+.sv-band{margin-top:clamp(40px,5vw,72px);background:#0E0E0F;color:#F4F2EE;border-radius:26px;padding:clamp(24px,3vw,40px);display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
+.sv-band h2{font-size:clamp(24px,2.2vw,34px);font-weight:500;letter-spacing:-.02em;margin:0 0 6px}
+.sv-band p{margin:0;color:#F4F2EEaa;max-width:64ch;line-height:1.5}
+
+.sv-levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.sv-lv{background:#fff;border-radius:24px;padding:26px;position:relative;border:2px solid transparent}
+.sv-lv.hit{border-color:var(--ink)}
+.sv-badge{position:absolute;top:-12px;left:24px;background:var(--red-ui);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:4px 10px}
+.sv-lv h2{font-size:26px;font-weight:500;margin:0 0 6px;letter-spacing:-.01em}
+.sv-p{margin:0 0 8px;color:var(--mut)}.sv-p b{font-size:24px;color:var(--ink)}
+.sv-sub{margin:0 0 14px;color:var(--mut);line-height:1.45}
+.sv-lv ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.sv-lv li{position:relative;padding-left:20px;line-height:1.4}
+.sv-lv li::before{content:"";position:absolute;left:0;top:.45em;width:8px;height:8px;border-radius:50%;background:var(--red)}
+.sv-ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sv-ba figure{margin:0;position:relative;border-radius:22px;overflow:hidden;background:#E6E3DE}
+.sv-ba img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.sv-ba figcaption{position:absolute;left:14px;top:14px;background:#fffffff0;border-radius:99px;padding:5px 12px;font-weight:700;font-size:13px}
+.sv-progs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.sv-progs>div{background:#fff;border-radius:22px;padding:22px;display:grid;gap:6px;align-content:start}
+.sv-rate{font-size:34px;font-weight:600;letter-spacing:-.02em;color:var(--red-ui)}
+.sv-progs h3{margin:0;font-size:19px}.sv-progs p{margin:0;color:var(--mut);line-height:1.45;font-size:15px}
+.sv-progs a{font-weight:600;color:var(--ink);text-decoration:none;margin-top:6px}.sv-progs a:hover{color:var(--red-ui)}
+.sv-banks span{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:99px;background:#fff;border:1px solid #16161718;font-weight:600}
+.sv-price input{grid-column:1/-1;font:inherit;font-size:22px;font-weight:600;color:var(--ink);background:#F4F2EE;border:1px solid transparent;border-radius:14px;height:56px;padding:0 16px;width:100%}
+.sv-price input:focus{outline:none;border-color:var(--ink);background:#fff}
+
+@media (max-width:900px){
+  .ct-fam{grid-template-columns:repeat(3,minmax(0,1fr))}.ct-fam-t{grid-column:1/-1}
+  .sv-levels,.sv-ba{grid-template-columns:minmax(0,1fr)}
+  .sv-band .pg-btn{width:100%}
+  .dm-f{flex-wrap:nowrap;overflow-x:auto}
+  .dm-f button{flex:none}
+}

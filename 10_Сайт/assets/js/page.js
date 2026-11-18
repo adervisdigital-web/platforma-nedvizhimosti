@@ -70,9 +70,17 @@
 
   // ---- ипотека
   $$('[data-mort]').forEach(c => {
-    const price = +c.dataset.price, o = n => $(`[data-o="${n}"]`, c), i = n => $(`[data-i="${n}"]`, c);
+    const o = n => $(`[data-o="${n}"]`, c), i = n => $(`[data-i="${n}"]`, c);
     let rate = +(($('[aria-checked="true"]', c) || $('[data-rate]', c) || {dataset: {rate: 6}}).dataset.rate);
+    const pin = i('price');   // на странице ипотеки цену вводят сами: «6» или «6,5» — миллионы
+    const getPrice = () => {
+      if (!pin) return +c.dataset.price;
+      const v = pin.value.replace(/\s/g, '').replace(',', '.').replace(/[^\d.]/g, ''); const n = +v || 0;
+      return n && n < 1000 ? n * 1e6 : n;
+    };
+    if (pin) pin.addEventListener('blur', () => { const p = getPrice(); if (p) pin.value = Math.round(p).toLocaleString('ru-RU').replace(/,/g, ' '); });
     const calc = () => {
+      const price = getPrice();
       const dp = +i('down').value, yrs = +i('term').value, L = price * (1 - dp / 100), m = rate / 1200, n = yrs * 12;
       const pay = m > 0 ? L * m / (1 - Math.pow(1 + m, -n)) : L / n;
       o('down').textContent = `${rub(price * dp / 100)} · ${dp} %`; o('term').textContent = `${yrs} ${plural(yrs, 'год', 'года', 'лет')}`;
@@ -94,6 +102,20 @@
       $$('input[type=range]', c).forEach(r => r.style.setProperty('--p', (r.value - r.min) / (r.max - r.min) * 100 + '%'));
     };
     c.addEventListener('input', calc); calc();
+  });
+  // ---- ремонт: площадь × цена уровня
+  $$('[data-ren]').forEach(c => {
+    const prices = JSON.parse(c.dataset.prices || '[]'), o = n => $(`[data-o="${n}"]`, c), inp = $('[data-i="area"]', c);
+    let lv = +(($('[aria-checked="true"]', c) || {dataset: {lv: 1}}).dataset.lv);
+    const calc = () => {
+      const a = +inp.value, p = prices[lv] || 0;
+      o('area').textContent = a + ' м²'; o('sum').textContent = rub(a * p); o('ppm').textContent = rub(p);
+      inp.style.setProperty('--p', (inp.value - inp.min) / (inp.max - inp.min) * 100 + '%');
+    };
+    c.addEventListener('input', calc);
+    c.addEventListener('click', e => { const b = e.target.closest('[data-lv]'); if (!b) return;
+      $$('[data-lv]', c).forEach(x => x.setAttribute('aria-checked', x === b)); lv = +b.dataset.lv; calc(); });
+    calc();
   });
 
   // ---- поделиться

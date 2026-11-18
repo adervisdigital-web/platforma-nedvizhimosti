@@ -14,7 +14,17 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
   <?php foreach ($nav['type'] as $p => [$t, $n]) echo $pill($p, $t, $n); ?>
   <span class="ct-sep" aria-hidden="true"></span>
   <?php foreach ($nav['rooms'] as $p => [$t, $n]) echo $pill($p, $t, $n); ?>
+  <?php if ($nav['feat']): ?><span class="ct-sep" aria-hidden="true"></span><?php foreach ($nav['feat'] as $p => [$t, $n]) echo $pill($p, $t, $n); ?><?php endif; ?>
 </nav>
+<?php if ($path === 'kvartiry/semeynaya-ipoteka/'):
+    $fam = array_values(array_filter($s['mortgage_programs'] ?? [], fn($p) => mb_stripos((string) ($p['name'] ?? ''), 'семейн') !== false))[0] ?? null; ?>
+<section class="ct-fam" aria-label="Семейная ипотека">
+  <div><span>Ставка</span><b><?= $fam ? str_replace('.', ',', (string) $fam['rate']) . ' %' : 'льготная' ?></b></div>
+  <div><span>На что</span><b>Новостройки</b></div>
+  <div><span>Взнос</span><b>от 20 %</b></div>
+  <div class="ct-fam-t"><p>Программа для семей с детьми. Условия меняются — менеджер проверит, подходите ли вы, и подаст заявку сразу в несколько банков.</p><a href="ipoteka/">Все программы и калькулятор →</a></div>
+</section>
+<?php endif; ?>
 
 <?php if ($apts): ?>
 <form class="ct-filters" data-ct-form aria-label="Фильтры" onsubmit="return false">

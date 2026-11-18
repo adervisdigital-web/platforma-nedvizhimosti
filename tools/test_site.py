@@ -22,7 +22,7 @@ $('#leadForm').requestSubmit();R.push('badPhone='+$('#lp').closest('.f').classLi
 const lp=$('#lp');lp.value='89655002918';lp.dispatchEvent(new Event('input'));R.push('tel='+lp.value);
 if($('#qSend')){if($('#lc'))$('#lc').checked=true;$('#leadForm').requestSubmit();R.push('sent='+$('#leadForm').classList.contains('sent'));}
 R.push('prog='+getComputedStyle($('#prog')).getPropertyValue('--s')+' labels='+$$('.br b').map(b=>b.textContent).join(''));
-$$('.cat')[1].click();R.push('cat done='+$$('.card').length+' '+$('#fltT').textContent);
+R.push('cat done='+$$('.cat')[1].getAttribute('href'));
 $$('button.mort')[0].click();R.push('calc='+$('#cpv').textContent);
 if($('#qvFav')===null){$$('.card .qv')[0].click();R.push('quick='+$('#dlg').open+' '+$('#dlgT').textContent+' checks='+$$('.qvc span').length);$('#qvFav').click();$('#dlg').close();R.push('range--p='+$('#cp').style.getPropertyValue('--p'));}
 if($('#hx')){R.push('houses='+$$('.hc').length);$$('#hfl button')[5].click();R.push('2fl='+$$('.hc:not([hidden])').length);$$('#hfl button')[0].click();
