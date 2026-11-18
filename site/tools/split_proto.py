@@ -115,7 +115,7 @@ for f in os.listdir(js_dir) if os.path.isdir(js_dir) else []:
 dst = os.path.join(PUB, 'assets', 'img')
 if os.path.isdir(dst): shutil.rmtree(dst)
 shutil.copytree(os.path.join(P, 'photo'), dst)
-write(os.path.join(PUB, 'kabinet.html'), open(os.path.join(P, 'kabinet.html'), encoding='utf8').read())
+write(os.path.join(PUB, 'kabinet.html'), img(open(os.path.join(P, 'kabinet.html'), encoding='utf8').read()))   # пути photo/ → assets/img/
 
 # --- самопроверка: обратная склейка == исходник с известными заменами
 rebuilt = head + ''.join(groups[n] for n in order if n != 'libs') + groups['libs'] + app
