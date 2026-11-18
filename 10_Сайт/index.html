@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="robots" content="noindex"><script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Платформа недвижимости — квартиры, дома и ремонт в Екатеринбурге</title>
+<meta name="description" content="Квартиры от проверенных застройщиков Екатеринбурга без комиссии, свой ремонт с гарантией 5 лет и дома в рассрочку до 5 лет.">
+<meta name="theme-color" content="#F4F2EE">
+<meta property="og:type" content="website"><meta property="og:title" content="Платформа недвижимости — квартиры, дома и ремонт">
+<meta property="og:description" content="Квартиры от проверенных застройщиков Екатеринбурга без комиссии, свой ремонт с гарантией 5 лет и дома в рассрочку до 5 лет."><meta property="og:image" content="https://adervisdigital-web.github.io/platforma-nedvizhimosti/08_%D0%A1%D0%B0%D0%B9%D1%82_%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80/photo/ekb_dusk.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 88 84'%3E%3Crect x='-6' y='-6' width='88' height='84' rx='18' fill='%230E0E0F'/%3E%3Cpath d='M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z' fill='%23F4F2EE'/%3E%3Ccircle cx='67' cy='63' r='9' fill='%23F5553C'/%3E%3C/svg%3E">
+<link rel="preload" as="image" href="assets/img/ekb_dusk.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Платформа недвижимости","telephone":"+7 965 500-29-18","areaServed":"Екатеринбург","url":"https://p.forma196.ru"}</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div class="ldr" id="ldr" aria-hidden="true">
+  <div class="ldr-in"><svg class="ldr-mark" viewBox="0 0 76 72"><path class="ldr-arch" d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle class="ldr-dot" cx="67" cy="63" r="9"/></svg>
+    <div class="ldr-word"><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></div></div>
+  <span class="ldr-city">Екатеринбург</span><span class="ldr-pc" id="ldrPc">0 %</span><div class="ldr-bar"><i id="ldrBar"></i></div>
+</div>
+<script>
+(() => {
+  if (/[?&]shot(&|$)/.test(location.search)) { document.getElementById('ldr').classList.add('gone'); document.documentElement.classList.add('shot'); html_ready(); return; }
+  function html_ready() { document.documentElement.classList.add('ready'); }
+  const L = document.getElementById('ldr'), bar = document.getElementById('ldrBar'), pc = document.getElementById('ldrPc'), html = document.documentElement;
+  let seen = false; try { seen = sessionStorage.getItem('pn_ldr') === '1'; sessionStorage.setItem('pn_ldr', '1'); } catch (e) {}
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, MIN = seen || reduce ? 500 : 1700, MAX = 4000, t0 = performance.now();
+  if (seen) L.classList.add('quick');
+  let p = 0, loaded = false, done = false;
+  const set = v => { p = v; bar.style.width = v + '%'; pc.textContent = Math.round(v) + ' %'; };
+  const tick = setInterval(() => { const el = performance.now() - t0; const target = loaded ? 100 : Math.min(92, 92 * (1 - Math.exp(-el / 900))); set(p + (target - p) * .25);
+    if ((loaded && el > MIN && p > 99) || el > MAX) finish(); }, 40);
+  function finish() { if (done) return; done = true; clearInterval(tick); set(100);
+    setTimeout(() => { html.classList.add('ready'); L.classList.add('out'); setTimeout(() => L.classList.add('gone'), 900); }, 120); }
+  addEventListener('load', () => { loaded = true; });
+})();
+</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="cmp" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M3 8h8M13 16h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2" fill="currentColor"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 8h7M8.5 12.5h1M12 12.5h1M8.5 16.5h1M12 16.5h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="msg" viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.3a11 11 0 0 0 6.4 6.4l1.3-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.6 16.6 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="share" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 13v6h14v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="t-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle class="td" style="fill:var(--td,currentColor)" cx="10.5" cy="10.5" r="2"/></symbol>
+  <symbol id="t-map" viewBox="0 0 24 24"><path d="M12 21.5s-6.5-6-6.5-11.5a6.5 6.5 0 0 1 13 0c0 5.5-6.5 11.5-6.5 11.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle class="td" style="fill:var(--td,currentColor)" cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="t-pct" viewBox="0 0 24 24"><path d="M18 5L6 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="7" cy="7" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" style="fill:var(--td,currentColor)" cx="17" cy="17" r="2.8"/></symbol>
+  <symbol id="t-door" viewBox="0 0 24 24"><path d="M4.5 21V10a6 6 0 0 1 12 0v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 21v-9.5a2 2 0 0 1 4 0V21" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" style="fill:var(--td,currentColor)" cx="20" cy="19" r="2.2"/></symbol>
+  <symbol id="t-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v11H10l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8.5" cy="11" r="1.1" fill="currentColor"/><circle cx="12" cy="11" r="1.1" fill="currentColor"/><circle class="td" style="fill:var(--td,currentColor)" cx="15.5" cy="11" r="1.5"/></symbol>
+  <symbol id="t-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 15h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18.5" cy="15" r="2" fill="#F5553C"/></symbol>
+  <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
+</svg>
+
+<div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
+<header class="ontop"><div class="w hd">
+  <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+  <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
+  <span class="sp"></span>
+  <button type="button" class="hicon tel-m" id="mnBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><svg class="ico"><use href="#t-menu"/></svg></button>
+  <div class="hb" role="group" aria-label="Связь, сравнение, избранное и кабинет">
+    <div class="hb-call">
+      <button type="button" class="hb-ph" id="hbPh" aria-expanded="false" aria-controls="hbPop">
+        <span class="hb-st"><i class="hb-dot" id="hbDot"></i><span id="hbStatus">на связи</span><span class="hb-clk">Екб <b id="hbClk">--:--</b></span></span>
+        <span class="hb-num">+7 965 500-29-18<svg class="hb-car" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></span>
+      </button>
+      <div class="hb-pop" id="hbPop" hidden>
+        <a class="hb-it" href="tel:+79655002918"><span class="hb-i"><svg class="ico"><use href="#phone"/></svg></span><span><b>Позвонить</b><small>+7 965 500-29-18</small></span></a>
+        <form class="hb-cb" id="hbCb" novalidate><label for="hbTel"><b>Перезвоним за 30 секунд</b><small id="hbCbNote">Оставьте номер — менеджер наберёт сам</small></label>
+          <div class="hb-row"><input id="hbTel" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"><button type="submit" aria-label="Заказать звонок"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5L12 8l-3.5 3.5"/></svg></button></div></form>
+        <button type="button" class="hb-it" data-chat><span class="hb-i"><svg class="ico"><use href="#msg"/></svg></span><span><b>Написать в чат</b><small>отвечаем сразу, 24/7</small></span></button>
+        <div class="hb-hrs"><span>Офис</span><span>ежедневно 9:00–21:00</span></div>
+      </div>
+    </div>
+    <span class="hb-sep" aria-hidden="true"></span>
+    <button type="button" class="hb-ic" id="cmpBtn" aria-label="Сравнение" title="Сравнение"><svg class="ico"><use href="#cmp"/></svg><span class="cnt" id="cmpCnt">0</span></button>
+    <button type="button" class="hb-ic" id="favBtn" aria-label="Избранное" title="Избранное"><svg class="ico"><use href="#heart"/></svg><span class="cnt" id="favCnt">0</span></button>
+    <span class="hb-sep" aria-hidden="true"></span>
+    <a class="hb-cab" href="kabinet.html"><span class="hb-av"><svg viewBox="0 0 76 72" aria-hidden="true"><use href="#mark"/></svg></span><span>Кабинет</span></a>
+  </div>
+</div></header>
+
+<main>
+<section class="hero" id="search">
+  <div class="hbg" role="img" aria-label="Екатеринбург в сумерках: новые жилые дома и стройка"></div>
+  <div class="chipv" id="chipv" aria-live="polite"><div class="cv-h"><span class="cv-st" id="cvSt">Проверяем</span><span class="cv-dots" id="cvDots"></span></div><h3 id="cvName"></h3><small id="cvSub"></small><ul id="cvList"></ul><a class="cv-go" id="cvGo" href="#list"></a></div>
+  <div class="w hin">
+    <div class="hl">
+      <div class="br">[ <b>●</b> Екатеринбург · новостройки и вторичка ]</div>
+      <h1 style="margin-top:22px">Квартиры, за&nbsp;которые мы <em class="nw">ручаемся<i class="o wh"></i></em></h1>
+      <p class="sub">Продаём только то, что проверили сами: надёжные застройщики, сделки через эскроу, спецпредложения напрямую от застройщиков. Ремонт и дома делаем сами — с гарантией 5 лет.</p>
+      <div class="trust"><span>0 ₽ комиссии</span><span>Эскроу-счета</span><span>Только по договору</span><span>Гарантия 5 лет</span></div>
+    </div>
+    <div class="sbox sbox3">
+      <form class="sf sf2" id="sf" aria-label="Поиск квартир">
+        <div class="sg" data-pop><button type="button" class="sgb" aria-expanded="false" aria-haspopup="true"><small>Что ищем</small><b id="sgType">Новостройки</b></button>
+          <div class="pop"><div class="tabs" role="tablist" aria-label="Что ищете"><button type="button" role="tab" aria-selected="true">Новостройки</button><button type="button" role="tab" aria-selected="false">Вторичка</button><button type="button" role="tab" aria-selected="false">Дома</button><button type="button" role="tab" aria-selected="false">С ремонтом</button></div></div></div>
+        <div class="sg" data-pop><button type="button" class="sgb" aria-expanded="false" aria-haspopup="true"><small>Комнаты</small><b id="sgRooms">1, 2</b></button>
+          <div class="pop"><div class="v rooms"><button type="button" class="chip" aria-pressed="false">Студия</button><button type="button" class="chip" aria-pressed="true">1</button><button type="button" class="chip" aria-pressed="true">2</button><button type="button" class="chip" aria-pressed="false">3</button><button type="button" class="chip" aria-pressed="false">4+</button></div><span class="pnote">Можно выбрать несколько</span></div></div>
+        <div class="sg sgi dd-wrap"><label for="pr">Бюджет до, млн ₽</label><input id="pr" placeholder="Любой" inputmode="decimal" autocomplete="off" aria-controls="prDD"><div class="dd" id="prDD" role="listbox" hidden></div></div>
+        <div class="sg sgi grow dd-wrap"><label for="ad">Район или ЖК</label><input id="ad" placeholder="Любой" autocomplete="off" aria-controls="adDD" aria-autocomplete="list"><datalist id="adList"></datalist><div class="dd" id="adDD" role="listbox" hidden></div></div>
+      </form>
+      <div class="sline"><span class="qfl">Быстро:</span><span class="qf" role="group" aria-label="Быстрые фильтры"><button type="button" aria-pressed="false" data-qf="ready">Готовые</button><button type="button" aria-pressed="false" data-qf="fin">С отделкой</button><button type="button" aria-pressed="false" data-qf="fam">Семейная ипотека</button><button type="button" aria-pressed="false" data-qf="deal">Спецпредложения</button></span><span class="sstat" aria-live="polite"><i></i><span id="sStat"></span></span></div>
+      <button class="go3" type="submit" form="sf" aria-label="Показать подходящие квартиры"><span class="g3-top"><span class="g3-ic"><svg class="ico"><use href="#i-search"/></svg></span><span class="g3-l">Показать</span></span>
+        <span class="g3-n"><b id="goN"></b><small id="goL">квартир</small></span><span class="g3-sw" aria-hidden="true"></span></button>
+    </div>
+  </div>
+</section>
+
+<section class="after"><div class="w">
+  <div class="cats" role="list" aria-label="Подборки">
+    <a class="cat red" role="listitem" href="#list" data-f="best"><span class="cfield" aria-hidden="true"></span><b>Самые выгодные этой недели</b><span>отобрали за вас</span></a>
+    <a class="cat" role="listitem" href="#list" data-f="done" style="background-image:url(assets/img/kv_complex2.jpg)"><b>Сданные дома</b><span data-c="done"></span></a>
+    <a class="cat" role="listitem" href="#list" data-f="fin" style="background-image:url(assets/img/kv_living2.jpg)"><b>С отделкой</b><span data-c="fin"></span></a>
+    <a class="cat" role="listitem" href="#list" data-f="fam" style="background-image:url(assets/img/kv_kids.jpg)"><b>Семейная ипотека</b><span data-c="fam"></span></a>
+    <a class="cat" role="listitem" href="#list" data-f="sec" style="background-image:url(assets/img/kv_bedroom.jpg)"><b>Вторичка, проверенная юристом</b><span data-c="sec"></span></a>
+    <a class="cat" role="listitem" href="#houses" style="background-image:url(assets/img/houses/y140_1.jpg)"><b>Дома по нашим проектам</b><span>рассрочка до 5 лет</span></a>
+  </div>
+  <div class="promo">
+    <a class="pt red" href="#list"><div><h3>Квартира с ремонтом — одним пакетом<i class="o n"></i></h3><p>Подберём квартиру и сделаем ремонт сами: смета, договор, акт на каждый этап, гарантия 5 лет.</p></div><span class="gl">Смотреть квартиры</span><span class="dotgrid"></span></a>
+    <a class="pt dark" href="#calc"><div><h3>Ипотека по индивидуальной ставке<i class="o"></i></h3><p>Сбер, ВТБ, Альфа-Банк, ДОМ.РФ, Россельхозбанк, УБРИР — сравним программы и покажем, где платёж ниже.</p></div><span class="gl">Рассчитать платёж</span><span class="dotgrid"></span></a>
+    <a class="pt white" href="#how"><div><h3>Как мы проверяем<i class="o"></i></h3><p>Что смотрим у застройщика и у продавца на вторичке — и как работаем сами.</p></div><span class="gl">Узнать</span><span class="dotgrid"></span></a>
+  </div>
+</div></section>
+
+<section class="sec" id="list"><div class="w">
+  <div class="lhead">
+    <div><div class="br">[ <b>●</b> Предложения ]</div><h2 class="t">Отобрали на этой <span class="nw">неделе<i class="o"></i></span><span class="cnt2" id="cnt"></span></h2></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><div class="seg sort" role="group" aria-label="Сортировка"><button aria-pressed="true" data-s="best">Самые выгодные</button><button aria-pressed="false" data-s="cheap">Дешевле</button><button aria-pressed="false" data-s="due">Срок сдачи</button></div><button class="btn ghost mapbtn" id="mapBtn" aria-pressed="false"><svg class="ico"><use href="#pin"/></svg>На карте</button><div class="seg view" role="group" aria-label="Вид"><button aria-pressed="false" data-v="list">Список</button><button aria-pressed="false" data-v="grid">Плитка</button></div></div>
+  </div>
+  <div class="flt" id="flt" hidden><span id="fltT"></span><button type="button" id="fltX">Сбросить ×</button></div>
+  <div class="res">
+    <div><div id="cards"></div><div class="more" id="more"><button class="btn white" id="moreBtn"></button></div><div class="seen" id="seen" hidden><h3>Вы смотрели<i class="o"></i></h3><div class="seenl" id="seenL"></div></div></div>
+    <div class="map" aria-label="Карта предложений">
+      <svg class="base" viewBox="0 0 430 680" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="430" height="680" fill="#E9E6E0"/>
+        <g stroke="#fff" stroke-width="9" fill="none"><path d="M-10 120 H450"/><path d="M-10 300 H450"/><path d="M-10 480 H450"/><path d="M90 -10 V690"/><path d="M250 -10 V690"/><path d="M370 -10 V690"/></g>
+        <g stroke="#fff" stroke-width="4" fill="none"><path d="M-10 210 H450"/><path d="M-10 390 H450"/><path d="M-10 580 H450"/><path d="M170 -10 V690"/><path d="M315 -10 V690"/><path d="M20 -10 L440 660"/></g>
+        <path d="M-10 330 C80 300 140 360 210 340 S330 270 450 300 V340 C330 320 290 380 210 384 S80 340 -10 372 Z" fill="#CBDCE6"/>
+        <ellipse cx="205" cy="352" rx="46" ry="22" fill="#CBDCE6"/>
+        <rect x="265" y="140" width="80" height="120" rx="12" fill="#D8E2CF"/><rect x="40" y="510" width="110" height="60" rx="12" fill="#D8E2CF"/>
+      </svg>
+      <div id="pins"></div>
+      <span class="mapcap"><i></i>Красная точка — объект проверен</span>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec man" id="how"><div class="w">
+  <div class="br" style="color:#8A867F">[ <b>●</b> Отбор ]</div>
+  <p class="mtext"><b>Застройщиков проверяем.</b> Ремонт и&nbsp;дома делаем сами — по&nbsp;договору и&nbsp;с&nbsp;гарантией 5&nbsp;лет. <b>Продаём только то, за&nbsp;что <em class="nw">ручаемся<i class="o"></i></em></b></p>
+  <div class="scan" id="scan">
+    <div class="sfield" id="sfield" role="img" aria-label="Проверка объектов: луч проходит по полю, не прошедшие проверку гаснут"><span class="beam" id="beam"></span></div>
+    <div class="spanel">
+      <h3>Как мы ручаемся<i class="o"></i></h3>
+      <div class="ctabs" role="group" aria-label="Кого проверяем"><button aria-pressed="true" data-k="dev">Застройщик</button><button aria-pressed="false" data-k="sec">Вторичка</button><button aria-pressed="false" data-k="our">Ремонт и дома</button></div>
+      <ul class="clist" id="clist"></ul>
+      <div class="smeter" aria-live="polite"><div><b id="sIn">144</b><span>объекта на входе</span></div><div><b id="sOut">144</b><span id="sOutL">проходят проверку</span></div></div>
+    </div>
+  </div>
+  <div class="stats2">
+    <div class="st"><div class="odo" data-n="5" aria-label="5"></div><span>лет на рынке Екатеринбурга</span><div class="sd" data-n="5"></div></div>
+    <div class="st"><div class="odo" data-n="1985" aria-label="1985"></div><span>сделок с квартирами</span><div class="sd" data-n="40"></div><small>1 точка — 50 сделок</small></div>
+    <div class="st"><div class="odo" data-n="67" aria-label="67"></div><span>договоров на строительство домов</span><div class="sd" data-n="67"></div></div>
+    <div class="st"><div class="odo" data-n="85" aria-label="85"></div><span>квартир с нашей отделкой</span><div class="sd" data-n="85"></div></div>
+  </div>
+</div></section>
+
+<section class="sec" id="partners"><div class="w">
+  <div class="br">[ <b>●</b> Что мы делаем ]</div>
+  <h2 class="t"><span class="nw">Квартира<i class="o"></i></span> <span class="nw">Дом<i class="o"></i></span> <span class="nw">Ремонт<i class="o"></i></span></h2>
+  <div class="pgrid">
+    <div class="pc"><div class="ph"><img src="assets/img/zhk.jpg" alt="Новый жилой комплекс в сумерках" loading="lazy"><span>Продаём</span></div><div class="b"><h3>Квартиры<i class="o"></i></h3><p>Новостройки от проверенных застройщиков — со спецпредложениями напрямую от них. Вторичка — после проверки юриста. Комиссии для покупателя нет.</p><div class="devs"><span>Брусника</span><span>Атомстройкомплекс</span><span>УГМК</span><span>Прогресс</span><span>Атлас</span></div><a class="lk" href="#list">Смотреть квартиры</a></div></div>
+    <div class="pc"><div class="ph"><img src="assets/img/houses/n235_1.jpg" alt="Дом «Северный Урал 235» среди сосен" loading="lazy"><span>Строим</span></div><div class="b"><h3>Дома<i class="o"></i></h3><p>Пять проектов в линейках Северный, Южный и Средний Урал — от 140 до 350 м². Строят наши бригады. Взнос 30 %, остальное — по этапам или в рассрочку до 5 лет без процентов.</p><div class="br2">[ газоблок ] [ кирпич ] [ керамоблок ] [ дерево ] [ гарантия 5 лет ]</div><a class="lk" href="#houses">Выбрать проект</a></div></div>
+    <div class="pc"><div class="ph"><img src="assets/img/rem_wip.jpg" alt="Квартира в ремонте: укладка плитки" loading="lazy"><span>Делаем сами</span></div><div class="b"><h3>Ремонт<i class="o"></i></h3><p>Работа и материалы — от 20 000 до 100 000 ₽ за м². Смета и предварительный договор до начала, акт на каждый этап.</p><div class="br2">[ смета ] [ договор ] [ акты этапов ] [ гарантия 5 лет ]</div><a class="lk" href="#ba">Посчитать ремонт</a></div></div>
+  </div>
+  <div class="way"><span class="stp"><i></i>Подобрали квартиру</span><span class="ln"></span><span class="stp"><i></i>Провели сделку</span><span class="ln"></span><span class="stp"><i></i>Сделали ремонт</span><span class="ln"></span><span class="stp"><i></i>Вы получили ключи</span><a class="btn red" href="tel:+79655002918">Один менеджер на всё</a></div>
+</div></section>
+
+<section class="sec" id="calc" style="padding-top:0"><div class="w">
+  <div class="br">[ <b>●</b> Ипотека ]</div>
+  <h2 class="t">Посчитайте платёж — без звёздочек<i class="o"></i></h2>
+  <div class="banks">Работаем с банками: <span>Сбер</span><span>ВТБ</span><span>Альфа-Банк</span><span>ДОМ.РФ</span><span>Россельхозбанк</span><span>УБРИР</span> — и получаем для клиентов индивидуальные ставки.</div>
+  <div class="calc">
+    <div class="cin">
+      <div class="rng"><label for="cp">Стоимость квартиры <b id="cpv"></b></label><input type="range" id="cp" min="2000000" max="20000000" step="100000" value="7500000"></div>
+      <div class="rng"><label for="cd">Первый взнос <b id="cdv"></b></label><input type="range" id="cd" min="10" max="90" step="1" value="20"></div>
+      <div class="rng"><label for="ct">Срок <b id="ctv"></b></label><input type="range" id="ct" min="5" max="30" step="1" value="25"></div>
+      <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Программа (ставки — пример, точные подберём под вас)</div>
+        <div class="rates" id="rates"><button aria-pressed="true" data-r="6">Семейная<small>6 %</small></button><button aria-pressed="false" data-r="12">IT-ипотека<small>12 %</small></button><button aria-pressed="false" data-r="20">Рыночная<small>20 %</small></button></div></div>
+    </div>
+    <div class="cout" aria-live="polite">
+      <div class="note">Ежемесячный платёж</div>
+      <div class="pay" id="pay">—</div>
+      <div class="cbar" aria-hidden="true"><i id="cbL"></i><i id="cbO"></i></div><div class="cleg"><span><i></i>Кредит <b id="cbLv"></b></span><span><i></i>Переплата <b id="cbOv"></b></span></div>
+      <div class="crow"><span>Сумма кредита</span><b id="loan">—</b></div>
+      <div class="crow"><span>Переплата за весь срок</span><b id="over">—</b></div>
+      <div class="crow"><span>Нужный доход, от</span><b id="inc">—</b></div>
+      <div class="cprog" id="cprog" role="group" aria-label="Сравнение программ"></div>
+      <a class="btn" href="#lead">Подобрать программу</a>
+      <div class="note">Расчёт ориентировочный: аннуитетный платёж. Итоговые условия зависят от банка и программы.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="houses" style="padding-top:0"><div class="w">
+  <div class="lhead"><div><div class="br">[ <b>●</b> Дома ]</div><h2 class="t">Свой дом — в рассрочку 0&nbsp;% до&nbsp;5&nbsp;лет<i class="o"></i></h2></div>
+    <p style="max-width:480px;color:#4A4741;margin:0">Пять проектов в трёх линейках — Северный, Южный и Средний Урал. Планировку и фасад настроим под вашу семью. Строят наши бригады — из газоблока, кирпича, керамоблока или дерева.</p></div>
+  <div class="hfl seg2" id="hfl" role="group" aria-label="Линейка"><button aria-pressed="true" data-l="">Все проекты</button><button aria-pressed="false" data-l="Северный Урал">Северный Урал</button><button aria-pressed="false" data-l="Южный Урал">Южный Урал</button><button aria-pressed="false" data-l="Средний Урал">Средний Урал</button><button aria-pressed="false" data-fl="1">Одноэтажные</button><button aria-pressed="false" data-fl="2">Двухэтажные</button></div>
+  <div class="hx" id="hx"></div>
+  <div class="calc inst">
+    <div class="cin">
+      <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Проект</div><div class="seg2" id="hproj"></div></div>
+      <div class="rng"><label for="ha">Площадь дома <b id="hav"></b></label><input type="range" id="ha" min="100" max="400" step="5" value="235"></div>
+      <div class="rng"><label for="ht">Рассрочка <b id="htv"></b></label><input type="range" id="ht" min="1" max="5" step="1" value="3"></div>
+      <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Как платить остаток</div>
+        <div class="seg2" id="hmode"><button aria-pressed="true" data-m="inst">Рассрочка 0 %</button><button aria-pressed="false" data-m="stage">По этапам стройки</button></div></div>
+    </div>
+    <div class="cout dk" aria-live="polite">
+      <div class="note" id="hname"></div>
+      <div class="pay" id="hpay">—</div>
+      <div class="crow"><span>Стоимость тёплого контура, от</span><b id="hsum">—</b></div>
+      <div class="crow"><span>Первый взнос 30 %</span><b id="hpv">—</b></div>
+      <div class="crow"><span id="hrestL">Остаток</span><b id="hrest">—</b></div>
+      <a class="btn" href="#lead">Обсудить проект</a>
+      <div class="note">Расчёт ориентировочный: от 75 000 ₽ за м² тёплого контура, первый взнос 30 %, рассрочка без процентов. Точную цену назовёт менеджер после выбора проекта и материала.</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="ba" style="padding-top:0"><div class="w">
+  <div class="br">[ <b>●</b> Ремонт ]</div>
+  <h2 class="t">Ремонт без многоточий<i class="o"></i></h2>
+  <div class="rwrap">
+    <div class="ba wide" id="baBox"><img src="assets/img/ba_before.jpg?v=2" alt="Квартира без отделки: бетонные стены и пол, панорамное окно"><img class="after" src="assets/img/ba_after.jpg?v=3" alt="Та же квартира после нашего ремонта: гостиная с диваном и креслом"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span>
+      <span class="bacap">Одна и та же комната · 63 м² · 9 недель</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после ремонта"></div>
+    <ol class="bsteps" id="bSteps">
+      <li><button type="button" data-v="85"><i>1</i><b>Замер и смета</b><span>Каждая позиция и итог — до оплаты.</span></button></li>
+      <li><button type="button" data-v="67"><i>2</i><b>Договор</b><span>Объём, сроки и цена — на бумаге.</span></button></li>
+      <li><button type="button" data-v="49"><i>3</i><b>Работа по этапам</b><span>Каждый этап — по акту.</span></button></li>
+      <li><button type="button" data-v="31"><i>4</i><b>Ход работ в кабинете</b><span>Камера и отчёты по этапам.</span></button></li>
+      <li><button type="button" data-v="10"><i>✓</i><b>Гарантия 5 лет</b><span>По договору. Точка.</span></button></li>
+    </ol>
+  </div>
+  <div class="calc" style="margin-top:40px">
+    <div class="cin">
+      <div class="rng"><label for="ra">Площадь квартиры <b id="rav"></b></label><input type="range" id="ra" min="20" max="160" step="1" value="55"></div>
+      <div class="rng"><label for="rl">Уровень отделки <b id="rlv"></b></label><input type="range" id="rl" min="20000" max="100000" step="5000" value="40000"><div class="hint"><span>20 000 ₽/м²</span><span>100 000 ₽/м²</span></div></div>
+    </div>
+    <div class="cout lt" aria-live="polite">
+      <div class="note">Ремонт с материалами, ориентировочно</div>
+      <div class="pay" id="rpay">—</div>
+      <div class="crow"><span>Цена за м²</span><b id="rppm">—</b></div>
+      <div class="crow"><span>Гарантия</span><b>5 лет</b></div>
+      <a class="btn" href="#lead">Вызвать замерщика</a>
+      <div class="note">Точную цену даст смета после замера. Работа и материалы — от 20 000 до 100 000 ₽ за м².</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec cab" id="cab"><div class="w cgrid">
+  <div>
+    <div class="br">[ <b>●</b> Личный кабинет ]</div>
+    <h2 class="t">Ваш дом — в&nbsp;прямом <span class="nw">эфире<i class="o"></i></span></h2>
+    <p class="lead2">Камера на объекте подключается сразу после начала работ. Смотрите стройку или ремонт с телефона, подписывайте акты этапов и следите за платежами — в одном месте.</p>
+    <ul class="cfeat">
+      <li><b>Камера 24/7</b><span>Трансляция с объекта — в любой момент, из любого города.</span></li>
+      <li><b>Этапы и акты</b><span>Каждый этап закрывается промежуточным актом.</span></li>
+      <li><b>Смета и договор</b><span>Все документы по объекту — под рукой.</span></li>
+      <li><b>Платежи</b><span>График рассрочки или ипотеки и напоминания.</span></li>
+    </ul>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn red" href="kabinet.html">Открыть демо-кабинет</a><a class="btn ghost" href="#lead">Как получить доступ</a></div>
+  </div>
+  <a class="dvx" id="devs" href="kabinet.html" aria-label="Открыть демо-кабинет: ноутбук и телефон">
+    <span class="stage">
+      <span class="mbp"><span class="lid"><span class="cam-dot"></span><span class="vp"><iframe src="kabinet.html#home" title="Личный кабинет на ноутбуке" loading="lazy" tabindex="-1" scrolling="no"></iframe></span></span><span class="base"><i></i></span></span>
+      <span class="iph"><span class="vp"><iframe src="kabinet.html#home" title="Личный кабинет на телефоне" loading="lazy" tabindex="-1" scrolling="no"></iframe></span><span class="isl"></span></span>
+      <span class="shadow"></span>
+    </span>
+    <span class="devcap"><i></i>Это настоящий демо-кабинет — нажмите, чтобы открыть</span>
+  </a>
+</div></section>
+
+<section class="sec" id="rev"><div class="w">
+  <div class="lhead"><div><div class="br">[ <b>●</b> Отзывы ]</div><h2 class="t">Говорят те, у кого уже <span class="nw">точка<i class="o"></i></span></h2></div><div class="rvh"><span class="demo">Демо-отзывы для макета — заменим настоящими</span><div class="arr"><button type="button" data-d="-1" aria-label="Предыдущие отзывы">←</button><button type="button" data-d="1" aria-label="Следующие отзывы">→</button></div></div></div>
+  <div class="rv" tabindex="0" aria-label="Отзывы клиентов">
+    <article class="rc"><div class="ph"><img src="assets/img/kv_living2.jpg" alt="" loading="lazy"><span>Новостройка</span></div><div class="b"><q>Искали двушку под семейную ипотеку полгода. Здесь за неделю показали три варианта и честно сказали, почему не стоит брать четвёртый: у застройщика переносы сдачи. Купили — дом сдали в срок.</q><div class="who"><i>М</i><div><b>Марина и Олег</b><span>2-комн. квартира, ЖК Кварц</span></div></div></div></article>
+    <article class="rc"><div class="ph"><img src="assets/img/rem_bathroom.jpg" alt="" loading="lazy"><span>Ремонт</span></div><div class="b"><q>Больше всего боялся, что смета вырастет. Не выросла: что записали в предварительный договор, то и заплатили. После каждого этапа — акт, без «доплатите за материалы».</q><div class="who"><i>Д</i><div><b>Дмитрий</b><span>ремонт 2-комн. квартиры</span></div></div></div></article>
+    <article class="rc"><div class="ph"><img src="assets/img/houses/y140_1.jpg" alt="" loading="lazy"><span>Дом</span></div><div class="b"><q>Строим «Южный Урал 140» в рассрочку: 30 % внесли, остальное платим по этапам. Живём в городе, а стройку смотрим по камере — вечером открыл кабинет и видно, что сделали за день.</q><div class="who"><i>Е</i><div><b>Елена</b><span>дом из газоблока</span></div></div></div></article>
+    <article class="rc"><div class="ph"><img src="assets/img/kv_bedroom.jpg" alt="" loading="lazy"><span>Вторичка</span></div><div class="b"><q>Продавец торопил с задатком. Юрист нашёл в выписке обременение, о котором продавец «забыл». Сделку провели, только когда его сняли. Спасибо, что не дали поторопиться.</q><div class="who"><i>И</i><div><b>Игорь</b><span>вторичка, Центр</span></div></div></div></article>
+    <article class="rc"><div class="ph"><img src="assets/img/kv_kitchen.jpg" alt="" loading="lazy"><span>Квартира + ремонт</span></div><div class="b"><q>Взяли квартиру и ремонт одним пакетом. Один менеджер вёл всё — от одобрения ипотеки до ключей. И никакой комиссии с нас — до последнего не верили.</q><div class="who"><i>К</i><div><b>Ксения и Артём</b><span>1-комн. квартира с ремонтом</span></div></div></div></article>
+  </div>
+</div></section>
+
+<section class="sec pact" id="pact"><div class="w pgrid2">
+  <div class="pl">
+    <div class="br">[ <b>●</b> Обещания ]</div>
+    <h2 class="t">Обещаем — и&nbsp;пишем это в&nbsp;<span class="nw">договор<i class="o"></i></span></h2>
+    <ol class="vows" role="list">
+      <li><button type="button" data-cl="3,5" aria-describedby="vw1"><b>Проверено<i class="o"></i></b><span id="vw1">Квартиры — только от застройщиков, которых проверили сами. Ремонт и дома делают наши бригады.</span></button></li>
+      <li><button type="button" data-cl="1,2" aria-describedby="vw2"><b>Выгодно<i class="o"></i></b><span id="vw2">Спецпредложения напрямую от застройщиков и индивидуальные ставки банков. Комиссии для покупателя нет.</span></button></li>
+      <li><button type="button" data-cl="4,6" aria-describedby="vw3"><b>Ясно<i class="o"></i></b><span id="vw3">Цена, срок и следующий шаг — на бумаге до начала работ. Без звёздочек и многоточий.</span></button></li>
+    </ol>
+  </div>
+  <figure class="desk fold" id="desk" aria-label="Договор с обязательствами Платформы в фирменной папке">
+    <div class="dk-in">
+      <div class="flap" aria-hidden="true"><div class="flap-in">
+        <svg class="emb" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9"/></svg>
+        <div class="fl-t">Договор<br>с Платформой<i class="o"></i></div>
+        <dl class="fl-d"><div><dt>Объект</dt><dd>2-комн., ЖК Кварц</dd></div><div><dt>Менеджер</dt><dd>Ольга · +7 965 500-29-18</dd></div><div><dt>Гарантия</dt><dd>5 лет по договору</dd></div></dl>
+        <div class="pocket"><span class="card"><svg viewBox="0 0 76 72"><use href="#mark"/></svg><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></div>
+      </div></div>
+      <div class="leaf"><span class="crn c1"></span><span class="crn c2"></span>
+      <div class="paper">
+        <div class="pp-h"><span class="pp-logo"><svg viewBox="0 0 76 72" aria-hidden="true"><use href="#mark"/></svg>ПЛАТФОРМА НЕДВИЖИМОСТИ</span><span>Договор № ПН-2026-0147</span></div>
+        <div class="pp-t">3. Обязательства Платформы</div>
+        <ol class="cl">
+          <li data-n="1"><span>3.1</span><p>Комиссия с покупателя — <b>0&nbsp;₽</b>. Вознаграждение платит застройщик.</p></li>
+          <li data-n="2"><span>3.2</span><p>Ставку подбираем среди <b>6 банков</b> и показываем расчёт до заявки.</p></li>
+          <li data-n="3"><span>3.3</span><p>Деньги за новостройку — на <b>эскроу-счёте</b> до сдачи дома.</p></li>
+          <li data-n="4"><span>3.4</span><p>Каждый этап закрываем <b>актом</b>. Смета не меняется без вашей подписи.</p></li>
+          <li data-n="5"><span>3.5</span><p>Гарантия на ремонт и дома — <b>5&nbsp;лет</b>.</p></li>
+          <li data-n="6"><span>3.6</span><p>Если партнёр подвёл — <b>решаем вопрос за вас</b>.</p></li>
+        </ol>
+        <div class="sign"><div><span class="k">Платформа</span><span class="ln"><svg class="sig" viewBox="0 0 120 34" aria-hidden="true"><path d="M3 26c8-3 12-18 18-19 5-1-2 21 4 20 6-1 9-15 14-15 4 0 0 13 5 13 6 0 9-12 15-12 5 0 2 9 7 9 9 0 20-10 36-14"/></svg><i class="seal"></i></span></div>
+          <div><span class="k">Клиент</span><span class="ln"><a class="you" href="#lead">ваша подпись</a></span></div></div>
+      </div>
+    </div></div>
+    <figcaption>Пример раздела договора. Точные формулировки — в договоре по вашему объекту.</figcaption>
+  </figure>
+</div></section>
+
+<section class="lead" id="lead"><canvas class="ldots" id="ldots" aria-hidden="true"></canvas><div class="w lgrid">
+  <div><h2 class="t">Расскажите, что ищете. Мы&nbsp;уже знаем, кому можно <span class="nw">доверять<i class="o n"></i></span></h2><p>Подберём варианты среди проверенных предложений и перезвоним. Или позвоните сами: <a href="tel:+79655002918" style="font-weight:700;border-bottom:2px solid #fff">+7 965 500-29-18</a>. На вопросы отвечаем круглосуточно — в чате, Telegram и MAX.</p>
+    <div class="msg"><a href="#" data-chat>Чат на сайте</a><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a></div></div>
+  <form class="form quiz" id="leadForm" novalidate>
+    <div class="qh"><span id="qStep">Шаг 1 из 3</span><span class="qd" aria-hidden="true"><i class="on"></i><i></i><i></i></span></div>
+    <fieldset class="on" data-s="1"><legend>Что ищете?</legend>
+      <div class="ch" role="group" aria-label="Что ищете"><button type="button" aria-pressed="true" data-q="flat">Квартиру</button><button type="button" aria-pressed="false" data-q="house">Дом</button><button type="button" aria-pressed="false" data-q="reno">Ремонт</button><button type="button" aria-pressed="false" data-q="mort">Ипотеку</button></div></fieldset>
+    <fieldset data-s="2"><legend id="q2l">Какой бюджет?</legend>
+      <div class="rng"><label for="qb"><span id="qbl">Бюджет до</span> <b id="qbv"></b></label><input type="range" id="qb" min="3" max="30" step="0.5" value="9"></div>
+      <div class="ch2" id="qr" role="group" aria-label="Комнат"><button type="button" aria-pressed="false" data-r="0">Студия</button><button type="button" aria-pressed="true" data-r="1">1</button><button type="button" aria-pressed="true" data-r="2">2</button><button type="button" aria-pressed="false" data-r="3">3</button><button type="button" aria-pressed="false" data-r="4">4+</button></div>
+      <p class="qm" id="qMatch" aria-live="polite"></p></fieldset>
+    <fieldset data-s="3"><legend>Куда прислать подборку?</legend>
+      <div class="f"><label for="ln">Как к вам обращаться</label><input id="ln" autocomplete="name" placeholder="Имя"></div>
+      <div class="f"><label for="lp">Телефон</label><input id="lp" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" aria-describedby="lpErr"><span class="err" id="lpErr">Введите номер полностью — 10 цифр после +7</span></div></fieldset>
+    <div class="qnav"><button type="button" class="btn ghost" id="qBack" hidden>Назад</button><button type="button" class="btn red" id="qNext">Дальше</button><button class="btn red" type="submit" id="qSend" hidden>Получить подборку</button></div>
+    <small>Нажимая «Получить подборку», вы соглашаетесь на обработку персональных данных.</small>
+    <div class="done"><b>Заявка принята<i class="o"></i></b>Менеджер позвонит и пришлёт подборку. Если удобнее — напишите в чат на сайте.</div>
+  </form>
+</div></section>
+</main>
+
+<footer><div class="w">
+  <div class="fbig">Ставим точку<i class="o"></i></div>
+  <div class="fgr">
+    <div><a class="logo" href="#" style="padding:0"><svg width="38" height="36" fill="#F4F2EE"><use href="#mark"/></svg><span><b style="color:#F4F2EE">ПЛАТФОРМА</b><small style="color:#8A867F">НЕДВИЖИМОСТИ</small></span></a>
+      <p style="margin:18px 0 6px;color:#F4F2EE;font-size:20px;font-weight:600"><a href="tel:+79655002918" style="display:inline">+7 965 500-29-18</a></p><span>Екатеринбург, [адрес офиса]</span><span style="display:block;margin-top:4px">p.forma196.ru</span></div>
+    <div><h4>Купить</h4><a href="#search">Новостройки</a><a href="#search">Вторичка</a><a href="#list">С ремонтом</a><a href="#calc">Ипотека</a></div>
+    <div><h4>Делаем сами</h4><a href="#ba">Ремонт</a><a href="#houses">Дома</a><a href="kabinet.html">Личный кабинет</a></div>
+    <div><h4>Компания</h4><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><a href="#lead">Связаться</a><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a></div>
+  </div>
+  <div class="fbot"><span>ИП Сафоев Шерзод Рустамович · ИНН 661709849922 · ОГРНИП 326965800115079</span><span>Пример сайта. Объекты, цены и названия ЖК — демо-данные, отзывы — демо.</span></div>
+</div></footer>
+
+<nav class="tabbar tb2" id="tabbar" aria-label="Меню приложения">
+  <a class="on" href="#search" data-sec="search"><svg class="tic"><use href="#t-search"/></svg><span>Поиск</span></a>
+  <a href="#list" data-sec="list" data-map><svg class="tic"><use href="#t-map"/></svg><span>Карта</span></a>
+  <a href="#calc" data-sec="calc"><svg class="tic"><use href="#t-pct"/></svg><span>Ипотека</span></a>
+  <a href="#cab" data-sec="cab"><svg class="tic"><use href="#t-door"/></svg><span>Кабинет</span></a>
+  <a href="#" data-chat><svg class="tic"><use href="#t-chat"/></svg><span>Чат 24/7</span></a>
+</nav>
+<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Меню" hidden>
+  <div class="mn-top"><span class="mn-st"><i></i><span id="mnSt">на связи</span></span><button type="button" class="mn-x" id="mnX" aria-label="Закрыть меню">×</button></div>
+  <nav class="mn-l" aria-label="Разделы">
+    <a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a>
+  </nav>
+  <div class="mn-c">
+    <a class="mn-tel" href="tel:+79655002918">+7 965 500-29-18</a>
+    <div class="mn-b"><a class="btn red" href="tel:+79655002918">Позвонить</a><button type="button" class="btn ghost" data-chat>Чат 24/7</button></div>
+    <a class="mn-cab" href="kabinet.html"><svg viewBox="0 0 76 72" aria-hidden="true"><use href="#mark"/></svg>Личный кабинет</a>
+  </div>
+</div>
+
+<dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico" style="width:18px;height:18px"><use href="#msg"/></svg></i><span class="cf-t"><b>Спросить</b><small>ответим 24/7</small></span></button>
+<div class="chat" id="chat" role="dialog" aria-label="Помощник Платформы" hidden>
+  <div class="ch-h"><svg width="30" height="28" fill="#F4F2EE"><use href="#mark"/></svg><div><b>Помощник Платформы</b><small><i></i>онлайн · отвечает круглосуточно</small></div><button class="ch-x" id="chatX" aria-label="Закрыть">×</button></div>
+  <div class="ch-b" id="chatLog" aria-live="polite"></div>
+  <div class="ch-q" id="chatQ"></div>
+  <form class="ch-f" id="chatForm"><input id="chatIn" placeholder="Напишите вопрос" aria-label="Ваш вопрос" autocomplete="off"><button aria-label="Отправить">→</button></form>
+  <div class="ch-m"><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a><a href="tel:+79655002918">Позвонить</a></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script id="pn-data" type="application/json">{"items":[{"img":"kv_living2","r":2,"s":58.4,"fl":7,"fls":12,"zk":"ЖК Липовый сквер","d":"Академический","t":"new","due":0,"st":"Дом сдан","fin":"С отделкой","p":9450000,"x":120,"y":250,"slug":"1-zhk-lipovyy-skver","disc":6},{"img":"kv_empty","r":1,"s":38.2,"fl":4,"fls":9,"zk":"ЖК Северный бульвар","d":"Уралмаш","t":"new","due":202704,"st":"Сдача — II кв. 2027","fin":"Без отделки","p":5890000,"x":300,"y":110,"slug":"2-zhk-severnyy-bulvar","special":1},{"img":"kv_kids","r":3,"s":79.6,"fl":10,"fls":16,"zk":"ЖК Кварц","d":"ВИЗ","t":"new","due":0,"st":"Дом сдан · школа и сад во дворе","fin":"С отделкой","p":12300000,"x":190,"y":430,"slug":"3-zhk-kvarts","disc":4},{"img":"kv_bedroom2","r":2,"s":54.1,"fl":3,"fls":5,"zk":"ул. Малышева","d":"Центр","t":"sec","due":0,"st":"Вторичка · юрист проверил","fin":"С ремонтом","p":8700000,"x":330,"y":540,"slug":"4-ul-malysheva"},{"img":"rem_bathroom","r":2,"s":63.7,"fl":5,"fls":17,"zk":"ЖК Кварц","d":"ВИЗ","t":"new","due":0,"st":"Дом сдан · наш ремонт, гарантия 5 лет","fin":"С ремонтом","p":11200000,"x":70,"y":600,"slug":"5-zhk-kvarts"},{"img":"kv_building","r":0,"s":26.8,"fl":12,"fls":24,"zk":"ЖК Высота","d":"Юго-Западный","t":"new","due":202612,"st":"Сдача — IV кв. 2026","fin":"Без отделки","p":4650000,"x":60,"y":160,"slug":"6-zhk-vysota"},{"img":"kv_complex2","r":2,"s":61,"fl":8,"fls":14,"zk":"ЖК Новая Исеть","d":"Ботанический","t":"new","due":202709,"st":"Сдача — III кв. 2027","fin":"Без отделки","p":8540000,"x":250,"y":360,"slug":"7-zhk-novaya-iset","special":1},{"img":"kv_bedroom","r":1,"s":41.5,"fl":2,"fls":9,"zk":"ул. Билимбаевская","d":"Старая Сортировка","t":"sec","due":0,"st":"Вторичка · юрист проверил","fin":"С ремонтом","p":5300000,"x":40,"y":80,"slug":"8-ul-bilimbaevskaya"},{"img":"kv_studio","r":0,"s":24.9,"fl":6,"fls":18,"zk":"ЖК Липовый сквер","d":"Академический","t":"new","due":0,"st":"Дом сдан","fin":"С отделкой","p":4390000,"x":150,"y":300,"slug":"9-zhk-lipovyy-skver","disc":3},{"img":"kv_kitchen2","r":1,"s":36.4,"fl":9,"fls":20,"zk":"ЖК Берег","d":"Широкая речка","t":"new","due":202803,"st":"Сдача — I кв. 2028","fin":"С отделкой","p":5100000,"x":380,"y":230,"slug":"10-zhk-bereg"},{"img":"kv_living3","r":4,"s":98.2,"fl":4,"fls":10,"zk":"ул. Блюхера","d":"Пионерский","t":"sec","due":0,"st":"Вторичка · юрист проверил","fin":"С ремонтом","p":13900000,"x":345,"y":190,"slug":"11-ul-blyukhera"},{"img":"kv_kitchen","r":3,"s":74,"fl":11,"fls":17,"zk":"ЖК Северный бульвар","d":"Уралмаш","t":"new","due":202704,"st":"Сдача — II кв. 2027","fin":"С отделкой","p":10350000,"x":280,"y":60,"slug":"12-zhk-severnyy-bulvar"}],"houses":[{"id":"n235","line":"Северный Урал","n":235,"motto":"Единение с природой","c":"#5F7380","fl":2,"rooms":"4 + кабинет","ceil":"3,3 м","feats":["Двухэтажная гостиная — 8,5 м","Панорамные окна","Навес для двух автомобилей","Терраса с навесом для гостиной"],"idea":"Дом-резиденция для живописного участка у леса или реки. Силуэт — как у заснеженных гор Северного Урала, отделка — натуральные фактуры в строгой палитре.","text":["Компактный двухэтажный объём занимает меньше места на участке и вмещает все нужные помещения.","Детские спальни — на втором этаже, родительская спальня и кабинет — на первом.","Двухэтажная гостиная раскрывается во двор панорамными окнами и выходит на террасу. Вход в дом — из-под навеса для машин."],"ph":["n235_1","n235_2","n235_3","n235_i1"],"plans":[["1 этаж · 154,73 м²","n235_p1"],["2 этаж · 69,12 м²","n235_p2"]],"slug":"severnyy-ural-235","sort":0},{"id":"y195","line":"Южный Урал","n":195,"motto":"Красота в моменте","c":"#6E8A62","fl":1,"rooms":"3","ceil":"3,3 м","feats":["Высокие гостиная и спальня — 7 м","Светлый коридор с окнами","Навес для двух автомобилей","Терраса с навесом для гостиной"],"idea":"Уральская эко-стилистика: уютные скандинавские планировки и смелые приёмы уральского конструктивизма. Два поднятых односкатных объёма напоминают горы.","text":["Дом из двух блоков — приватного и гостевого — вокруг внутреннего двора с террасой.","Металл и натуральное дерево в отделке: природа и современный город в одном фасаде.","Панорамные окна наполняют высокие гостиную и спальню дневным светом и зрительно увеличивают комнаты."],"ph":["y195_1","y195_2","y195_3","y195_i3","y195_i1","y195_i2"],"plans":[["1 этаж · 196,56 м²","y195_p1"]],"slug":"yuzhnyy-ural-195","sort":1},{"id":"y140","line":"Южный Урал","n":140,"motto":"Красота в моменте","c":"#6E8A62","fl":1,"rooms":"3","ceil":"3,3 м","feats":["Высокие гостиная и спальня","Двусторонняя гостиная","Панорамные окна","Мастер-спальня с гардеробом и санузлом"],"idea":"Самый компактный дом линейки: те же высокие потолки и панорамные окна — на 140 м².","text":["Приватный и общественный блоки разделены; кухня-гостиная с окнами на три стороны всегда полна солнца.","У родителей — спальня с гардеробом и санузлом, у детей — свои спальни, санузел и общий гардероб у прихожей.","Выход на террасу во двор — через котельную, которая служит и хозяйственной комнатой для двора."],"ph":["y140_1","y140_3","y140_i3","y140_i1","y140_i2","y140_2"],"plans":[["1 этаж · 148,13 м²","y140_p1"]],"slug":"yuzhnyy-ural-140","sort":2},{"id":"s250","line":"Средний Урал","n":250,"motto":"Спокойствие и уверенность","c":"#A85A3C","fl":1,"rooms":"3 + кабинет","ceil":"3,3 м","feats":["Высокая гостиная — 5,3 м","Светлый коридор с окнами","Терраса с навесом для гостиной","Навес для двух автомобилей"],"idea":"Стильная простота и спокойствие. Объём вдохновлён каменными палатками — скалами Урала, фасад — уральским камнерезным ремеслом.","text":["Дом собран вокруг внутреннего двора с террасой — летом здесь встречается вся семья. Во дворе можно поставить баню или гостевой дом.","Гостиная с высоким потолком освещена с трёх сторон; окна спален выходят от двора — у каждого своя тишина.","У прихожей — рабочий кабинет: для встреч и работы из дома."],"ph":["s250_1","s250_3","s250_2","s250_i3","s250_i1","s250_i2"],"plans":[["1 этаж · 251,45 м²","s250_p1"]],"slug":"sredniy-ural-250","sort":3},{"id":"s350","line":"Средний Урал","n":350,"motto":"Спокойствие и уверенность","c":"#A85A3C","fl":2,"rooms":"4 + кабинет","ceil":"3,3 м","feats":["Высокая гостиная — 4 м","Гараж на два автомобиля","Терраса с навесом для гостиной","Мастер-блок с кабинетом"],"idea":"Старший брат Среднего Урала 250: орнаменты и яркие вставки на фасаде, первый этаж — для гостей, второй — для семьи.","text":["На втором этаже — родительский мастер-блок с балконом и кабинетом и детские спальни; у каждого родителя свой гардероб.","Кухня-гостиная освещена с трёх сторон. Из гаража — вход прямо в прихожую.","На первом этаже — гостевая спальня: гостям удобно, семье спокойно."],"ph":["s350_1","s350_3","s350_2","s350_i1","s350_i2","s350_i3"],"plans":[["1 этаж · 228,8 м²","s350_p1"],["2 этаж · 162,2 м²","s350_p2"]],"slug":"sredniy-ural-350","sort":4}],"reviews":[{"name":"Марина и Олег","text":"Искали двушку под семейную ипотеку полгода. Здесь за неделю показали три варианта и честно сказали, почему не стоит брать четвёртый: у застройщика переносы сдачи. Купили — дом сдали в срок.","about":"2-комн. квартира, ЖК Кварц","tag":"Новостройка","photo":"photo/kv_living2.jpg","rating":5,"is_demo":1,"published":1},{"name":"Дмитрий","text":"Больше всего боялся, что смета вырастет. Не выросла: что записали в предварительный договор, то и заплатили. После каждого этапа — акт, без «доплатите за материалы».","about":"ремонт 2-комн. квартиры","tag":"Ремонт","photo":"photo/rem_bathroom.jpg","rating":5,"is_demo":1,"published":1},{"name":"Елена","text":"Строим «Южный Урал 140» в рассрочку: 30 % внесли, остальное платим по этапам. Живём в городе, а стройку смотрим по камере — вечером открыл кабинет и видно, что сделали за день.","about":"дом из газоблока","tag":"Дом","photo":"photo/houses/y140_1.jpg","rating":5,"is_demo":1,"published":1},{"name":"Игорь","text":"Продавец торопил с задатком. Юрист нашёл в выписке обременение, о котором продавец «забыл». Сделку провели, только когда его сняли. Спасибо, что не дали поторопиться.","about":"вторичка, Центр","tag":"Вторичка","photo":"photo/kv_bedroom.jpg","rating":5,"is_demo":1,"published":1},{"name":"Ксения и Артём","text":"Взяли квартиру и ремонт одним пакетом. Один менеджер вёл всё — от одобрения ипотеки до ключей. И никакой комиссии с нас — до последнего не верили.","about":"1-комн. квартира с ремонтом","tag":"Квартира + ремонт","photo":"photo/kv_kitchen.jpg","rating":5,"is_demo":1,"published":1}],"faq":[["комисс|сколько берёте|бесплат","i","С покупателя — 0 ₽. Мы не берём комиссию с клиентов."],["ипотек|банк|ставк|сбер|втб|альф|дом\\.?рф|убрир|россельхоз","i","Работаем со Сбером, ВТБ, Альфа-Банком, ДОМ.РФ, Россельхозбанком и УБРИР. Для наших клиентов банки дают индивидуальные ставки. Прикинуть платёж можно в \u003Ca href=\"#calc\"\u003Eкалькуляторе\u003C/a\u003E, а менеджер подберёт программу."],["ремонт|смет|отделк|м2|м²","i","Ремонт делаем сами: работа и материалы — от 20 000 до 100 000 ₽ за м², в зависимости от уровня отделки. Сначала замер, смета и предварительный договор, потом работа по этапам с актом на каждый. Гарантия — 5 лет. \u003Ca href=\"#ba\"\u003EПосчитать\u003C/a\u003E"],["дом|рассроч|проект|газобл|кирпич|керам|дерев|участ","i","Строим по пяти проектам в линейках Северный, Южный и Средний Урал — от 140 до 350 м²; материал на выбор: газоблок, кирпич, керамоблок, дерево. Строят наши бригады. Тёплый контур — от 75 000 ₽ за м². Первый взнос 30 %, остальное — по этапам или в рассрочку от 1 до 5 лет без процентов. \u003Ca href=\"#houses\"\u003EВыбрать проект\u003C/a\u003E"],["гарант|договор|эскроу|безопас|надёжн|надежн|обман","i","Работаем только по договору. Новостройки — через эскроу-счета: деньги лежат в банке до сдачи дома. На ремонт и дома — гарантия 5 лет. Если партнёр подвёл, помогаем решить вопрос."],["камер|кабинет|трансляц|онлайн","i","В личном кабинете — камера с объекта, этапы, акты и платежи. Доступ открываем сразу после начала работ."],["застройщ|жк|брусник|атом|угмк|прогресс|атлас|новострой","i","Продаём квартиры от застройщиков, которых проверили: Брусника, Атомстройкомплекс, УГМК, Прогресс, Атлас. От них — спецпредложения напрямую. \u003Ca href=\"#list\"\u003EСмотреть квартиры\u003C/a\u003E"],["вторичк|юрист|обремен","i","На вторичке юрист проверяет собственников, обременения, историю переходов права и долги — до задатка."],["привет|здравств|добр","i","Здравствуйте! Спросите про квартиры, ипотеку, ремонт или дома — отвечу сразу."]],"quick":["Есть комиссия?","Сколько стоит ремонт?","Рассрочка на дом","Какие банки?","Какие гарантии?"],"progs":[["Семейная",6],["IT-ипотека",12],["Рыночная",20]],"geo":{"Академический":[56.7905,60.516],"Уралмаш":[56.893,60.59],"ВИЗ":[56.842,60.553],"Центр":[56.8385,60.6045],"Ботанический":[56.7985,60.628],"Юго-Западный":[56.8135,60.561],"Старая Сортировка":[56.886,60.533],"Пионерский":[56.865,60.641],"Широкая речка":[56.7995,60.49]},"settings":{"phone":"+7 965 500-29-18","phone_tel":"+79655002918","hours_from":"9:00","hours_to":"21:00","renovation_prices":[20000,45000,80000],"warm_contour_from":75000,"mortgage_programs":[{"name":"Семейная","rate":6},{"name":"IT-ипотека","rate":12},{"name":"Рыночная","rate":20}],"district_geo":{"Академический":[56.7905,60.516],"Уралмаш":[56.893,60.59],"ВИЗ":[56.842,60.553],"Центр":[56.8385,60.6045],"Ботанический":[56.7985,60.628],"Юго-Западный":[56.8135,60.561],"Старая Сортировка":[56.886,60.533],"Пионерский":[56.865,60.641],"Широкая речка":[56.7995,60.49]},"legal":"ИП Сафоев Ш. Р.","domain":"p.forma196.ru","demo_data":1,"show_demo_reviews":1},"demo":true,"api":"api/"}</script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>

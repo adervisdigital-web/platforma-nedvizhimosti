@@ -4,7 +4,7 @@ import os, subprocess, sys
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE = os.path.join(ROOT, '08_Сайт_пример')
+SITE = os.path.abspath(sys.argv[3]) if len(sys.argv) > 3 else os.path.join(ROOT, '08_Сайт_пример')   # 3-й аргумент — папка сайта
 OUT = sys.argv[1]
 PAGE = sys.argv[2] if len(sys.argv) > 2 else 'index.html'
 C = r'C:\Users\MSI\AppData\Local\Google\Chrome\Application\chrome.exe'

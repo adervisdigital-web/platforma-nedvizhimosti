@@ -15,4 +15,10 @@
     demo: !!D.demo,
     api: D.api || 'api/',
   };
+  // Витрина на GitHub Pages: заявки никуда не уходят — после «принято» прототипа говорим об этом честно.
+  if (D.demo) {
+    const note = () => setTimeout(() => window.toast && toast('Это демо-версия сайта: заявка никуда не отправлена'), 1600);
+    document.addEventListener('submit', e => { if (['leadForm', 'hbCb'].includes(e.target.id)) note(); }, true);
+    document.addEventListener('click', e => { if (e.target.closest && e.target.closest('#bkGo')) note(); }, true);
+  }
 })();

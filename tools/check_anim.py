@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from cdp import Browser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-URL = 'file:///' + os.path.join(ROOT, '08_Сайт_пример', 'index.html').replace('\\', '/')
+URL = 'file:///' + (os.path.abspath(sys.argv[2]) if len(sys.argv) > 2 else os.path.join(ROOT, '08_Сайт_пример', 'index.html')).replace('\\', '/')   # 2-й аргумент — путь к странице
 OUT = sys.argv[1]
 R = []
 

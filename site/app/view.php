@@ -15,6 +15,6 @@ function pn_page_order(): array {
 // Переменные главной страницы: порядок кусков и встроенные данные (читает assets/js/data.js).
 function pn_page_vars(array $extra = [], ?array $src = null): array {
     $cfg = pn_config();
-    return $extra + ['base_tag' => '', 'order' => pn_page_order(), 'demo' => $cfg['demo'],
+    return $extra + ['base_tag' => $cfg['demo'] ? '<meta name="robots" content="noindex">' : '', 'order' => pn_page_order(), 'demo' => $cfg['demo'],
         'data_json' => pn_data_json(pn_page_data($src ?? pn_seed_all(), $cfg))];
 }

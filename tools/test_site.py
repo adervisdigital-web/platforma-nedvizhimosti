@@ -3,8 +3,9 @@ Run из корня репо: py -3 tools/test_site.py"""
 import os, re, subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-src = os.path.join(ROOT, '08_Сайт_пример', 'index.html')
-out = os.path.join(ROOT, '08_Сайт_пример', '_test.html')
+import sys
+src = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.path.join(ROOT, '08_Сайт_пример', 'index.html')   # путь к странице (по умолчанию прототип)
+out = os.path.join(os.path.dirname(src), '_test.html')
 s = open(src, encoding='utf8').read()
 pre = '<script>try{localStorage.clear()}catch(e){};window.__e=[];addEventListener("error",e=>__e.push(e.message+" @"+e.lineno));</script>'
 test = r'''<script>setTimeout(()=>{const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];let R=[];try{
