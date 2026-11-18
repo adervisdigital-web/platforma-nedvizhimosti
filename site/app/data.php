@@ -34,7 +34,7 @@ function pn_item_proto(array $a): array {
     return $it;
 }
 // Публичные настройки: без секретов (токены, SMTP, CRM, соль) и без служебных списков.
-const PN_PUBLIC_SETTINGS = ['phone', 'phone_tel', 'hours_from', 'hours_to', 'renovation_prices', 'warm_contour_from', 'mortgage_programs', 'district_geo',
+const PN_PUBLIC_SETTINGS = ['phone', 'phone_tel', 'hours_from', 'hours_to', 'renovation_prices', 'warm_contour_from', 'mortgage_programs', 'family_tiers', 'rates_date', 'district_geo',
     'legal', 'domain', 'demo_data', 'show_demo_reviews'];
 function pn_public_settings(array $s): array {
     return array_intersect_key($s, array_flip(PN_PUBLIC_SETTINGS));            // только разрешённое: новые ключи (почта, токены) наружу не попадут
@@ -52,6 +52,7 @@ function pn_page_data(array $src, array $cfg): array {
         'faq'      => $src['faq'],
         'quick'    => $src['quick'],
         'progs'    => array_map(fn($p) => [$p['name'], $p['rate']], $s['mortgage_programs'] ?? []),
+        'mort'     => pn_mort_cfg($s),
         'geo'      => $s['district_geo'] ?? new stdClass,
         'settings' => pn_public_settings($s),
         'demo'     => (bool) $cfg['demo'],

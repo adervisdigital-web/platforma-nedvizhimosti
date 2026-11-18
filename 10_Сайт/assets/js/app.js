@@ -51,7 +51,9 @@ const fav = new Set(store.get('pn_fav')), cmp = new Set(store.get('pn_cmp'));
 let shown = ITEMS, filtered = false, expanded = false;
 const SORT = {best: (a, b) => (b.disc + (b.special ? 5 : 0)) - (a.disc + (a.special ? 5 : 0)) || a.ppm - b.ppm, cheap: (a, b) => a.p - b.p, due: (a, b) => a.due - b.due || a.p - b.p};
 const tagOf = it => it.special ? 'Спецпредложение застройщика' : it.disc ? `Ниже рынка на ${it.disc} %` : it.bundle ? 'Квартира + ремонт' : '';
-const rateOf = it => it.t === 'new' ? 6 : 20;
+const progOf = it => PN.mort.def(it.t === 'new');                         // новостройка — семейная (1 ребёнок), вторичка — рыночная
+const rateOf = it => PN.mort.terms(progOf(it)).rate;
+const payOf = it => PN.mort.pay(it.p, 20, 30, progOf(it)).pay;           // взнос 20 %, 30 лет, сверх лимита — рыночная
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('on'), 3200); }
 function cardHTML(it) {
   const tg = tagOf(it), r = rateOf(it);
@@ -64,7 +66,7 @@ function cardHTML(it) {
     ${it.fin === 'Без отделки' ? `<a class="rx" href="#ba">+ наш ремонт под ключ — от ${fmtM(it.s * 20000)}</a>` : ''}
     <div class="tags">${[it.t === 'new' ? 'Новостройка' : 'Вторичка', it.t === 'new' ? 'Семейная ипотека' : 'Чистая сделка'].map(t => `<span>${t}</span>`).join('')}</div></div>
   <div class="rcol"><div class="price">${it.p.toLocaleString('ru-RU')} ₽</div><div class="ppm">${it.ppm.toLocaleString('ru-RU')} ₽ за м²</div>
-    <button class="mort" data-i="${it.id}">В ипотеку<b>от ${Math.round(ann(it.p, r)).toLocaleString('ru-RU')} ₽/мес</b><small>${it.t === 'new' ? 'семейная' : 'рыночная'} ${r} % · взнос 20 %</small></button>
+    <button class="mort" data-i="${it.id}">В ипотеку<b>от ${Math.round(payOf(it)).toLocaleString('ru-RU')} ₽/мес</b><small>${it.t === 'new' ? 'семейная' : 'рыночная'} ${r} % · взнос 20 %</small></button>
     <button class="btn dark tel-btn">Показать телефон</button></div>
 </article>`;
 }
@@ -97,7 +99,7 @@ function render() {
 }
 function mortFrom(it) {
   $('#cp').value = Math.min(20000000, it.p); $('#cd').value = 20; $('#ct').value = 30;
-  $$('#rates button').forEach(x => x.setAttribute('aria-pressed', +x.dataset.r === rateOf(it))); calc();
+  const pi = PN.mort.cfg.progs.indexOf(progOf(it)); $$('#rates button').forEach(x => x.setAttribute('aria-pressed', +x.dataset.p === pi)); calc();
   fillAll(); $('#calc').scrollIntoView({behavior: 'smooth'}); toast(`Подставили в калькулятор: ${title(it)}`);
 }
 function applyFilter(list, label) {
@@ -147,11 +149,11 @@ function openDlg(t, html) { $('#dlgT').textContent = t; $('#dlgB').innerHTML = h
 $('#dlgX').addEventListener('click', () => dlg.close());
 dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 function cmpHTML() {
-  const L = ITEMS.filter(it => cmp.has(it.id)), minP = Math.min(...L.map(i => i.ppm)), minPay = Math.min(...L.map(i => ann(i.p, rateOf(i))));
+  const L = ITEMS.filter(it => cmp.has(it.id)), minP = Math.min(...L.map(i => i.ppm)), minPay = Math.min(...L.map(i => payOf(i)));
   const row = (h, f) => `<tr><th>${h}</th>${L.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
   return `<table class="ctab"><tbody>${row('', it => `<img src="${PN.img(it.img)}" alt=""><b>${title(it)}</b><br><span style="color:var(--mut)">${it.zk} · ${it.d}</span>`)}
     ${row('Цена', it => `<b>${it.p.toLocaleString('ru-RU')} ₽</b>`)}${row('За м²', it => `<span class="${it.ppm === minP ? 'best' : ''}">${it.ppm.toLocaleString('ru-RU')} ₽${it.ppm === minP ? ' · дешевле всех' : ''}</span>`)}
-    ${row('Платёж в ипотеку', it => { const p = ann(it.p, rateOf(it)); return `<span class="${p === minPay ? 'best' : ''}">от ${Math.round(p).toLocaleString('ru-RU')} ₽/мес</span><br><small style="color:var(--mut)">${rateOf(it)} %, взнос 20 %</small>`; })}
+    ${row('Платёж в ипотеку', it => { const p = payOf(it); return `<span class="${p === minPay ? 'best' : ''}">от ${Math.round(p).toLocaleString('ru-RU')} ₽/мес</span><br><small style="color:var(--mut)">${rateOf(it)} %, взнос 20 %</small>`; })}
     ${row('Сдача', it => it.st)}${row('Отделка', it => it.fin)}${row('Проверка', it => it.t === 'sec' ? 'Юрист: сделка чистая' : 'Застройщик проверен')}
     ${row('', it => `<button class="rm" data-rm="${it.id}">Убрать из сравнения</button>`)}</tbody></table>`;
 }
@@ -206,14 +208,21 @@ new IntersectionObserver(es => { es[0].isIntersecting ? scanStart() : scanStop()
 
 // ипотечный калькулятор
 const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const kidsOf = () => +(($('#kids [aria-pressed=true]') || {dataset: {k: 1}}).dataset.k);
+const progSel = () => PN.mort.cfg.progs[+(($('#rates [aria-pressed=true]') || {dataset: {p: 0}}).dataset.p)] || PN.mort.def(true);
 function calc() {
-  const P = +$('#cp').value, d = +$('#cd').value, y = +$('#ct').value, r = +$('#rates [aria-pressed=true]').dataset.r;
-  const L = P * (1 - d / 100), m = r / 1200, n = y * 12, pay = m ? L * m / (1 - Math.pow(1 + m, -n)) : L / n;
+  const P = +$('#cp').value, d = +$('#cd').value, y = +$('#ct').value, pr = progSel(), res = PN.mort.pay(P, d, y, pr, kidsOf());
+  const L = res.loan, n = y * 12, pay = res.pay;
+  if ($('#kids')) $('#kids').hidden = !pr.family;
+  if ($('#cparts')) $('#cparts').innerHTML = res.parts.length > 1
+    ? `${fmtM(res.parts[0][0])} под ${String(res.parts[0][1]).replace('.', ',')} % + ${fmtM(res.parts[1][0])} под ${String(res.parts[1][1]).replace('.', ',')} % — сверх лимита программы банк даёт по рыночной ставке`
+    : `${pr.name}: ${String(res.parts[0][1]).replace('.', ',')} % на всю сумму`;
   $('#cpv').textContent = fmt(P); $('#cdv').textContent = d + ' % · ' + fmt(P * d / 100); $('#ctv').textContent = y + ' лет';
   $('#pay').innerHTML = Math.round(pay).toLocaleString('ru-RU') + ' <small>₽/мес</small>'; $('#loan').textContent = fmt(L); $('#over').textContent = fmt(pay * n - L); $('#inc').textContent = fmt(pay / .5);
 }
 ['#cp', '#cd', '#ct'].forEach(s => $(s).addEventListener('input', calc));
 $$('#rates button').forEach(b => b.addEventListener('click', () => { $$('#rates button').forEach(x => x.setAttribute('aria-pressed', x === b)); calc(); }));
+$$('#kids button').forEach(b => b.addEventListener('click', () => { $$('#kids button').forEach(x => x.setAttribute('aria-pressed', x === b)); calc(); }));
 calc();
 
 $('#baR').addEventListener('input', e => { const v = e.target.value; $('#baBox .after').style.clipPath = `inset(0 0 0 ${v}%)`; $('#baH').style.left = v + '%'; });
@@ -225,7 +234,8 @@ setView(innerWidth >= 1700 ? 'grid' : 'list');
 // дома: проект + рассрочка
 const HOUSES = PN.houses();
 let hSel = HOUSES[0], hName = 'Северный Урал 235';
-const hFrom = h => h.n * 75000, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
+const WARM = +(PN.settings().warm_contour_from || 75000);                 // ₽/м² тёплого контура — из админки (Настройки → Цены)
+const hFrom = h => h.n * WARM, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
 const flTxt = n => n === 1 ? '1 этаж' : n + ' этажа';
 $('#hx').innerHTML = HOUSES.map(h => `<article class="hc" data-h="${h.id}">
   <button class="ph" type="button" data-open="${h.id}" aria-label="Подробнее: ${h.line} ${h.n}"><img src="${PN.img(h.ph[0], 'houses')}" alt="Дом «${h.line} ${h.n}»" loading="lazy"><span class="ln" style="--c:${h.c}"><i></i>${h.line}</span></button>
@@ -269,7 +279,7 @@ function houseView(h) {
 dlg.addEventListener('close', () => { dlg.classList.remove('wide'); if (/^#(obj|house)-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); });
 function hcalc() {
   const a = +$('#ha').value, y = +$('#ht').value, mode = $('#hmode [aria-pressed=true]').dataset.m;
-  const sum = a * 75000, pv = sum * .3, rest = sum - pv;
+  const sum = a * WARM, pv = sum * .3, rest = sum - pv;
   $('#hav').textContent = a + ' м²'; $('#htv').textContent = y + (y === 1 ? ' год' : y < 5 ? ' года' : ' лет');
   $('#hname').textContent = `Проект «${hName}» · тёплый контур`;
   $('#hsum').textContent = fmt(sum); $('#hpv').textContent = fmt(pv); $('#hrest').textContent = fmt(rest);
@@ -350,7 +360,7 @@ $$('.arr button').forEach(b => b.addEventListener('click', () => { const rv = $(
 // быстрый просмотр объекта
 function quick(it) {
   setHash('obj-' + it.id);
-  const r = rateOf(it), pay = Math.round(ann(it.p, r)), tg = tagOf(it), ck = CHECKS[it.t === 'sec' ? 'sec' : 'dev'];
+  const r = rateOf(it), pay = Math.round(payOf(it)), tg = tagOf(it), ck = CHECKS[it.t === 'sec' ? 'sec' : 'dev'];
   openDlg(title(it), `<div class="qvg"><div><div class="qvph"><img src="${PN.img(it.img)}" alt="${title(it)}">${tg ? `<span class="tag">${tg}</span>` : ''}</div>
     <div class="qvc"><b><i></i>${it.t === 'sec' ? 'Что проверил юрист' : 'Что мы проверили у застройщика'}</b>${ck.map(c => `<span><svg><use href="#check"/></svg>${c[0]}</span>`).join('')}</div></div>
     <div class="qvi"><div class="qic"><button type="button" class="ib share" data-share aria-label="Поделиться ссылкой"><svg class="ico"><use href="#share"/></svg></button><button class="ib fav" id="qvFav" aria-pressed="${fav.has(it.id)}" aria-label="В избранное"><svg class="ico"><use href="#heart"/></svg></button></div><div class="price">${it.p.toLocaleString('ru-RU')} ₽</div><div class="ppm">${it.ppm.toLocaleString('ru-RU')} ₽ за м² · ${it.zk}, ${it.d}</div>
@@ -423,7 +433,8 @@ function qMatch() {
   } else if (qType === 'reno') {
     t = `Ориентир с материалами: <b>от ${fmtM(v * 20000)}</b> за базовую отделку до ${fmtM(v * 100000)} за премиум. Точную цену даст смета после замера.`;
   } else {
-    t = `По семейной ипотеке 6 % со взносом 20 % на 30 лет: <b>от ${Math.round(ann(mil, 6)).toLocaleString('ru-RU')} ₽/мес</b>. Подберём банк с индивидуальной ставкой.`;
+    const fp = PN.mort.def(true);
+    t = `По семейной ипотеке (${PN.mort.terms(fp).rate} % с одним ребёнком, с двумя и больше — ниже) со взносом 20 % на 30 лет: <b>от ${Math.round(PN.mort.pay(mil, 20, 30, fp).pay).toLocaleString('ru-RU')} ₽/мес</b>. Подберём банк с индивидуальной ставкой.`;
   }
   $('#qMatch').innerHTML = t;
   $('#qr').hidden = !c.rooms;
@@ -656,12 +667,12 @@ if (window.ResizeObserver) { let mt; new ResizeObserver(() => { clearTimeout(mt)
 // ипотека: полоса и сравнение программ
 const PROGS = PN.progs();
 function calcExtra() {
-  const P = +$('#cp').value, d = +$('#cd').value, y = +$('#ct').value, r = +$('#rates [aria-pressed=true]').dataset.r, L = P * (1 - d / 100), n = y * 12;
-  const pm = rr => { const m = rr / 1200; return m ? L * m / (1 - Math.pow(1 + m, -n)) : L / n; }, over = pm(r) * n - L;
+  const P = +$('#cp').value, d = +$('#cd').value, y = +$('#ct').value, sel = progSel(), L = P * (1 - d / 100), n = y * 12, k = kidsOf();
+  const pm = p => PN.mort.pay(P, d, y, p, k).pay, over = pm(sel) * n - L;
   $('#cbL').style.width = L / (L + over) * 100 + '%'; $('#cbO').style.width = over / (L + over) * 100 + '%';
   $('#cbLv').textContent = fmtM(L); $('#cbOv').textContent = fmtM(over);
-  $('#cprog').innerHTML = PROGS.map(([nm, rr]) => `<button type="button" data-r="${rr}" aria-pressed="${rr === r}"><small>${nm} · ${rr} %</small><b>${Math.round(pm(rr)).toLocaleString('ru-RU')} ₽</b></button>`).join('');
-  $$('#cprog button').forEach(b => b.addEventListener('click', () => $(`#rates [data-r="${b.dataset.r}"]`).click()));
+  $('#cprog').innerHTML = PN.mort.cfg.progs.map((p, i) => `<button type="button" data-p="${i}" aria-pressed="${p === sel}"><small>${p.name} · ${String(PN.mort.terms(p, k).rate).replace('.', ',')} %</small><b>${Math.round(pm(p)).toLocaleString('ru-RU')} ₽</b></button>`).join('');
+  $$('#cprog button').forEach(b => b.addEventListener('click', () => $(`#rates [data-p="${b.dataset.p}"]`).click()));
 }
 new MutationObserver(calcExtra).observe($('#loan'), {childList: true, characterData: true, subtree: true});
 calcExtra();

@@ -12,15 +12,17 @@
  "mortgage_programs": [
   {
    "name": "Семейная",
-   "rate": 6
+   "rate": 10,
+   "limit": 6000000
   },
   {
    "name": "IT-ипотека",
-   "rate": 12
+   "rate": 6,
+   "limit": 9000000
   },
   {
    "name": "Рыночная",
-   "rate": 20
+   "rate": 18.8
   }
  ],
  "district_geo": {
@@ -64,5 +66,33 @@
  "legal": "ИП Сафоев Ш. Р.",
  "domain": "p.forma196.ru",
  "demo_data": 1,
- "show_demo_reviews": 1
+ "show_demo_reviews": 1,
+ "family_tiers": [
+  {
+   "kids": 1,
+   "rate": 10,
+   "limit": 6000000
+  },
+  {
+   "kids": 2,
+   "rate": 8,
+   "limit": 8000000
+  },
+  {
+   "kids": 3,
+   "rate": 6,
+   "limit": 10000000
+  },
+  {
+   "kids": 4,
+   "rate": 4,
+   "limit": 10000000
+  },
+  {
+   "kids": 5,
+   "rate": 2,
+   "limit": 10000000
+  }
+ ],
+ "rates_date": "2026-11-18"
 }

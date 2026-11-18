@@ -17,6 +17,28 @@
     demo: !!D.demo,
     api: D.api || 'api/',
   };
+  // Ипотека по правилам из админки (как app/mortgage.php): лимит льготной части, сверх лимита — рыночная ставка;
+  // у семейной ставка и лимит — по числу детей. pay(цена, взнос %, лет, программа, детей) → {pay, loan, over, parts: [[сумма, ставка]]}.
+  PN.mort = (() => {
+    const c = Object.assign({progs: [], tiers: [], market: 20, date: null}, D.mort || {});
+    const ann = (L, r, n) => L <= 0 ? 0 : r > 0 ? L * (r / 1200) / (1 - Math.pow(1 + r / 1200, -n)) : L / n;
+    const terms = (p, kids = 1) => {
+      if (p && p.family && c.tiers.length) {
+        let t = null; c.tiers.forEach(x => { if (x.kids <= Math.max(1, kids) && (!t || x.kids > t.kids)) t = x; });
+        if (t) return {rate: +t.rate, limit: t.limit || null};
+      }
+      return {rate: +(p ? p.rate : c.market), limit: p && p.limit || null};
+    };
+    const pay = (price, down, years, p, kids = 1) => {
+      const L = price * (1 - down / 100), n = years * 12, t = terms(p, kids);
+      const parts = t.limit && L > t.limit ? [[t.limit, t.rate], [L - t.limit, +c.market]] : [[L, t.rate]];
+      const m = parts.reduce((s, [a, r]) => s + ann(a, r, n), 0);
+      return {pay: m, loan: L, over: m * n - L, parts};
+    };
+    const def = isNew => (isNew ? c.progs.find(p => p.family) : c.progs.find(p => /рыноч/i.test(p.name))) || c.progs[c.progs.length - 1] || {name: 'Рыночная', rate: c.market};
+    const date = () => c.date ? c.date.split('-').reverse().join('.') : '';
+    return {cfg: c, ann, terms, pay, def, date};
+  })();
   // Отправка заявки: на витрине (demo) — никуда, честно говорим об этом; на сервере — POST api/lead.
   const T0 = Math.floor(Date.now() / 1000);
   const say = m => setTimeout(() => window.toast && toast(m), 1600);

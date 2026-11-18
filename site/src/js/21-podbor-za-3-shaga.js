@@ -20,7 +20,8 @@ function qMatch() {
   } else if (qType === 'reno') {
     t = `Ориентир с материалами: <b>от ${fmtM(v * 20000)}</b> за базовую отделку до ${fmtM(v * 100000)} за премиум. Точную цену даст смета после замера.`;
   } else {
-    t = `По семейной ипотеке 6 % со взносом 20 % на 30 лет: <b>от ${Math.round(ann(mil, 6)).toLocaleString('ru-RU')} ₽/мес</b>. Подберём банк с индивидуальной ставкой.`;
+    const fp = PN.mort.def(true);
+    t = `По семейной ипотеке (${PN.mort.terms(fp).rate} % с одним ребёнком, с двумя и больше — ниже) со взносом 20 % на 30 лет: <b>от ${Math.round(PN.mort.pay(mil, 20, 30, fp).pay).toLocaleString('ru-RU')} ₽/мес</b>. Подберём банк с индивидуальной ставкой.`;
   }
   $('#qMatch').innerHTML = t;
   $('#qr').hidden = !c.rooms;

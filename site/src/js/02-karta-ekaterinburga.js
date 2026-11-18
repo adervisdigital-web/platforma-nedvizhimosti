@@ -26,7 +26,9 @@ const fav = new Set(store.get('pn_fav')), cmp = new Set(store.get('pn_cmp'));
 let shown = ITEMS, filtered = false, expanded = false;
 const SORT = {best: (a, b) => (b.disc + (b.special ? 5 : 0)) - (a.disc + (a.special ? 5 : 0)) || a.ppm - b.ppm, cheap: (a, b) => a.p - b.p, due: (a, b) => a.due - b.due || a.p - b.p};
 const tagOf = it => it.special ? 'Спецпредложение застройщика' : it.disc ? `Ниже рынка на ${it.disc} %` : it.bundle ? 'Квартира + ремонт' : '';
-const rateOf = it => it.t === 'new' ? 6 : 20;
+const progOf = it => PN.mort.def(it.t === 'new');                         // новостройка — семейная (1 ребёнок), вторичка — рыночная
+const rateOf = it => PN.mort.terms(progOf(it)).rate;
+const payOf = it => PN.mort.pay(it.p, 20, 30, progOf(it)).pay;           // взнос 20 %, 30 лет, сверх лимита — рыночная
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('on'), 3200); }
 function cardHTML(it) {
   const tg = tagOf(it), r = rateOf(it);
@@ -39,7 +41,7 @@ function cardHTML(it) {
     ${it.fin === 'Без отделки' ? `<a class="rx" href="#ba">+ наш ремонт под ключ — от ${fmtM(it.s * 20000)}</a>` : ''}
     <div class="tags">${[it.t === 'new' ? 'Новостройка' : 'Вторичка', it.t === 'new' ? 'Семейная ипотека' : 'Чистая сделка'].map(t => `<span>${t}</span>`).join('')}</div></div>
   <div class="rcol"><div class="price">${it.p.toLocaleString('ru-RU')} ₽</div><div class="ppm">${it.ppm.toLocaleString('ru-RU')} ₽ за м²</div>
-    <button class="mort" data-i="${it.id}">В ипотеку<b>от ${Math.round(ann(it.p, r)).toLocaleString('ru-RU')} ₽/мес</b><small>${it.t === 'new' ? 'семейная' : 'рыночная'} ${r} % · взнос 20 %</small></button>
+    <button class="mort" data-i="${it.id}">В ипотеку<b>от ${Math.round(payOf(it)).toLocaleString('ru-RU')} ₽/мес</b><small>${it.t === 'new' ? 'семейная' : 'рыночная'} ${r} % · взнос 20 %</small></button>
     <button class="btn dark tel-btn">Показать телефон</button></div>
 </article>`;
 }
@@ -72,7 +74,7 @@ function render() {
 }
 function mortFrom(it) {
   $('#cp').value = Math.min(20000000, it.p); $('#cd').value = 20; $('#ct').value = 30;
-  $$('#rates button').forEach(x => x.setAttribute('aria-pressed', +x.dataset.r === rateOf(it))); calc();
+  const pi = PN.mort.cfg.progs.indexOf(progOf(it)); $$('#rates button').forEach(x => x.setAttribute('aria-pressed', +x.dataset.p === pi)); calc();
   fillAll(); $('#calc').scrollIntoView({behavior: 'smooth'}); toast(`Подставили в калькулятор: ${title(it)}`);
 }
 function applyFilter(list, label) {

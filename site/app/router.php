@@ -26,7 +26,7 @@ function pn_page_apartment(string $slug): ?string {
     if (!$a) return null;
     $s = Repo::settingsAll();
     $progs = $s['mortgage_programs'] ?? [];
-    $rate = $a['market'] === 'new' ? ($progs[0]['rate'] ?? 6) : (end($progs)['rate'] ?? 20);
+    $prog = pn_default_prog($a, $s); $rate = pn_prog_terms($prog, $s)['rate'];
     $idx = array_search($a['slug'], array_column(Repo::apartments(), 'slug'), true);
     $title = pn_apt_title($a);
     $where = $a['complex'] ?? $a['address'];
@@ -39,7 +39,8 @@ function pn_page_apartment(string $slug): ?string {
         'offers' => ['@type' => 'Offer', 'price' => $a['price'], 'priceCurrency' => 'RUB', 'availability' => 'https://schema.org/InStock', 'url' => $site . $seo['path']]],
         seo_breadcrumbs(array_merge([['Главная', ''], ['Квартиры', 'kvartiry/']],
             $a['complex_slug'] ? [[$where, pn_zhk_path($a['complex_slug'])]] : [], [[$title, $seo['path']]]), $s)];
-    return pn_subpage(200, 'apartment', ['a' => $a, 'idx' => $idx === false ? 0 : $idx, 'pay' => pn_annuity($a['price'], (float) $rate), 'rate' => $rate,
+    return pn_subpage(200, 'apartment', ['a' => $a, 'idx' => $idx === false ? 0 : $idx, 'pay' => pn_mort_pay($a['price'], $prog, $s)['pay'], 'rate' => $rate,
+        'mcfg' => pn_mort_cfg($s), 'prog' => $prog, 'rdate' => pn_rates_date_ru($s),
         'progs' => $progs, 'ren' => $s['renovation_prices'] ?? [], 'similar' => pn_similar_apartments($a)],
         $seo, $graph, 2);
 }

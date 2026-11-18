@@ -132,6 +132,8 @@ function pn_admin_overview(string $method, string $sub, array $post, array $file
         ['Реальные квартиры вместо демо', $demoApts === 0, "Демо-квартир на сайте: $demoApts — замените настоящими", '/admin/apartments'],
         ['Настоящие отзывы', empty($set['show_demo_reviews']) || $stats['reviews_demo'] === 0, 'Демо-отзывы показываются на сайте — выключите в настройках', '/admin/settings'],
         ['Снята пометка «демо-данные»', empty($set['demo_data']), 'В подвале сайта стоит пометка «демо-данные»', '/admin/settings'],
+        ['Ставки ипотеки актуальны', !empty($set['rates_date']) && strtotime((string) $set['rates_date']) > time() - 30 * 86400,
+            'Ставки' . (!empty($set['rates_date']) ? ' от ' . pn_rates_date_ru($set) : ' без даты') . ' — сверьте с банками и обновите в настройках', '/admin/settings'],
         ['Текст политики обработки ПДн', false, 'Нужен текст от юриста — пришлите, вставим на страницу политики', '/privacy/'],
     ];
     $recent = $db->query('select * from leads order by id desc limit 5')->fetchAll();

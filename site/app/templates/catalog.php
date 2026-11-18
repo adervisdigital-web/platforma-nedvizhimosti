@@ -19,10 +19,11 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
 <?php if ($path === 'kvartiry/semeynaya-ipoteka/'):
     $fam = array_values(array_filter($s['mortgage_programs'] ?? [], fn($p) => mb_stripos((string) ($p['name'] ?? ''), 'семейн') !== false))[0] ?? null; ?>
 <section class="ct-fam" aria-label="Семейная ипотека">
-  <div><span>Ставка</span><b><?= $fam ? str_replace('.', ',', (string) $fam['rate']) . ' %' : 'льготная' ?></b></div>
-  <div><span>На что</span><b>Новостройки</b></div>
+  <?php $tiers = $s['family_tiers'] ?? []; $rr = array_column($tiers, 'rate'); $ll = array_column($tiers, 'limit'); ?>
+  <div><span>Ставка</span><b><?= $rr ? str_replace('.', ',', (string) min($rr)) . '–' . str_replace('.', ',', (string) max($rr)) . ' %' : ($fam ? str_replace('.', ',', (string) $fam['rate']) . ' %' : 'льготная') ?></b></div>
+  <div><span>Лимит</span><b><?= $ll ? str_replace('.', ',', (string) (min($ll) / 1e6)) . '–' . str_replace('.', ',', (string) (max($ll) / 1e6)) . ' млн' : 'по банку' ?></b></div>
   <div><span>Взнос</span><b>от 20 %</b></div>
-  <div class="ct-fam-t"><p>Программа для семей с детьми. Условия меняются — менеджер проверит, подходите ли вы, и подаст заявку сразу в несколько банков.</p><a href="ipoteka/">Все программы и калькулятор →</a></div>
+  <div class="ct-fam-t"><p><?= pn_e(pn_family_note()) ?> Менеджер проверит, подходите ли вы, и подаст заявку сразу в несколько банков.</p><a href="ipoteka/">Все программы и калькулятор →</a></div>
 </section>
 <?php endif; ?>
 

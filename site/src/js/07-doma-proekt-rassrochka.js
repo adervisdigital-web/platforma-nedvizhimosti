@@ -1,7 +1,8 @@
 // дома: проект + рассрочка
 const HOUSES = PN.houses();
 let hSel = HOUSES[0], hName = 'Северный Урал 235';
-const hFrom = h => h.n * 75000, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
+const WARM = +(PN.settings().warm_contour_from || 75000);                 // ₽/м² тёплого контура — из админки (Настройки → Цены)
+const hFrom = h => h.n * WARM, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
 const flTxt = n => n === 1 ? '1 этаж' : n + ' этажа';
 $('#hx').innerHTML = HOUSES.map(h => `<article class="hc" data-h="${h.id}">
   <button class="ph" type="button" data-open="${h.id}" aria-label="Подробнее: ${h.line} ${h.n}"><img src="${PN.img(h.ph[0], 'houses')}" alt="Дом «${h.line} ${h.n}»" loading="lazy"><span class="ln" style="--c:${h.c}"><i></i>${h.line}</span></button>
@@ -45,7 +46,7 @@ function houseView(h) {
 dlg.addEventListener('close', () => { dlg.classList.remove('wide'); if (/^#(obj|house)-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); });
 function hcalc() {
   const a = +$('#ha').value, y = +$('#ht').value, mode = $('#hmode [aria-pressed=true]').dataset.m;
-  const sum = a * 75000, pv = sum * .3, rest = sum - pv;
+  const sum = a * WARM, pv = sum * .3, rest = sum - pv;
   $('#hav').textContent = a + ' м²'; $('#htv').textContent = y + (y === 1 ? ' год' : y < 5 ? ' года' : ' лет');
   $('#hname').textContent = `Проект «${hName}» · тёплый контур`;
   $('#hsum').textContent = fmt(sum); $('#hpv').textContent = fmt(pv); $('#hrest').textContent = fmt(rest);

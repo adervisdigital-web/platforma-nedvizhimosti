@@ -90,20 +90,21 @@
       <p class="ob-note">Проверяем до того, как показать объект на сайте. Документы покажем на просмотре.</p>
     </section>
     
-        <section class="ob-sec ob-calc" id="mort" data-mort data-price="13900000" data-progs="[{&quot;name&quot;:&quot;Семейная&quot;,&quot;rate&quot;:6},{&quot;name&quot;:&quot;IT-ипотека&quot;,&quot;rate&quot;:12},{&quot;name&quot;:&quot;Рыночная&quot;,&quot;rate&quot;:20}]"><h2>Ипотека</h2>
+            <section class="ob-sec ob-calc" id="mort" data-mort data-price="13900000" data-mcfg="{&quot;progs&quot;:[{&quot;name&quot;:&quot;Семейная&quot;,&quot;rate&quot;:10,&quot;limit&quot;:6000000,&quot;family&quot;:true},{&quot;name&quot;:&quot;IT-ипотека&quot;,&quot;rate&quot;:6,&quot;limit&quot;:9000000,&quot;family&quot;:false},{&quot;name&quot;:&quot;Рыночная&quot;,&quot;rate&quot;:18.8,&quot;limit&quot;:null,&quot;family&quot;:false}],&quot;tiers&quot;:[{&quot;kids&quot;:1,&quot;rate&quot;:10,&quot;limit&quot;:6000000},{&quot;kids&quot;:2,&quot;rate&quot;:8,&quot;limit&quot;:8000000},{&quot;kids&quot;:3,&quot;rate&quot;:6,&quot;limit&quot;:10000000},{&quot;kids&quot;:4,&quot;rate&quot;:4,&quot;limit&quot;:10000000},{&quot;kids&quot;:5,&quot;rate&quot;:2,&quot;limit&quot;:10000000}],&quot;market&quot;:18.8,&quot;date&quot;:&quot;2026-11-18&quot;}"><h2>Ипотека</h2>
       <div class="ob-calc-in">
         <div class="ob-calc-f">
-          <div class="ob-chips" role="radiogroup" aria-label="Программа">            <button type="button" role="radio" aria-checked="false" data-rate="6">Семейная <span>6 %</span></button>            <button type="button" role="radio" aria-checked="false" data-rate="12">IT-ипотека <span>12 %</span></button>            <button type="button" role="radio" aria-checked="true" data-rate="20">Рыночная <span>20 %</span></button></div>
-          <label class="ob-rng">Первоначальный взнос <output data-o="down">2 780 000 ₽ · 20 %</output>
+          <div class="ob-chips" role="radiogroup" aria-label="Программа">            <button type="button" role="radio" aria-checked="false" data-pi="0">Семейная <span>10 %</span></button>            <button type="button" role="radio" aria-checked="false" data-pi="1">IT-ипотека <span>6 %</span></button>            <button type="button" role="radio" aria-checked="true" data-pi="2">Рыночная <span>18,8 %</span></button></div>
+          <div class="ob-kids" data-kids role="group" aria-label="Детей в семье" hidden><span>Детей</span>            <button type="button" data-k="1" aria-pressed="true">1</button>            <button type="button" data-k="2" aria-pressed="false">2</button>            <button type="button" data-k="3" aria-pressed="false">3</button>            <button type="button" data-k="4" aria-pressed="false">4</button>            <button type="button" data-k="5" aria-pressed="false">5+</button></div>          <label class="ob-rng">Первоначальный взнос <output data-o="down">2 780 000 ₽ · 20 %</output>
             <input type="range" min="10" max="90" step="5" value="20" data-i="down"></label>
           <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term"></label>
         </div>
         <div class="ob-calc-r" aria-live="polite">
-          <span>Ежемесячный платёж</span><b data-o="pay">185 817 ₽</b>
+          <span>Ежемесячный платёж</span><b data-o="pay">174 862 ₽</b>
           <dl><div><dt>Сумма кредита</dt><dd data-o="loan">11 120 000 ₽</dd></div>
-            <div><dt>Переплата</dt><dd data-o="over">—</dd></div><div><dt>Рекомендуемый доход</dt><dd data-o="inc">371 634 ₽</dd></div></dl>
+            <div><dt>Переплата</dt><dd data-o="over">—</dd></div><div><dt>Рекомендуемый доход</dt><dd data-o="inc">349 724 ₽</dd></div></dl>
           <a class="pg-btn red" href="./#calc">Подобрать программу</a>
-          <small>Расчёт предварительный. Точную ставку банк назовёт после заявки — поможем подать сразу в несколько банков.</small>
+          <small data-o="parts"></small>
+          <small>Ставки на 18.11.2026. Расчёт предварительный. Точную ставку банк назовёт после заявки — поможем подать сразу в несколько банков.</small>
         </div>
       </div>
     </section>
@@ -118,7 +119,7 @@
       <p class="pg-where">ул. Блюхера · Пионерский · 4/10 этаж</p>
       <p class="pg-price">13 900 000 ₽</p>
       <p class="pg-sub">141 548 ₽/м²</p>
-      <a class="ob-mortlink" href="#mort"><span>В ипотеку от</span><b>185 817 ₽/мес</b><i aria-hidden="true">→</i></a>
+      <a class="ob-mortlink" href="#mort"><span>В ипотеку от</span><b>174 862 ₽/мес</b><i aria-hidden="true">→</i></a>
       <div class="ob-ok"><i aria-hidden="true"></i><span><b>Проверено Платформой</b><br>0 ₽ комиссии для покупателя</span></div>
       <div class="pg-act">
         <a class="pg-btn red" href="./#obj-10">Записаться на просмотр</a>
@@ -140,7 +141,7 @@
   </div>
 </section>
 
-<div class="ob-bar"><div><b>13 900 000 ₽</b><span>от 185 817 ₽/мес</span></div><a class="pg-btn red" href="./#obj-10">Записаться</a></div>
+<div class="ob-bar"><div><b>13 900 000 ₽</b><span>от 174 862 ₽/мес</span></div><a class="pg-btn red" href="./#obj-10">Записаться</a></div>
 <script src="assets/js/page.js" defer></script>
 </main>
 <footer class="pg-f"><div class="w"><span>ИП Сафоев Ш. Р. · p.forma196.ru</span><a href="./privacy/">Политика обработки персональных данных</a><span>Ставим точку.</span></div></footer>

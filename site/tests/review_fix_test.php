@@ -19,7 +19,7 @@ pn_t('R2: ставка 0 не роняет расчёт; пустая ставк
     [$c, , $html] = pn_route('POST', '/admin/settings', ['do' => 'save', 'phone' => '+7 965 500-29-18', 'renovation_prices' => '20000;45000;80000',
         'mortgage_programs' => "Семейная\nIT | 12", '_csrf' => csrf_token()]);
     pn_eq($c, 200); pn_ok(str_contains($html, 'ставку'), 'сообщение про ставку');
-    pn_eq(Repo::settingsAll()['mortgage_programs'][0]['rate'], 6, 'настройки не испорчены');
+    pn_eq(Repo::settingsAll()['mortgage_programs'][0]['rate'], pn_seed('settings')['mortgage_programs'][0]['rate'], 'настройки не испорчены');
 });
 pn_t('R3: наружу уходят только публичные настройки (allow-list)', function () {
     $db = pn_test_db();

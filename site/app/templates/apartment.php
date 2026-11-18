@@ -69,11 +69,14 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
     <?php endif; ?>
 
     <?php if ($progs): ?>
-    <section class="ob-sec ob-calc" id="mort" data-mort data-price="<?= $a['price'] ?>" data-progs="<?= pn_e(json_encode($progs, JSON_UNESCAPED_UNICODE)) ?>"><h2>Ипотека</h2>
+    <?php $sel = max(0, (int) array_search($prog['name'], array_column($mcfg['progs'], 'name'), true)); ?>
+    <section class="ob-sec ob-calc" id="mort" data-mort data-price="<?= $a['price'] ?>" data-mcfg="<?= pn_e(json_encode($mcfg, JSON_UNESCAPED_UNICODE)) ?>"><h2>Ипотека</h2>
       <div class="ob-calc-in">
         <div class="ob-calc-f">
-          <div class="ob-chips" role="radiogroup" aria-label="Программа"><?php foreach ($progs as $k => $p): ?>
-            <button type="button" role="radio" aria-checked="<?= (float) $p['rate'] === (float) $rate ? 'true' : 'false' ?>" data-rate="<?= pn_e((string) $p['rate']) ?>"><?= pn_e($p['name']) ?> <span><?= str_replace('.', ',', (string) $p['rate']) ?> %</span></button><?php endforeach; ?></div>
+          <div class="ob-chips" role="radiogroup" aria-label="Программа"><?php foreach ($mcfg['progs'] as $k => $p): ?>
+            <button type="button" role="radio" aria-checked="<?= $k === $sel ? 'true' : 'false' ?>" data-pi="<?= $k ?>"><?= pn_e($p['name']) ?> <span><?= str_replace('.', ',', (string) $p['rate']) ?> %</span></button><?php endforeach; ?></div>
+          <?php if ($mcfg['tiers']): ?><div class="ob-kids" data-kids role="group" aria-label="Детей в семье"<?= empty($mcfg['progs'][$sel]['family']) ? ' hidden' : '' ?>><span>Детей</span><?php foreach ([1, 2, 3, 4, 5] as $k): ?>
+            <button type="button" data-k="<?= $k ?>" aria-pressed="<?= $k === 1 ? 'true' : 'false' ?>"><?= $k === 5 ? '5+' : $k ?></button><?php endforeach; ?></div><?php endif; ?>
           <label class="ob-rng">Первоначальный взнос <output data-o="down"><?= pn_rub((int) round($a['price'] * .2)) ?> · 20 %</output>
             <input type="range" min="10" max="90" step="5" value="20" data-i="down"></label>
           <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term"></label>
@@ -83,7 +86,8 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
           <dl><div><dt>Сумма кредита</dt><dd data-o="loan"><?= pn_rub((int) round($a['price'] * .8)) ?></dd></div>
             <div><dt>Переплата</dt><dd data-o="over">—</dd></div><div><dt>Рекомендуемый доход</dt><dd data-o="inc"><?= pn_rub($pay * 2) ?></dd></div></dl>
           <a class="pg-btn red" href="./#calc">Подобрать программу</a>
-          <small>Расчёт предварительный. Точную ставку банк назовёт после заявки — поможем подать сразу в несколько банков.</small>
+          <small data-o="parts"></small>
+          <small><?= $rdate ? 'Ставки на ' . $rdate . '. ' : '' ?>Расчёт предварительный. Точную ставку банк назовёт после заявки — поможем подать сразу в несколько банков.</small>
         </div>
       </div>
     </section>

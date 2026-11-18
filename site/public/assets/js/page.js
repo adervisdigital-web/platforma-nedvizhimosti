@@ -71,7 +71,15 @@
   // ---- ипотека
   $$('[data-mort]').forEach(c => {
     const o = n => $(`[data-o="${n}"]`, c), i = n => $(`[data-i="${n}"]`, c);
-    let rate = +(($('[aria-checked="true"]', c) || $('[data-rate]', c) || {dataset: {rate: 6}}).dataset.rate);
+    // программы с лимитами и ступенями семейной (как app/mortgage.php и PN.mort в data.js)
+    const cfg = Object.assign({progs: [], tiers: [], market: 20}, JSON.parse(c.dataset.mcfg || '{}'));
+    let pi = +(($('[aria-checked="true"]', c) || {dataset: {pi: 0}}).dataset.pi), kids = 1;
+    const ann = (L, r, n) => L <= 0 ? 0 : r > 0 ? L * (r / 1200) / (1 - Math.pow(1 + r / 1200, -n)) : L / n;
+    const terms = p => {
+      if (p && p.family && cfg.tiers.length) { let t = null; cfg.tiers.forEach(x => { if (x.kids <= kids && (!t || x.kids > t.kids)) t = x; }); if (t) return {rate: +t.rate, limit: t.limit}; }
+      return {rate: +(p ? p.rate : cfg.market), limit: p && p.limit || null};
+    };
+    const pct = r => String(r).replace('.', ',') + ' %';
     const pin = i('price');   // на странице ипотеки цену вводят сами: «6» или «6,5» — миллионы
     const getPrice = () => {
       if (!pin) return +c.dataset.price;
@@ -81,15 +89,23 @@
     if (pin) pin.addEventListener('blur', () => { const p = getPrice(); if (p) pin.value = Math.round(p).toLocaleString('ru-RU').replace(/,/g, ' '); });
     const calc = () => {
       const price = getPrice();
-      const dp = +i('down').value, yrs = +i('term').value, L = price * (1 - dp / 100), m = rate / 1200, n = yrs * 12;
-      const pay = m > 0 ? L * m / (1 - Math.pow(1 + m, -n)) : L / n;
+      const dp = +i('down').value, yrs = +i('term').value, L = price * (1 - dp / 100), n = yrs * 12, p = cfg.progs[pi], t = terms(p);
+      const parts = t.limit && L > t.limit ? [[t.limit, t.rate], [L - t.limit, +cfg.market]] : [[L, t.rate]];
+      const pay = parts.reduce((s, [a, r]) => s + ann(a, r, n), 0);
+      const kb = $('[data-kids]', c); if (kb) kb.hidden = !(p && p.family);
+      if (o('parts')) o('parts').textContent = parts.length > 1
+        ? `${rub(parts[0][0])} под ${pct(parts[0][1])} + ${rub(parts[1][0])} под ${pct(parts[1][1])}: сверх лимита программы банк даёт по рыночной ставке.`
+        : `${p ? p.name : 'Ставка'}: ${pct(t.rate)} на всю сумму.`;
       o('down').textContent = `${rub(price * dp / 100)} · ${dp} %`; o('term').textContent = `${yrs} ${plural(yrs, 'год', 'года', 'лет')}`;
       o('pay').textContent = rub(pay); o('loan').textContent = rub(L); o('over').textContent = rub(Math.max(0, pay * n - L)); o('inc').textContent = rub(pay * 2);
       $$('input[type=range]', c).forEach(r => r.style.setProperty('--p', (r.value - r.min) / (r.max - r.min) * 100 + '%'));
     };
     c.addEventListener('input', calc);
-    c.addEventListener('click', e => { const b = e.target.closest('[data-rate]'); if (!b) return;
-      $$('[data-rate]', c).forEach(x => x.setAttribute('aria-checked', x === b)); rate = +b.dataset.rate; calc(); });
+    c.addEventListener('click', e => {
+      const b = e.target.closest('[data-pi]'), k = e.target.closest('[data-k]');
+      if (b) { $$('[data-pi]', c).forEach(x => x.setAttribute('aria-checked', x === b)); pi = +b.dataset.pi; calc(); }
+      if (k) { $$('[data-k]', c).forEach(x => x.setAttribute('aria-pressed', x === k)); kids = +k.dataset.k; calc(); }
+    });
     calc();
   });
   // ---- рассрочка дома (0 %)

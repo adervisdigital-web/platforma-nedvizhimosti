@@ -58,9 +58,7 @@ function pn_complexes_full(): array {
 
 // Платёж в ипотеку, как на странице квартиры: новостройки — первая программа, вторичка — последняя (рыночная).
 function pn_apt_pay(array $a, array $s): int {
-    $progs = $s['mortgage_programs'] ?? [];
-    $rate = $a['market'] === 'new' ? ($progs[0]['rate'] ?? 6) : (end($progs)['rate'] ?? 20);
-    return pn_annuity($a['price'], (float) $rate);
+    return pn_mort_pay($a['price'], pn_default_prog($a, $s), $s)['pay'];   // лимиты и ставки — app/mortgage.php
 }
 
 function pn_catalog_stats(array $apts): array {

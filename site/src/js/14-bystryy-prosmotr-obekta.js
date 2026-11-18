@@ -1,7 +1,7 @@
 // быстрый просмотр объекта
 function quick(it) {
   setHash('obj-' + it.id);
-  const r = rateOf(it), pay = Math.round(ann(it.p, r)), tg = tagOf(it), ck = CHECKS[it.t === 'sec' ? 'sec' : 'dev'];
+  const r = rateOf(it), pay = Math.round(payOf(it)), tg = tagOf(it), ck = CHECKS[it.t === 'sec' ? 'sec' : 'dev'];
   openDlg(title(it), `<div class="qvg"><div><div class="qvph"><img src="${PN.img(it.img)}" alt="${title(it)}">${tg ? `<span class="tag">${tg}</span>` : ''}</div>
     <div class="qvc"><b><i></i>${it.t === 'sec' ? 'Что проверил юрист' : 'Что мы проверили у застройщика'}</b>${ck.map(c => `<span><svg><use href="#check"/></svg>${c[0]}</span>`).join('')}</div></div>
     <div class="qvi"><div class="qic"><button type="button" class="ib share" data-share aria-label="Поделиться ссылкой"><svg class="ico"><use href="#share"/></svg></button><button class="ib fav" id="qvFav" aria-pressed="${fav.has(it.id)}" aria-label="В избранное"><svg class="ico"><use href="#heart"/></svg></button></div><div class="price">${it.p.toLocaleString('ru-RU')} ₽</div><div class="ppm">${it.ppm.toLocaleString('ru-RU')} ₽ за м² · ${it.zk}, ${it.d}</div>

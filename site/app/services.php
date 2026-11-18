@@ -5,7 +5,7 @@
 function pn_mort_note(string $name): string {
     $n = mb_strtolower($name);
     return match (true) {
-        str_contains($n, 'семейн') => 'Для семей с детьми, на новостройки. Условия подтвердит банк — проверим, подходите ли вы.',
+        str_contains($n, 'семейн') => pn_family_note(),
         str_contains($n, 'it') => 'Для сотрудников аккредитованных IT-компаний — нужна справка с работы.',
         str_contains($n, 'рыноч') => 'Любая квартира, в том числе вторичка. Ставку часто удаётся снизить за счёт застройщика или банка.',
         default => 'Условия уточним в банке под вашу ситуацию.',
@@ -48,4 +48,12 @@ function pn_page_ipoteka(): string {
         'path' => 'ipoteka/', 'image' => 'assets/img/kv_living2.jpg'];
     $crumbs = [['Главная', ''], ['Ипотека', 'ipoteka/']];
     return pn_subpage(200, 'ipoteka', ['progs' => $progs, 'apts' => Repo::apartments()], $seo, [seo_breadcrumbs($crumbs, $s)], 1);
+}
+
+function pn_family_note(): string {
+    $t = Repo::settingsAll()['family_tiers'] ?? [];
+    if (!$t) return 'Для семей с детьми, на новостройки. Условия подтвердит банк — проверим, подходите ли вы.';
+    $f = fn($x) => str_replace('.', ',', (string) $x);
+    return 'Новостройки. Ставка и лимит по числу детей: ' . implode(', ', array_map(fn($x) => ($x['kids'] >= 5 ? '5+' : $x['kids']) . ' — ' . $f($x['rate']) . ' % до ' . $f($x['limit'] / 1e6) . ' млн', $t))
+        . '. Сверх лимита — по рыночной ставке.';
 }

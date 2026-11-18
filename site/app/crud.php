@@ -214,7 +214,11 @@ function pn_settings_fields(): array {
         'hours_to' => ['label' => 'На связи до', 'type' => 'text'], 'legal' => ['label' => 'Юрлицо (подвал)', 'type' => 'text'],
         'domain' => ['label' => 'Домен', 'type' => 'text'], 'warm_contour_from' => ['sec' => 'Цены и ипотека', 'label' => 'Тёплый контур от, ₽/м²', 'type' => 'int', 'min' => 1],
         'renovation_prices' => ['label' => 'Ремонт: базовый; комфорт; премиум, ₽/м²', 'type' => 'text'],
-        'mortgage_programs' => ['label' => 'Ипотека: «название | ставка» по строке', 'type' => 'pairs', 'wide' => true],
+        'mortgage_programs' => ['label' => 'Ипотека: «название | ставка, % | лимит, млн ₽» по строке', 'type' => 'pairs', 'wide' => true,
+            'hint' => 'Лимит — сумма кредита по льготной ставке; сверх неё калькулятор считает по рыночной. У рыночной лимит не нужен. У семейной ставка и лимит берутся по числу детей — ниже.'],
+        'family_tiers' => ['label' => 'Семейная по числу детей: «детей | ставка, % | лимит, млн ₽»', 'type' => 'pairs', 'wide' => true,
+            'hint' => 'Последняя строка действует и для большего числа детей (5 → «5 и больше»).'],
+        'rates_date' => ['label' => 'Ставки актуальны на (ДД.ММ.ГГГГ)', 'type' => 'text', 'hint' => 'Показывается под калькуляторами. Обновляйте раз в месяц и после решений ЦБ.'],
         'tg_token' => ['sec' => 'Заявки в Telegram', 'label' => 'Токен бота', 'type' => 'secret', 'hint' => 'Выдаёт BotFather в Telegram при создании бота'], 'tg_chat_id' => ['label' => 'Чат менеджеров (chat_id)', 'type' => 'text', 'hint' => 'Добавьте бота в группу менеджеров; chat_id группы начинается с «-»'],
         'mail_to' => ['sec' => 'Заявки на почту', 'label' => 'Почта для заявок', 'type' => 'text'], 'smtp_host' => ['label' => 'SMTP-сервер (пусто — mail())', 'type' => 'text'],
         'smtp_port' => ['label' => 'SMTP-порт', 'type' => 'int'], 'smtp_user' => ['label' => 'SMTP-логин', 'type' => 'text'],
@@ -234,7 +238,15 @@ function pn_admin_settings(string $method, string $sub, array $post, array $file
         $progs = array_values(array_filter($d['mortgage_programs'], fn($p) => $p[0] !== ''));
         if (!$progs || array_filter($progs, fn($p) => (forms_number($p[1]) ?? 0) <= 0 || forms_number($p[1]) > 50))
             $errors['mortgage_programs'] = 'Укажите ставку для каждой программы: «Семейная | 6» (больше 0 и не больше 50 %)';
-        $d['mortgage_programs'] = array_map(fn($p) => ['name' => $p[0], 'rate' => pn_num(forms_number($p[1]))], $progs);
+        $d['mortgage_programs'] = array_map(fn($p) => ['name' => $p[0], 'rate' => pn_num(forms_number($p[1]))]
+            + (isset($p[2]) && forms_number($p[2]) ? ['limit' => (int) round(forms_number($p[2]) * 1000000)] : []), $progs);
+        $tiers = array_values(array_filter((array) ($d['family_tiers'] ?? []), fn($p) => trim((string) $p[0]) !== ''));
+        if (array_filter($tiers, fn($p) => !ctype_digit(trim((string) $p[0])) || (forms_number($p[1] ?? '') ?? 0) <= 0 || (forms_number($p[2] ?? '') ?? 0) <= 0))
+            $errors['family_tiers'] = 'По строке: «детей | ставка | лимит в млн», например «1 | 10 | 6»';
+        $d['family_tiers'] = array_map(fn($p) => ['kids' => (int) $p[0], 'rate' => pn_num(forms_number($p[1])), 'limit' => (int) round(forms_number($p[2]) * 1000000)], $tiers);
+        $rd = trim((string) ($d['rates_date'] ?? ''));
+        if ($rd !== '' && !preg_match('~^(\d\d)\.(\d\d)\.(\d{4})$~', $rd, $mm)) $errors['rates_date'] = 'Дата в виде 18.11.2026';
+        $d['rates_date'] = $rd === '' ? null : (isset($mm) && $mm ? "$mm[3]-$mm[2]-$mm[1]" : $rd);
         $d['phone_tel'] = '+7' . substr(preg_replace('/\D/', '', $d['phone']), -10);
         if (!$errors) {
             $ins = pn_db()->prepare('insert into settings(key, value) values (?, ?) on conflict(key) do update set value = excluded.value');
@@ -248,7 +260,11 @@ function pn_admin_settings(string $method, string $sub, array $post, array $file
     $vals = [];
     foreach ($F as $k => $f) $vals[$k] = match (true) {
         $k === 'renovation_prices' => is_array($cur[$k] ?? null) ? implode('; ', $cur[$k]) : (string) ($cur[$k] ?? ''),
-        $k === 'mortgage_programs' => implode("\n", array_map(fn($p) => $p['name'] . ' | ' . $p['rate'], (array) ($cur[$k] ?? []))),
+        $k === 'mortgage_programs' => implode("\n", array_map(fn($p) => $p['name'] . ' | ' . str_replace('.', ',', (string) $p['rate'])
+            . (!empty($p['limit']) ? ' | ' . str_replace('.', ',', (string) ($p['limit'] / 1000000)) : ''), (array) ($cur[$k] ?? []))),
+        $k === 'family_tiers' => implode("\n", array_map(fn($p) => $p['kids'] . ' | ' . str_replace('.', ',', (string) $p['rate']) . ' | '
+            . str_replace('.', ',', (string) ($p['limit'] / 1000000)), (array) ($cur[$k] ?? []))),
+        $k === 'rates_date' => pn_rates_date_ru($cur),
         $f['type'] === 'secret' => '', default => $cur[$k] ?? '',
     };
     return pn_admin_page('Настройки', 'admin/form', ['active' => 'settings', 'E' => ['fields' => $F, 'one' => 'настройки'], 'ent' => 'settings', 'id' => null,

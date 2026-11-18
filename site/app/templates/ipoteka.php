@@ -9,20 +9,24 @@ $banks = ['Сбер', 'ВТБ', 'Альфа-Банк', 'ДОМ.РФ', 'Росс�
 </div>
 
 <?php if ($progs): ?>
-<section class="ob-calc" data-mort data-price="<?= $price0 ?>" data-progs="<?= pn_e(json_encode($progs, JSON_UNESCAPED_UNICODE)) ?>" aria-label="Ипотечный калькулятор">
+<?php $mcfg = pn_mort_cfg(Repo::settingsAll()); $sel = 0; $rdate = pn_rates_date_ru(Repo::settingsAll()); ?>
+<section class="ob-calc" data-mort data-price="<?= $price0 ?>" data-mcfg="<?= pn_e(json_encode($mcfg, JSON_UNESCAPED_UNICODE)) ?>" aria-label="Ипотечный калькулятор">
   <div class="ob-calc-in">
     <div class="ob-calc-f">
       <label class="ob-rng sv-price">Стоимость квартиры <input type="text" inputmode="numeric" value="<?= number_format($price0, 0, ',', ' ') ?>" data-i="price" aria-label="Стоимость квартиры, ₽"></label>
-      <div class="ob-chips" role="radiogroup" aria-label="Программа"><?php foreach ($progs as $k => $p): ?>
-        <button type="button" role="radio" aria-checked="<?= $k ? 'false' : 'true' ?>" data-rate="<?= pn_e((string) $p['rate']) ?>"><?= pn_e($p['name']) ?> <span><?= str_replace('.', ',', (string) $p['rate']) ?> %</span></button><?php endforeach; ?></div>
+      <div class="ob-chips" role="radiogroup" aria-label="Программа"><?php foreach ($mcfg['progs'] as $k => $p): ?>
+            <button type="button" role="radio" aria-checked="<?= $k === $sel ? 'true' : 'false' ?>" data-pi="<?= $k ?>"><?= pn_e($p['name']) ?> <span><?= str_replace('.', ',', (string) $p['rate']) ?> %</span></button><?php endforeach; ?></div>
+          <?php if ($mcfg['tiers']): ?><div class="ob-kids" data-kids role="group" aria-label="Детей в семье"<?= empty($mcfg['progs'][$sel]['family']) ? ' hidden' : '' ?>><span>Детей</span><?php foreach ([1, 2, 3, 4, 5] as $k): ?>
+            <button type="button" data-k="<?= $k ?>" aria-pressed="<?= $k === 1 ? 'true' : 'false' ?>"><?= $k === 5 ? '5+' : $k ?></button><?php endforeach; ?></div><?php endif; ?>
       <label class="ob-rng">Первоначальный взнос <output data-o="down"><?= pn_rub((int) ($price0 * .2)) ?> · 20 %</output><input type="range" min="10" max="90" step="5" value="20" data-i="down"></label>
       <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term"></label>
     </div>
     <div class="ob-calc-r" aria-live="polite">
-      <span>Ежемесячный платёж</span><b data-o="pay"><?= pn_rub(pn_annuity($price0, (float) $rate0)) ?></b>
+      <span>Ежемесячный платёж</span><b data-o="pay"><?= pn_rub(pn_mort_pay($price0, $mcfg['progs'][0] ?? ['name' => '', 'rate' => $rate0], Repo::settingsAll())['pay']) ?></b>
       <dl><div><dt>Сумма кредита</dt><dd data-o="loan"><?= pn_rub((int) ($price0 * .8)) ?></dd></div><div><dt>Переплата</dt><dd data-o="over">—</dd></div><div><dt>Рекомендуемый доход</dt><dd data-o="inc">—</dd></div></dl>
       <a class="pg-btn red" href="./#lead">Подобрать программу</a>
-      <small>Расчёт предварительный. Точную ставку банк назовёт после заявки.</small>
+      <small data-o="parts"></small>
+      <small><?= $rdate ? 'Ставки на ' . $rdate . '. ' : '' ?>Расчёт предварительный. Точную ставку банк назовёт после заявки.</small>
     </div>
   </div>
 </section>
@@ -32,7 +36,7 @@ $banks = ['Сбер', 'ВТБ', 'Альфа-Банк', 'ДОМ.РФ', 'Росс�
     <div><span class="sv-rate"><?= str_replace('.', ',', (string) $p['rate']) ?> %</span><h3><?= pn_e($p['name']) ?></h3><p><?= pn_e(pn_mort_note((string) $p['name'])) ?></p>
       <?php if (mb_stripos((string) $p['name'], 'семейн') !== false): ?><a href="kvartiry/semeynaya-ipoteka/">Квартиры под программу →</a><?php endif; ?></div>
   <?php endforeach; ?></div>
-  <p class="ob-note">Ставки указаны ориентировочно и обновляются в админке. Условия программ меняются — проверим актуальные на день заявки.</p>
+  <p class="ob-note"><?= $rdate ? 'Ставки на ' . $rdate . ', ' : '' ?>ориентировочно. Лимит — сумма кредита по льготной ставке; сверх него банк выдаёт по рыночной. Условия программ меняются — проверим актуальные на день заявки.</p>
 </section>
 <?php endif; ?>
 
