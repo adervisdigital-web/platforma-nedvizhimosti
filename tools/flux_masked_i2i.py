@@ -25,6 +25,9 @@ wf = {
 if len(a) > 9:   # масштаб перед кодированием
     wf['2'] = {'class_type': 'ImageScale', 'inputs': {'image': ['1', 0], 'upscale_method': 'lanczos', 'width': int(a[8]), 'height': int(a[9]), 'crop': 'disabled'}}
     wf['5']['inputs']['pixels'] = ['2', 0]
+if src == '-':   # генерация с нуля: src «-», размер — W H
+    del wf['1']; wf['5'] = {'class_type': 'EmptySD3LatentImage', 'inputs': {'width': int(a[8]), 'height': int(a[9]), 'batch_size': 1}}
+    wf.pop('2', None)
 if mask != '-':
     wf['2m'] = {'class_type': 'LoadImageMask', 'inputs': {'image': mask, 'channel': 'red'}}
     wf['10'] = {'class_type': 'SetLatentNoiseMask', 'inputs': {'samples': ['5', 0], 'mask': ['2m', 0]}}
