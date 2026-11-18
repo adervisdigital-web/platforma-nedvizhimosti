@@ -4,7 +4,7 @@ function remember(id) { const seen = seenList(); const i = seen.indexOf(id); if 
 function drawSeen() {
   const seen = seenList(); if (!$('#seenL') || typeof head !== 'function') return;
   $('#seen').hidden = !seen.length;
-  $('#seenL').innerHTML = seen.map(id => ITEMS[id]).filter(Boolean).map(it => `<button type="button" data-seen="${it.id}"><img src="assets/img/${it.img}.jpg" alt=""><b>${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2})} млн ₽</b><span>${head(it)} · ${it.d}</span></button>`).join('');
+  $('#seenL').innerHTML = seen.map(id => ITEMS[id]).filter(Boolean).map(it => `<button type="button" data-seen="${it.id}"><img src="${PN.img(it.img)}" alt=""><b>${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2})} млн ₽</b><span>${head(it)} · ${it.d}</span></button>`).join('');
   $$('[data-seen]').forEach(b => b.addEventListener('click', () => quick(ITEMS[b.dataset.seen])));
 }
 drawSeen();

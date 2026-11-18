@@ -12,6 +12,8 @@
     progs: () => D.progs || [],
     geo: () => D.geo || {},
     settings: () => D.settings || {},
+    // Путь к фото: загруженные в админке ('u/ГГГГММ/id') — WebP из uploads/, фото прототипа — JPG из assets/img/<папка>/.
+    img: (name, folder = '', w = 960) => String(name).startsWith('u/') ? `uploads/${String(name).slice(2)}-${w}.webp` : `assets/img/${folder ? folder + '/' : ''}${name}.jpg`,
     demo: !!D.demo,
     api: D.api || 'api/',
   };

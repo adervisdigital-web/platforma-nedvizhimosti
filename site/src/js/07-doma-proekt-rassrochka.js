@@ -4,7 +4,7 @@ let hSel = HOUSES[0], hName = 'Северный Урал 235';
 const hFrom = h => h.n * 75000, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
 const flTxt = n => n === 1 ? '1 этаж' : n + ' этажа';
 $('#hx').innerHTML = HOUSES.map(h => `<article class="hc" data-h="${h.id}">
-  <button class="ph" type="button" data-open="${h.id}" aria-label="Подробнее: ${h.line} ${h.n}"><img src="assets/img/houses/${h.ph[0]}.jpg" alt="Дом «${h.line} ${h.n}»" loading="lazy"><span class="ln" style="--c:${h.c}"><i></i>${h.line}</span></button>
+  <button class="ph" type="button" data-open="${h.id}" aria-label="Подробнее: ${h.line} ${h.n}"><img src="${PN.img(h.ph[0], 'houses')}" alt="Дом «${h.line} ${h.n}»" loading="lazy"><span class="ln" style="--c:${h.c}"><i></i>${h.line}</span></button>
   <div class="b"><h3>${h.line}<span>${h.n}</span></h3><div class="mt">«${h.motto}»</div>
     <div class="sp"><span>${h.n} м²</span><span>${flTxt(h.fl)}</span><span>${h.rooms.replace(" + кабинет", "")} комн.${h.rooms.includes("кабинет") ? " + кабинет" : ""}</span><span>потолки ${h.ceil}</span></div>
     <div class="pr">Тёплый контур — от <b>${fmtM(hFrom(h))}</b> · <span class="nw">в рассрочку от ${hMonth(h).toLocaleString('ru-RU')} ₽/мес</span></div>
@@ -26,8 +26,8 @@ $$('#hfl button').forEach(b => b.addEventListener('click', () => {
 }));
 function houseView(h) {
   dlg.classList.add('wide'); setHash('house-' + h.id);
-  openDlg(`${h.line} ${h.n}`, `<div class="hdl"><div><div class="hmain"><img id="hvMain" src="assets/img/houses/${h.ph[0]}.jpg" alt="${h.line} ${h.n}"></div>
-      <div class="hth">${h.ph.map((p, i) => `<button type="button" data-p="${p}" aria-pressed="${i === 0}" aria-label="Фото ${i + 1}"><img src="assets/img/houses/${p}.jpg" alt=""></button>`).join('')}</div></div>
+  openDlg(`${h.line} ${h.n}`, `<div class="hdl"><div><div class="hmain"><img id="hvMain" src="${PN.img(h.ph[0], 'houses')}" alt="${h.line} ${h.n}"></div>
+      <div class="hth">${h.ph.map((p, i) => `<button type="button" data-p="${p}" aria-pressed="${i === 0}" aria-label="Фото ${i + 1}"><img src="${PN.img(p, 'houses')}" alt=""></button>`).join('')}</div></div>
     <div><span class="ln" style="--c:${h.c}"><i></i>Линейка «${h.line}»</span><p class="mt2">«${h.motto}»</p>
       <dl class="qvp"><div><dt>Площадь</dt><dd>${h.n} м²</dd></div><div><dt>Этажность</dt><dd>${flTxt(h.fl)}</dd></div><div><dt>Жилых комнат</dt><dd>${h.rooms}</dd></div><div><dt>Потолки</dt><dd>${h.ceil}</dd></div></dl>
       <ul class="feats">${h.feats.map(f => `<li><svg><use href="#check"/></svg>${f}</li>`).join('')}</ul>
@@ -36,9 +36,9 @@ function houseView(h) {
       <p class="hnote">Планировку и фасад настроим под вашу семью. Материал стен — на выбор.</p>${h.slug ? `<a class="qvpage" href="doma/${h.slug}/">Страница проекта</a>` : ''}</div></div>
     <p class="hidea">${h.idea}</p><div class="htext">${h.text.map(t => `<p>${t}</p>`).join('')}</div>
     <div class="hpl"><h4>Планировка</h4>${h.plans.length > 1 ? `<div class="seg2" id="plTabs">${h.plans.map((p, i) => `<button type="button" aria-pressed="${i === 0}" data-i="${i}">${p[0]}</button>`).join('')}</div>` : `<span style="color:var(--mut)">${h.plans[0][0]}</span>`}</div>
-    <a class="plan" id="plLink" href="assets/img/houses/${h.plans[0][1]}.jpg" target="_blank" rel="noopener" title="Открыть в полном размере"><img id="plImg" src="assets/img/houses/${h.plans[0][1]}.jpg" alt="Планировка: ${h.plans[0][0]}"></a>`);
-  $$('#dlgB .hth button').forEach(b => b.addEventListener('click', () => { $('#hvMain').src = `assets/img/houses/${b.dataset.p}.jpg`; $$('#dlgB .hth button').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
-  $$('#plTabs button').forEach(b => b.addEventListener('click', () => { const p = h.plans[b.dataset.i]; $('#plImg').src = $('#plLink').href = `assets/img/houses/${p[1]}.jpg`; $('#plImg').alt = 'Планировка: ' + p[0]; $$('#plTabs button').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
+    <a class="plan" id="plLink" href="${PN.img(h.plans[0][1], 'houses')}" target="_blank" rel="noopener" title="Открыть в полном размере"><img id="plImg" src="${PN.img(h.plans[0][1], 'houses')}" alt="Планировка: ${h.plans[0][0]}"></a>`);
+  $$('#dlgB .hth button').forEach(b => b.addEventListener('click', () => { $('#hvMain').src = `${PN.img(b.dataset.p, 'houses')}`; $$('#dlgB .hth button').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
+  $$('#plTabs button').forEach(b => b.addEventListener('click', () => { const p = h.plans[b.dataset.i]; $('#plImg').src = $('#plLink').href = `${PN.img(p[1], 'houses')}`; $('#plImg').alt = 'Планировка: ' + p[0]; $$('#plTabs button').forEach(x => x.setAttribute('aria-pressed', x === b)); }));
   $('#hvCalc').addEventListener('click', () => { dlg.close(); pickHouse(h, true); });
   $('#hvLead').addEventListener('click', () => booking('Экскурсия в демо-дом', `Проект «${h.line} ${h.n}» — смотрим вживую`, 'Демо-дом, Екатеринбург'));
 }

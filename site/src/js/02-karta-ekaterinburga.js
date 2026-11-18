@@ -31,7 +31,7 @@ function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add
 function cardHTML(it) {
   const tg = tagOf(it), r = rateOf(it);
   return `<article class="card" data-i="${it.id}">
-  <div class="gal"><img src="assets/img/${it.img}.jpg" alt="${title(it)}" loading="lazy">${tg ? `<span class="tag">${tg}</span>` : ''}
+  <div class="gal"><img src="${PN.img(it.img)}" alt="${title(it)}" loading="lazy">${tg ? `<span class="tag">${tg}</span>` : ''}
     <div class="acts"><button class="ib cmp" aria-pressed="${cmp.has(it.id)}" aria-label="Сравнить"><svg class="ico"><use href="#cmp"/></svg></button><button class="ib fav" aria-pressed="${fav.has(it.id)}" aria-label="В избранное"><svg class="ico"><use href="#heart"/></svg></button></div></div>
   <div class="mid"><button class="t qv" data-i="${it.id}">${head(it)}</button><div class="a">${it.fl}/${it.fls} этаж · ${it.zk} · ${it.d}</div>
     <button class="vbtn" aria-expanded="false"><i></i>${it.t === 'sec' ? 'Сделка проверена юристом' : 'Застройщик проверен'}<span class="vpop" role="tooltip"><b>Что мы проверили</b>${CHECKS[it.t === 'sec' ? 'sec' : 'dev'].slice(0, 4).map(c => `<span>${c[0]}</span>`).join('')}</span></button>

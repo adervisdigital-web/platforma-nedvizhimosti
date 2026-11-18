@@ -6,7 +6,7 @@ dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 function cmpHTML() {
   const L = ITEMS.filter(it => cmp.has(it.id)), minP = Math.min(...L.map(i => i.ppm)), minPay = Math.min(...L.map(i => ann(i.p, rateOf(i))));
   const row = (h, f) => `<tr><th>${h}</th>${L.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
-  return `<table class="ctab"><tbody>${row('', it => `<img src="assets/img/${it.img}.jpg" alt=""><b>${title(it)}</b><br><span style="color:var(--mut)">${it.zk} · ${it.d}</span>`)}
+  return `<table class="ctab"><tbody>${row('', it => `<img src="${PN.img(it.img)}" alt=""><b>${title(it)}</b><br><span style="color:var(--mut)">${it.zk} · ${it.d}</span>`)}
     ${row('Цена', it => `<b>${it.p.toLocaleString('ru-RU')} ₽</b>`)}${row('За м²', it => `<span class="${it.ppm === minP ? 'best' : ''}">${it.ppm.toLocaleString('ru-RU')} ₽${it.ppm === minP ? ' · дешевле всех' : ''}</span>`)}
     ${row('Платёж в ипотеку', it => { const p = ann(it.p, rateOf(it)); return `<span class="${p === minPay ? 'best' : ''}">от ${Math.round(p).toLocaleString('ru-RU')} ₽/мес</span><br><small style="color:var(--mut)">${rateOf(it)} %, взнос 20 %</small>`; })}
     ${row('Сдача', it => it.st)}${row('Отделка', it => it.fin)}${row('Проверка', it => it.t === 'sec' ? 'Юрист: сделка чистая' : 'Застройщик проверен')}
@@ -20,7 +20,7 @@ function showCmp() {
 $('#cmpBtn').addEventListener('click', showCmp);
 $('#favBtn').addEventListener('click', () => {
   if (!fav.size) { toast('Пока пусто — нажмите сердечко на карточке квартиры'); return; }
-  openDlg(`Избранное · ${fav.size}`, `<div class="flist">${ITEMS.filter(it => fav.has(it.id)).map(it => `<div class="fi"><img src="assets/img/${it.img}.jpg" alt=""><div><b>${it.p.toLocaleString('ru-RU')} ₽</b>${title(it)}<br><span style="color:var(--mut)">${it.zk} · ${it.d}</span></div></div>`).join('')}</div>
+  openDlg(`Избранное · ${fav.size}`, `<div class="flist">${ITEMS.filter(it => fav.has(it.id)).map(it => `<div class="fi"><img src="${PN.img(it.img)}" alt=""><div><b>${it.p.toLocaleString('ru-RU')} ₽</b>${title(it)}<br><span style="color:var(--mut)">${it.zk} · ${it.d}</span></div></div>`).join('')}</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`);
 });
 counts(); render();

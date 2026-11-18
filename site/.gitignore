@@ -1,7 +1,7 @@
 data/*.sqlite
 data/*.sqlite-*
-uploads/*
-!uploads/.gitkeep
+public/uploads/*
+!public/uploads/.gitkeep
 app/local.php
 tests/_tmp/
 public/assets/js/app.js
