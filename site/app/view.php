@@ -16,5 +16,5 @@ function pn_page_order(): array {
 function pn_page_vars(array $extra = [], ?array $src = null): array {
     $cfg = pn_config();
     return $extra + ['base_tag' => $cfg['demo'] ? '<meta name="robots" content="noindex">' : '', 'order' => pn_page_order(), 'demo' => $cfg['demo'],
-        'data_json' => pn_data_json(pn_page_data($src ?? pn_seed_all(), $cfg))];
+        'data_json' => pn_data_json(pn_page_data($src ?? pn_source(), $cfg))];
 }
