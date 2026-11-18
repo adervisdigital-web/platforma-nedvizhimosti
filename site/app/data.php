@@ -34,8 +34,10 @@ function pn_item_proto(array $a): array {
     return $it;
 }
 // Публичные настройки: без секретов (токены, SMTP, CRM, соль) и без служебных списков.
+const PN_PUBLIC_SETTINGS = ['phone', 'phone_tel', 'hours_from', 'hours_to', 'renovation_prices', 'warm_contour_from', 'mortgage_programs', 'district_geo',
+    'legal', 'domain', 'demo_data', 'show_demo_reviews'];
 function pn_public_settings(array $s): array {
-    return array_filter($s, fn($k) => !preg_match('/^(tg_|smtp_|crm_|salt$|faq$|quick$)/', (string) $k), ARRAY_FILTER_USE_KEY);
+    return array_intersect_key($s, array_flip(PN_PUBLIC_SETTINGS));            // только разрешённое: новые ключи (почта, токены) наружу не попадут
 }
 function pn_visible_reviews(array $reviews, array $settings): array {
     $demo = !empty($settings['show_demo_reviews']);

@@ -223,7 +223,10 @@ function pn_admin_settings(string $method, string $sub, array $post, array $file
         $r = forms_parse($F, $post, [], $cur); $d = $r['data']; $errors = $r['errors'];
         $nums = array_map(fn($x) => (int) forms_number($x), preg_split('/[;,\/]/u', (string) $d['renovation_prices']));
         if (count($nums) !== 3 || min($nums) <= 0) $errors['renovation_prices'] = 'Три цены через точку с запятой: 20000; 45000; 80000'; else $d['renovation_prices'] = $nums;
-        $d['mortgage_programs'] = array_values(array_map(fn($p) => ['name' => $p[0], 'rate' => (float) forms_number($p[1])], array_filter($d['mortgage_programs'], fn($p) => $p[0] !== '')));
+        $progs = array_values(array_filter($d['mortgage_programs'], fn($p) => $p[0] !== ''));
+        if (!$progs || array_filter($progs, fn($p) => (forms_number($p[1]) ?? 0) <= 0 || forms_number($p[1]) > 50))
+            $errors['mortgage_programs'] = 'Укажите ставку для каждой программы: «Семейная | 6» (больше 0 и не больше 50 %)';
+        $d['mortgage_programs'] = array_map(fn($p) => ['name' => $p[0], 'rate' => pn_num(forms_number($p[1]))], $progs);
         $d['phone_tel'] = '+7' . substr(preg_replace('/\D/', '', $d['phone']), -10);
         if (!$errors) {
             $ins = pn_db()->prepare('insert into settings(key, value) values (?, ?) on conflict(key) do update set value = excluded.value');

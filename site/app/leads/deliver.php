@@ -11,7 +11,7 @@ function pn_http(string $method, string $url, array $headers, string $body): arr
     if (isset($GLOBALS['PN_HTTP'])) return ($GLOBALS['PN_HTTP'])($method, $url, $headers, $body);
     $ch = curl_init($url);
     curl_setopt_array($ch, [CURLOPT_CUSTOMREQUEST => $method, CURLOPT_POSTFIELDS => $body, CURLOPT_HTTPHEADER => $headers, CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 10]);
+        CURLOPT_CONNECTTIMEOUT => 3, CURLOPT_TIMEOUT => 6]);
     $out = curl_exec($ch); $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE); curl_close($ch);
     return [$out === false ? 0 : $code, (string) $out];
 }
@@ -98,10 +98,12 @@ function deliver_lead(int $id): array {
 }
 function lead_undelivered(array $l): bool { return in_array(0, [(int) $l['delivered_tg'], (int) $l['delivered_mail'], (int) $l['delivered_crm']], true); }
 // Повтор недоставленных (вход менеджера в админку, cron). Возвращает, сколько заявок теперь доставлены полностью.
-function deliver_pending(int $limit = 20): int {
+function deliver_pending(int $limit = 20, float $budget = 0.0): int {   // $budget — секунд на всё (0 — без ограничения)
+    $t0 = microtime(true);
     $ids = pn_db()->query('select id from leads where (delivered_tg = 0 or delivered_mail = 0 or delivered_crm = 0) and attempts < 10 order by id limit ' . (int) $limit)->fetchAll(PDO::FETCH_COLUMN);
     $n = 0;
     foreach ($ids as $id) {
+        if ($budget > 0 && microtime(true) - $t0 > $budget) break;                   // остальное — в следующий раз или по cron
         deliver_lead((int) $id);
         $st = pn_db()->prepare('select * from leads where id = ?'); $st->execute([$id]);
         if (!lead_undelivered($st->fetch())) $n++;

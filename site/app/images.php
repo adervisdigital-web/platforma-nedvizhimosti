@@ -21,6 +21,12 @@ function pn_image_store(string $tmpPath, string $origName): array {
     if (pn_bytes(ini_get('memory_limit')) < $need) @ini_set('memory_limit', (string) $need);
     $im = match ($mime) { 'image/jpeg' => @imagecreatefromjpeg($tmpPath), 'image/png' => @imagecreatefrompng($tmpPath), 'image/webp' => @imagecreatefromwebp($tmpPath) };
     if (!$im) throw new InvalidArgumentException($bad);
+    $max = max(PN_IMG_WIDTHS);
+    if (max(imagesx($im), imagesy($im)) > $max) {                                    // сначала уменьшаем — поворот большого кадра съедает вдвое больше памяти
+        $k = $max / max(imagesx($im), imagesy($im));
+        $small = imagescale($im, (int) round(imagesx($im) * $k), (int) round(imagesy($im) * $k), IMG_BICUBIC);
+        imagedestroy($im); $im = $small;
+    }
     if ($mime === 'image/jpeg' && function_exists('exif_read_data')) $im = pn_exif_fix($im, (int) (@exif_read_data($tmpPath)['Orientation'] ?? 1));
     $dir = date('Ym'); $id = bin2hex(random_bytes(6));
     $abs = pn_uploads_dir() . "/$dir";
@@ -41,7 +47,8 @@ function pn_image_store(string $tmpPath, string $origName): array {
 function pn_exif_fix(GdImage $im, int $o): GdImage {
     if ($o === 2 || $o === 4 || $o === 5 || $o === 7) imageflip($im, IMG_FLIP_HORIZONTAL);
     $deg = match ($o) { 3, 4 => 180, 5, 6 => -90, 7, 8 => 90, default => 0 };
-    return $deg ? imagerotate($im, $deg, 0) : $im;
+    if (!$deg) return $im;
+    $r = imagerotate($im, $deg, 0); imagedestroy($im); return $r;
 }
 
 function pn_bytes(string $v): int {

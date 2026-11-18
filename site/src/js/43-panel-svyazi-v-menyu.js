@@ -14,15 +14,16 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { open(false); ph.focus(); } });
   $$('[data-chat]', pop).forEach(b => b.addEventListener('click', () => open(false)));
   inp.addEventListener('input', () => { cb.classList.remove('bad'); let d = inp.value.replace(/\D/g, ''); if (!d) { inp.value = ''; return; }
+    if (/^\s*\+\s*[0-689]/.test(inp.value)) return;   // номер не российский — не переделываем в +7, проверка его отклонит
     if (d[0] === '8') d = '7' + d.slice(1); if (d[0] !== '7') d = '7' + d; const p = d.slice(1, 11);
     inp.value = '+7' + (p.length ? ' (' + p.slice(0, 3) : '') + (p.length > 3 ? ') ' + p.slice(3, 6) : '') + (p.length > 6 ? '-' + p.slice(6, 8) : '') + (p.length > 8 ? '-' + p.slice(8, 10) : ''); });
   cb.addEventListener('submit', e => { e.preventDefault();
-    if (inp.value.replace(/\D/g, '').length !== 11) { cb.classList.add('bad'); inp.focus(); return; }
+    if (!/^\+7/.test(inp.value) || inp.value.replace(/\D/g, '').length !== 11) { cb.classList.add('bad'); inp.focus(); return; }
     if (!$('#hbCc').checked) { $('#hbCcL').classList.add('bad'); $('#hbCc').focus(); return; }
-    PN.send({kind: 'callback', phone: inp.value});
+    PN.send({kind: 'callback', phone: inp.value}, () => {
     const h = ekb().getHours(), openNow = h >= 9 && h < 21; cb.classList.add('sent');
     $('#hbCbNote').textContent = openNow ? `Звоним на ${inp.value} — держите телефон рядом` : `Позвоним на ${inp.value} завтра в 9:00`;
     cb.querySelector('b').textContent = openNow ? 'Уже набираем' : 'Заявка принята';
-    toast(openNow ? 'Перезвоним в течение 30 секунд' : 'Перезвоним завтра в 9:00'); });
+    toast(openNow ? 'Перезвоним в течение 30 секунд' : 'Перезвоним завтра в 9:00'); }); });
 })();
 

@@ -78,8 +78,8 @@ pn_t('ЖК с квартирами не удаляется — понятное 
 });
 pn_t('настройки: секрет не затирается пустым полем, цены ремонта — числами', function () {
     pn_admin_fixture();
-    pn_post('/admin/settings', ['do' => 'save', 'phone' => '+7 965 500-29-18', 'tg_token' => '123:abc', 'renovation_prices' => '20 000; 45000; 80 000']);
-    pn_post('/admin/settings', ['do' => 'save', 'phone' => '+7 965 500-29-18', 'tg_token' => '', 'renovation_prices' => '20000;45000;80000']);
+    pn_post('/admin/settings', ['do' => 'save', 'phone' => '+7 965 500-29-18', 'tg_token' => '123:abc', 'renovation_prices' => '20 000; 45000; 80 000', 'mortgage_programs' => 'Семейная | 6']);
+    pn_post('/admin/settings', ['do' => 'save', 'phone' => '+7 965 500-29-18', 'tg_token' => '', 'renovation_prices' => '20000;45000;80000', 'mortgage_programs' => 'Семейная | 6']);
     $s = Repo::settingsAll();
     pn_eq($s['tg_token'], '123:abc'); pn_eq($s['renovation_prices'], [20000, 45000, 80000]); pn_eq($s['phone_tel'], '+79655002918');
 });

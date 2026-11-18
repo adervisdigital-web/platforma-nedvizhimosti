@@ -16,6 +16,7 @@ function pn_subpage(int $code, string $tpl, array $vars, array $seo, array $grap
 // Ежемесячный платёж как в калькуляторе прототипа: кредит 80 %, 30 лет.
 function pn_annuity(int $price, float $rate): int {
     $L = $price * .8; $m = $rate / 1200;
+    if ($m <= 0) return (int) round($L / 360);                                    // без процентов
     return (int) round($L * $m / (1 - pow(1 + $m, -360)));
 }
 

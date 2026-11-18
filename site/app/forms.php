@@ -21,7 +21,9 @@ function forms_photos(array $post, array $files, string $name, array &$errors): 
     if ($up && is_array($up['name'] ?? null)) {
         foreach ($up['name'] as $i => $orig) {
             if (($up['error'][$i] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) continue;
-            if (($up['error'][$i] ?? 0) !== UPLOAD_ERR_OK) { $errors[$name] = 'Фото «' . $orig . '» не загрузилось — возможно, оно больше 25 МБ'; continue; }
+            $e = $up['error'][$i] ?? 0;
+            if ($e === UPLOAD_ERR_INI_SIZE || $e === UPLOAD_ERR_FORM_SIZE) { $errors[$name] = 'Фото «' . $orig . '» больше, чем разрешает сервер (' . pn_ini_mb('upload_max_filesize') . ' МБ)'; continue; }
+            if ($e !== UPLOAD_ERR_OK) { $errors[$name] = 'Фото «' . $orig . '» не загрузилось — попробуйте ещё раз'; continue; }
             try { $keep[] = pn_image_store($up['tmp_name'][$i], (string) $orig)['id']; }
             catch (InvalidArgumentException $e) { $errors[$name] = '«' . $orig . '»: ' . $e->getMessage(); }
         }

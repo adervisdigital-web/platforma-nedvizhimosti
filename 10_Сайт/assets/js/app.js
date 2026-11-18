@@ -325,16 +325,18 @@ const lp = $('#lp');
 lp.addEventListener('input', () => {
   let d = lp.value.replace(/\D/g, ''); lp.closest('.f').classList.remove('bad');
   if (!d) { lp.value = ''; return; }
+  if (/^\s*\+\s*[0-689]/.test(lp.value)) return;   // номер не российский — не переделываем в +7, проверка его отклонит
   if (d[0] === '8') d = '7' + d.slice(1); if (d[0] !== '7') d = '7' + d; const p = d.slice(1, 11);
   lp.value = '+7' + (p.length ? ' (' + p.slice(0, 3) : '') + (p.length > 3 ? ') ' + p.slice(3, 6) : '') + (p.length > 6 ? '-' + p.slice(6, 8) : '') + (p.length > 8 ? '-' + p.slice(8, 10) : '');
 });
 $('#leadForm').addEventListener('submit', e => {
   e.preventDefault();
-  if (lp.value.replace(/\D/g, '').length !== 11) { lp.closest('.f').classList.add('bad'); lp.focus(); return; }
+  if (!/^\+7/.test(lp.value) || lp.value.replace(/\D/g, '').length !== 11) { lp.closest('.f').classList.add('bad'); lp.focus(); return; }
   if (!$('#lc').checked) { $('#lcL').classList.add('bad'); $('#lc').focus(); return; }
-  e.currentTarget.classList.add('sent');
+  const form = e.currentTarget, btn = $('#qSend'); btn.disabled = true;
   PN.send({kind: 'quiz', want: ($('#leadForm .ch [aria-pressed=true]') || {}).textContent || '', budget: $('#qbv').textContent,
-    area: $$('#qr [aria-pressed=true]').map(b => b.textContent).join(', '), name: $('#ln').value, phone: lp.value});
+    area: $$('#qr [aria-pressed=true]').map(b => b.textContent).join(', '), name: $('#ln').value, phone: lp.value},
+    () => { btn.disabled = false; form.classList.add('sent'); }, () => { btn.disabled = false; });
 });
 
 // меню: подсветка раздела
@@ -467,10 +469,10 @@ function booking(kind, subj, place) {
     $$('#dlgB [data-t]').forEach(b => b.addEventListener('click', () => { slot = b.dataset.t; draw(); }));
     const ip = $('#bkP'); ip.addEventListener('input', () => { lp.value = ip.value; lp.dispatchEvent(new Event('input')); ip.value = lp.value; $('#bkF').classList.remove('bad'); });
     $('#bkGo').addEventListener('click', () => {
-      if (ip.value.replace(/\D/g, '').length !== 11) { $('#bkF').classList.add('bad'); ip.focus(); return; }
+      if (!/^\+7/.test(ip.value) || ip.value.replace(/\D/g, '').length !== 11) { $('#bkF').classList.add('bad'); ip.focus(); return; }
       if (!$('#bkC').checked) { $('#bkCL').classList.add('bad'); $('#bkC').focus(); return; }
       { const d0 = days[day], p2 = n => String(n).padStart(2, '0');
-        PN.send({kind: 'viewing', want: kind, object_ref: subj, slot: `${d0.getFullYear()}-${p2(d0.getMonth() + 1)}-${p2(d0.getDate())} ${slot}`, phone: ip.value}); }
+        PN.send({kind: 'viewing', want: kind, object_ref: subj, slot: `${d0.getFullYear()}-${p2(d0.getMonth() + 1)}-${p2(d0.getDate())} ${slot}`, phone: ip.value}, () => {
       const d = days[day], [hh, mm] = slot.split(':'), st = new Date(d.getFullYear(), d.getMonth(), d.getDate(), +hh, +mm), en = new Date(st.getTime() + 36e5);
       const f = x => x.toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
       const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Platforma//RU', 'BEGIN:VEVENT', `UID:${Date.now()}@p.forma196.ru`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(st)}`, `DTEND:${f(en)}`,
@@ -480,6 +482,7 @@ function booking(kind, subj, place) {
       $('#dlgB').innerHTML = `<div class="bkok"><span class="big"><i></i></span><h4>${d.getDate()} ${MONTHS[d.getMonth()]}, ${slot}<i class="o"></i></h4>
         <p>${kind}: ${subj}. Менеджер позвонит накануне и пришлёт адрес. Поменять время — по телефону <a href="tel:+79655002918" style="font-weight:700">+7 965 500-29-18</a>.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a class="btn dark" href="${url}" download="platforma-${d.getDate()}-${MONTHS[d.getMonth()]}.ics">Добавить в календарь</a><button class="btn ghost" type="button" onclick="dlg.close()">Готово</button></div></div>`;
+      }); }
     });
   };
   $('#dlgT').textContent = kind; dlg.classList.remove('wide'); draw();
@@ -707,16 +710,17 @@ segLabels();
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { open(false); ph.focus(); } });
   $$('[data-chat]', pop).forEach(b => b.addEventListener('click', () => open(false)));
   inp.addEventListener('input', () => { cb.classList.remove('bad'); let d = inp.value.replace(/\D/g, ''); if (!d) { inp.value = ''; return; }
+    if (/^\s*\+\s*[0-689]/.test(inp.value)) return;   // номер не российский — не переделываем в +7, проверка его отклонит
     if (d[0] === '8') d = '7' + d.slice(1); if (d[0] !== '7') d = '7' + d; const p = d.slice(1, 11);
     inp.value = '+7' + (p.length ? ' (' + p.slice(0, 3) : '') + (p.length > 3 ? ') ' + p.slice(3, 6) : '') + (p.length > 6 ? '-' + p.slice(6, 8) : '') + (p.length > 8 ? '-' + p.slice(8, 10) : ''); });
   cb.addEventListener('submit', e => { e.preventDefault();
-    if (inp.value.replace(/\D/g, '').length !== 11) { cb.classList.add('bad'); inp.focus(); return; }
+    if (!/^\+7/.test(inp.value) || inp.value.replace(/\D/g, '').length !== 11) { cb.classList.add('bad'); inp.focus(); return; }
     if (!$('#hbCc').checked) { $('#hbCcL').classList.add('bad'); $('#hbCc').focus(); return; }
-    PN.send({kind: 'callback', phone: inp.value});
+    PN.send({kind: 'callback', phone: inp.value}, () => {
     const h = ekb().getHours(), openNow = h >= 9 && h < 21; cb.classList.add('sent');
     $('#hbCbNote').textContent = openNow ? `Звоним на ${inp.value} — держите телефон рядом` : `Позвоним на ${inp.value} завтра в 9:00`;
     cb.querySelector('b').textContent = openNow ? 'Уже набираем' : 'Заявка принята';
-    toast(openNow ? 'Перезвоним в течение 30 секунд' : 'Перезвоним завтра в 9:00'); });
+    toast(openNow ? 'Перезвоним в течение 30 секунд' : 'Перезвоним завтра в 9:00'); }); });
 })();
 
 // заявка: живое поле точек

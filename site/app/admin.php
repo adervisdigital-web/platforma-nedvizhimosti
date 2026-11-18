@@ -10,6 +10,7 @@ function pn_flash(?string $msg = null): ?string {
     if ($msg !== null) { $_SESSION['flash'] = $msg; return null; }
     $m = $_SESSION['flash'] ?? null; unset($_SESSION['flash']); return $m;
 }
+function pn_ini_mb(string $k): int { return (int) round(pn_bytes((string) ini_get($k)) / 1048576); }
 function pn_redirect(string $to, ?string $flash = null): array { if ($flash) pn_flash($flash); return [302, ['Location' => $to], '']; }
 
 // Разделы: путь → [заголовок, роль, обработчик(method, rest, post, files, user)]
@@ -25,6 +26,9 @@ function pn_admin_sections(): array {
 
 function pn_admin_route(string $method, string $path, array $post = [], array $files = []): array {
     $rest = trim(substr($path, strlen('/admin')), '/');
+    if ($method === 'POST' && !$post && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0)   // PHP выбросил тело целиком: больше post_max_size
+        throw new PnHttp(413, [], 'Файлы слишком большие для сервера: за один раз можно отправить до ' . pn_ini_mb('post_max_size')
+            . ' МБ. Загрузите фото по несколько штук.');
     if ($method === 'POST') csrf_check($post);
     if ($rest === 'login') {
         if ($method === 'POST') {
@@ -44,7 +48,7 @@ function pn_admin_route(string $method, string $path, array $post = [], array $f
     return $fn($method, $sub, $post, $files, $u);
 }
 // Повторная доставка заявок при входе менеджера (задача 13); до неё — ничего.
-function deliver_pending_safe(): void { if (function_exists('deliver_pending')) { try { deliver_pending(); } catch (Throwable $e) {} } }
+function deliver_pending_safe(): void { if (function_exists('deliver_pending')) { try { deliver_pending(20, 3.0); } catch (Throwable $e) {} } }   // вход не ждёт дольше ~3 с
 
 function pn_admin_users(string $method, string $sub, array $post, array $files, array $u): array {
     $db = pn_db();
@@ -79,7 +83,8 @@ function pn_admin_leads(string $method, string $sub, array $post, array $files, 
         $rows = $db->query('select id, created_at, kind, want, budget, area, name, phone, object_ref, slot, status, note from leads order by id desc')->fetchAll();
         $f = fopen('php://temp', 'w+'); fwrite($f, "\xEF\xBB\xBF");
         fputcsv($f, ['№', 'Дата (UTC)', 'Тип', 'Что ищет', 'Бюджет', 'Площадь/комнаты', 'Имя', 'Телефон', 'Объект', 'Время просмотра', 'Статус', 'Заметка'], ';');
-        foreach ($rows as $r) { $r['kind'] = lead_kind_ru($r['kind']); fputcsv($f, array_values($r), ';'); }
+        $safe = fn($v) => is_string($v) && $v !== '' && strpbrk($v[0], "=+-@\t\r") !== false && !preg_match('/^\+7\d{10}$/', $v) ? "'" . $v : $v;   // формулы Excel
+        foreach ($rows as $r) { $r['kind'] = lead_kind_ru($r['kind']); fputcsv($f, array_map($safe, array_values($r)), ';'); }
         rewind($f); $csv = stream_get_contents($f); fclose($f);
         audit('export', 'leads', null, ['rows' => count($rows)]);
         return [200, ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="zayavki-' . date('Y-m-d') . '.csv"'], $csv];
