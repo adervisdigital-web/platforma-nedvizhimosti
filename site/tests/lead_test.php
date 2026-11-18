@@ -16,7 +16,7 @@ pn_t('валидная заявка сохраняется первой, со с
     $r = lead_accept($ok(), '10.0.0.1', 1_000_000);
     pn_eq($r['ok'], true); pn_eq($r['message'], 'Заявка принята, перезвоним до 21:00');
     $l = pn_db()->query('select * from leads where id = ' . (int) $r['id'])->fetch();
-    pn_eq([$l['status'], $l['phone'], (int) $l['delivered_tg']], ['new', '+79655002918', 0]);
+    pn_eq([$l['status'], $l['phone'], (int) $l['delivered_tg']], ['new', '+79655002918', 2], 'Telegram в тестовой базе не настроен → 2');
     pn_ok($l['ip_hash'] !== '10.0.0.1' && strlen($l['ip_hash']) === 64, 'IP хранится хэшем');
 });
 pn_t('без согласия, ловушка, слишком быстро, плохой телефон — отказ без записи', function () use ($ok) {

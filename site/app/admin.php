@@ -14,7 +14,7 @@ function pn_redirect(string $to, ?string $flash = null): array { if ($flash) pn_
 
 // Разделы: путь → [заголовок, роль, обработчик(method, rest, post, files, user)]
 function pn_admin_sections(): array {
-    $s = [];
+    $s = ['leads' => ['Заявки', 'manager', 'pn_admin_leads']];
     foreach (['apartments', 'complexes', 'developers', 'houses', 'reviews'] as $e)
         $s[$e] = [pn_entities()[$e]['title'], 'manager', fn($m, $sub, $p, $f, $u) => pn_crud($e, $m, $sub, $p, $f, $u)];
     $s['settings'] = ['Настройки', 'admin', 'pn_admin_settings'];
@@ -70,4 +70,30 @@ function pn_admin_users(string $method, string $sub, array $post, array $files, 
         return pn_redirect('/admin/users', 'Менеджер удалён');
     }
     return pn_admin_page('Менеджеры', 'admin/users', ['active' => 'users', 'rows' => $db->query('select id, login, role, created_at from users order by id')->fetchAll()]);
+}
+
+// Заявки: первый экран админки — новые сверху, статус, заметка, фильтр, CSV, метка «не доставлена».
+function pn_admin_leads(string $method, string $sub, array $post, array $files, array $u): array {
+    $db = pn_db();
+    if ($sub === 'csv') {
+        $rows = $db->query('select id, created_at, kind, want, budget, area, name, phone, object_ref, slot, status, note from leads order by id desc')->fetchAll();
+        $f = fopen('php://temp', 'w+'); fwrite($f, "\xEF\xBB\xBF");
+        fputcsv($f, ['№', 'Дата (UTC)', 'Тип', 'Что ищет', 'Бюджет', 'Площадь/комнаты', 'Имя', 'Телефон', 'Объект', 'Время просмотра', 'Статус', 'Заметка'], ';');
+        foreach ($rows as $r) { $r['kind'] = lead_kind_ru($r['kind']); fputcsv($f, array_values($r), ';'); }
+        rewind($f); $csv = stream_get_contents($f); fclose($f);
+        audit('export', 'leads', null, ['rows' => count($rows)]);
+        return [200, ['Content-Type' => 'text/csv; charset=utf-8', 'Content-Disposition' => 'attachment; filename="zayavki-' . date('Y-m-d') . '.csv"'], $csv];
+    }
+    if ($method === 'POST' && ctype_digit($sub) && ($post['do'] ?? '') === 'status') {
+        $st = in_array($post['status'] ?? '', ['new', 'work', 'closed'], true) ? $post['status'] : 'new';
+        $db->prepare('update leads set status = ?, note = ? where id = ?')->execute([$st, mb_substr(trim((string) ($post['note'] ?? '')), 0, 1000), (int) $sub]);
+        audit('status', 'leads', (int) $sub, ['status' => $st]);
+        return pn_redirect('/admin/leads' . (isset($_GET['st']) ? '?st=' . urlencode((string) $_GET['st']) : ''), 'Заявка №' . (int) $sub . ' обновлена');
+    }
+    if ($method === 'POST' && ($post['do'] ?? '') === 'retry') { $n = deliver_pending(); return pn_redirect('/admin/leads', "Повторно доставлено: $n"); }
+    $stf = in_array($_GET['st'] ?? '', ['new', 'work', 'closed'], true) ? $_GET['st'] : '';
+    $st = $db->prepare('select * from leads' . ($stf ? ' where status = ?' : '') . ' order by (status = \'new\') desc, id desc limit 500');
+    $st->execute($stf ? [$stf] : []);
+    $counts = array_column($db->query('select status, count(*) n from leads group by status')->fetchAll(), 'n', 'status');
+    return pn_admin_page('Заявки', 'admin/leads', ['active' => 'leads', 'rows' => $st->fetchAll(), 'stf' => $stf, 'counts' => $counts]);
 }
