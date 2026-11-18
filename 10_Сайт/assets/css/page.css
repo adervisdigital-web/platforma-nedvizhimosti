@@ -1,0 +1,44 @@
+/* Подстраницы: квартира, дом, политика, 404. Токены — из site.css (--ink, --mut, --red, --red-ui). */
+body.pg{background:#F4F2EE;color:var(--ink);font-family:Manrope,system-ui,sans-serif}
+.pg-h{position:sticky;top:0;z-index:5;background:#F4F2EEee;backdrop-filter:blur(10px);border-bottom:1px solid #16161714}
+.pg-h .w{display:flex;align-items:center;gap:28px;height:72px}
+.pg-nav{display:flex;gap:22px;margin-left:auto;font-size:15px}
+.pg-nav a,.pg-bc a,.pg-f a{color:inherit;text-decoration:none}
+.pg-nav a:hover,.pg-bc a:hover{color:var(--red-ui)}
+.pg-tel{font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap}
+.pg-m.w{padding-top:24px;padding-bottom:80px}
+.pg-bc{font-size:14px;color:var(--mut);margin-bottom:20px}
+.pg-obj{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:start}
+.pg-gal{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pg-gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;display:block;background:#E6E3DE}
+.pg-gal img:first-child{grid-column:1/-1;aspect-ratio:16/10}
+.pg-info{position:sticky;top:96px}
+.pg-tag{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}
+.pg-info h1{font-size:clamp(30px,3vw,46px);font-weight:500;letter-spacing:-.02em;line-height:1.08;margin:0 0 10px}
+.pg-where{color:var(--mut);margin:0 0 22px}
+.pg-price{font-size:clamp(28px,2.6vw,38px);font-weight:700;margin:0}
+.pg-price span{font-size:.5em;color:#fff;background:var(--red-ui);border-radius:99px;padding:4px 10px;vertical-align:middle}
+.pg-sub{color:var(--mut);margin:6px 0 24px}
+.pg-par{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;margin:0 0 26px;padding:20px 0;border-top:1px solid #16161718;border-bottom:1px solid #16161718}
+.pg-par dt{color:var(--mut)}.pg-par dd{margin:0;font-weight:500}
+.pg-chk h2,.pg-plans h2{font-size:18px;font-weight:600;margin:0 0 12px}
+.pg-chk ul{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:8px}
+.pg-chk li{position:relative;padding-left:22px}
+.pg-chk li::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;background:var(--red)}
+.pg-txt p{line-height:1.6;margin:0 0 12px}
+.pg-plans{display:grid;gap:16px;margin:24px 0}
+.pg-plans figure{margin:0}.pg-plans img{width:100%;border-radius:14px;background:#fff}
+.pg-plans figcaption{font-size:14px;color:var(--mut);margin-top:6px}
+.pg-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pg-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border-radius:99px;border:1px solid #16161730;color:var(--ink);text-decoration:none;font-weight:600}
+.pg-btn.red{background:var(--red-ui);border-color:var(--red-ui);color:#fff}
+.pg-btn:hover{filter:brightness(.95)}
+.pg-doc{max-width:760px;line-height:1.6}.pg-doc h1{font-size:clamp(30px,3vw,46px);font-weight:500;letter-spacing:-.02em}
+.pg-404{padding:60px 0}
+.pg-f{border-top:1px solid #16161714;padding:26px 0;color:var(--mut);font-size:14px}
+.pg-f .w{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between}
+@media (max-width:900px){
+  .pg-obj{grid-template-columns:1fr;gap:24px}.pg-info{position:static}
+  .pg-nav{display:none}.pg-h .w{height:60px;justify-content:space-between}
+  .pg-act .pg-btn{flex:1 1 100%}
+}

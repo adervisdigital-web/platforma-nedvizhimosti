@@ -12,9 +12,11 @@ function pn_render(string $tpl, array $vars = []): string {
 function pn_page_order(): array {
     return json_decode(file_get_contents(__DIR__ . '/templates/order.json'), true, 8, JSON_THROW_ON_ERROR);
 }
-// Переменные главной страницы: порядок кусков и встроенные данные (читает assets/js/data.js).
+// Переменные главной страницы: порядок кусков, SEO и встроенные данные (читает assets/js/data.js).
 function pn_page_vars(array $extra = [], ?array $src = null): array {
     $cfg = pn_config();
+    $src ??= pn_source();
     return $extra + ['base_tag' => $cfg['demo'] ? '<meta name="robots" content="noindex">' : '', 'order' => pn_page_order(), 'demo' => $cfg['demo'],
-        'data_json' => pn_data_json(pn_page_data($src ?? pn_source(), $cfg))];
+        'seo_head' => seo_meta(seo_main($src['settings']), $src['settings']), 'jsonld' => seo_jsonld([], $src['settings']),
+        'data_json' => pn_data_json(pn_page_data($src, $cfg))];
 }

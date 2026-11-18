@@ -49,6 +49,9 @@ css = re.search(r'<style>(.*?)</style>', head, re.S).group(1)
 write(os.path.join(PUB, 'assets', 'css', 'site.css'), css.replace('url(photo/', 'url(../img/').replace("url('photo/", "url('../img/").replace('url("photo/', 'url("../img/'))
 head_t = head.replace(f'<style>{css}</style>', '<link rel="stylesheet" href="assets/css/site.css">')
 head_t = head_t.replace('href="photo/', 'href="assets/img/').replace('<meta charset="utf-8">', '<meta charset="utf-8"><?= $base_tag ?? "" ?>', 1)
+head_t, n1 = re.subn(r'<title>.*?<meta property="og:image" content="[^"]*">', '<?= $seo_head ?>', head_t, flags=re.S)   # SEO — из app/seo.php
+head_t, n2 = re.subn(r'<script type="application/ld\+json">.*?</script>', '<?= $jsonld ?>', head_t, flags=re.S)
+assert n1 == 1 and n2 == 1, 'не нашёл title/og или JSON-LD в голове прототипа'
 write(os.path.join(T, 'head.php'), head_t)
 
 # --- body: верхнеуровневые элементы (строки с '<' в 1-й колонке)

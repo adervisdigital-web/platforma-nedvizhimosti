@@ -15,19 +15,21 @@ function pn_rclear(string $dir): void {
 function pn_build(string $out, string $source = 'seed'): array {
     if (is_dir($out) && (new FilesystemIterator($out))->valid() && !is_file("$out/.pn-build"))
         throw new RuntimeException("$out не пустая и не похожа на прошлую сборку — не трогаю");
-    $prevDemo = $GLOBALS['PN_DEMO'] ?? false;
+    $prevDemo = $GLOBALS['PN_DEMO'] ?? false; $prevDsn = $GLOBALS['PN_DSN'] ?? null; $prevDb = $GLOBALS['PN_DB'] ?? null;
     $GLOBALS['PN_DEMO'] = true; $GLOBALS['PN_CONFIG_RESET'] = true;
     try {
         if (is_dir($out)) pn_rclear($out); else mkdir($out, 0777, true);
         pn_write_bundle();
         $root = pn_config()['root'];
-        $src = $source === 'db' ? pn_db_source() : pn_seed_all();
+        if ($source === 'seed') pn_build_seed_db();                 // страницы объектов строятся из базы — для seed поднимаем временную
+        $src = pn_db_source();
         $data = pn_page_data($src, pn_config());
         file_put_contents("$out/index.html", pn_render('layout', pn_page_vars([], $src)));
-        $pages = 1;
+        $pages = 1;   // + страницы квартир и домов; политика не считается
         foreach (pn_build_pages($src) as $rel => $html) {           // страницы объектов — задача 8
             if (!is_dir(dirname("$out/$rel"))) mkdir(dirname("$out/$rel"), 0777, true);
-            file_put_contents("$out/$rel", $html); $pages++;
+            file_put_contents("$out/$rel", $html);
+            if (!str_starts_with($rel, 'privacy/')) $pages++;
         }
         pn_rcopy("$root/public/assets", "$out/assets");
         copy("$root/public/kabinet.html", "$out/kabinet.html");
@@ -44,7 +46,22 @@ function pn_build(string $out, string $source = 'seed'): array {
         return ['pages' => $pages, 'out' => $out];
     } finally {
         $GLOBALS['PN_DEMO'] = $prevDemo; $GLOBALS['PN_CONFIG_RESET'] = true;
+        if ($source === 'seed') { $GLOBALS['PN_DB'] = $prevDb; if ($prevDsn === null) unset($GLOBALS['PN_DSN']); else $GLOBALS['PN_DSN'] = $prevDsn; }
     }
 }
-// Страницы объектов (задача 8). Пока пусто.
-function pn_build_pages(array $src): array { return []; }
+// Временная база из data/seed — чтобы витрина собиралась без рабочей базы.
+function pn_build_seed_db(): void {
+    $f = sys_get_temp_dir() . '/pn_build_seed.sqlite';
+    $GLOBALS['PN_DB'] = null; gc_collect_cycles();
+    foreach ([$f, "$f-wal", "$f-shm"] as $x) if (is_file($x)) unlink($x);
+    $GLOBALS['PN_DSN'] = "sqlite:$f"; $GLOBALS['PN_CONFIG_RESET'] = true;
+    pn_migrate(pn_db()); pn_seed_db(pn_db());
+}
+// Страницы объектов и политика: путь файла → HTML.
+function pn_build_pages(array $src): array {
+    $o = [];
+    foreach (Repo::apartments() as $a) $o["kvartiry/{$a['slug']}/index.html"] = pn_page_apartment($a['slug']);
+    foreach (Repo::houses() as $h) $o["doma/{$h['slug']}/index.html"] = pn_page_house($h['slug']);
+    $o['privacy/index.html'] = pn_route('GET', '/privacy/')[2];
+    return $o;
+}
