@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.9 -2.05 15.8 11.65" font-family="Manrope, Segoe UI, Arial, sans-serif">
+<defs><pattern id="h" width=".28" height=".28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2=".28" stroke="#C9C4BC" stroke-width=".05"/></pattern></defs>
+<rect x="-0.9" y="-2.05" width="15.8" height="11.65" fill="#fff"/>
+<rect x="4.95" y="-1.15" width="3.90" height="1.15" fill="url(#h)" stroke="#161617" stroke-width=".06"/>
+<rect x="0.00" y="0.00" width="4.40" height="4.40" fill="#fff" stroke="#161617" stroke-width=".1"/>
+<rect x="4.40" y="0.00" width="5.00" height="4.40" fill="#fff" stroke="#161617" stroke-width=".1"/>
+<rect x="9.40" y="0.00" width="4.60" height="4.40" fill="#fff" stroke="#161617" stroke-width=".1"/>
+<rect x="0.00" y="4.40" width="14.00" height="1.00" fill="#F6F4F0" stroke="#161617" stroke-width=".1"/>
+<rect x="0.00" y="5.40" width="4.00" height="3.00" fill="#fff" stroke="#161617" stroke-width=".1"/>
+<rect x="4.00" y="5.40" width="3.40" height="3.00" fill="#fff" stroke="#161617" stroke-width=".1"/>
+<rect x="7.40" y="5.40" width="2.80" height="3.00" fill="#F6F4F0" stroke="#161617" stroke-width=".1"/>
+<rect x="10.20" y="5.40" width="2.40" height="3.00" fill="#EEF1F2" stroke="#161617" stroke-width=".1"/>
+<rect x="12.60" y="5.40" width="1.40" height="3.00" fill="#EEF1F2" stroke="#161617" stroke-width=".1"/>
+<rect x="0" y="0" width="14.0" height="8.4" fill="none" stroke="#161617" stroke-width=".26"/>
+<rect x="0.20" y="4.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M0.20 4.40 v-0.90 A0.90 0.90 0 0 1 1.10 4.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="4.60" y="4.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M4.60 4.40 v-0.90 A0.90 0.90 0 0 1 5.50 4.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="9.60" y="4.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M9.60 4.40 v-0.90 A0.90 0.90 0 0 1 10.50 4.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="0.20" y="5.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M0.20 5.40 v0.90 A0.90 0.90 0 0 0 1.10 5.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="4.20" y="5.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M4.20 5.40 v0.90 A0.90 0.90 0 0 0 5.10 5.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="10.40" y="5.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M10.40 5.40 v-0.90 A0.90 0.90 0 0 1 11.30 5.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="12.80" y="5.33" width="0.90" height="0.14" fill="#fff"/>
+<path d="M12.80 5.40 v-0.90 A0.90 0.90 0 0 1 13.70 5.40" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="1.16" y="-0.15" width="2.08" height="0.30" fill="#fff"/>
+<rect x="1.16" y="-0.13" width="2.08" height=".26" fill="#fff" stroke="#161617" stroke-width=".04"/><line x1="1.16" y1="0.00" x2="3.24" y2="0.00" stroke="#161617" stroke-width=".03"/>
+<rect x="5.86" y="-0.15" width="2.08" height="0.30" fill="#fff"/>
+<rect x="5.86" y="-0.13" width="2.08" height=".26" fill="#fff" stroke="#161617" stroke-width=".04"/><line x1="5.86" y1="0.00" x2="7.94" y2="0.00" stroke="#161617" stroke-width=".03"/>
+<rect x="10.66" y="-0.15" width="2.08" height="0.30" fill="#fff"/>
+<rect x="10.66" y="-0.13" width="2.08" height=".26" fill="#fff" stroke="#161617" stroke-width=".04"/><line x1="10.66" y1="0.00" x2="12.74" y2="0.00" stroke="#161617" stroke-width=".03"/>
+<rect x="1.00" y="8.25" width="2.00" height="0.30" fill="#fff"/>
+<rect x="1.00" y="8.27" width="2.00" height=".26" fill="#fff" stroke="#161617" stroke-width=".04"/><line x1="1.00" y1="8.40" x2="3.00" y2="8.40" stroke="#161617" stroke-width=".03"/>
+<rect x="4.85" y="8.25" width="1.70" height="0.30" fill="#fff"/>
+<rect x="4.85" y="8.27" width="1.70" height=".26" fill="#fff" stroke="#161617" stroke-width=".04"/><line x1="4.85" y1="8.40" x2="6.55" y2="8.40" stroke="#161617" stroke-width=".03"/>
+<rect x="7.65" y="-0.15" width="0.90" height="0.30" fill="#fff"/>
+<rect x="8.35" y="8.25" width="1.00" height="0.30" fill="#fff"/>
+<circle cx="8.80" cy="8.95" r=".2" fill="#F5553C"/><text x="9.18" y="9.06" font-size=".32" fill="#6B675F">вход</text>
+<text x="2.20" y="2.14" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Спальня</text><text x="2.20" y="2.84" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">16,2</text>
+<text x="6.90" y="2.14" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Гостиная</text><text x="6.90" y="2.84" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">18,4</text>
+<text x="11.70" y="2.14" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Кухня</text><text x="11.70" y="2.84" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">16,9</text>
+<text x="7.00" y="4.84" text-anchor="middle" font-size="0.42000000000000004" fill="#6B675F">Коридор</text><text x="7.00" y="5.40" text-anchor="middle" font-size="0.50" font-weight="700" fill="#161617">11,7</text>
+<text x="2.00" y="6.84" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Детская</text><text x="2.00" y="7.54" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">10,0</text>
+<text x="5.70" y="6.84" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Кабинет</text><text x="5.70" y="7.54" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">8,5</text>
+<text x="8.80" y="6.84" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Прихожая</text><text x="8.80" y="7.54" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">7,0</text>
+<text x="11.40" y="6.84" text-anchor="middle" font-size="0.5599999999999999" fill="#6B675F">Ванная</text><text x="11.40" y="7.54" text-anchor="middle" font-size="0.67" font-weight="700" fill="#161617">6,0</text>
+<text x="13.30" y="6.84" text-anchor="middle" font-size="0.42000000000000004" fill="#6B675F">Туалет</text><text x="13.30" y="7.40" text-anchor="middle" font-size="0.50" font-weight="700" fill="#161617">3,5</text>
+<text x="6.90" y="-0.47" text-anchor="middle" font-size=".28" fill="#6B675F">лоджия</text>
+</svg>

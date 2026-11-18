@@ -10,12 +10,13 @@ function pn_flash(?string $msg = null): ?string {
     if ($msg !== null) { $_SESSION['flash'] = $msg; return null; }
     $m = $_SESSION['flash'] ?? null; unset($_SESSION['flash']); return $m;
 }
+function pn_plural(int $n, string $one, string $few, string $many): string { $m = $n % 10; $h = $n % 100; return $m === 1 && $h !== 11 ? $one : ($m >= 2 && $m <= 4 && ($h < 12 || $h > 14) ? $few : $many); }
 function pn_ini_mb(string $k): int { return (int) round(pn_bytes((string) ini_get($k)) / 1048576); }
 function pn_redirect(string $to, ?string $flash = null): array { if ($flash) pn_flash($flash); return [302, ['Location' => $to], '']; }
 
 // Разделы: путь → [заголовок, роль, обработчик(method, rest, post, files, user)]
 function pn_admin_sections(): array {
-    $s = ['leads' => ['Заявки', 'manager', 'pn_admin_leads']];
+    $s = ['overview' => ['Обзор', 'manager', 'pn_admin_overview'], 'leads' => ['Заявки', 'manager', 'pn_admin_leads']];
     foreach (['apartments', 'complexes', 'developers', 'houses', 'reviews'] as $e)
         $s[$e] = [pn_entities()[$e]['title'], 'manager', fn($m, $sub, $p, $f, $u) => pn_crud($e, $m, $sub, $p, $f, $u)];
     $s['settings'] = ['Настройки', 'admin', 'pn_admin_settings'];
@@ -100,5 +101,40 @@ function pn_admin_leads(string $method, string $sub, array $post, array $files, 
     $st = $db->prepare('select * from leads' . ($stf ? ' where status = ?' : '') . ' order by (status = \'new\') desc, id desc limit 500');
     $st->execute($stf ? [$stf] : []);
     $counts = array_column($db->query('select status, count(*) n from leads group by status')->fetchAll(), 'n', 'status');
-    return pn_admin_page('Заявки', 'admin/leads', ['active' => 'leads', 'rows' => $st->fetchAll(), 'stf' => $stf, 'counts' => $counts]);
+    $set = Repo::settingsAll();
+    return pn_admin_page('Заявки', 'admin/leads', ['active' => 'leads', 'rows' => $st->fetchAll(), 'stf' => $stf, 'counts' => $counts,
+        'deliv' => ['tg' => !empty($set['tg_token']) && !empty($set['tg_chat_id']), 'mail' => !empty($set['mail_to'])]]);
+}
+
+// Обзор: сводка, заявки за 14 дней, чек-лист перед запуском, последние заявки, журнал действий.
+function pn_admin_overview(string $method, string $sub, array $post, array $files, array $u): array {
+    $db = pn_db(); $set = Repo::settingsAll();
+    $tz = new DateTimeZone(date_default_timezone_get()); $days = [];
+    for ($i = 13; $i >= 0; $i--) { $d = (new DateTime("-$i days", $tz))->format('Y-m-d'); $days[$d] = 0; }
+    foreach ($db->query("select created_at from leads where created_at >= datetime('now', '-15 days')")->fetchAll(PDO::FETCH_COLUMN) as $c) {
+        $d = (new DateTime($c, new DateTimeZone('UTC')))->setTimezone($tz)->format('Y-m-d');
+        if (isset($days[$d])) $days[$d]++;
+    }
+    $n = fn(string $sql) => (int) $db->query($sql)->fetchColumn();
+    $stats = [
+        'new' => $n("select count(*) from leads where status = 'new'"), 'week' => array_sum(array_slice($days, -7)),
+        'apt' => $n('select count(*) from apartments where published = 1'), 'apt_hidden' => $n('select count(*) from apartments where published = 0'),
+        'houses' => $n('select count(*) from houses where published = 1'), 'reviews' => $n('select count(*) from reviews where published = 1'),
+        'reviews_demo' => $n('select count(*) from reviews where published = 1 and is_demo = 1'),
+    ];
+    $me = $db->prepare('select password_hash from users where id = ?'); $me->execute([(int) $u['id']]); $hash = (string) $me->fetchColumn();
+    $weak = password_verify('admin', $hash) || password_verify((string) $u['login'], $hash);   // пароль «admin» или равный логину
+    $demoApts = $n("select count(*) from apartments where published = 1 and description like '%демонстрационное%'");
+    $check = [
+        ['Заявки приходят в Telegram', !empty($set['tg_token']) && !empty($set['tg_chat_id']), 'Укажите токен бота и chat_id группы менеджеров', '/admin/settings'],
+        ['Копия заявок на почту', !empty($set['mail_to']), 'Укажите почту для заявок', '/admin/settings'],
+        ['Надёжный пароль у вас', !$weak, 'Пароль совпадает с логином или «admin» — смените его', '/admin/users'],
+        ['Реальные квартиры вместо демо', $demoApts === 0, "Демо-квартир на сайте: $demoApts — замените настоящими", '/admin/apartments'],
+        ['Настоящие отзывы', empty($set['show_demo_reviews']) || $stats['reviews_demo'] === 0, 'Демо-отзывы показываются на сайте — выключите в настройках', '/admin/settings'],
+        ['Снята пометка «демо-данные»', empty($set['demo_data']), 'В подвале сайта стоит пометка «демо-данные»', '/admin/settings'],
+        ['Текст политики обработки ПДн', false, 'Нужен текст от юриста — пришлите, вставим на страницу политики', '/privacy/'],
+    ];
+    $recent = $db->query('select * from leads order by id desc limit 5')->fetchAll();
+    $log = $db->query('select a.*, u.login from audit a left join users u on u.id = a.user_id order by a.at desc, a.id desc limit 12')->fetchAll();
+    return pn_admin_page('Обзор', 'admin/overview', ['active' => 'overview', 'days' => $days, 'stats' => $stats, 'check' => $check, 'recent' => $recent, 'log' => $log]);
 }

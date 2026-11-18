@@ -1,5 +1,5 @@
 <?php
-// php site/app/cli.php migrate | seed | user:add <логин> <admin|manager> | bundle | leads:retry
+// php site/app/cli.php migrate | seed | seed:details | user:add <логин> <admin|manager> | bundle | leads:retry
 require __DIR__ . '/bootstrap.php';
 $cmd = $argv[1] ?? '';
 $db = fn() => pn_db();
@@ -12,6 +12,11 @@ switch ($cmd) {
         if ((int) $db()->query('select count(*) from apartments')->fetchColumn() > 0) exit("в базе уже есть квартиры — seed не нужен\n");
         pn_seed_db($db());
         echo "стартовые данные загружены\n";
+        break;
+    case 'seed:details':
+        pn_migrate($db());
+        echo 'дополнено квартир: ', pn_seed_details($db(), true), "
+";
         break;
     case 'user:add':
         [$login, $role] = [$argv[2] ?? '', $argv[3] ?? 'manager'];
@@ -27,5 +32,5 @@ switch ($cmd) {
         echo 'доставлено повторно: ', function_exists('deliver_pending') ? deliver_pending() : 0, "\n";
         break;
     default:
-        exit("команды: migrate | seed | user:add <логин> <admin|manager> | bundle | leads:retry\n");
+        exit("команды: migrate | seed | seed:details | user:add <логин> <admin|manager> | bundle | leads:retry\n");
 }

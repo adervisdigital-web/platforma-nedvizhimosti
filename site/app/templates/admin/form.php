@@ -19,7 +19,7 @@ $action = $ent === 'settings' ? '/admin/settings' : "/admin/$ent/" . ($id ?: 'ne
     <label><?= pn_e($f['label']) ?><textarea name="<?= $n ?>" rows="<?= $f['type'] === 'paras' ? 8 : 5 ?>"><?= pn_e((string) $v) ?></textarea></label>
   <?php elseif ($f['type'] === 'photos'): $up = $n === 'photos' ? 'upload' : $n . '_upload'; ?>
     <span class="lbl"><?= pn_e($f['label']) ?></span>
-    <div class="ad-photos" data-sortable><?php foreach (array_values((array) $v) as $pi => $ph): ?>
+    <div class="ad-photos<?= $n === 'photos' ? ' cov' : '' ?><?= $n === 'plans' ? ' pl' : '' ?>" data-sortable><?php foreach (array_values((array) $v) as $pi => $ph): ?>
       <figure><img <?= pn_img_attrs(($ent === 'houses' ? 'houses/' : '') . $ph, '140px') ?> alt=""><input type="hidden" name="<?= $n ?>[]" value="<?= pn_e($ph) ?>">
         <figcaption><button type="button" class="ad-ico" data-move="-1" aria-label="Левее" title="Левее">‹</button><button type="button" class="ad-ico" data-move="1" aria-label="Правее" title="Правее">›</button>
         <label class="ad-del" title="Удалить при сохранении"><input type="checkbox" name="<?= $n ?>_del[]" value="<?= pn_e($ph) ?>"> удалить</label></figcaption></figure><?php endforeach; ?></div>

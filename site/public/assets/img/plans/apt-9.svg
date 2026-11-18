@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.9 -0.90 8.200000000000001 7.60" font-family="Manrope, Segoe UI, Arial, sans-serif">
+<defs><pattern id="h" width=".28" height=".28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2=".28" stroke="#C9C4BC" stroke-width=".05"/></pattern></defs>
+<rect x="-0.9" y="-0.90" width="8.200000000000001" height="7.60" fill="#fff"/>
+<rect x="0.00" y="0.00" width="6.40" height="3.80" fill="#fff" stroke="#161617" stroke-width=".1"/>
+<rect x="0.00" y="3.80" width="3.90" height="1.70" fill="#F6F4F0" stroke="#161617" stroke-width=".1"/>
+<rect x="3.90" y="3.80" width="2.50" height="1.70" fill="#EEF1F2" stroke="#161617" stroke-width=".1"/>
+<rect x="0" y="0" width="6.4" height="5.5" fill="none" stroke="#161617" stroke-width=".26"/>
+<rect x="0.20" y="3.73" width="0.97" height="0.14" fill="#fff"/>
+<path d="M0.20 3.80 v-0.97 A0.97 0.97 0 0 1 1.17 3.80" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="3.83" y="4.00" width="0.14" height="0.97" fill="#fff"/>
+<path d="M3.90 4.00 h-0.97 A0.97 0.97 0 0 0 3.90 4.97" fill="none" stroke="#8A857C" stroke-width=".04"/>
+<rect x="2.07" y="-0.15" width="2.26" height="0.30" fill="#fff"/>
+<rect x="2.07" y="-0.13" width="2.26" height=".26" fill="#fff" stroke="#161617" stroke-width=".04"/><line x1="2.07" y1="0.00" x2="4.33" y2="0.00" stroke="#161617" stroke-width=".03"/>
+<rect x="1.46" y="5.35" width="1.07" height="0.30" fill="#fff"/>
+<circle cx="1.95" cy="6.05" r=".2" fill="#F5553C"/><text x="2.33" y="6.16" font-size=".32" fill="#6B675F">вход</text>
+<text x="3.20" y="1.84" text-anchor="middle" font-size="0.27" fill="#6B675F">Комната-студия</text><text x="3.20" y="2.25" text-anchor="middle" font-size="0.32" font-weight="700" fill="#161617">17,2</text>
+<text x="1.95" y="4.59" text-anchor="middle" font-size="0.27" fill="#6B675F">Прихожая</text><text x="1.95" y="5.00" text-anchor="middle" font-size="0.32" font-weight="700" fill="#161617">4,7</text>
+<text x="5.15" y="4.59" text-anchor="middle" font-size="0.27" fill="#6B675F">Санузел</text><text x="5.15" y="5.00" text-anchor="middle" font-size="0.32" font-weight="700" fill="#161617">3,0</text>
+</svg>

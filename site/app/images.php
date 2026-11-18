@@ -67,5 +67,6 @@ function pn_img_attrs(string $name, string $sizes = '100vw'): string {
         $img = []; foreach (PN_IMG_WIDTHS as $w) $img["w$w"] = "{$m[1]}-$w.webp";
         return 'src="uploads/' . pn_e($img['w960']) . '" srcset="' . pn_e(pn_srcset($img)) . '" sizes="' . pn_e($sizes) . '"';
     }
+    if (preg_match('~^[a-z0-9/_-]+\.svg$~', $name)) return 'src="assets/img/' . pn_e($name) . '"';   // схемы планировок из seed
     return 'src="assets/img/' . pn_e($name) . '.jpg"';
 }

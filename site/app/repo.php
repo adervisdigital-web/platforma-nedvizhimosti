@@ -9,8 +9,9 @@ final class Repo {
         return array_map([self::class, 'apt'], pn_db()->query($sql)->fetchAll());
     }
     public static function apartment(string $slug): ?array {
-        $st = pn_db()->prepare('select a.*, c.name as complex, coalesce(a.district, c.district) as district, c.checks as complex_checks, c.slug as complex_slug
-            from apartments a left join complexes c on c.id = a.complex_id where a.slug = ? and a.published = 1');
+        $st = pn_db()->prepare('select a.*, c.name as complex, coalesce(a.district, c.district) as district, c.checks as complex_checks, c.slug as complex_slug,
+            coalesce(a.lat, c.lat) as glat, coalesce(a.lng, c.lng) as glng, d.name as developer
+            from apartments a left join complexes c on c.id = a.complex_id left join developers d on d.id = c.developer_id where a.slug = ? and a.published = 1');
         $st->execute([$slug]);
         $r = $st->fetch();
         if (!$r) return null;
@@ -18,6 +19,10 @@ final class Repo {
         $a['complex_checks'] = self::dec($r['complex_checks']) ?? [];
         $a['complex_slug'] = $r['complex_slug'];
         $a['description'] = $r['description'];
+        foreach (['living_area', 'kitchen_area', 'ceiling'] as $k) $a[$k] = $r[$k] === null ? null : pn_num($r[$k]);
+        foreach (['bathroom', 'balcony', 'view', 'developer'] as $k) $a[$k] = $r[$k];
+        $a['plans'] = self::dec($r['plans']) ?? [];
+        $a['lat'] = $r['glat'] === null ? null : (float) $r['glat']; $a['lng'] = $r['glng'] === null ? null : (float) $r['glng'];
         return $a;
     }
     private static function apt(array $r): array {

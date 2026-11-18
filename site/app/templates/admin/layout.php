@@ -1,7 +1,8 @@
 <?php /** Каркас админки. Переменные: $title, $user, $active, $flash, $content */
-$nav = ['leads' => 'Заявки', 'apartments' => 'Квартиры', 'complexes' => 'ЖК', 'developers' => 'Застройщики', 'houses' => 'Дома', 'reviews' => 'Отзывы',
+$nav = ['overview' => 'Обзор', 'leads' => 'Заявки', 'apartments' => 'Квартиры', 'complexes' => 'ЖК', 'developers' => 'Застройщики', 'houses' => 'Дома', 'reviews' => 'Отзывы',
     'settings' => 'Настройки', 'users' => 'Менеджеры'];
 $ico = [
+    'overview' => '<rect x="3.5" y="3.5" width="7" height="9" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.5"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5"/>',
     'leads' => '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
     'apartments' => '<path d="M5 21V4h10v17M15 9h4v12M3 21h18M8.5 8h3M8.5 12h3M8.5 16h3"/>',
     'complexes' => '<path d="M3 21V9l6-3v15M9 21V3l12 4v14M3 21h18M13 9h4M13 13h4M13 17h4"/>',

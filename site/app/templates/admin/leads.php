@@ -1,4 +1,4 @@
-<?php /** Заявки. Переменные: $rows, $stf, $counts */
+<?php /** Заявки. Переменные: $rows, $stf, $counts, $deliv ['tg' => bool, 'mail' => bool] */
 $ru = ['new' => 'новая', 'work' => 'в работе', 'closed' => 'закрыта'];
 $tabs = ['new' => 'Новые', 'work' => 'В работе', 'closed' => 'Закрыты'];
 $undel = count(array_filter($rows, 'lead_undelivered'));
@@ -9,7 +9,23 @@ $tz = new DateTimeZone(date_default_timezone_get()); $today = (new DateTime('now
   <a class="ad-stat ad-csv" href="/admin/leads/csv"><b>CSV</b><span>Скачать для Excel</span></a>
 </div>
 <?php if ($undel): ?><form method="post" class="ad-flash ad-warn"><?= csrf_field() ?><input type="hidden" name="do" value="retry"><span>Не доставлено в Telegram или на почту: <b><?= $undel ?></b>. Проверьте настройки доставки.</span> <button class="ad-btn sm">Отправить ещё раз</button></form><?php endif; ?>
-<?php if (!$rows): ?><div class="ad-empty"><p><?= $stf ? 'В этом статусе заявок нет.' : 'Заявок пока нет. Они появятся здесь, как только клиент оставит телефон на сайте.' ?></p></div><?php else: ?>
+<?php if (!$rows && $stf): ?><div class="ad-empty"><p>В этом статусе заявок нет.</p><a class="ad-btn" href="/admin/leads">Все заявки</a></div>
+<?php elseif (!$rows): ?><div class="ad-empty ad-onb">
+  <div class="ad-onb-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg></div>
+  <h2>Заявок пока нет</h2>
+  <p>Как только клиент оставит телефон на сайте, заявка появится здесь, а менеджер получит уведомление.</p>
+  <ol class="ad-steps">
+    <li><b>Клиент</b> оставляет телефон: подбор, «перезвоните», запись на просмотр</li>
+    <li><b>Заявка</b> сохраняется здесь — даже если Telegram и почта недоступны</li>
+    <li><b>Менеджер</b> получает уведомление и отмечает статус: в работе, закрыта</li>
+  </ol>
+  <div class="ad-deliv">
+    <span class="ad-pill<?= $deliv['tg'] ? ' on' : '' ?>">Telegram <?= $deliv['tg'] ? 'подключён' : 'не подключён' ?></span>
+    <span class="ad-pill<?= $deliv['mail'] ? ' on' : '' ?>">Почта <?= $deliv['mail'] ? 'подключена' : 'не подключена' ?></span>
+    <?php if (!$deliv['tg'] || !$deliv['mail']): ?><a class="ad-btn red sm" href="/admin/settings">Подключить уведомления</a><?php endif; ?>
+    <a class="ad-btn sm" href="/" target="_blank">Открыть сайт ↗</a>
+  </div>
+</div><?php else: ?>
 <table class="ad-t ad-leads"><thead><tr><th>Заявка</th><th>Клиент</th><th>Что ищет</th><th>Статус и заметка</th></tr></thead><tbody>
 <?php foreach ($rows as $l): $ts = (new DateTime($l['created_at'], new DateTimeZone('UTC')))->setTimezone($tz);
     $when = $ts->format('Y-m-d') === $today ? 'сегодня, ' . $ts->format('H:i') : $ts->format('d.m, H:i'); ?>

@@ -7,7 +7,7 @@ function pn_subpage(int $code, string $tpl, array $vars, array $seo, array $grap
     $s = Repo::settingsAll();
     $cfg = pn_config();
     $base = $depth ? str_repeat('../', $depth) : './';
-    $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css">';
+    $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css"><link rel="stylesheet" href="assets/css/object.css">';
     return pn_render('page', ['base_tag' => ($cfg['demo'] ? '<meta name="robots" content="noindex">' : '') . '<base href="' . $base . '">',
         'seo_head' => $head, 'jsonld' => seo_jsonld($graph, $s), 'settings' => pn_public_settings($s),
         'content' => pn_render($tpl, $vars + ['settings' => pn_public_settings($s)])]);
@@ -37,10 +37,20 @@ function pn_page_apartment(string $slug): ?string {
     $graph = [['@type' => 'Product', 'name' => $title, 'image' => $site . $seo['image'], 'description' => $seo['description'],
         'offers' => ['@type' => 'Offer', 'price' => $a['price'], 'priceCurrency' => 'RUB', 'availability' => 'https://schema.org/InStock', 'url' => $site . $seo['path']]],
         seo_breadcrumbs([['Главная', ''], ['Квартиры', '#list'], [$where, $seo['path']]], $s)];
-    return pn_subpage(200, 'apartment', ['a' => $a, 'idx' => $idx === false ? 0 : $idx, 'pay' => pn_annuity($a['price'], (float) $rate), 'rate' => $rate],
+    return pn_subpage(200, 'apartment', ['a' => $a, 'idx' => $idx === false ? 0 : $idx, 'pay' => pn_annuity($a['price'], (float) $rate), 'rate' => $rate,
+        'progs' => $progs, 'ren' => $s['renovation_prices'] ?? [], 'similar' => pn_similar_apartments($a)],
         $seo, $graph, 2);
 }
 
+// Похожие: ближе по комнатам, тот же район, ближе по цене. До трёх штук.
+function pn_similar_apartments(array $a, int $n = 3): array {
+    $all = array_filter(Repo::apartments(), fn($x) => $x['slug'] !== $a['slug']);
+    usort($all, fn($x, $y) => pn_similar_score($a, $x) <=> pn_similar_score($a, $y));
+    return array_slice(array_values($all), 0, $n);
+}
+function pn_similar_score(array $a, array $x): float {
+    return abs($a['rooms'] - $x['rooms']) * 2 + ($a['district'] === $x['district'] ? 0 : 1) + abs($a['price'] - $x['price']) / max(1, $a['price']) * 3;
+}
 function pn_page_house(string $slug): ?string {
     $h = Repo::house($slug);
     if (!$h) return null;
@@ -51,7 +61,8 @@ function pn_page_house(string $slug): ?string {
         'path' => "doma/{$h['slug']}/", 'image' => 'assets/img/houses/' . ($h['ph'][0] ?? '') . '.jpg', 'type' => 'product'];
     $graph = [['@type' => 'Product', 'name' => "Проект дома «{$name}»", 'image' => pn_site_url($s) . $seo['image'], 'description' => $seo['description']],
         seo_breadcrumbs([['Главная', ''], ['Дома', '#houses'], [$name, $seo['path']]], $s)];
-    return pn_subpage(200, 'house', ['h' => $h], $seo, $graph, 2);
+    $others = array_values(array_filter(Repo::houses(), fn($x) => $x['slug'] !== $h['slug']));
+    return pn_subpage(200, 'house', ['h' => $h, 'others' => $others], $seo, $graph, 2);
 }
 
 function pn_sitemap(): string {

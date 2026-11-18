@@ -14,7 +14,7 @@ function forms_lines(string $raw): array { return array_values(array_filter(arra
 
 // Фото из виджета (порядок — как в форме, отмеченные «удалить» — убраны) + новые загрузки.
 function forms_photos(array $post, array $files, string $name, array &$errors): array {
-    $keep = array_values(array_filter(array_map('strval', (array) ($post[$name] ?? [])), fn($p) => preg_match('~^[a-z0-9_/-]+$~i', $p)));
+    $keep = array_values(array_filter(array_map('strval', (array) ($post[$name] ?? [])), fn($p) => preg_match('~^[a-z0-9_/-]+(?:\.svg)?$~i', $p)));
     $del = array_map('strval', (array) ($post[$name . '_del'] ?? []));
     $keep = array_values(array_diff($keep, $del));
     $up = $files[$name === 'photos' ? 'upload' : $name . '_upload'] ?? null;

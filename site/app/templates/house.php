@@ -1,29 +1,86 @@
-<?php /** Страница проекта дома. Переменные: $h (Repo::house, форма прототипа + price_from/area), $settings */
-$warm = (int) ($settings['warm_contour_from'] ?? 0); ?>
-<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <a href="./#houses">Дома</a> · <span><?= pn_e($h['line'] . ' ' . $h['n']) ?></span></nav>
-<article class="pg-obj">
-  <div class="pg-gal"><?php foreach ($h['ph'] as $k => $ph): ?>
-    <img <?= pn_img_attrs('houses/' . $ph, $k ? '(max-width: 900px) 100vw, 30vw' : '(max-width: 900px) 100vw, 60vw') ?> alt="Дом «<?= pn_e($h['line'] . ' ' . $h['n']) ?>»<?= $k ? ', фото ' . ($k + 1) : '' ?>" <?= $k ? 'loading="lazy"' : '' ?>>
-  <?php endforeach; ?></div>
-  <div class="pg-info">
-    <p class="pg-tag" style="--c:<?= pn_e($h['c']) ?>">Линейка «<?= pn_e($h['line']) ?>»</p>
-    <h1><?= pn_e($h['line'] . ' ' . $h['n']) ?></h1>
-    <p class="pg-where"><?= pn_e($h['motto']) ?></p>
-    <?php if ($warm && !empty($h['area'])): ?><p class="pg-price">от <?= pn_rub((int) round($warm * $h['area'])) ?></p><p class="pg-sub">тёплый контур от <?= pn_rub($warm) ?>/м² · рассрочка 0&nbsp;% до 5&nbsp;лет</p><?php endif; ?>
-    <dl class="pg-par">
-      <dt>Площадь</dt><dd><?= pn_area($h['n']) ?></dd>
-      <dt>Этажей</dt><dd><?= $h['fl'] ?></dd>
-      <dt>Комнаты</dt><dd><?= pn_e($h['rooms']) ?></dd>
-      <dt>Потолки</dt><dd><?= pn_e($h['ceil']) ?></dd>
-    </dl>
-    <div class="pg-chk"><h2>Особенности</h2><ul><?php foreach ($h['feats'] as $f): ?><li><?= pn_e($f) ?></li><?php endforeach; ?></ul></div>
-    <div class="pg-txt"><p><b><?= pn_e($h['idea']) ?></b></p><?php foreach ($h['text'] as $p): ?><p><?= pn_e($p) ?></p><?php endforeach; ?></div>
-    <?php if ($h['plans']): ?><div class="pg-plans"><h2>Планировки</h2><?php foreach ($h['plans'] as $pl): ?>
-      <figure><img <?= pn_img_attrs('houses/' . $pl[1], '(max-width: 900px) 100vw, 45vw') ?> alt="Планировка: <?= pn_e($pl[0]) ?>" loading="lazy"><figcaption><?= pn_e($pl[0]) ?></figcaption></figure>
-    <?php endforeach; ?></div><?php endif; ?>
-    <div class="pg-act">
-      <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Рассчитать рассрочку</a>
-      <a class="pg-btn" href="tel:<?= pn_e($settings['phone_tel'] ?? '') ?>">Позвонить</a>
-    </div>
+<?php /** Страница проекта дома. Переменные: $h (Repo::house, форма прототипа + price_from/area), $others (другие проекты), $settings */
+$warm = (int) ($settings['warm_contour_from'] ?? 0);
+$name = $h['line'] . ' ' . $h['n'];
+$area = (float) ($h['area'] ?: $h['n']);
+$price = $h['price_from'] ?: ($warm ? (int) round($warm * $area) : 0);
+$photos = array_map(fn($ph, $k) => [pn_img_attrs('houses/' . $ph, '(max-width: 1000px) 100vw, 62vw'), "Дом «{$name}»" . ($k ? ', фото ' . ($k + 1) : '')], $h['ph'], array_keys($h['ph']));
+$plans = array_map(fn($pl) => [pn_img_attrs('houses/' . $pl[1], '(max-width: 1000px) 100vw, 62vw'), $pl[0]], $h['plans']);
+$tel = $settings['phone_tel'] ?? '';
+$facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (string) $h['fl']], ['Комнаты', $h['rooms']], ['Потолки', $h['ceil']],
+    ['Тёплый контур', $warm ? 'от ' . pn_rub($warm) . '/м²' : null]], fn($f) => $f[1] !== null && $f[1] !== ''); ?>
+<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <a href="./#houses">Дома</a> · <span><?= pn_e($name) ?></span></nav>
+<div class="ob">
+  <div class="ob-main">
+    <?= pn_render('obj_gallery', ['photos' => $photos, 'plans' => $plans, 'planTab' => 'Планировки']) ?>
+
+    <section class="ob-facts" aria-label="Коротко о проекте">
+      <?php foreach ($facts as [$k, $v]): ?><div><span><?= $k ?></span><b><?= pn_e($v) ?></b></div><?php endforeach; ?>
+    </section>
+
+    <section class="ob-sec" id="about"><h2>О проекте</h2>
+      <?php if ($h['idea']): ?><blockquote class="ob-idea" style="--c:<?= pn_e($h['c']) ?>"><?= pn_e($h['idea']) ?></blockquote><?php endif; ?>
+      <div class="ob-txt"><?php foreach ($h['text'] as $p): ?><p><?= pn_e($p) ?></p><?php endforeach; ?></div>
+    </section>
+
+    <?php if ($h['feats']): ?>
+    <section class="ob-sec" id="feats"><h2>Особенности</h2>
+      <ul class="ob-checks"><?php foreach ($h['feats'] as $f): ?><li><i aria-hidden="true"></i><?= pn_e($f) ?></li><?php endforeach; ?></ul>
+    </section>
+    <?php endif; ?>
+
+    <?php if ($plans): ?>
+    <section class="ob-sec" id="plan"><h2>Планировки</h2>
+      <div class="ob-plangrid"><?php foreach ($plans as $k => [$attrs, $cap]): ?>
+        <figure><button type="button" class="ob-planbig" data-plan="<?= $k ?>" aria-label="Открыть «<?= pn_e($cap) ?>» крупно"><img <?= $attrs ?> alt="Планировка: <?= pn_e($cap) ?>" loading="lazy"><span>Открыть крупно</span></button><figcaption><?= pn_e($cap) ?></figcaption></figure>
+      <?php endforeach; ?></div>
+    </section>
+    <?php endif; ?>
+
+    <?php if ($price): ?>
+    <section class="ob-sec ob-calc" id="inst" data-inst data-price="<?= $price ?>"><h2>Рассрочка 0 %</h2>
+      <div class="ob-calc-in">
+        <div class="ob-calc-f">
+          <p class="ob-lead">Строим своими бригадами по этапам. Без банка и процентов: взнос от 30 %, остаток — равными платежами до 5 лет.</p>
+          <label class="ob-rng">Первый взнос <output data-o="down"><?= pn_rub((int) round($price * .3)) ?> · 30 %</output><input type="range" min="30" max="90" step="5" value="30" data-i="down"></label>
+          <label class="ob-rng">Срок <output data-o="term">3 года</output><input type="range" min="1" max="5" step="1" value="3" data-i="term"></label>
+        </div>
+        <div class="ob-calc-r" aria-live="polite">
+          <span>Платёж в месяц</span><b data-o="pay"><?= pn_rub((int) round($price * .7 / 36)) ?></b>
+          <dl><div><dt>Дом в тёплом контуре</dt><dd>от <?= pn_rub($price) ?></dd></div><div><dt>Остаток в рассрочку</dt><dd data-o="rest"><?= pn_rub((int) round($price * .7)) ?></dd></div><div><dt>Переплата</dt><dd>0 ₽</dd></div></dl>
+          <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Получить смету</a>
+          <small>Тёплый контур от <?= pn_rub($warm) ?>/м². Итог зависит от участка, фундамента и комплектации — назовём в смете.</small>
+        </div>
+      </div>
+    </section>
+    <?php endif; ?>
   </div>
-</article>
+
+  <aside class="ob-side">
+    <div class="ob-card">
+      <p class="pg-tag"><i class="ob-dot" style="--c:<?= pn_e($h['c']) ?>"></i>Линейка «<?= pn_e($h['line']) ?>»</p>
+      <h1><?= pn_e($name) ?></h1>
+      <p class="pg-where"><?= pn_e($h['motto']) ?></p>
+      <?php if ($price): ?><p class="pg-price">от <?= pn_rub($price) ?></p><p class="pg-sub">тёплый контур · <?= pn_area($area) ?></p>
+      <a class="ob-mortlink" href="#inst"><span>Рассрочка 0 % до 5 лет</span><b>от <?= pn_rub((int) round($price * .7 / 60)) ?>/мес</b><i aria-hidden="true">→</i></a><?php endif; ?>
+      <div class="ob-ok"><i aria-hidden="true"></i><span><b>Строим своими бригадами</b><br>Смета до начала работ, гарантия 5 лет</span></div>
+      <div class="pg-act">
+        <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Обсудить проект</a>
+        <a class="pg-btn" href="tel:<?= pn_e($tel) ?>">Позвонить</a>
+        <button type="button" class="pg-btn ghost" data-share aria-label="Поделиться ссылкой"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>Поделиться</button>
+      </div>
+      <p class="ob-mgr">На связи <?= pn_e($settings['hours_from'] ?? '9:00') ?>–<?= pn_e($settings['hours_to'] ?? '21:00') ?> · <a href="tel:<?= pn_e($tel) ?>"><?= pn_e($settings['phone'] ?? '') ?></a></p>
+    </div>
+  </aside>
+</div>
+
+<?php if ($others): ?>
+<section class="ob-sim"><h2>Другие проекты</h2>
+  <div class="ob-simg"><?php foreach (array_slice($others, 0, 4) as $o): ?>
+    <a class="ob-simc" href="doma/<?= pn_e($o['slug']) ?>/"><img <?= pn_img_attrs('houses/' . ($o['ph'][0] ?? ''), '(max-width: 900px) 100vw, 25vw') ?> alt="" loading="lazy">
+      <span class="ob-simt"><?= pn_e($o['line'] . ' ' . $o['n']) ?></span><span class="ob-simw"><?= pn_e($o['motto']) ?></span><b><?= $warm ? 'от ' . pn_rub((int) round($warm * $o['n'])) : pn_area($o['n']) ?></b></a>
+  <?php endforeach; ?></div>
+</section>
+<?php endif; ?>
+
+<?php if ($price): ?><div class="ob-bar"><div><b>от <?= pn_rub($price) ?></b><span>рассрочка 0 %</span></div><a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Обсудить</a></div><?php endif; ?>
+<script src="assets/js/page.js" defer></script>

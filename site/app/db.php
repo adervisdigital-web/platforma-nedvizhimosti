@@ -76,4 +76,20 @@ function pn_seed_db(PDO $db): void {
     $ins->execute(['quick', pn_json_enc($s['quick'])]);
     $ins->execute(['salt', pn_json_enc(bin2hex(random_bytes(16)))]);
     $db->commit();
+    pn_seed_details($db);
+}
+// Демо-подробности квартир (data/seed/apartment_details.json: площади, планировка, описание, фото).
+// $onlyEmpty — только там, где менеджер ещё ничего не заполнял (для уже работающей базы: php site/app/cli.php seed:details).
+function pn_seed_details(PDO $db, bool $onlyEmpty = false): int {
+    $f = pn_config()['root'] . '/data/seed/apartment_details.json';
+    if (!is_file($f)) return 0;
+    $st = $db->prepare('update apartments set living_area = ?, kitchen_area = ?, ceiling = ?, bathroom = ?, balcony = ?, view = ?, plans = ?, photos = ?, description = ?
+        where id = ?' . ($onlyEmpty ? " and living_area is null and coalesce(description, '') = '' and plans = '[]'" : ''));
+    $n = 0;
+    foreach (json_decode(file_get_contents($f), true, 512, JSON_THROW_ON_ERROR) as $id => $d) {
+        $st->execute([$d['living_area'], $d['kitchen_area'], $d['ceiling'], $d['bathroom'], $d['balcony'], $d['view'], pn_json_enc($d['plans']),
+            pn_json_enc($d['photos']), $d['description'], (int) $id]);
+        $n += $st->rowCount();
+    }
+    return $n;
 }
