@@ -31,7 +31,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--red);outline-off
 .ad-login{display:grid;place-items:center;grid-template-columns:1fr}
 .ad-card{background:#fff;border-radius:20px;padding:32px;width:min(400px,92vw);display:grid;gap:16px;box-shadow:0 20px 60px #0000000f}
 .ad-card .ad-logo{color:var(--ink)}.ad-card h1{font-size:24px;font-weight:500;margin:0}
-.ad-form{background:#fff;border-radius:16px;padding:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px 18px}
+.ad-form{background:#fff;border-radius:16px;padding:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:16px 18px}
 .ad-form .wide{grid-column:1/-1}.ad-form .ad-bad input,.ad-form .ad-bad select{border-color:var(--red-ui)}
 .ad-form .ad-bad small{color:var(--red-ui)}
 .ad-check{display:flex;align-items:center;gap:8px;color:var(--ink)}.ad-check input{width:auto;min-height:0}
@@ -43,9 +43,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--red);outline-off
 .st-new{color:var(--red-ui);font-weight:700}.st-work{color:#9a6a00}.st-closed{color:var(--mut)}
 .ad-undel{background:#F5553C1a;color:var(--red-ui);border-radius:99px;padding:2px 8px;font-size:13px;white-space:nowrap}
 @media (max-width:860px){
-  body.ad{grid-template-columns:1fr}
+  body.ad{grid-template-columns:minmax(0,1fr)}
   .ad-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:12px}
-  .ad-side nav{display:flex;overflow-x:auto;gap:4px;width:100%}.ad-side nav a{white-space:nowrap}
+  .ad-side nav{display:flex;overflow-x:auto;gap:4px;width:100%;min-width:0}
+  .ad-side{min-width:0}.ad-side nav a{white-space:nowrap}
   .ad-me{margin:0}
   .ad-t thead{display:none}.ad-t tr{display:grid;padding:10px 0;border-bottom:1px solid var(--line)}.ad-t td{border:0;padding:4px 14px}
 }
+.ad-form .lbl{font-size:14px;color:var(--mut);display:block;margin-bottom:6px}.ad-drop input{margin-top:10px}
+.ad-photos figcaption{display:flex;align-items:center;gap:2px;font-size:13px}.ad-photos figcaption .ad-check{font-size:13px;color:var(--mut)}

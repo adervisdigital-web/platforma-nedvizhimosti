@@ -14,7 +14,11 @@ function pn_redirect(string $to, ?string $flash = null): array { if ($flash) pn_
 
 // Разделы: путь → [заголовок, роль, обработчик(method, rest, post, files, user)]
 function pn_admin_sections(): array {
-    $s = ['users' => ['Менеджеры', 'admin', 'pn_admin_users']];
+    $s = [];
+    foreach (['apartments', 'complexes', 'developers', 'houses', 'reviews'] as $e)
+        $s[$e] = [pn_entities()[$e]['title'], 'manager', fn($m, $sub, $p, $f, $u) => pn_crud($e, $m, $sub, $p, $f, $u)];
+    $s['settings'] = ['Настройки', 'admin', 'pn_admin_settings'];
+    $s['users'] = ['Менеджеры', 'admin', 'pn_admin_users'];
     foreach ($GLOBALS['PN_ADMIN_SECTIONS'] ?? [] as $k => $v) $s[$k] = $v;
     return $s;
 }
