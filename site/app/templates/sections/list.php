@@ -5,7 +5,7 @@
   </div>
   <div class="flt" id="flt" hidden><span id="fltT"></span><button type="button" id="fltX">Сбросить ×</button></div>
   <div class="res">
-    <div><div id="cards"></div><div class="more" id="more"><button class="btn white" id="moreBtn"></button></div><div class="seen" id="seen" hidden><h3>Вы смотрели<i class="o"></i></h3><div class="seenl" id="seenL"></div></div></div>
+    <div><div id="cards"></div><div class="more" id="more"><button class="btn white" id="moreBtn"></button></div><p style="text-align:center;margin:18px 0 0"><a href="kvartiry/" style="font-weight:600;color:var(--ink)">Весь каталог — фильтры, карта, подборки по районам →</a></p><div class="seen" id="seen" hidden><h3>Вы смотрели<i class="o"></i></h3><div class="seenl" id="seenL"></div></div></div>
     <div class="map" aria-label="Карта предложений">
       <svg class="base" viewBox="0 0 430 680" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <rect width="430" height="680" fill="#E9E6E0"/>

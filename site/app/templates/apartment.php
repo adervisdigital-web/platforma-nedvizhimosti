@@ -26,7 +26,8 @@ $houseRows = array_filter([
 $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
     ? ['Право собственности и история перехода прав', 'Нет обременений, арестов и долгов', 'Нет зарегистрированных жильцов, в том числе детей', 'Согласие супруга и нет споров в судах']
     : []); ?>
-<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <a href="./#list">Квартиры</a> · <span><?= pn_e($where) ?></span></nav>
+<?php $zp = $a['complex_slug'] ? pn_zhk_path($a['complex_slug']) : null; ?>
+<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <a href="kvartiry/">Квартиры</a> · <?= $zp ? '<a href="' . pn_e($zp) . '">' . pn_e($where) . '</a> · ' : '' ?><span><?= pn_e(pn_rooms($a['rooms'])) ?>, <?= pn_area($a['area']) ?></span></nav>
 <div class="ob">
   <div class="ob-main">
     <?= pn_render('obj_gallery', ['photos' => $photos, 'plans' => $plans]) ?>
@@ -54,7 +55,9 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
     <section class="ob-sec" id="params"><h2>Характеристики</h2>
       <div class="ob-cols">
         <div><h3>Квартира</h3><dl class="ob-dl"><?php foreach ($aptRows as [$k, $v]): ?><div><dt><?= $k ?></dt><dd><?= pn_e($v) ?></dd></div><?php endforeach; ?></dl></div>
-        <div><h3>Дом</h3><dl class="ob-dl"><?php foreach ($houseRows as [$k, $v]): ?><div><dt><?= $k ?></dt><dd><?= pn_e($v) ?></dd></div><?php endforeach; ?></dl></div>
+        <div><h3>Дом</h3><dl class="ob-dl"><?php foreach ($houseRows as [$k, $v]): ?><div><dt><?= $k ?></dt><dd><?= $k === 'ЖК' && $zp ? '<a href="' . pn_e($zp) . '">' . pn_e($v) . '</a>' : pn_e($v) ?></dd></div><?php endforeach; ?></dl>
+          <?php if ($zp): ?><a class="ob-more" href="<?= pn_e($zp) ?>">Все квартиры в <?= pn_e($a['complex']) ?> →</a><?php endif; ?>
+          <a class="ob-more" href="kvartiry/rayon/<?= pn_e(pn_slug((string) $a['district'])) ?>/">Квартиры в районе <?= pn_e($a['district']) ?> →</a></div>
       </div>
     </section>
 

@@ -77,6 +77,19 @@ function pn_seed_db(PDO $db): void {
     $ins->execute(['salt', pn_json_enc(bin2hex(random_bytes(16)))]);
     $db->commit();
     pn_seed_details($db);
+    pn_seed_complex_details($db);
+}
+// Демо-описания ЖК (data/seed/complex_details.json) — только там, где описания ещё нет.
+function pn_seed_complex_details(PDO $db): int {
+    $f = pn_config()['root'] . '/data/seed/complex_details.json';
+    if (!is_file($f)) return 0;
+    $st = $db->prepare("update complexes set description = ?, address = coalesce(nullif(address, ''), ?), photos = case when photos = '[]' then ? else photos end
+        where slug = ? and coalesce(description, '') = ''");
+    $n = 0;
+    foreach (json_decode(file_get_contents($f), true, 512, JSON_THROW_ON_ERROR) as $slug => $d) {
+        $st->execute([$d['description'], $d['address'], pn_json_enc($d['photos']), $slug]); $n += $st->rowCount();
+    }
+    return $n;
 }
 // Демо-подробности квартир (data/seed/apartment_details.json: площади, планировка, описание, фото).
 // $onlyEmpty — только там, где менеджер ещё ничего не заполнял (для уже работающей базы: php site/app/cli.php seed:details).

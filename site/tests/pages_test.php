@@ -34,7 +34,7 @@ pn_t('главная: SEO из шаблона, без og:image прототип�
 pn_t('sitemap: главная + 12 квартир + 5 домов; robots', function () {
     pn_test_db();
     [$code, , $xml] = pn_route('GET', '/sitemap.xml');
-    pn_eq($code, 200); pn_eq(substr_count($xml, '<loc>'), 18);
+    pn_eq($code, 200); pn_eq(substr_count($xml, '<loc>'), 18 + count(pn_catalog_paths()));   // + каталог, подборки, ЖК
     pn_ok(str_contains(pn_route('GET', '/robots.txt')[2], 'Sitemap:'), 'robots со ссылкой на карту');
 });
 pn_t('демо: noindex и Disallow', function () {
@@ -49,6 +49,6 @@ pn_t('сборка: страницы объектов в подпапках', fu
     pn_test_db();
     $out = __DIR__ . '/_tmp/build_db';
     $r = pn_build($out, 'db');
-    pn_eq($r['pages'], 1 + 12 + 5);
+    pn_eq($r['pages'], 1 + 12 + 5 + count(pn_catalog_paths()));
     pn_ok(is_file("$out/kvartiry/1-zhk-lipovyy-skver/index.html") && is_file("$out/doma/severnyy-ural-235/index.html"), 'файлы страниц');
 });

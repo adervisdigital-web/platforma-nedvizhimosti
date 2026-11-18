@@ -3,12 +3,13 @@
 function pn_html_response(int $code, string $html): array { return [$code, ['Content-Type' => 'text/html; charset=utf-8'], $html]; }
 
 // Подстраница в каркасе page.php. $depth — сколько папок до корня (для <base>).
-function pn_subpage(int $code, string $tpl, array $vars, array $seo, array $graph, int $depth): string {
+function pn_subpage(int $code, string $tpl, array $vars, array $seo, array $graph, int $depth, bool $noindex = false): string {
     $s = Repo::settingsAll();
     $cfg = pn_config();
     $base = $depth ? str_repeat('../', $depth) : './';
-    $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css"><link rel="stylesheet" href="assets/css/object.css">';
-    return pn_render('page', ['base_tag' => ($cfg['demo'] ? '<meta name="robots" content="noindex">' : '') . '<base href="' . $base . '">',
+    $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css"><link rel="stylesheet" href="assets/css/object.css"><link rel="stylesheet" href="assets/css/catalog.css">';
+    $robots = $cfg['demo'] ? '<meta name="robots" content="noindex">' : ($noindex ? '<meta name="robots" content="noindex, follow">' : '');   // фильтры в адресе — не индексировать
+    return pn_render('page', ['base_tag' => $robots . '<base href="' . $base . '">',
         'seo_head' => $head, 'jsonld' => seo_jsonld($graph, $s), 'settings' => pn_public_settings($s),
         'content' => pn_render($tpl, $vars + ['settings' => pn_public_settings($s)])]);
 }
@@ -36,7 +37,8 @@ function pn_page_apartment(string $slug): ?string {
     $site = pn_site_url($s);
     $graph = [['@type' => 'Product', 'name' => $title, 'image' => $site . $seo['image'], 'description' => $seo['description'],
         'offers' => ['@type' => 'Offer', 'price' => $a['price'], 'priceCurrency' => 'RUB', 'availability' => 'https://schema.org/InStock', 'url' => $site . $seo['path']]],
-        seo_breadcrumbs([['Главная', ''], ['Квартиры', '#list'], [$where, $seo['path']]], $s)];
+        seo_breadcrumbs(array_merge([['Главная', ''], ['Квартиры', 'kvartiry/']],
+            $a['complex_slug'] ? [[$where, pn_zhk_path($a['complex_slug'])]] : [], [[$title, $seo['path']]]), $s)];
     return pn_subpage(200, 'apartment', ['a' => $a, 'idx' => $idx === false ? 0 : $idx, 'pay' => pn_annuity($a['price'], (float) $rate), 'rate' => $rate,
         'progs' => $progs, 'ren' => $s['renovation_prices'] ?? [], 'similar' => pn_similar_apartments($a)],
         $seo, $graph, 2);
@@ -70,6 +72,7 @@ function pn_sitemap(): string {
     $urls = [$site];
     foreach (Repo::apartments() as $a) $urls[] = $site . "kvartiry/{$a['slug']}/";
     foreach (Repo::houses() as $h) $urls[] = $site . "doma/{$h['slug']}/";
+    foreach (pn_catalog_paths() as $p) $urls[] = $site . $p;
     return '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
         . implode('', array_map(fn($u) => '<url><loc>' . pn_e($u) . '</loc></url>', $urls)) . "</urlset>\n";
 }
@@ -82,6 +85,7 @@ function pn_route(string $method, string $path, array $post = [], array $files =
     }
 }
 function pn_route_inner(string $method, string $path, array $post, array $files): array {
+    $query = (string) (parse_url($path, PHP_URL_QUERY) ?? '');
     $path = '/' . ltrim(rawurldecode(parse_url($path, PHP_URL_PATH) ?: '/'), '/');
     if ($path === '/admin' || str_starts_with($path, '/admin/')) return pn_admin_route($method, $path, $post, $files);
     $demo = pn_config()['demo'];
@@ -95,7 +99,9 @@ function pn_route_inner(string $method, string $path, array $post, array $files)
         [$code, $body] = pn_api(substr($path, 5), $method, $post);
         return [$code, ['Content-Type' => 'application/json; charset=utf-8'], $body];
     }
-    if (preg_match('~^/(kvartiry|doma)/([a-z0-9-]+)$~', $path)) return [301, ['Location' => "$path/"], ''];
+    if (preg_match('~^/(kvartiry|doma|zhk)(/rayon)?/([a-z0-9-]+)$~', $path) || $path === '/kvartiry') return [301, ['Location' => "$path/"], ''];
+    if (preg_match('~^/(kvartiry/(?:rayon/[a-z0-9-]+/|[a-z0-9-]+/)?)$~', $path, $m) && ($h = pn_page_catalog($m[1], $query)) !== null) return pn_html_response(200, $h);
+    if (preg_match('~^/zhk/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_zhk($m[1], $query)) !== null) return pn_html_response(200, $h);
     if (preg_match('~^/kvartiry/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_apartment($m[1])) !== null) return pn_html_response(200, $h);
     if (preg_match('~^/doma/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_house($m[1])) !== null) return pn_html_response(200, $h);
     if ($path === '/privacy/' || $path === '/privacy')

@@ -63,6 +63,7 @@ function pn_build_pages(array $src): array {
     $o = [];
     foreach (Repo::apartments() as $a) $o["kvartiry/{$a['slug']}/index.html"] = pn_page_apartment($a['slug']);
     foreach (Repo::houses() as $h) $o["doma/{$h['slug']}/index.html"] = pn_page_house($h['slug']);
+    foreach (pn_catalog_paths() as $p) $o[$p . 'index.html'] = pn_route('GET', '/' . $p)[2];   // каталог, подборки, ЖК
     $o['privacy/index.html'] = pn_route('GET', '/privacy/')[2];
     return $o;
 }

@@ -17,6 +17,8 @@ switch ($cmd) {
         pn_migrate($db());
         echo 'дополнено квартир: ', pn_seed_details($db(), true), "
 ";
+        echo 'дополнено ЖК: ', pn_seed_complex_details($db()), "
+";
         break;
     case 'user:add':
         [$login, $role] = [$argv[2] ?? '', $argv[3] ?? 'manager'];
