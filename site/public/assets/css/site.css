@@ -1102,3 +1102,16 @@ a[href^="tel:"]{white-space:nowrap}
 .cns input{width:18px;height:18px;min-height:0;margin:0;flex:none;accent-color:var(--red-ui)}
 .cns a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .cns.bad{opacity:1;color:var(--red-ui)}
+
+/* «Квартира. Дом. Ремонт.» (2026-11-18): вся карточка — ссылка, застройщики — ссылки, ремонт до/после, шаги пути — ссылки */
+.pc{position:relative}.pc a.lk::before{content:"";position:absolute;inset:0;z-index:1;border-radius:26px}
+.devs a{position:relative;z-index:2;border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:var(--ink);text-decoration:none;transition:border-color .2s}.devs a:hover{border-color:var(--ink)}
+.pba .pba-a{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:inset(0 100% 0 0);transition:clip-path 1.1s cubic-bezier(.6,0,.2,1),transform .6s}
+.pc:hover .pba .pba-a,.pba.is-after .pba-a{clip-path:inset(0 0 0 0)}
+.pba-l{position:absolute;right:14px;bottom:14px;display:flex;gap:4px;font-style:normal;z-index:1}
+.pba-l b{background:#fffffff0;color:var(--ink);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;transition:background .3s,color .3s}
+.pba-l b:first-child,.pc:hover .pba-l b:last-child,.pba.is-after .pba-l b:last-child{background:var(--ink);color:#fff}
+.pc:hover .pba-l b:first-child,.pba.is-after .pba-l b:first-child{background:#fffffff0;color:var(--ink)}
+.way a.stp{text-decoration:none;color:#8A867F}.way a.stp:hover{color:var(--milk)}.way a.stp.lit{color:var(--milk)}
+.qpack{color:var(--red);font-weight:600}
+@media(prefers-reduced-motion:reduce){.pba .pba-a{transition:none}}

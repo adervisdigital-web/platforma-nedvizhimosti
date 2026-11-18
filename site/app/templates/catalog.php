@@ -63,6 +63,7 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
 
 <section class="ct-links">
   <?php if ($nav['district']): ?><div><h2>Квартиры по районам</h2><nav class="ct-linkl"><?php foreach ($nav['district'] as $p => [$t, $n]): ?><a href="<?= pn_e($p) ?>"<?= $p === $path ? ' aria-current="page"' : '' ?>><?= pn_e($t) ?> <span><?= $n ?></span></a><?php endforeach; ?></nav></div><?php endif; ?>
+  <?php if ($nav['dev']): ?><div><h2>Застройщики</h2><nav class="ct-linkl"><?php foreach ($nav['dev'] as $p => [$t, $n]): ?><a href="<?= pn_e($p) ?>"<?= $p === $path ? ' aria-current="page"' : '' ?>><?= pn_e($t) ?> <span><?= $n ?></span></a><?php endforeach; ?></nav></div><?php endif; ?>
   <?php if ($nav['zhk']): ?><div><h2>Жилые комплексы</h2><nav class="ct-linkl"><?php foreach ($nav['zhk'] as $p => [$t, $n]): ?><a href="<?= pn_e($p) ?>"><?= pn_e($t) ?> <span><?= $n ?></span></a><?php endforeach; ?></nav></div><?php endif; ?>
 </section>
 <script src="assets/js/catalog.js" defer></script>

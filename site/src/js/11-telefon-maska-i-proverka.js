@@ -12,7 +12,7 @@ $('#leadForm').addEventListener('submit', e => {
   if (!/^\+7/.test(lp.value) || lp.value.replace(/\D/g, '').length !== 11) { lp.closest('.f').classList.add('bad'); lp.focus(); return; }
   if (!$('#lc').checked) { $('#lcL').classList.add('bad'); $('#lc').focus(); return; }
   const form = e.currentTarget, btn = $('#qSend'); btn.disabled = true;
-  PN.send({kind: 'quiz', want: ($('#leadForm .ch [aria-pressed=true]') || {}).textContent || '', budget: $('#qbv').textContent,
+  PN.send({kind: 'quiz', want: (($('#leadForm .ch [aria-pressed=true]') || {}).textContent || '') + ($('#leadForm').dataset.pack ? ' + ремонт (пакет)' : ''), budget: $('#qbv').textContent,
     area: $$('#qr [aria-pressed=true]').map(b => b.textContent).join(', '), name: $('#ln').value, phone: lp.value},
     () => { btn.disabled = false; form.classList.add('sent'); }, () => { btn.disabled = false; });
 });

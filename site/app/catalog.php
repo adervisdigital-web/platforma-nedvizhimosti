@@ -34,6 +34,11 @@ function pn_catalog_pages(): array {
     ];
     foreach (PN_ROOMS_PAGES as $slug => [$r, $h1, $short])
         $p["kvartiry/$slug/"] = [$h1, $short, fn($a) => $r === 4 ? $a['rooms'] >= 4 : $a['rooms'] === $r, 'rooms'];
+    // застройщики: только те, у чьих ЖК есть опубликованные квартиры
+    $devOf = []; foreach (pn_complexes_full() as $c) if ($c['developer']) $devOf[$c['name']] = $c['developer'];
+    $devs = array_unique(array_filter(array_map(fn($a) => $devOf[$a['complex'] ?? ''] ?? null, Repo::apartments())));
+    sort($devs);
+    foreach ($devs as $dv) $p['zastroyshchiki/' . pn_slug($dv) . '/'] = ["Квартиры от застройщика $dv", $dv, fn($a) => ($devOf[$a['complex'] ?? ''] ?? null) === $dv, 'dev'];
     $ds = array_unique(array_filter(array_column(Repo::apartments(), 'district')));
     sort($ds);
     foreach ($ds as $d) $p['kvartiry/rayon/' . pn_slug($d) . '/'] = ["Квартиры в районе $d", $d, fn($a) => $a['district'] === $d, 'district'];
@@ -74,7 +79,7 @@ function pn_catalog_intro(string $what, array $st, array $zhks): string {
 
 // Общие данные для навигации по подборкам: [путь => [короткое имя, кол-во]] по группам, районы, ЖК.
 function pn_catalog_nav(array $all, array $cx): array {
-    $nav = ['type' => [], 'rooms' => [], 'feat' => [], 'district' => []];
+    $nav = ['type' => [], 'rooms' => [], 'feat' => [], 'district' => [], 'dev' => []];
     foreach (pn_catalog_pages() as $path => [$h1, $short, $f, $g]) {
         $n = count(array_filter($all, $f));
         if ($n && $g !== 'all') $nav[$g][$path] = [$short, $n];
@@ -112,13 +117,14 @@ function pn_page_catalog(string $path, string $query = ''): ?string {
     $what = match ($group) { 'all' => 'в Екатеринбурге', 'type' => $path === 'kvartiry/novostroyki/' ? 'в новостройках' : 'на вторичном рынке',
         'rooms' => '— ' . mb_strtolower(str_replace(' в Екатеринбурге', '', $h1)),
         'feat' => ['kvartiry/gotovye-novostroyki/' => 'в сданных новостройках', 'kvartiry/s-otdelkoy/' => 'с отделкой или ремонтом',
-            'kvartiry/semeynaya-ipoteka/' => 'в новостройках — подходят под семейную ипотеку', 'kvartiry/skidki/' => 'со скидкой или на спецусловиях'][$path], default => "в районе $short" };
+            'kvartiry/semeynaya-ipoteka/' => 'в новостройках — подходят под семейную ипотеку', 'kvartiry/skidki/' => 'со скидкой или на спецусловиях'][$path],
+        'dev' => "от застройщика $short", default => "в районе $short" };
     $title = $h1 . ($group === 'district' ? ', Екатеринбург' : '') . ($st['n'] ? " — {$st['n']} " . pn_ru_plural($st['n'], 'предложение', 'предложения', 'предложений') . ' от ' . pn_mln($st['pmin']) : '')
         . ' | Платформа недвижимости';
     $desc = $st['n'] ? "$h1: {$st['n']} " . pn_ru_plural($st['n'], 'проверенное предложение', 'проверенных предложения', 'проверенных предложений')
         . ' от ' . pn_mln($st['pmin']) . ' до ' . pn_mln($st['pmax']) . '. Новостройки и вторичка, 0 ₽ комиссии, помощь с ипотекой.' : "$h1 — подбор проверенных квартир, 0 ₽ комиссии.";
     $crumbs = [['Главная', ''], ['Квартиры', 'kvartiry/']];
-    if ($path !== 'kvartiry/') $crumbs[] = [$short === 'Все' ? $h1 : ($group === 'district' ? "Район $short" : $short), $path];
+    if ($path !== 'kvartiry/') $crumbs[] = [$short === 'Все' ? $h1 : ($group === 'district' ? "Район $short" : ($group === 'dev' ? "Застройщик $short" : $short)), $path];
     $seo = ['title' => $title, 'description' => $desc, 'path' => $path, 'image' => 'assets/img/' . ($apts[0]['photos'][0] ?? 'ekb_dusk') . '.jpg'];
     $depth = substr_count($path, '/');
     return pn_subpage(200, 'catalog', ['h1' => $h1, 'path' => $path, 'group' => $group, 'apts' => $apts, 'st' => $st, 'crumbs' => $crumbs,
