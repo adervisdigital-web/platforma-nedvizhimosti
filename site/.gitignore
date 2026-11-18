@@ -1,0 +1,6 @@
+data/*.sqlite
+data/*.sqlite-*
+uploads/*
+!uploads/.gitkeep
+app/local.php
+tests/_tmp/
