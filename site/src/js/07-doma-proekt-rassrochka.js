@@ -33,7 +33,7 @@ function houseView(h) {
       <ul class="feats">${h.feats.map(f => `<li><svg><use href="#check"/></svg>${f}</li>`).join('')}</ul>
       <div class="qvm" style="margin-top:16px"><div><small>Тёплый контур от ${fmtM(hFrom(h))} · взнос 30 %</small><b>от ${hMonth(h).toLocaleString('ru-RU')} ₽/мес</b><small>рассрочка на 5 лет без процентов</small></div><button type="button" id="hvCalc">Рассчитать</button></div>
       <div class="qva"><a class="btn red" href="tel:+79655002918">Позвонить</a><button class="btn white" type="button" id="hvLead">Посетить демо-дом</button><button type="button" class="ib share" data-share aria-label="Поделиться ссылкой"><svg class="ico"><use href="#share"/></svg></button></div>
-      <p class="hnote">Планировку и фасад настроим под вашу семью. Материал стен — на выбор.</p>${h.slug ? `<a class="qvpage" href="doma/${h.slug}/">Страница проекта</a>` : ''}</div></div>
+      <p class="hnote">Планировку и фасад настроим под вашу семью. Материал стен — на выбор.</p></div></div>
     <p class="hidea">${h.idea}</p><div class="htext">${h.text.map(t => `<p>${t}</p>`).join('')}</div>
     <div class="hpl"><h4>Планировка</h4>${h.plans.length > 1 ? `<div class="seg2" id="plTabs">${h.plans.map((p, i) => `<button type="button" aria-pressed="${i === 0}" data-i="${i}">${p[0]}</button>`).join('')}</div>` : `<span style="color:var(--mut)">${h.plans[0][0]}</span>`}</div>
     <a class="plan" id="plLink" href="${PN.img(h.plans[0][1], 'houses')}" target="_blank" rel="noopener" title="Открыть в полном размере"><img id="plImg" src="${PN.img(h.plans[0][1], 'houses')}" alt="Планировка: ${h.plans[0][0]}"></a>`);
