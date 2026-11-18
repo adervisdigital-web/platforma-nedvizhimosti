@@ -4,3 +4,4 @@ uploads/*
 !uploads/.gitkeep
 app/local.php
 tests/_tmp/
+public/assets/js/app.js
