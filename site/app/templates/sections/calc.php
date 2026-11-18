@@ -8,7 +8,10 @@
       <div class="rng"><label for="cd">Первый взнос <b id="cdv"></b></label><input type="range" id="cd" min="10" max="90" step="1" value="20"></div>
       <div class="rng"><label for="ct">Срок <b id="ctv"></b></label><input type="range" id="ct" min="5" max="30" step="1" value="25"></div>
       <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Программа (ставки — пример, точные подберём под вас)</div>
-        <div class="rates" id="rates"><button aria-pressed="true" data-r="6">Семейная<small>6 %</small></button><button aria-pressed="false" data-r="12">IT-ипотека<small>12 %</small></button><button aria-pressed="false" data-r="20">Рыночная<small>20 %</small></button></div></div>
+        <div class="rates" id="rates"><?php   // программы и ставки — из админки (Настройки → Ипотека)
+  try { $progs = array_values(array_filter(Repo::settingsAll()['mortgage_programs'] ?? [], fn($p) => isset($p['name'], $p['rate']))); } catch (Throwable $e) { $progs = []; }
+  if (!$progs) $progs = [['name' => 'Семейная', 'rate' => 6], ['name' => 'Рыночная', 'rate' => 20]];
+  foreach ($progs as $k => $p): ?><button aria-pressed="<?= $k ? 'false' : 'true' ?>" data-r="<?= pn_e((string) $p['rate']) ?>"><?= pn_e($p['name']) ?><small><?= str_replace('.', ',', (string) $p['rate']) ?> %</small></button><?php endforeach; ?></div></div>
     </div>
     <div class="cout" aria-live="polite">
       <div class="note">Ежемесячный платёж</div>
