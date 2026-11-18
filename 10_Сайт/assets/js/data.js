@@ -17,10 +17,15 @@
     demo: !!D.demo,
     api: D.api || 'api/',
   };
-  // Витрина на GitHub Pages: заявки никуда не уходят — после «принято» прототипа говорим об этом честно.
-  if (D.demo) {
-    const note = () => setTimeout(() => window.toast && toast('Это демо-версия сайта: заявка никуда не отправлена'), 1600);
-    document.addEventListener('submit', e => { if (['leadForm', 'hbCb'].includes(e.target.id)) note(); }, true);
-    document.addEventListener('click', e => { if (e.target.closest && e.target.closest('#bkGo')) note(); }, true);
-  }
+  // Отправка заявки: на витрине (demo) — никуда, честно говорим об этом; на сервере — POST api/lead.
+  const T0 = Math.floor(Date.now() / 1000);
+  const say = m => setTimeout(() => window.toast && toast(m), 1600);
+  PN.send = fields => {
+    if (D.demo) { say('Это демо-версия сайта: заявка никуда не отправлена'); return Promise.resolve({ok: true, demo: true}); }
+    const hp = (document.getElementById('pnHp') || {}).value || '';
+    return fetch(PN.api + 'lead', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({...fields, consent: 1, hp, t0: T0})})
+      .then(r => r.json())
+      .catch(() => ({ok: false, message: 'Нет связи с сервером — позвоните нам: ' + ((D.settings || {}).phone || '')}))
+      .then(r => { if (!r.ok) say(r.message || 'Заявка не отправлена — позвоните нам'); return r; });
+  };
 })();

@@ -13,7 +13,7 @@
       <div class="f"><label for="ln">Как к вам обращаться</label><input id="ln" autocomplete="name" placeholder="Имя"></div>
       <div class="f"><label for="lp">Телефон</label><input id="lp" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" aria-describedby="lpErr"><span class="err" id="lpErr">Введите номер полностью — 10 цифр после +7</span></div></fieldset>
     <div class="qnav"><button type="button" class="btn ghost" id="qBack" hidden>Назад</button><button type="button" class="btn red" id="qNext">Дальше</button><button class="btn red" type="submit" id="qSend" hidden>Получить подборку</button></div>
-    <small>Нажимая «Получить подборку», вы соглашаетесь на обработку персональных данных.</small>
+    <label class="cns" id="lcL"><input type="checkbox" id="lc"> <span>Согласен на <a href="privacy/" target="_blank">обработку персональных данных</a></span></label>
     <div class="done"><b>Заявка принята<i class="o"></i></b>Менеджер позвонит и пришлёт подборку. Если удобнее — напишите в чат на сайте.</div>
   </form>
 </div></section>

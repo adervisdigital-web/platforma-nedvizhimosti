@@ -20,7 +20,7 @@ if($('#qNext')){$('#qNext').click();R.push('quiz2 flat: '+$('#qMatch').textConte
 $$('#leadForm .ch button')[3].click();R.push('mort: '+$('#qMatch').textContent);$('#qNext').click();R.push('step='+$('#qStep').textContent+' send='+!$('#qSend').hidden);
 $('#leadForm').requestSubmit();R.push('badPhone='+$('#lp').closest('.f').classList.contains('bad'));}
 const lp=$('#lp');lp.value='89655002918';lp.dispatchEvent(new Event('input'));R.push('tel='+lp.value);
-if($('#qSend')){$('#leadForm').requestSubmit();R.push('sent='+$('#leadForm').classList.contains('sent'));}
+if($('#qSend')){if($('#lc'))$('#lc').checked=true;$('#leadForm').requestSubmit();R.push('sent='+$('#leadForm').classList.contains('sent'));}
 R.push('prog='+getComputedStyle($('#prog')).getPropertyValue('--s')+' labels='+$$('.br b').map(b=>b.textContent).join(''));
 $$('.cat')[1].click();R.push('cat done='+$$('.card').length+' '+$('#fltT').textContent);
 $$('button.mort')[0].click();R.push('calc='+$('#cpv').textContent);
@@ -31,7 +31,7 @@ $('#hvCalc').click();R.push('calc='+$('#hname').textContent+' area='+$('#ha').va
 if(typeof booking==='function'){const nf=ITEMS.find(i=>i.fin==='Без отделки');quick(nf);$$('#qvR button')[2].click();R.push('reno: '+$('#qvRk').textContent+' = '+$('#qvT').textContent);
 $('#qvLead').click();R.push('book: '+$('#dlgT').textContent+' days='+$$('#dlgB [data-d]').length+' free='+$$('#dlgB [data-t]:not(:disabled)').length);
 $('#dlgB [data-t]:not(:disabled)').click();$('#bkP').value='';$('#bkGo').click();R.push('bkBad='+$('#bkF').classList.contains('bad'));
-$('#bkP').value='9001234567';$('#bkP').dispatchEvent(new Event('input'));$('#bkGo').click();R.push('booked: '+$('#dlgT').textContent+' | '+$('.bkok h4').textContent+' ics='+!!$('.bkok a[download]'));$('#dlg').close();
+$('#bkP').value='9001234567';$('#bkP').dispatchEvent(new Event('input'));if($('#bkC'))$('#bkC').checked=true;$('#bkGo').click();R.push('booked: '+$('#dlgT').textContent+' | '+$('.bkok h4').textContent+' ics='+!!$('.bkok a[download]'));$('#dlg').close();
 R.push('seen='+$$('#seenL button').length+' hidden='+$('#seen').hidden);}
 if($('#baBox')){const bx=$('#baBox'),br=bx.getBoundingClientRect(),pe=(t,x)=>bx.dispatchEvent(new PointerEvent(t,{clientX:br.left+br.width*x,clientY:br.top+50,pointerId:1,bubbles:true}));
 pe('pointerdown',.2);pe('pointermove',.8);pe('pointerup',.8);R.push('baDrag='+Math.round($('#baR').value)+' clip='+$('#baBox .after').style.clipPath+' step='+(($('#bSteps li.cur b')||{}).textContent));}

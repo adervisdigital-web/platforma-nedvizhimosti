@@ -9,6 +9,9 @@ lp.addEventListener('input', () => {
 $('#leadForm').addEventListener('submit', e => {
   e.preventDefault();
   if (lp.value.replace(/\D/g, '').length !== 11) { lp.closest('.f').classList.add('bad'); lp.focus(); return; }
+  if (!$('#lc').checked) { $('#lcL').classList.add('bad'); $('#lc').focus(); return; }
   e.currentTarget.classList.add('sent');
+  PN.send({kind: 'quiz', want: ($('#leadForm .ch [aria-pressed=true]') || {}).textContent || '', budget: $('#qbv').textContent,
+    area: $$('#qr [aria-pressed=true]').map(b => b.textContent).join(', '), name: $('#ln').value, phone: lp.value});
 });
 
