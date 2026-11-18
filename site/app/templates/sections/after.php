@@ -1,0 +1,16 @@
+<section class="after"><div class="w">
+  <div class="cats" role="list" aria-label="Подборки">
+    <a class="cat red" role="listitem" href="#list" data-f="best"><span class="cfield" aria-hidden="true"></span><b>Самые выгодные этой недели</b><span>отобрали за вас</span></a>
+    <a class="cat" role="listitem" href="#list" data-f="done" style="background-image:url(assets/img/kv_complex2.jpg)"><b>Сданные дома</b><span data-c="done"></span></a>
+    <a class="cat" role="listitem" href="#list" data-f="fin" style="background-image:url(assets/img/kv_living2.jpg)"><b>С отделкой</b><span data-c="fin"></span></a>
+    <a class="cat" role="listitem" href="#list" data-f="fam" style="background-image:url(assets/img/kv_kids.jpg)"><b>Семейная ипотека</b><span data-c="fam"></span></a>
+    <a class="cat" role="listitem" href="#list" data-f="sec" style="background-image:url(assets/img/kv_bedroom.jpg)"><b>Вторичка, проверенная юристом</b><span data-c="sec"></span></a>
+    <a class="cat" role="listitem" href="#houses" style="background-image:url(assets/img/houses/y140_1.jpg)"><b>Дома по нашим проектам</b><span>рассрочка до 5 лет</span></a>
+  </div>
+  <div class="promo">
+    <a class="pt red" href="#list"><div><h3>Квартира с ремонтом — одним пакетом<i class="o n"></i></h3><p>Подберём квартиру и сделаем ремонт сами: смета, договор, акт на каждый этап, гарантия 5 лет.</p></div><span class="gl">Смотреть квартиры</span><span class="dotgrid"></span></a>
+    <a class="pt dark" href="#calc"><div><h3>Ипотека по индивидуальной ставке<i class="o"></i></h3><p>Сбер, ВТБ, Альфа-Банк, ДОМ.РФ, Россельхозбанк, УБРИР — сравним программы и покажем, где платёж ниже.</p></div><span class="gl">Рассчитать платёж</span><span class="dotgrid"></span></a>
+    <a class="pt white" href="#how"><div><h3>Как мы проверяем<i class="o"></i></h3><p>Что смотрим у застройщика и у продавца на вторичке — и как работаем сами.</p></div><span class="gl">Узнать</span><span class="dotgrid"></span></a>
+  </div>
+</div></section>
+
