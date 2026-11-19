@@ -169,6 +169,9 @@ $('#favBtn').addEventListener('click', () => {
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`);
 });
 counts(); render();
+// с подстраниц «Избранное» и «Сравнить» ведут сюда: ./?open=fav|cmp — открываем список и убираем параметр из адреса
+(() => { const op = new URLSearchParams(location.search).get('open'); if (op !== 'fav' && op !== 'cmp') return;
+  history.replaceState(null, '', location.pathname + location.hash); setTimeout(() => $(op === 'cmp' ? '#cmpBtn' : '#favBtn').click(), 400); })();
 function single(sel) { $$(sel).forEach(b => b.addEventListener('click', () => { $$(sel).forEach(x => x.setAttribute('aria-pressed', x === b)); })); }
 single('.form .ch button');
 

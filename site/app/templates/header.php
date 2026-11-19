@@ -1,6 +1,10 @@
-<header class="ontop"><div class="w hd">
-  <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+<header class="<?= empty($sub) ? 'ontop' : 'sc' ?>"><div class="w hd">
+  <a class="logo" href="<?= !empty($sub) ? './' : '#' ?>" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
+  <?php if (empty($sub)): ?>
   <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
+  <?php else: $cur = $cur ?? ''; $nl = ['kvartiry' => ['kvartiry/', 'Квартиры'], 'ipoteka' => ['ipoteka/', 'Ипотека'], 'doma' => ['doma/', 'Дома'], 'remont' => ['remont/', 'Ремонт'], 'cab' => ['./#cab', 'Кабинет'], 'rev' => ['./#rev', 'Отзывы']]; ?>
+  <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><?php foreach ($nl as $k => [$h, $t]): ?><a<?= $k === $cur ? ' class="on" aria-current="page"' : '' ?> href="<?= $h ?>"><?= $t ?></a><?php endforeach; ?></nav>
+  <?php endif; ?>
   <span class="sp"></span>
   <button type="button" class="hicon tel-m" id="mnBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><svg class="ico"><use href="#t-menu"/></svg></button>
   <div class="hb" role="group" aria-label="Связь, сравнение, избранное и кабинет">

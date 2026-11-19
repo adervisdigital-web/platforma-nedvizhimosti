@@ -9,7 +9,13 @@ function pn_subpage(int $code, string $tpl, array $vars, array $seo, array $grap
     $base = $depth ? str_repeat('../', $depth) : './';
     $head = seo_meta($seo, $s) . "\n" . '<link rel="stylesheet" href="assets/css/page.css"><link rel="stylesheet" href="assets/css/object.css"><link rel="stylesheet" href="assets/css/catalog.css"><link rel="stylesheet" href="assets/css/services.css">';
     $robots = $cfg['demo'] ? '<meta name="robots" content="noindex">' : ($noindex ? '<meta name="robots" content="noindex, follow">' : '');   // фильтры в адресе — не индексировать
-    return pn_render('page', ['base_tag' => $robots . '<base href="' . $base . '">',
+    // раздел для подсветки меню — по первой папке адреса; ЖК и застройщики — это «Квартиры»
+    $seg = explode('/', trim((string) ($seo['path'] ?? ''), '/'))[0];
+    $cur = ['kvartiry' => 'kvartiry', 'zhk' => 'kvartiry', 'doma' => 'doma', 'remont' => 'remont', 'ipoteka' => 'ipoteka'][$seg] ?? '';
+    // данные каркаса: помощник в чате, «перезвоним» (демо или api), телефон — без списков квартир
+    $src = pn_source();
+    $shell = ['faq' => $src['faq'], 'quick' => $src['quick'], 'settings' => pn_public_settings($s), 'demo' => (bool) $cfg['demo'], 'api' => 'api/'];
+    return pn_render('page', ['base_tag' => $robots . '<base href="' . $base . '">', 'cur' => $cur, 'shell_json' => pn_data_json($shell),
         'seo_head' => $head, 'jsonld' => seo_jsonld($graph, $s), 'settings' => pn_public_settings($s),
         'content' => pn_render($tpl, $vars + ['settings' => pn_public_settings($s)])]);
 }

@@ -1,3 +1,4 @@
+<?php if (empty($sub)): ?>
 <nav class="tabbar tb2" id="tabbar" aria-label="Меню приложения">
   <a class="on" href="#search" data-sec="search"><svg class="tic"><use href="#t-search"/></svg><span>Поиск</span></a>
   <a href="#list" data-sec="list" data-map><svg class="tic"><use href="#t-map"/></svg><span>Карта</span></a>
@@ -5,10 +6,19 @@
   <a href="#cab" data-sec="cab"><svg class="tic"><use href="#t-door"/></svg><span>Кабинет</span></a>
   <a href="#" data-chat><svg class="tic"><use href="#t-chat"/></svg><span>Чат 24/7</span></a>
 </nav>
+<?php else: $cur = $cur ?? ''; ?>
+<nav class="tabbar tb2" id="tabbar" aria-label="Меню приложения">
+  <a<?= $cur === 'kvartiry' ? ' class="on"' : '' ?> href="kvartiry/"><svg class="tic"><use href="#t-search"/></svg><span>Квартиры</span></a>
+  <a<?= $cur === 'doma' ? ' class="on"' : '' ?> href="doma/"><svg class="tic"><use href="#t-door"/></svg><span>Дома</span></a>
+  <a<?= $cur === 'ipoteka' ? ' class="on"' : '' ?> href="ipoteka/"><svg class="tic"><use href="#t-pct"/></svg><span>Ипотека</span></a>
+  <a<?= $cur === 'remont' ? ' class="on"' : '' ?> href="remont/"><svg class="tic"><use href="#t-ren"/></svg><span>Ремонт</span></a>
+  <a href="#" data-chat><svg class="tic"><use href="#t-chat"/></svg><span>Чат 24/7</span></a>
+</nav>
+<?php endif; ?>
 <div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Меню" hidden>
   <div class="mn-top"><span class="mn-st"><i></i><span id="mnSt">на связи</span></span><button type="button" class="mn-x" id="mnX" aria-label="Закрыть меню">×</button></div>
   <nav class="mn-l" aria-label="Разделы">
-    <a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a>
+    <?php if (empty($sub)): ?><a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><?php else: ?><a href="./">Главная</a><a href="kvartiry/">Квартиры</a><a href="doma/">Дома</a><a href="remont/">Ремонт</a><a href="ipoteka/">Ипотека</a><a href="./#how">Как мы проверяем</a><a href="./#rev">Отзывы</a><?php endif; ?>
   </nav>
   <div class="mn-c">
     <a class="mn-tel" href="tel:+79655002918">+7 965 500-29-18</a>
@@ -17,10 +27,10 @@
   </div>
 </div>
 
-<dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog>
+<?php if (empty($sub)): ?><dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog><?php endif; ?>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico" style="width:18px;height:18px"><use href="#msg"/></svg></i><span class="cf-t"><b>Спросить</b><small>ответим 24/7</small></span></button>
+<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico cf-ic" style="width:18px;height:18px"><use href="#msg"/></svg><span class="cf-d" aria-hidden="true"><b></b><b></b><b></b></span></i><span class="cf-t"><b>Спросить</b><small>ответим 24/7</small></span></button>
 <div class="chat" id="chat" role="dialog" aria-label="Помощник Платформы" hidden>
   <div class="ch-h"><svg width="30" height="28" fill="#F4F2EE"><use href="#mark"/></svg><div><b>Помощник Платформы</b><small><i></i>онлайн · отвечает круглосуточно</small></div><button class="ch-x" id="chatX" aria-label="Закрыть">×</button></div>
   <div class="ch-b" id="chatLog" aria-live="polite"></div>

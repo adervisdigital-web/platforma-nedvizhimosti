@@ -1,15 +1,17 @@
-<?php /** Каркас подстраницы (квартира, дом, политика, 404). Переменные: $base_tag, $seo_head, $jsonld, $content, $settings */
+<?php /** Каркас подстраницы (каталог, квартира, дом, ЖК, услуги, политика, 404) — шапка, подвал и меню как на главной.
+ * Переменные: $base_tag, $seo_head, $jsonld, $content, $settings, $cur (раздел для подсветки меню), $shell_json (данные для чата и «перезвоним») */
 include __DIR__ . '/head.php';
 preg_match('~<svg width="0".*?</svg>~s', pn_render('top'), $sprite);   // символы иконок (#mark и др.) без заставки главной
-$tel = $settings['phone_tel'] ?? '+79655002918'; ?>
+$sub = true; $cur = $cur ?? ''; ?>
 <body class="pg">
 <?= $sprite[0] ?? '' ?>
-<header class="pg-h"><div class="w">
-  <a class="logo" href="./" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
-  <nav class="pg-nav" aria-label="Разделы"><a href="kvartiry/">Квартиры</a><a href="doma/">Дома</a><a href="remont/">Ремонт</a><a href="ipoteka/">Ипотека</a></nav>
-  <a class="pg-tel" href="tel:<?= pn_e($tel) ?>"><?= pn_e($settings['phone'] ?? '') ?></a>
-</div></header>
+<div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
+<?php include __DIR__ . '/header.php'; ?>
 <main class="pg-m w"><?= $content ?></main>
-<footer class="pg-f"><div class="w"><span><?= pn_e($settings['legal'] ?? '') ?> · <?= pn_e($settings['domain'] ?? '') ?></span><a href="./privacy/">Политика обработки персональных данных</a><span>Ставим точку.</span></div></footer>
+<?php include __DIR__ . '/footer.php'; include __DIR__ . '/overlays.php'; ?>
+<input id="pnHp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+<script id="pn-data" type="application/json"><?= $shell_json ?? '{}' ?></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/shell.js" defer></script>
 </body>
 </html>

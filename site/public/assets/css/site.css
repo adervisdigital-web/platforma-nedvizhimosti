@@ -1153,3 +1153,35 @@ a[href^="tel:"]{white-space:nowrap}
 /* нажатые «сравнить» и «избранное»: цвет иконки наследуется (в символах — currentColor и --if) */
 .ib.cmp[aria-pressed=true]{color:#fff}
 .ib.fav[aria-pressed=true],#qvFav[aria-pressed=true]{color:var(--red);--if:var(--red)}
+/* кнопка чата: круглая, по центру правого поля страницы (не ложится на блоки), подпись — при наведении;
+   появляется с пружиной; раз в 8 с значок сменяется на «печатает…» (три точки волной) и от круга расходится кольцо */
+@media(min-width:801px){
+ .chatfab,.chatfab.mini{right:max(8px,calc((clamp(16px,3.4vw,110px) - 48px)/2));padding:7px;gap:0;transition:opacity .3s,transform .5s cubic-bezier(.3,1.6,.5,1),padding .35s cubic-bezier(.3,.8,.2,1),gap .35s}
+ .chatfab:not(.show){transform:translateY(16px) scale(.4)}
+ .chatfab .cf-t,.chatfab.mini .cf-t{max-width:0;opacity:0}
+ .chatfab:hover,.chatfab:focus-visible,.chatfab.mini:hover,.chatfab.mini:focus-visible{padding:7px 20px 7px 7px;gap:12px}
+ .chatfab:hover .cf-t,.chatfab:focus-visible .cf-t{max-width:160px;opacity:1}
+}
+.chatfab i{position:relative}
+.chatfab i::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid var(--red);opacity:0;pointer-events:none}
+.chatfab .cf-d{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:3px;opacity:0}
+.chatfab .cf-d b{width:4px;height:4px;border-radius:50%;background:#fff}
+@media(prefers-reduced-motion:no-preference){
+ .chatfab.show i::after{animation:cfping 8s ease-out 2s infinite}
+ .chatfab.show .cf-ic{animation:cfic 8s ease 2s infinite}
+ .chatfab.show .cf-d{animation:cfdots 8s ease 2s infinite}
+ .chatfab.show .cf-d b{animation:cfwave 8s ease-in-out 2s infinite}
+ .chatfab.show .cf-d b:nth-child(2){animation-delay:2.12s}
+ .chatfab.show .cf-d b:nth-child(3){animation-delay:2.24s}
+ .chatfab:hover i::after,.chatfab:hover .cf-ic,.chatfab:hover .cf-d,.chatfab:hover .cf-d b{animation-play-state:paused}
+}
+@keyframes cfping{0%{opacity:.8;transform:scale(1)}12%{opacity:0;transform:scale(1.9)}100%{opacity:0;transform:scale(1.9)}}
+@keyframes cfic{0%,2%{opacity:1;transform:none}5%,30%{opacity:0;transform:scale(.6)}34%,100%{opacity:1;transform:none}}
+@keyframes cfdots{0%,3%{opacity:0}6%,29%{opacity:1}33%,100%{opacity:0}}
+@keyframes cfwave{0%,5%,11%,17%,23%,29%,100%{transform:none}8%,14%,20%,26%{transform:translateY(-3px)}}
+/* размер кнопки чата — по ширине поля страницы (40…48 px), ровно по центру поля */
+@media(min-width:801px){
+ .chatfab,.chatfab.mini{--fs:clamp(40px,calc(3.4vw - 10px),48px);right:max(2px,calc((clamp(16px,3.4vw,110px) - var(--fs))/2))}
+ .chatfab i{width:calc(var(--fs) - 14px);height:calc(var(--fs) - 14px)}
+}
+@media(min-width:801px){.chatfab,.chatfab.mini{box-sizing:border-box;height:var(--fs);min-width:var(--fs)}.chatfab .cf-t{line-height:1.15}}

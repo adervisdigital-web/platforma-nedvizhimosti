@@ -42,3 +42,23 @@ body.pg{background:#F4F2EE;color:var(--ink);font-family:Manrope,system-ui,sans-s
   .pg-nav{display:none}.pg-h .w{height:60px;justify-content:space-between}
   .pg-act .pg-btn{flex:1 1 100%}
 }
+/* шапка главной на подстраницах — плавающая капсула; отступ под неё */
+body.pg .pg-m.w{padding-top:clamp(104px,8vw,124px)}
+@media(max-width:800px){body.pg .pg-m.w{padding-top:84px}}
+/* рубрика как на главной: [ ● Главная · Раздел ] — из хлебных крошек */
+body.pg .pg-bc{position:relative;display:inline-block;font-size:14px;letter-spacing:.02em;color:var(--mut);padding-left:2em;margin-bottom:18px;
+  background:radial-gradient(circle,var(--red) 0 3px,transparent 3.6px) no-repeat .95em 52%/8px 8px}
+body.pg .pg-bc::before{content:"[";position:absolute;left:0}
+body.pg .pg-bc::after{content:"]";margin-left:.45em}
+body.pg .pg-bc span{color:var(--ink)}
+/* заголовки как на главной: лёгкие, плотные, с красной точкой в конце */
+body.pg .ct-head h1{font:400 clamp(40px,4.4vw,104px)/1.02 Manrope,system-ui,sans-serif;letter-spacing:-.045em;margin:0 0 18px}
+body.pg .ct-dot{width:.15em;height:.15em;margin-left:.05em}
+body.pg .ct-intro{font-size:clamp(16px,1.1vw,19px);line-height:1.55;color:#4A4741;max-width:760px}
+body.pg .sv-h{font-weight:400;font-size:clamp(30px,2.9vw,64px);line-height:1.04;letter-spacing:-.04em;display:block;margin:0 0 26px}
+body.pg .sv-h::before{display:none}
+body.pg .sv-h::after{content:"";display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em}
+body.pg .ob-sec h2,body.pg .ob-sim h2{font-weight:400;letter-spacing:-.03em}
+body.pg .ob-card h1,body.pg .pg-info h1,body.pg .pg-doc h1{font-weight:400;letter-spacing:-.035em}
+/* квартира и дом на телефоне: снизу уже плашка с ценой и кнопкой — нижнее меню не показываем (разделы — в меню шапки) */
+@media(max-width:800px){body.pg:has(.ob-bar) .tabbar{display:none}}

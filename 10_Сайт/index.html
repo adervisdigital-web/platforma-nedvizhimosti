@@ -53,7 +53,7 @@
   <symbol id="t-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15.5 15.5l4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle class="td" style="fill:var(--td,currentColor)" cx="10.5" cy="10.5" r="2"/></symbol>
   <symbol id="t-map" viewBox="0 0 24 24"><path d="M12 21.5s-6.5-6-6.5-11.5a6.5 6.5 0 0 1 13 0c0 5.5-6.5 11.5-6.5 11.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle class="td" style="fill:var(--td,currentColor)" cx="12" cy="10" r="2.4"/></symbol>
   <symbol id="t-pct" viewBox="0 0 24 24"><path d="M18 5L6 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="7" cy="7" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" style="fill:var(--td,currentColor)" cx="17" cy="17" r="2.8"/></symbol>
-  <symbol id="t-door" viewBox="0 0 24 24"><path d="M4.5 21V10a6 6 0 0 1 12 0v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 21v-9.5a2 2 0 0 1 4 0V21" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" style="fill:var(--td,currentColor)" cx="20" cy="19" r="2.2"/></symbol>
+  <symbol id="t-ren" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="14" height="5.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17.5 6.2h2v5.3H11v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M11 14.5V20" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle class="td" style="fill:var(--td,currentColor)" cx="18.5" cy="19" r="2.2"/></symbol><symbol id="t-door" viewBox="0 0 24 24"><path d="M4.5 21V10a6 6 0 0 1 12 0v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M8.5 21v-9.5a2 2 0 0 1 4 0V21" fill="none" stroke="currentColor" stroke-width="1.6"/><circle class="td" style="fill:var(--td,currentColor)" cx="20" cy="19" r="2.2"/></symbol>
   <symbol id="t-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v11H10l-5 4v-4H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8.5" cy="11" r="1.1" fill="currentColor"/><circle cx="12" cy="11" r="1.1" fill="currentColor"/><circle class="td" style="fill:var(--td,currentColor)" cx="15.5" cy="11" r="1.5"/></symbol>
   <symbol id="t-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 15h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18.5" cy="15" r="2" fill="#F5553C"/></symbol>
   <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
@@ -62,8 +62,8 @@
 <div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
 <header class="ontop"><div class="w hd">
   <a class="logo" href="#" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
-  <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
-  <span class="sp"></span>
+    <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>
+    <span class="sp"></span>
   <button type="button" class="hicon tel-m" id="mnBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><svg class="ico"><use href="#t-menu"/></svg></button>
   <div class="hb" role="group" aria-label="Связь, сравнение, избранное и кабинет">
     <div class="hb-call">
@@ -388,8 +388,7 @@
 <div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Меню" hidden>
   <div class="mn-top"><span class="mn-st"><i></i><span id="mnSt">на связи</span></span><button type="button" class="mn-x" id="mnX" aria-label="Закрыть меню">×</button></div>
   <nav class="mn-l" aria-label="Разделы">
-    <a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a>
-  </nav>
+    <a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a>  </nav>
   <div class="mn-c">
     <a class="mn-tel" href="tel:+79655002918">+7 965 500-29-18</a>
     <div class="mn-b"><a class="btn red" href="tel:+79655002918">Позвонить</a><button type="button" class="btn ghost" data-chat>Чат 24/7</button></div>
@@ -397,10 +396,9 @@
   </div>
 </div>
 
-<dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh"><h3 id="dlgT"></h3><button type="button" id="dlgX" aria-label="Закрыть">×</button></div><div class="db" id="dlgB"></div></dialog><div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico" style="width:18px;height:18px"><use href="#msg"/></svg></i><span class="cf-t"><b>Спросить</b><small>ответим 24/7</small></span></button>
+<button class="chatfab" id="chatFab" aria-expanded="false" aria-controls="chat"><i><svg class="ico cf-ic" style="width:18px;height:18px"><use href="#msg"/></svg><span class="cf-d" aria-hidden="true"><b></b><b></b><b></b></span></i><span class="cf-t"><b>Спросить</b><small>ответим 24/7</small></span></button>
 <div class="chat" id="chat" role="dialog" aria-label="Помощник Платформы" hidden>
   <div class="ch-h"><svg width="30" height="28" fill="#F4F2EE"><use href="#mark"/></svg><div><b>Помощник Платформы</b><small><i></i>онлайн · отвечает круглосуточно</small></div><button class="ch-x" id="chatX" aria-label="Закрыть">×</button></div>
   <div class="ch-b" id="chatLog" aria-live="polite"></div>
