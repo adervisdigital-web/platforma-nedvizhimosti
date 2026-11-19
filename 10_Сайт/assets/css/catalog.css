@@ -117,3 +117,5 @@
 .ct-foot .ct-pay small{font-size:11.5px;color:var(--mut)}
 .ct-body>.ct-tg{margin-bottom:8px}
 .ct-tags{right:110px}
+.ob-simcards{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
+@media(min-width:1200px){.ob-simcards{grid-template-columns:repeat(4,minmax(0,1fr))}}

@@ -131,10 +131,8 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
 
 <?php if ($similar): ?>
 <section class="ob-sim"><h2>Похожие квартиры</h2>
-  <div class="ob-simg"><?php foreach ($similar as $s): ?>
-    <a class="ob-simc" href="kvartiry/<?= pn_e($s['slug']) ?>/"><img <?= pn_img_attrs($s['photos'][0] ?? 'kv_empty', '(max-width: 900px) 100vw, 33vw') ?> alt="" loading="lazy">
-      <span class="ob-simt"><?= pn_e(pn_rooms($s['rooms'])) ?>, <?= pn_area($s['area']) ?></span><span class="ob-simw"><?= pn_e($s['complex'] ?? $s['address']) ?> · <?= pn_e($s['district']) ?></span><b><?= pn_rub($s['price']) ?></b></a>
-  <?php endforeach; ?></div>
+  <?php $cxs = pn_complexes_full(); $st = Repo::settingsAll(); ?>
+  <div class="ct-grid ob-simcards"><?php foreach ($similar as $k => $sa) echo pn_render('ct_card', ['a' => $sa, 'i' => $k, 'cx' => $cxs, 's' => $st]); ?></div>
 </section>
 <?php endif; ?>
 

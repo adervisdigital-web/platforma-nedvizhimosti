@@ -47,7 +47,7 @@ function pn_page_apartment(string $slug): ?string {
             $a['complex_slug'] ? [[$where, pn_zhk_path($a['complex_slug'])]] : [], [[$title, $seo['path']]]), $s)];
     return pn_subpage(200, 'apartment', ['a' => $a, 'idx' => $idx === false ? 0 : $idx, 'pay' => pn_mort_pay($a['price'], $prog, $s)['pay'], 'rate' => $rate,
         'mcfg' => pn_mort_cfg($s), 'prog' => $prog, 'rdate' => pn_rates_date_ru($s),
-        'progs' => $progs, 'ren' => $s['renovation_prices'] ?? [], 'similar' => pn_similar_apartments($a)],
+        'progs' => $progs, 'ren' => $s['renovation_prices'] ?? [], 'similar' => pn_similar_apartments($a, 4)],
         $seo, $graph, 2);
 }
 
