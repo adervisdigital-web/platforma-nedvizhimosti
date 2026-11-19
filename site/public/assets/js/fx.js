@@ -83,10 +83,11 @@
   };
   requestAnimationFrame(loop);
 
-  // ---- плавная прокрутка колесом мыши: каждый щелчок — короткое движение ~0,4 с с мягкой остановкой (не «догоняние» — откликается сразу).
+  // ---- плавная прокрутка колесом мыши с инерцией: щелчок даёт толчок, страница катится и мягко останавливается;
+  // быстрые щелчки складываются — разгон и длинный накат. Толчок входит за 2–3 кадра (без рывка), трение не зависит от частоты кадров.
   // Тачпад и сенсор — системные (они и так плавные). Внутренние списки, окна и чат — как обычно; над картами — тоже плавно.
-  const DUR = 420, ease = t => 1 - Math.pow(1 - t, 3);
-  let target = scrollY, from = scrollY, t0 = 0, running = false, lastSet = -1, padUntil = 0;
+  const GAIN = .11, FRICTION = .92, VMAX = 140;         // толчок от щелчка (≈ px/кадр на 1 px шага), трение за кадр 60 Гц, предел скорости
+  let y = scrollY, v = 0, push = 0, last = 0, running = false, lastSet = -1, padUntil = 0;
   const maxY = () => document.documentElement.scrollHeight - innerHeight;
   const locked = () => {
     const b = getComputedStyle(document.body).overflowY, h = getComputedStyle(html).overflowY;
@@ -101,26 +102,30 @@
     }
     return false;
   };
-  const pos = now => from + (target - from) * ease(Math.min(1, (now - t0) / DUR));
+  const stop = () => { running = false; v = push = 0; };
   const step = now => {
     if (!running) return;
-    if (Math.abs(scrollY - lastSet) > 2) { running = false; return; }   // прокрутили иначе (полоса, клавиши, якорь) — отдаём управление
-    const y = pos(now);
+    if (Math.abs(scrollY - lastSet) > 2) { stop(); return; }    // прокрутили иначе (полоса, клавиши, якорь) — отдаём управление
+    const k = Math.min(4, (now - last) / 16.667); last = now;
+    const take = push * (1 - Math.pow(.3, k)); push -= take; v += take;   // мягкий вход толчка
+    v = Math.max(-VMAX, Math.min(VMAX, v)) * Math.pow(FRICTION, k);
+    y += v * k;
+    const m = maxY(); if (y <= 0 || y >= m) { y = Math.max(0, Math.min(m, y)); v = push = 0; }
     scrollTo({top: y, behavior: 'instant'}); lastSet = scrollY;
-    if (now - t0 < DUR) requestAnimationFrame(step); else running = false;
+    if (Math.abs(v) + Math.abs(push) > .08) requestAnimationFrame(step); else running = false;
   };
   addEventListener('wheel', e => {
     if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || locked()) return;
     const now = performance.now();
     // тачпад: мелкие или дробные шаги в пикселях — оставляем системную прокрутку на всю серию жестов
     if (e.deltaMode === 0 && (Math.abs(e.deltaY) < 40 || e.deltaY % 1 !== 0)) padUntil = now + 300;
-    if (now < padUntil) { running = false; return; }
+    if (now < padUntil) { stop(); return; }
     const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
     if (canScrollInside(e.target, d)) return;
     e.preventDefault();
-    const base = running ? target : scrollY;                       // следующий щелчок — от уже заданной цели, без потери шага
-    from = running ? pos(now) : scrollY;
-    target = Math.max(0, Math.min(maxY(), base + d)); t0 = now; lastSet = scrollY;
+    if (!running) { y = scrollY; v = push = 0; last = performance.now(); lastSet = scrollY; }
+    if (Math.sign(d) !== Math.sign(v + push) && Math.abs(v) > 1) { v *= .25; push = 0; }   // сменили направление — гасим накат
+    push += d * GAIN;
     if (!running) { running = true; requestAnimationFrame(step); }
   }, {passive: false});
 })();
