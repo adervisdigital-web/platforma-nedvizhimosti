@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 88 84'%3E%3Crect x='-6' y='-6' width='88' height='84' rx='18' fill='%230E0E0F'/%3E%3Cpath d='M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z' fill='%23F4F2EE'/%3E%3Ccircle cx='67' cy='63' r='9' fill='%23F5553C'/%3E%3C/svg%3E">
+<title>Вопросы для запуска</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap">
+<style>
+/* Анкета заказчика в стиле «ПЛАТФОРМА НЕДВИЖИМОСТИ»: молочный фон, графит, одна красная точка-акцент; номер вопроса — ссылка в переписке */
+:root{
+  --bg:#F4F2EE; --card:#FFFFFF; --ink:#161617; --mut:#6B675F; --line:#16161717; --soft:#ECEAE6;
+  --red:#F5553C; --red-ui:#D83C24; --ok:#2E8B57; --warn:#B8321D; --focus:#D83C24;
+  --font:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0E0F; --card:#1C1C1E; --ink:#F4F2EE; --mut:#A39E95; --line:#F4F2EE1f; --soft:#26262A;
+  --red:#F5553C; --red-ui:#F0644B; --ok:#5BBE86; --warn:#FF8A73; --focus:#F0644B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0E0F; --card:#1C1C1E; --ink:#F4F2EE; --mut:#A39E95; --line:#F4F2EE1f; --soft:#26262A;
+  --red:#F5553C; --red-ui:#F0644B; --ok:#5BBE86; --warn:#FF8A73; --focus:#F0644B; color-scheme:dark}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--font);-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding-block:clamp(28px,5vw,64px) 80px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:clamp(36px,6vw,64px)}
+.brand svg{width:34px;height:32px;flex:none}
+.brand b{display:block;font-weight:300;font-size:15px;letter-spacing:.42em}
+.brand small{display:block;font-size:8.5px;letter-spacing:.52em;color:var(--mut);margin-top:2px}
+.rub{font-size:13px;letter-spacing:.06em;color:var(--mut);margin:0 0 14px}
+.rub i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin:0 6px 1px;vertical-align:middle}
+h1{font-weight:400;font-size:clamp(40px,7vw,76px);line-height:1;letter-spacing:-.045em;margin:0 0 20px;text-wrap:balance}
+.dot{display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.04em}
+.lead{max-width:62ch;color:var(--mut);font-size:17px;margin:0}
+.lead b{color:var(--ink);font-weight:600}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:32px 0 8px;padding:14px 16px;border-radius:18px;
+  background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--line),0 10px 30px #0000000d;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.prog{flex:1 1 220px;min-width:0}
+.prog p{margin:0 0 7px;font-size:14px;font-weight:600}
+.prog p span{color:var(--mut);font-weight:500}
+.track{height:6px;border-radius:3px;background:var(--soft);overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--red);border-radius:3px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.btn{font:600 14px var(--font);min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:focus-visible,textarea:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.mode{flex-basis:100%;margin:0;font-size:13px;color:var(--mut)}
+.mode.warn{color:var(--warn)}
+.mode[hidden]{display:none}
+
+section{margin-top:clamp(40px,6vw,64px)}
+h2{font-weight:400;font-size:clamp(26px,3.6vw,36px);letter-spacing:-.03em;line-height:1.1;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.tag{font:700 12px var(--font);letter-spacing:.02em;color:#fff;background:var(--red-ui);border-radius:99px;padding:4px 10px;transform:translateY(-4px)}
+.sub{margin:0 0 18px;color:var(--mut);font-size:15px}
+.qs{display:grid;gap:12px;list-style:none;padding:0;margin:0}
+.q{background:var(--card);border-radius:20px;padding:18px 18px 14px;display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px 14px;border:1px solid transparent;transition:border-color .2s}
+.q.done{border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.n{font:600 13px var(--font);font-variant-numeric:tabular-nums;width:34px;height:34px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--mut)}
+.q.done .n{background:var(--ink);color:var(--bg)}
+.q label{font-weight:600;font-size:16.5px;line-height:1.45;align-self:center}
+.q label span{display:block;font-weight:400;font-size:14px;color:var(--mut);margin-top:3px}
+.q textarea{grid-column:2;width:100%;min-height:76px;resize:vertical;margin-top:10px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--font);field-sizing:content}
+.q textarea::placeholder{color:var(--mut);opacity:.8}
+.st{grid-column:2;min-height:18px;font-size:12.5px;color:var(--mut)}
+.st.ok{color:var(--ok)}.st.err{color:var(--warn)}
+.foot{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--mut);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+.foot b{color:var(--ink);font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:600;font-size:14px;transition:.25s;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:560px){.bar{position:static}.q{grid-template-columns:minmax(0,1fr)}.n{display:none}.q textarea,.st{grid-column:1}.btn{flex:1}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand" aria-label="ПЛАТФОРМА НЕДВИЖИМОСТИ">
+    <svg viewBox="0 0 76 72" aria-hidden="true"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z" fill="currentColor"/><circle cx="67" cy="63" r="9" fill="var(--red)"/></svg>
+    <span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span>
+  </div>
+
+  <p class="rub">[<i></i>Сайт p.forma196.ru · вопросы к запуску ]</p>
+  <h1>Вопросы для запуска сайта<span class="dot"></span></h1>
+  <p class="lead">23 вопроса — ответьте прямо в полях. <b>Ответы сохраняются в этом браузере</b>: можно отвечать частями и возвращаться. Когда закончите, отправьте их нам кнопкой «Отправить в Telegram» или скопируйте. Не знаете ответа — пропустите или напишите «уточню». Самое срочное — первый блок.</p>
+
+  <div class="bar">
+    <div class="prog"><p>Отвечено <b id="cnt">0</b> <span>из 23</span></p><div class="track"><i id="fill"></i></div></div>
+    <div class="acts"><button class="btn dark" id="tg" type="button">Отправить в Telegram</button><button class="btn" id="copy" type="button">Скопировать</button><button class="btn" id="dl" type="button">Скачать файлом</button></div>
+    <p class="mode" id="mode">Ответы видны только в этом браузере, пока вы их не отправите.</p>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="foot"><span>Вопросы составила команда, которая делает сайт. Спасибо — по ответам доведём цены, тексты и запуск.</span><span>Телефон для связи: <b>+7 965 500-29-18</b></span></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const SECTIONS = [
+    {title: 'Нужно для запуска', tag: 'срочно', sub: 'Без этого сайт нельзя открыть для клиентов.', qs: [
+      ['Текст политики обработки персональных данных', 'Пришлёте свой или подготовить по шаблону (тогда покажем юристу)?'],
+      ['Адрес офиса', 'Для подвала сайта, карты и поисковиков.'],
+      ['Куда отправлять заявки с сайта', 'Telegram (кто будет в чате), почта (какая), ваша CRM (как к ней подключиться, кто за неё отвечает)?'],
+      ['Хостинг и домен p.forma196.ru', 'Где размещаем, кто даст доступы, когда планируем запуск?'],
+      ['Права на два фото Екатеринбурга', 'Вид на пруд с Исеть-башней и вечерний город — можно использовать в коммерческих целях?'],
+    ]},
+    {title: 'Цены и условия', sub: 'Сейчас на сайте ориентиры — подтвердите или поправьте.', qs: [
+      ['Тёплый контур от 75 000 ₽/м²', 'Что в него входит: фундамент, стены, кровля, окна, утепление? Цифра выше средней по рынку — подтверждаете?'],
+      ['Цены и состав ремонта', 'Базовый 20 000, комфорт 45 000, премиум 80 000 ₽/м² — верно? Сколько обычно длится ремонт квартиры 50–60 м²? Замер бесплатный?'],
+      ['Ипотечные ставки и программы', 'Актуальны ли ставки на сайте? Есть ли партнёрские ставки банков или субсидии от застройщиков, которые можно показать?'],
+      ['Рассрочка на дом', 'До 5 лет без процентов при взносе 30 % — платежи ежемесячно или по этапам стройки?'],
+      ['«Квартира + ремонт одним пакетом»', 'Один договор или два? Можно ли включить ремонт в ипотеку?'],
+      ['Гарантия 5 лет', 'На что именно (ремонт, дом, конструкции) и что в неё не входит?'],
+    ]},
+    {title: 'Наполнение', sub: 'Чтобы на сайте были ваши объекты, фото и отзывы вместо демо.', qs: [
+      ['Реальные квартиры для сайта', 'Сколько объектов и кто внесёт цены, фото и планировки в админку?'],
+      ['Отзывы клиентов', 'Будут ли настоящие отзывы с разрешением на публикацию (имя, объект, фото)?'],
+      ['Фото и видео', 'Ваши объекты, бригады, демо-дом, офис. Когда можно организовать съёмку?'],
+      ['Камера на объекте', 'Работает круглосуточно и на каждом объекте? На сайте сейчас написано «Камера 24/7».'],
+      ['Личный кабинет', 'Запускаем по-настоящему (вход по СМС, акты, платежи из CRM) или пока оставляем демо?'],
+      ['Документы для доверия', 'СРО, лицензии, страхование ответственности, награды — что можно показать?'],
+      ['Жилые комплексы на сайте', 'Сейчас названия ЖК выдуманные. Заменить на реальные объекты партнёров? Можно ли брать их фото и логотипы?'],
+      ['Telegram, MAX и соцсети', 'Когда появятся ники и страницы?'],
+    ]},
+    {title: 'Работа сайта', sub: 'Как будем понимать, что сайт работает.', qs: [
+      ['Главный результат сайта', 'Звонки, заявки или записи на просмотр? Сколько заявок в месяц хотите получать?'],
+      ['Кто работает с сайтом', 'Кто из сотрудников будет обновлять сайт в админке и отвечать в чате, в какие часы?'],
+      ['Яндекс Метрика и Вебмастер', 'Подключаем на ваш аккаунт или создаём новый?'],
+      ['Товарный знак', 'Будете регистрировать «ПЛАТФОРМА НЕДВИЖИМОСТИ»? В Екатеринбурге есть строитель «Платформа» (платформа96.рф) — нужен совет патентного поверенного.'],
+    ]},
+  ];
+  const $ = s => document.querySelector(s);
+  const DRAFT = 'pn-voprosy-draft';
+  let n = 0; const Q = [];
+  const box = $('#sections');
+  SECTIONS.forEach(sec => {
+    const s = document.createElement('section');
+    const h = document.createElement('h2'); h.textContent = sec.title;
+    if (sec.tag) { const t = document.createElement('span'); t.className = 'tag'; t.textContent = sec.tag; h.append(t); }
+    const p = document.createElement('p'); p.className = 'sub'; p.textContent = sec.sub;
+    const ol = document.createElement('ol'); ol.className = 'qs';
+    sec.qs.forEach(([title, hint]) => {
+      n++; const id = 'q' + String(n).padStart(2, '0');
+      const li = document.createElement('li'); li.className = 'q'; li.id = id + '-row';
+      li.innerHTML = `<span class="n" aria-hidden="true">${n}</span><label for="${id}"></label><textarea id="${id}" rows="3" placeholder="Ваш ответ"></textarea><div class="st" aria-live="polite"></div>`;
+      const lb = li.querySelector('label'); lb.textContent = n + '. ' + title; const sp = document.createElement('span'); sp.textContent = hint; lb.append(sp);
+      ol.append(li); Q.push({id, n, title, ta: li.querySelector('textarea'), st: li.querySelector('.st'), row: li, saved: '', timer: 0, busy: false, again: false});
+    });
+    s.append(h, p, ol); box.append(s);
+  });
+
+  const toastEl = $('#toast');
+  const toast = t => { toastEl.textContent = t; toastEl.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => toastEl.classList.remove('on'), 2800); };
+  const progress = () => { const k = Q.filter(q => q.ta.value.trim()).length; $('#cnt').textContent = k; $('#fill').style.width = (k / Q.length * 100) + '%'; Q.forEach(q => q.row.classList.toggle('done', !!q.ta.value.trim())); };
+  const hhmm = d => d.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+
+  // черновик в браузере — на случай, если сохранить на сервер нельзя (и чтобы не потерять текст до сохранения)
+  const draft = (() => { try { return JSON.parse(localStorage.getItem(DRAFT) || '{}'); } catch (e) { return {}; } })();
+  Q.forEach(q => { if (draft[q.id]) q.ta.value = draft[q.id]; });
+  const keepDraft = () => { try { const d = {}; Q.forEach(q => { if (q.ta.value.trim()) d[q.id] = q.ta.value; }); localStorage.setItem(DRAFT, JSON.stringify(d)); } catch (e) {} };
+  progress();
+
+  Q.forEach(q => q.ta.addEventListener('input', () => { progress(); keepDraft(); q.st.className = 'st ok'; q.st.textContent = 'Сохранено в этом браузере'; }));
+  const plural = k => k % 10 === 1 && k % 100 !== 11 ? 'ответ' : [2, 3, 4].includes(k % 10) && ![12, 13, 14].includes(k % 100) ? 'ответа' : 'ответов';
+  const answers = () => Q.filter(q => q.ta.value.trim()).map(q => `${q.n}. ${q.title}\n${q.ta.value.trim()}`);
+  const fullText = list => 'Ответы на вопросы для запуска сайта «Платформа недвижимости»\n\n' + list.join('\n\n');
+  $('#tg').addEventListener('click', () => {
+    const list = answers(); if (!list.length) { toast('Пока нет ни одного ответа'); return; }
+    let text = fullText(list);
+    if (text.length > 3500) { text = text.slice(0, 3400) + '\n\n… ответы длинные — пришлю целиком файлом'; toast('Ответов много — дополнительно нажмите «Скачать файлом» и отправьте файл'); }
+    window.open('https://t.me/share/url?url=' + encodeURIComponent(' ') + '&text=' + encodeURIComponent(text), '_blank', 'noopener');
+  });
+  $('#dl').addEventListener('click', () => {
+    const list = answers(); if (!list.length) { toast('Пока нет ни одного ответа'); return; }
+    const blob = new Blob([fullText(list)], {type: 'text/plain;charset=utf-8'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Ответы_Платформа_недвижимости.txt';
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('Файл сохранён: ' + list.length + ' ' + plural(list.length));
+  });
+  $('#copy').addEventListener('click', async () => {
+    const list = answers(); if (!list.length) { toast('Пока нет ни одного ответа'); return; }
+    const text = fullText(list);
+    try { await navigator.clipboard.writeText(text); toast('Скопировано: ' + list.length + ' ' + plural(list.length) + '. Вставьте в сообщение нам'); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;inset:10% 5%;width:90%;height:80%;z-index:20';
+      document.body.append(ta); ta.select(); toast('Выделили текст — скопируйте его (Ctrl+C)'); ta.addEventListener('blur', () => ta.remove()); }
+  });
+})();
+</script>
+</body>
+</html>
