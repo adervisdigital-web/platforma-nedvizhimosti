@@ -40,6 +40,14 @@ pn_t('запись на просмотр: слот и файл календар�
     $r = lead_accept($ok(['kind' => 'viewing', 'object_ref' => 'kvartiry/1-zhk-lipovyy-skver', 'slot' => '2026-11-19 10:00']), '4.4.4.4', 1_000_000);
     pn_ok($r['ok'] && str_contains($r['ics'] ?? '', 'DTSTART:20261119T050000Z'), 'ics: ' . ($r['ics'] ?? '—'));
 });
+pn_t('заявка из окна подстраницы: время словами, пожелание с расчётом, объект', function () use ($ok) {
+    pn_test_db();
+    $want = 'Смета на ремонт — расчёт: Комфорт 45 000 ₽/м², площадь 60 м², итого 2 700 000 ₽, за м² 45 000 ₽';
+    $r = lead_accept($ok(['kind' => 'viewing', 'name' => '', 'want' => $want, 'object_ref' => 'remont/', 'slot' => 'Завтра']), '6.6.6.6', 1_000_000);
+    pn_ok($r['ok'] && empty($r['ics']), 'принята, без файла календаря');
+    $l = pn_db()->query('select want, slot, object_ref from leads where id = ' . (int) $r['id'])->fetch();
+    pn_eq([$l['want'], $l['slot'], $l['object_ref']], [$want, 'Завтра', 'remont/']);
+});
 pn_t('API: POST /api/lead → 200/400/429 и JSON', function () use ($ok) {
     pn_test_db(); $GLOBALS['PN_NOW'] = 1_000_000; $_SERVER['REMOTE_ADDR'] = '5.5.5.5';
     try {
