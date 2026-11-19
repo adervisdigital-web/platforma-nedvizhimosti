@@ -83,7 +83,7 @@
   };
   requestAnimationFrame(loop);
 
-  // ---- плавная прокрутка колесом (окно; внутренние списки, окна, чат и карта — как обычно)
+  // ---- плавная прокрутка колесом (окно; внутренние списки, окна и чат — как обычно; карты колесом не масштабируются — над ними тоже плавно)
   let target = scrollY, cur = scrollY, running = false, lastSet = -1;
   const maxY = () => document.documentElement.scrollHeight - innerHeight;
   const locked = () => {
@@ -92,7 +92,6 @@
   };
   const canScrollInside = (el, d) => {
     for (; el && el !== document.body && el !== html; el = el.parentElement) {
-      if (el.matches && el.matches('.leaflet-container')) return true;
       const s = getComputedStyle(el).overflowY;
       if ((s === 'auto' || s === 'scroll') && el.scrollHeight > el.clientHeight + 1) {
         if (d > 0 ? el.scrollTop + el.clientHeight < el.scrollHeight - 1 : el.scrollTop > 0) return true;
