@@ -83,8 +83,10 @@
   };
   requestAnimationFrame(loop);
 
-  // ---- плавная прокрутка колесом (окно; внутренние списки, окна и чат — как обычно; карты колесом не масштабируются — над ними тоже плавно)
-  let target = scrollY, cur = scrollY, running = false, lastSet = -1;
+  // ---- плавная прокрутка колесом мыши: каждый щелчок — короткое движение ~0,4 с с мягкой остановкой (не «догоняние» — откликается сразу).
+  // Тачпад и сенсор — системные (они и так плавные). Внутренние списки, окна и чат — как обычно; над картами — тоже плавно.
+  const DUR = 420, ease = t => 1 - Math.pow(1 - t, 3);
+  let target = scrollY, from = scrollY, t0 = 0, running = false, lastSet = -1, padUntil = 0;
   const maxY = () => document.documentElement.scrollHeight - innerHeight;
   const locked = () => {
     const b = getComputedStyle(document.body).overflowY, h = getComputedStyle(html).overflowY;
@@ -99,22 +101,26 @@
     }
     return false;
   };
-  const step = () => {
-    if (Math.abs(scrollY - lastSet) > 3 && lastSet >= 0) { running = false; target = cur = scrollY; return; }   // прокрутили иначе — отдаём управление
-    cur += (target - cur) * .12;
-    if (Math.abs(target - cur) < .5) cur = target;
-    lastSet = Math.round(cur);
-    scrollTo({top: cur, behavior: 'instant'});
-    lastSet = scrollY;
-    if (cur !== target) requestAnimationFrame(step); else running = false;
+  const pos = now => from + (target - from) * ease(Math.min(1, (now - t0) / DUR));
+  const step = now => {
+    if (!running) return;
+    if (Math.abs(scrollY - lastSet) > 2) { running = false; return; }   // прокрутили иначе (полоса, клавиши, якорь) — отдаём управление
+    const y = pos(now);
+    scrollTo({top: y, behavior: 'instant'}); lastSet = scrollY;
+    if (now - t0 < DUR) requestAnimationFrame(step); else running = false;
   };
   addEventListener('wheel', e => {
     if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || locked()) return;
-    const d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+    const now = performance.now();
+    // тачпад: мелкие или дробные шаги в пикселях — оставляем системную прокрутку на всю серию жестов
+    if (e.deltaMode === 0 && (Math.abs(e.deltaY) < 40 || e.deltaY % 1 !== 0)) padUntil = now + 300;
+    if (now < padUntil) { running = false; return; }
+    const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
     if (canScrollInside(e.target, d)) return;
     e.preventDefault();
-    if (!running) { target = cur = scrollY; lastSet = scrollY; }
-    target = Math.max(0, Math.min(maxY(), target + d));
+    const base = running ? target : scrollY;                       // следующий щелчок — от уже заданной цели, без потери шага
+    from = running ? pos(now) : scrollY;
+    target = Math.max(0, Math.min(maxY(), base + d)); t0 = now; lastSet = scrollY;
     if (!running) { running = true; requestAnimationFrame(step); }
   }, {passive: false});
 })();
