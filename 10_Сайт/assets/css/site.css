@@ -1128,3 +1128,8 @@ a[href^="tel:"]{white-space:nowrap}
 .kids button[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .kids small{flex-basis:100%;font-size:12px;color:var(--mut)}
 .cparts{opacity:.9}
+/* меню поиска не обрезаются первым экраном: фон обрезает своя обёртка, сам экран — поверх следующего блока */
+.hbgw{position:absolute;inset:0;overflow:hidden}
+.hero{overflow:visible;z-index:5}
+/* фото домов почти квадратные: в карточке 16:10 кадр смещён вниз, чтобы дом был целиком (сверху — небо) */
+.hc .ph img{object-position:50% 70%}
