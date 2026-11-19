@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="assets/css/fx.css">
 <script src="assets/js/fx.js" defer></script>
 </head>
-<body class="pg">
+<body class="pg pg-hero">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" style="fill:var(--if,none);stroke:currentColor" stroke-width="1.8"/></symbol>
   <symbol id="cmp" viewBox="0 0 24 24"><g style="fill:none;stroke:currentColor" stroke-width="1.7"><rect x="3" y="5" width="7.5" height="14" rx="2"/><rect x="13.5" y="5" width="7.5" height="14" rx="2"/><path d="M6 15h1.5M17 15h1.5" stroke-linecap="round"/></g></symbol>
@@ -37,7 +37,7 @@
   <symbol id="t-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 15h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18.5" cy="15" r="2" fill="#F5553C"/></symbol>
   <symbol id="mark" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9" fill="#F5553C"/></symbol>
 </svg><div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
-<header class="sc"><div class="w hd">
+<header class="sc ontop"><div class="w hd">
   <a class="logo" href="./" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
     <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a href="kvartiry/">Квартиры</a><a class="on" aria-current="page" href="ipoteka/">Ипотека</a><a href="doma/">Дома</a><a href="remont/">Ремонт</a><a href="./#cab">Кабинет</a><a href="./#rev">Отзывы</a></nav>
     <span class="sp"></span>
@@ -64,11 +64,14 @@
   </div>
 </div></header>
 
-<main class="pg-m w"><nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Ипотека</span></nav>
+<main class="pg-m w"><section class="sx-hero" style="--sxp:50% 45%"><img class="sx-bg" src="assets/img/ekb_city.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
+<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Ипотека</span></nav>
 <div class="ct-head">
   <h1>Ипотека на квартиру в Екатеринбурге<i class="ct-dot" aria-hidden="true"></i></h1>
   <p class="ct-intro">Посчитайте платёж и выберите программу. Мы подаём заявку сразу в несколько банков и показываем, где платёж ниже, — бесплатно для покупателя.</p>
 </div>
+  <ul class="sx-chips"><li>от <b>6 %</b></li><li>Заявка сразу в несколько банков</li><li>Бесплатно для покупателя</li></ul>
+</div></section>
 
 <section class="ob-calc" data-mort data-price="7000000" data-mcfg="{&quot;progs&quot;:[{&quot;name&quot;:&quot;Семейная&quot;,&quot;rate&quot;:10,&quot;limit&quot;:6000000,&quot;family&quot;:true},{&quot;name&quot;:&quot;IT-ипотека&quot;,&quot;rate&quot;:6,&quot;limit&quot;:9000000,&quot;family&quot;:false},{&quot;name&quot;:&quot;Рыночная&quot;,&quot;rate&quot;:18.8,&quot;limit&quot;:null,&quot;family&quot;:false}],&quot;tiers&quot;:[{&quot;kids&quot;:1,&quot;rate&quot;:10,&quot;limit&quot;:6000000},{&quot;kids&quot;:2,&quot;rate&quot;:8,&quot;limit&quot;:8000000},{&quot;kids&quot;:3,&quot;rate&quot;:6,&quot;limit&quot;:10000000},{&quot;kids&quot;:4,&quot;rate&quot;:4,&quot;limit&quot;:10000000},{&quot;kids&quot;:5,&quot;rate&quot;:2,&quot;limit&quot;:10000000}],&quot;market&quot;:18.8,&quot;date&quot;:&quot;2026-11-18&quot;}" aria-label="Ипотечный калькулятор">
   <div class="ob-calc-in">

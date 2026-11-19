@@ -1,4 +1,4 @@
-<header class="<?= empty($sub) ? 'ontop' : 'sc' ?>"><div class="w hd">
+<header class="<?= empty($sub) ? 'ontop' : (!empty($hero) ? 'sc ontop' : 'sc') ?>"><div class="w hd">
   <a class="logo" href="<?= !empty($sub) ? './' : '#' ?>" aria-label="Платформа недвижимости — на главную"><svg width="38" height="36" fill="#161617"><use href="#mark"/></svg><span><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></a>
   <?php if (empty($sub)): ?>
   <nav class="main" aria-label="Разделы"><i class="nd" aria-hidden="true"></i><a class="on" href="#list">Квартиры</a><a href="#calc">Ипотека</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#cab">Кабинет</a><a href="#rev">Отзывы</a></nav>

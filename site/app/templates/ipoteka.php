@@ -2,11 +2,14 @@
 $price0 = 7000000;
 $rate0 = $progs[0]['rate'] ?? 6;
 $banks = ['Сбер', 'ВТБ', 'Альфа-Банк', 'ДОМ.РФ', 'Россельхозбанк', 'УБРиР']; ?>
+<section class="sx-hero" style="--sxp:50% 45%"><img class="sx-bg" src="assets/img/ekb_city.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Ипотека</span></nav>
 <div class="ct-head">
   <h1>Ипотека на квартиру в Екатеринбурге<i class="ct-dot" aria-hidden="true"></i></h1>
   <p class="ct-intro">Посчитайте платёж и выберите программу. Мы подаём заявку сразу в несколько банков и показываем, где платёж ниже, — бесплатно для покупателя.</p>
 </div>
+  <ul class="sx-chips"><?php if ($progs): ?><li>от <b><?= str_replace(".", ",", (string) min(array_column($progs, "rate"))) ?> %</b></li><?php endif; ?><li>Заявка сразу в несколько банков</li><li>Бесплатно для покупателя</li></ul>
+</div></section>
 
 <?php if ($progs): ?>
 <?php $mcfg = pn_mort_cfg(Repo::settingsAll()); $sel = 0; $rdate = pn_rates_date_ru(Repo::settingsAll()); ?>

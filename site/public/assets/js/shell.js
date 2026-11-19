@@ -18,6 +18,10 @@
     if (prog) { prog.style.setProperty('--s', k); prog.classList.toggle('end', k > .995); }
     if (fab) { fab.classList.add('show'); fab.classList.toggle('mini', y > 600); }
   };
+  // первый экран с фото: шапка — тёмное стекло, пока фото под ней (как на главной)
+  const sxh = $('.sx-hero');
+  const heroUpd = () => { if (sxh && hdr) hdr.classList.toggle('ontop', scrollY < sxh.offsetHeight - 90); };
+  addEventListener('scroll', heroUpd, {passive: true}); heroUpd();
   addEventListener('scroll', onScroll, {passive: true}); addEventListener('resize', onScroll); onScroll();
   const fbig = $('.fbig');
   if (fbig) new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { fbig.classList.add('in'); o.disconnect(); } }, {threshold: .6}).observe(fbig);

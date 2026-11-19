@@ -3,11 +3,14 @@ $opt = function (array $vals) { $vals = array_values(array_unique(array_filter($
 $dists = $group === 'district' ? [] : $opt(array_column($apts, 'district'));
 $zs = $opt(array_column($apts, 'complex'));
 $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p === $path ? ' aria-current="page"' : '') . '>' . pn_e($t) . ' <span>' . $n . '</span></a>'; ?>
+<section class="sx-hero" style="--sxp:50% 55%"><img class="sx-bg" src="assets/img/ekb_aerial.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><?php foreach ($crumbs as $k => [$t, $u]): ?><?= $k ? ' · ' : '' ?><?= $k === count($crumbs) - 1 ? '<span>' . pn_e($t) . '</span>' : '<a href="' . ($u === '' ? './' : pn_e($u)) . '">' . pn_e($t) . '</a>' ?><?php endforeach; ?></nav>
 <div class="ct-head">
   <h1><?= pn_e($h1) ?><i class="ct-dot" aria-hidden="true"></i></h1>
   <p class="ct-intro"><?= pn_e($intro) ?></p>
 </div>
+  <ul class="sx-chips"><li><b><?= count($apts) ?></b> <?= pn_ru_plural(count($apts), "квартира", "квартиры", "квартир") ?></li><?php if ($apts): ?><li>от <b><?= pn_mln((int) min(array_column($apts, "price"))) ?></b></li><?php endif; ?><li><b>0 ₽</b> комиссии</li><li>Только проверенные застройщики</li></ul>
+</div></section>
 
 <nav class="ct-pills" aria-label="Подборки">
   <?= $pill('kvartiry/', 'Все', $nav['all']) ?>

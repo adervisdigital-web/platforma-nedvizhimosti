@@ -62,3 +62,48 @@ body.pg .ob-sec h2,body.pg .ob-sim h2{font-weight:400;letter-spacing:-.03em}
 body.pg .ob-card h1,body.pg .pg-info h1,body.pg .pg-doc h1{font-weight:400;letter-spacing:-.035em}
 /* квартира и дом на телефоне: снизу уже плашка с ценой и кнопкой — нижнее меню не показываем (разделы — в меню шапки) */
 @media(max-width:800px){body.pg:has(.ob-bar) .tabbar{display:none}}
+
+/* первый экран разделов (каталог, дома, ремонт, ипотека) — как на главной: фото во всю ширину, затемнение, белый заголовок,
+   стеклянные плашки с красной точкой; шапка поверх — тёмное стекло (класс ontop, переключает shell.js) */
+body.pg-hero .pg-m.w{padding-top:0}
+.sx-hero{--gut:clamp(16px,3.4vw,110px);position:relative;isolation:isolate;overflow:hidden;color:#fff;background:#1c1714;
+  margin:0 calc(-1 * var(--gut)) clamp(28px,3vw,48px);padding:clamp(130px,13vw,200px) var(--gut) clamp(32px,3.6vw,64px);
+  min-height:clamp(520px,68svh,820px);display:flex;align-items:flex-end}
+.sx-bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:var(--sxp,50% 50%);transform:scale(1.02)}
+.sx-hero::after{content:'';position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,#0d0a08e0 0%,#0d0a08a6 34%,#0d0a0840 64%,#0d0a0814 100%),linear-gradient(0deg,#0d0a08cc 0%,#0d0a0800 46%),linear-gradient(180deg,#0d0a0880 0%,#0d0a0800 26%)}
+.sx-in{width:100%;max-width:1180px}
+body.pg .sx-hero .pg-bc{color:#ffffffb8;margin-bottom:22px}
+body.pg .sx-hero .pg-bc a{color:#ffffffb8}
+body.pg .sx-hero .pg-bc a:hover{color:#fff}
+body.pg .sx-hero .pg-bc span{color:#fff}
+body.pg .sx-hero .ct-head{margin:0;max-width:none}
+body.pg .sx-hero .ct-head h1{color:#fff;font-size:clamp(46px,6vw,132px);line-height:.98;letter-spacing:-.05em;margin:0 0 22px;text-wrap:balance}
+body.pg .sx-hero .ct-intro{color:#ffffffd9;font-size:clamp(16px,1.15vw,20px);max-width:720px;margin:0;text-wrap:pretty}
+.sx-chips{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.sx-chips li{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px 0 14px;border-radius:999px;background:#ffffff1f;border:1px solid #ffffff2e;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:14px;font-weight:600;white-space:nowrap}
+.sx-chips li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
+.sx-chips b{font-weight:800}
+@media(prefers-reduced-motion:no-preference){
+  .sx-bg{animation:zoomout 2.4s cubic-bezier(.2,.7,.2,1) both}
+  .sx-in>*{animation:sxup .9s cubic-bezier(.2,.7,.2,1) both}
+  .sx-in>:nth-child(2){animation-delay:.08s}.sx-in>:nth-child(3){animation-delay:.18s}
+}
+@keyframes sxup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.shot .sx-bg,.shot .sx-in>*{animation:none!important}
+@media(max-width:800px){
+  .sx-hero{min-height:0;padding:104px var(--gut) 28px;margin-bottom:22px}
+  .sx-hero::after{background:linear-gradient(180deg,#0d0a08b8 0%,#0d0a0873 40%,#0d0a08d9 100%)}
+  body.pg .sx-hero .ct-head h1{font-size:clamp(38px,11vw,54px);margin-bottom:14px}
+  body.pg .sx-hero .ct-intro{font-size:15px;line-height:1.5}
+  .sx-chips{margin-top:18px;gap:6px}
+  .sx-chips li{min-height:34px;padding:0 12px 0 10px;font-size:13px}
+}
+/* плашки — строчные (пробелы вокруг <b> не схлопываются и не удваиваются); вступление на телефоне — до 4 строк */
+.sx-chips li{display:inline-block;line-height:38px;min-height:0}
+.sx-chips li::before{display:inline-block;vertical-align:middle;margin:-2px 8px 0 0}
+@media(max-width:800px){
+  .sx-chips li{line-height:32px}
+  body.pg .sx-hero .ct-intro{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
+}

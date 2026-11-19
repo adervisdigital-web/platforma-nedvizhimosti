@@ -2,8 +2,8 @@
  * Переменные: $base_tag, $seo_head, $jsonld, $content, $settings, $cur (раздел для подсветки меню), $shell_json (данные для чата и «перезвоним») */
 include __DIR__ . '/head.php';
 preg_match('~<svg width="0".*?</svg>~s', pn_render('top'), $sprite);   // символы иконок (#mark и др.) без заставки главной
-$sub = true; $cur = $cur ?? ''; ?>
-<body class="pg">
+$sub = true; $cur = $cur ?? ''; $hero = str_contains($content, 'sx-hero'); ?>
+<body class="pg<?= $hero ? ' pg-hero' : '' ?>">
 <?= $sprite[0] ?? '' ?>
 <div class="prog" id="prog" aria-hidden="true"><i></i><b></b></div>
 <?php include __DIR__ . '/header.php'; ?>

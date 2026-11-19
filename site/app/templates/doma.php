@@ -1,12 +1,15 @@
 <?php /** Проекты домов. Переменные: $hs (Repo::houses), $warm (₽/м² тёплый контур), $min, $settings */
 $lines = array_values(array_unique(array_column($hs, 'line')));
 $fls = array_values(array_unique(array_column($hs, 'fl'))); sort($fls); ?>
+<section class="sx-hero" style="--sxp:50% 72%"><img class="sx-bg" src="assets/img/houses/y195_1.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Дома</span></nav>
 <div class="ct-head">
   <h1>Каменные дома по нашим проектам<i class="ct-dot" aria-hidden="true"></i></h1>
   <p class="ct-intro"><?= count($hs) ?> <?= pn_ru_plural(count($hs), 'проект', 'проекта', 'проектов') ?> от <?= pn_rub($min) ?> в тёплом контуре. Строим своими бригадами, смета — до начала работ,
     рассрочка без процентов до 5 лет и гарантия 5 лет. Планировку и фасад настроим под вашу семью.</p>
 </div>
+  <ul class="sx-chips"><li><b><?= count($hs) ?></b> <?= pn_ru_plural(count($hs), "проект", "проекта", "проектов") ?></li><?php if ($warm): ?><li>от <b><?= pn_rub($warm) ?>/м²</b> тёплый контур</li><?php endif; ?><li>Рассрочка <b>0 %</b> до 5 лет</li><li>Строят наши бригады</li></ul>
+</div></section>
 
 <div class="ct-pills dm-f" role="group" aria-label="Фильтр проектов">
   <button type="button" data-line="" aria-pressed="true">Все <span><?= count($hs) ?></span></button>
