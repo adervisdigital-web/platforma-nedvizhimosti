@@ -15,6 +15,7 @@
 .dm-card:hover{box-shadow:0 16px 44px #00000014;translate:0 -2px}
 .dm-ph{display:block;aspect-ratio:16/10;overflow:hidden;background:#E6E3DE}
 .dm-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 70%;display:block;transition:scale .4s}.dm-card:hover .dm-ph img{scale:1.03}
+.dm-ph img[src*="n235_1"]{object-position:50% 100%}
 .dm-body{padding:20px 22px 22px;display:grid;gap:6px;align-content:start}
 .dm-line{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:8px}
 .dm-line i{width:9px;height:9px;border-radius:50%;background:var(--c,var(--red))}
