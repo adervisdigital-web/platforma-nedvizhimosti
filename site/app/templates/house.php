@@ -75,10 +75,7 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
 
 <?php if ($others): ?>
 <section class="ob-sim"><h2>Другие проекты</h2>
-  <div class="ob-simg"><?php foreach (array_slice($others, 0, 4) as $o): ?>
-    <a class="ob-simc" href="doma/<?= pn_e($o['slug']) ?>/"><img <?= pn_img_attrs('houses/' . ($o['ph'][0] ?? ''), '(max-width: 900px) 100vw, 25vw') ?> alt="" loading="lazy">
-      <span class="ob-simt"><?= pn_e($o['line'] . ' ' . $o['n']) ?></span><span class="ob-simw"><?= pn_e($o['motto']) ?></span><b><?= $warm ? 'от ' . pn_rub((int) round($warm * $o['n'])) : pn_area($o['n']) ?></b></a>
-  <?php endforeach; ?></div>
+  <div class="dm-grid dm-oth"><?php foreach (array_slice($others, 0, 4) as $o) echo pn_render('dm_card', ['h' => $o, 'warm' => $warm]); ?></div>
 </section>
 <?php endif; ?>
 

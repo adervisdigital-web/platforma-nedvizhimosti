@@ -58,7 +58,7 @@ body.pg .ct-intro{font-size:clamp(16px,1.1vw,19px);line-height:1.55;color:#4A474
 body.pg .sv-h{font-weight:400;font-size:clamp(30px,2.9vw,64px);line-height:1.04;letter-spacing:-.04em;display:block;margin:0 0 26px}
 body.pg .sv-h::before{display:none}
 body.pg .sv-h::after{content:"";display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em}
-body.pg .ob-sec h2,body.pg .ob-sim h2{font-weight:400;letter-spacing:-.03em}
+body.pg .ob-sec>h2,body.pg .ob-sim>h2{font-weight:400;letter-spacing:-.03em}
 body.pg .ob-card h1,body.pg .pg-info h1,body.pg .pg-doc h1{font-weight:400;letter-spacing:-.035em}
 /* квартира и дом на телефоне: снизу уже плашка с ценой и кнопкой — нижнее меню не показываем (разделы — в меню шапки) */
 @media(max-width:800px){body.pg:has(.ob-bar) .tabbar{display:none}}
@@ -108,6 +108,6 @@ body.pg .sx-hero .ct-intro{color:#ffffffd9;font-size:clamp(16px,1.15vw,20px);max
   body.pg .sx-hero .ct-intro{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
 }
 /* подзаголовки страниц объектов — точка в конце, как у заголовков главной («Ставим точку») */
-body.pg .ob-sec h2,body.pg .ob-sim h2{display:block;font-size:clamp(28px,2.4vw,44px);line-height:1.05;letter-spacing:-.035em;margin-bottom:22px}
-body.pg .ob-sec h2::before,body.pg .ob-sim h2::before{display:none}
-body.pg .ob-sec h2::after,body.pg .ob-sim h2::after{content:"";display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em}
+body.pg .ob-sec>h2,body.pg .ob-sim>h2{display:block;font-size:clamp(28px,2.4vw,44px);line-height:1.05;letter-spacing:-.035em;margin-bottom:22px}
+body.pg .ob-sec>h2::before,body.pg .ob-sim>h2::before{display:none}
+body.pg .ob-sec>h2::after,body.pg .ob-sim>h2::after{content:"";display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em}

@@ -61,8 +61,8 @@
 
 /* разделы */
 .ob-sec{scroll-margin-top:96px}
-.ob-sec h2,.ob-sim h2{font-size:clamp(24px,2vw,32px);font-weight:500;letter-spacing:-.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px}
-.ob-sec h2::before,.ob-sim h2::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--red)}
+.ob-sec>h2,.ob-sim>h2{font-size:clamp(24px,2vw,32px);font-weight:500;letter-spacing:-.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px}
+.ob-sec>h2::before,.ob-sim>h2::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--red)}
 .ob-txt{max-width:72ch}.ob-txt p{font-size:17px;line-height:1.65;margin:0 0 14px}
 .ob-lead{font-size:17px;line-height:1.6;color:var(--ink);margin:0 0 18px;max-width:64ch}
 .ob-calc-f .ob-lead{margin:0;font-size:16px}
