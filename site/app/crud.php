@@ -243,7 +243,7 @@ function pn_admin_settings(string $method, string $sub, array $post, array $file
         $tiers = array_values(array_filter((array) ($d['family_tiers'] ?? []), fn($p) => trim((string) $p[0]) !== ''));
         if (array_filter($tiers, fn($p) => !ctype_digit(trim((string) $p[0])) || (forms_number($p[1] ?? '') ?? 0) <= 0 || (forms_number($p[2] ?? '') ?? 0) <= 0))
             $errors['family_tiers'] = 'По строке: «детей | ставка | лимит в млн», например «1 | 10 | 6»';
-        $d['family_tiers'] = array_map(fn($p) => ['kids' => (int) $p[0], 'rate' => pn_num(forms_number($p[1])), 'limit' => (int) round(forms_number($p[2]) * 1000000)], $tiers);
+        $d['family_tiers'] = array_map(fn($p) => ['kids' => (int) $p[0], 'rate' => pn_num(forms_number($p[1] ?? '')), 'limit' => (int) round((forms_number($p[2] ?? '') ?? 0) * 1000000)], $tiers);
         $rd = trim((string) ($d['rates_date'] ?? ''));
         if ($rd !== '' && !preg_match('~^(\d\d)\.(\d\d)\.(\d{4})$~', $rd, $mm)) $errors['rates_date'] = 'Дата в виде 18.11.2026';
         $d['rates_date'] = $rd === '' ? null : (isset($mm) && $mm ? "$mm[3]-$mm[2]-$mm[1]" : $rd);
