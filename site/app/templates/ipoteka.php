@@ -27,7 +27,7 @@ $banks = ['Сбер', 'ВТБ', 'Альфа-Банк', 'ДОМ.РФ', 'Росс�
     <div class="ob-calc-r" aria-live="polite">
       <span>Ежемесячный платёж</span><b data-o="pay"><?= pn_rub(pn_mort_pay($price0, $mcfg['progs'][0] ?? ['name' => '', 'rate' => $rate0], Repo::settingsAll())['pay']) ?></b>
       <dl><div><dt>Сумма кредита</dt><dd data-o="loan"><?= pn_rub((int) ($price0 * .8)) ?></dd></div><div><dt>Переплата</dt><dd data-o="over">—</dd></div><div><dt>Рекомендуемый доход</dt><dd data-o="inc">—</dd></div></dl>
-      <a class="pg-btn red" href="./#lead">Подобрать программу</a>
+      <a class="pg-btn red" href="./#lead" data-lead="quiz" data-title="Подберём ипотеку" data-want="Подбор ипотеки" data-ref="ipoteka/" data-calc>Подобрать программу</a>
       <small data-o="parts"></small>
       <small><?= $rdate ? 'Ставки на ' . $rdate . '. ' : '' ?>Расчёт предварительный. Точную ставку банк назовёт после заявки.</small>
     </div>

@@ -8,7 +8,7 @@ $plans = array_map(fn($pl) => [pn_img_attrs('houses/' . $pl[1], '(max-width: 100
 $tel = $settings['phone_tel'] ?? '';
 $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (string) $h['fl']], ['Комнаты', $h['rooms']], ['Потолки', $h['ceil']],
     ['Тёплый контур', $warm ? 'от ' . pn_rub($warm) . '/м²' : null]], fn($f) => $f[1] !== null && $f[1] !== ''); ?>
-<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <a href="./#houses">Дома</a> · <span><?= pn_e($name) ?></span></nav>
+<nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <a href="doma/">Дома</a> · <span><?= pn_e($name) ?></span></nav>
 <div class="ob">
   <div class="ob-main">
     <?= pn_render('obj_gallery', ['photos' => $photos, 'plans' => $plans, 'planTab' => 'Планировки']) ?>
@@ -47,7 +47,7 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
         <div class="ob-calc-r" aria-live="polite">
           <span>Платёж в месяц</span><b data-o="pay"><?= pn_rub((int) round($price * .7 / 36)) ?></b>
           <dl><div><dt>Дом в тёплом контуре</dt><dd>от <?= pn_rub($price) ?></dd></div><div><dt>Остаток в рассрочку</dt><dd data-o="rest"><?= pn_rub((int) round($price * .7)) ?></dd></div><div><dt>Переплата</dt><dd>0 ₽</dd></div></dl>
-          <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Получить смету</a>
+          <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>" data-lead="quiz" data-title="Смета на дом" data-want="Смета: <?= pn_e($name) ?>" data-ref="doma/<?= pn_e($h['slug']) ?>/" data-calc>Получить смету</a>
           <small>Тёплый контур от <?= pn_rub($warm) ?>/м². Итог зависит от участка, фундамента и комплектации — назовём в смете.</small>
         </div>
       </div>
@@ -64,7 +64,7 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
       <a class="ob-mortlink" href="#inst"><span>Рассрочка 0 % до 5 лет</span><b>от <?= pn_rub((int) round($price * .7 / 60)) ?>/мес</b><i aria-hidden="true">→</i></a><?php endif; ?>
       <div class="ob-ok"><i aria-hidden="true"></i><span><b>Строим своими бригадами</b><br>Смета до начала работ, гарантия 5 лет</span></div>
       <div class="pg-act">
-        <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Обсудить проект</a>
+        <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>" data-lead="quiz" data-title="Обсудим проект" data-want="Проект дома: <?= pn_e($name) ?>" data-ref="doma/<?= pn_e($h['slug']) ?>/">Обсудить проект</a>
         <a class="pg-btn" href="tel:<?= pn_e($tel) ?>">Позвонить</a>
         <button type="button" class="pg-btn ghost" data-share aria-label="Поделиться ссылкой"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>Поделиться</button>
       </div>
@@ -79,5 +79,5 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
 </section>
 <?php endif; ?>
 
-<?php if ($price): ?><div class="ob-bar"><div><b>от <?= pn_rub($price) ?></b><span>рассрочка 0 %</span></div><a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>">Обсудить</a></div><?php endif; ?>
+<?php if ($price): ?><div class="ob-bar"><div><b>от <?= pn_rub($price) ?></b><span>рассрочка 0 %</span></div><a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>" data-lead="quiz" data-title="Обсудим проект" data-want="Проект дома: <?= pn_e($name) ?>" data-ref="doma/<?= pn_e($h['slug']) ?>/">Обсудить</a></div><?php endif; ?>
 <script src="assets/js/page.js" defer></script>

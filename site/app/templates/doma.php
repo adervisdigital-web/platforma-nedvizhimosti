@@ -35,6 +35,6 @@ $fls = array_values(array_unique(array_column($hs, 'fl'))); sort($fls); ?>
 
 <section class="sv-band">
   <div><h2>Рассрочка 0 % до 5 лет</h2><p>Без банка и процентов: первый взнос от 30 %, остаток — равными платежами. Тёплый контур от <?= pn_rub($warm) ?>/м²; точную цену назовём в смете — она зависит от участка, фундамента и материала стен.</p></div>
-  <a class="pg-btn red" href="./#houses">Рассчитать рассрочку</a>
+  <a class="pg-btn red" href="./#houses" data-lead="quiz" data-title="Дом в рассрочку" data-want="Дом в рассрочку 0 %: подобрать проект и посчитать платёж" data-ref="doma/">Рассчитать рассрочку</a>
 </section>
 <script src="assets/js/catalog.js" defer></script>

@@ -34,7 +34,7 @@ $lv = [
     <div class="ob-calc-r" aria-live="polite">
       <span>Ремонт под ключ</span><b data-o="sum"><?= pn_rub((int) $r[1] * 60) ?></b>
       <dl><div><dt>Цена за м²</dt><dd data-o="ppm"><?= pn_rub((int) $r[1]) ?></dd></div><div><dt>Гарантия</dt><dd>5 лет</dd></div><div><dt>Оплата</dt><dd>по этапам</dd></div></dl>
-      <a class="pg-btn red" href="./#lead">Получить смету</a>
+      <a class="pg-btn red" href="./#lead" data-lead="quiz" data-title="Смета на ремонт" data-want="Смета на ремонт" data-ref="remont/" data-calc>Получить смету</a>
       <small>Предварительный расчёт. Точную смету составим после замера.</small>
     </div>
   </div>

@@ -85,7 +85,7 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
           <span>Ежемесячный платёж</span><b data-o="pay"><?= pn_rub($pay) ?></b>
           <dl><div><dt>Сумма кредита</dt><dd data-o="loan"><?= pn_rub((int) round($a['price'] * .8)) ?></dd></div>
             <div><dt>Переплата</dt><dd data-o="over">—</dd></div><div><dt>Рекомендуемый доход</dt><dd data-o="inc"><?= pn_rub($pay * 2) ?></dd></div></dl>
-          <a class="pg-btn red" href="./#calc">Подобрать программу</a>
+          <a class="pg-btn red" href="./#calc" data-lead="quiz" data-title="Подберём ипотеку" data-want="Ипотека на квартиру: <?= pn_e($title) ?>" data-ref="kvartiry/<?= pn_e($a['slug']) ?>/" data-calc>Подобрать программу</a>
           <small data-o="parts"></small>
           <small><?= $rdate ? 'Ставки на ' . $rdate . '. ' : '' ?>Расчёт предварительный. Точную ставку банк назовёт после заявки — поможем подать сразу в несколько банков.</small>
         </div>
@@ -120,7 +120,7 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
       <a class="ob-mortlink" href="#mort"><span>В ипотеку от</span><b><?= pn_rub($pay) ?>/мес</b><i aria-hidden="true">→</i></a>
       <div class="ob-ok"><i aria-hidden="true"></i><span><b>Проверено Платформой</b><br>0 ₽ комиссии для покупателя</span></div>
       <div class="pg-act">
-        <a class="pg-btn red" href="./#obj-<?= $idx ?>">Записаться на просмотр</a>
+        <a class="pg-btn red" href="./#obj-<?= $idx ?>" data-lead="viewing" data-title="Запись на просмотр" data-want="Просмотр: <?= pn_e($title) ?>" data-ref="kvartiry/<?= pn_e($a['slug']) ?>/">Записаться на просмотр</a>
         <a class="pg-btn" href="tel:<?= pn_e($tel) ?>">Позвонить</a>
         <button type="button" class="pg-btn ghost" data-share aria-label="Поделиться ссылкой"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>Поделиться</button>
       </div>
@@ -136,5 +136,5 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
 </section>
 <?php endif; ?>
 
-<div class="ob-bar"><div><b><?= pn_rub($a['price']) ?></b><span>от <?= pn_rub($pay) ?>/мес</span></div><a class="pg-btn red" href="./#obj-<?= $idx ?>">Записаться</a></div>
+<div class="ob-bar"><div><b><?= pn_rub($a['price']) ?></b><span>от <?= pn_rub($pay) ?>/мес</span></div><a class="pg-btn red" href="./#obj-<?= $idx ?>" data-lead="viewing" data-title="Запись на просмотр" data-want="Просмотр: <?= pn_e($title) ?>" data-ref="kvartiry/<?= pn_e($a['slug']) ?>/">Записаться</a></div>
 <script src="assets/js/page.js" defer></script>

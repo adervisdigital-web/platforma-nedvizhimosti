@@ -63,7 +63,7 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
 
 <section class="ct-cta">
   <div><h2>Не нашли подходящую?</h2><p>Расскажите, что ищете — подберём из проверенных предложений, в том числе тех, что ещё не на сайте.</p></div>
-  <a class="pg-btn red" href="./#lead">Подобрать квартиру</a>
+  <a class="pg-btn red" href="./#lead" data-lead="quiz" data-title="Подберём квартиру" data-want="Подбор квартиры: <?= pn_e($h1) ?>" data-ref="<?= pn_e($path) ?>" data-filters>Подобрать квартиру</a>
 </section>
 
 <section class="ct-links">
