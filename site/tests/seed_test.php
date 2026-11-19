@@ -4,8 +4,9 @@ pn_t('seed: 12 квартир с ценой и фото', function () use ($seed
     $a = $seed('apartments'); pn_eq(count($a), 12);
     foreach ($a as $x) { pn_ok($x['price'] > 0, 'цена'); pn_ok(!empty($x['photos'][0]), 'фото'); pn_ok(in_array($x['market'], ['new', 'secondary'], true), 'market'); }
 });
-pn_t('seed: 5 домов, первый — Северный Урал 235', function () use ($seed) {
-    $h = $seed('houses'); pn_eq(count($h), 5); pn_eq($h[0]['slug'], 'severnyy-ural-235');
+pn_t('seed: 5 домов, порядок показа — 140, 195, 250, 235, 350 (по просьбе заказчика)', function () use ($seed) {
+    $h = $seed('houses'); pn_eq(count($h), 5); pn_eq(array_column($h, 'id'), ['y140', 'y195', 's250', 'n235', 's350']);
+    pn_eq(array_column($h, 'sort'), [0, 1, 2, 3, 4]);
 });
 pn_t('seed: настройки из спецификации', function () use ($seed) {
     $s = $seed('settings');
