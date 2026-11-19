@@ -35,8 +35,24 @@
     mode = m; label.textContent = txt;
     html.classList.toggle('fx-hot', m === 'hot'); html.classList.toggle('fx-media', m === 'media'); html.classList.toggle('fx-native', m === 'native');
   };
+  // цвет фона под курсором: на красном точка белая
+  const bgCache = new WeakMap();
+  const onRed = t => {
+    for (let el = t; el && el !== html; el = el.parentElement) {
+      if (bgCache.has(el)) return bgCache.get(el);
+      const c = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+      if (c && (c.length < 4 || +c[3] > .5)) {
+        const red = +c[0] > 190 && +c[1] < 120 && +c[2] < 110;
+        bgCache.set(el, red); return red;
+      }
+    }
+    return false;
+  };
   const pick = t => {
     if (!t || !t.closest) return setMode('');
+    html.classList.toggle('fx-red', onRed(t));
+    // окна-диалоги рисуются поверх всего (top layer) — там обычная стрелка
+    if (document.querySelector('dialog:modal') || t.closest('dialog')) return setMode('native');
     if (t.closest(NATIVE)) return setMode('native');
     if (t.closest('.ba, .pba')) return setMode('media', 'Тяните');
     const h = t.closest(HOT);
@@ -52,7 +68,7 @@
     mx = e.clientX; my = e.clientY;
     if (!shown) { shown = true; rx = dx = mx; ry = dy = my; html.classList.add('fx-show'); }
     pick(e.target);
-  }, {passive: true});
+  }, {passive: true, capture: true});   // capture — блоки со своим stopPropagation не прячут курсор
   document.addEventListener('pointerleave', () => { shown = false; html.classList.remove('fx-show'); });
   addEventListener('blur', () => { shown = false; html.classList.remove('fx-show'); });
   addEventListener('pointerdown', () => html.classList.add('fx-down'));
@@ -60,8 +76,9 @@
   const loop = () => {
     dx += (mx - dx) * .55; dy += (my - dy) * .55;
     rx += (mx - rx) * .18; ry += (my - ry) * .18;
-    dot.style.transform = `translate3d(${dx}px,${dy}px,0)`;
-    ring.style.transform = `translate3d(${rx}px,${ry}px,0)`;
+    // translate, а не transform: scale (наведение, нажатие) применяется после него и не сдвигает курсор
+    dot.style.translate = `${dx}px ${dy}px`;
+    ring.style.translate = `${rx}px ${ry}px`;
     requestAnimationFrame(loop);
   };
   requestAnimationFrame(loop);

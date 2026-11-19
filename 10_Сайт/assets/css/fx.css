@@ -1,18 +1,20 @@
 /* Эффекты (assets/js/fx.js): курсор-точка, появление заголовков с падающей точкой. Префикс fx- — классы не пересекаются с site.css. */
-.fx-dot,.fx-ring{position:fixed;left:0;top:0;z-index:2147483000;pointer-events:none;border-radius:50%;opacity:0;will-change:transform}
-.fx-dot{width:8px;height:8px;margin:-4px 0 0 -4px;background:#F5553C;transition:opacity .2s,scale .25s}
-.fx-ring{width:36px;height:36px;margin:-18px 0 0 -18px;border:1.5px solid #F5553C8c;display:grid;place-items:center;box-sizing:border-box;
-  transition:opacity .25s,width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),background-color .3s,border-color .3s,scale .2s}
-.fx-ring span{font:700 12px/1 Manrope,system-ui,sans-serif;letter-spacing:.02em;color:#fff;opacity:0;transition:opacity .2s;white-space:nowrap}
+.fx-dot,.fx-ring{position:fixed;left:0;top:0;z-index:2147483000;pointer-events:none;border-radius:50%;opacity:0;will-change:translate}
+.fx-dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:#F5553C;transition:opacity .2s,scale .25s}
+/* тонкое белое кольцо; difference — на тёмном фото белое, на светлом фоне само темнеет */
+.fx-ring{width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid #fff;mix-blend-mode:difference;display:grid;place-items:center;box-sizing:border-box;
+  transition:opacity .25s,width .4s cubic-bezier(.2,.8,.2,1),height .4s cubic-bezier(.2,.8,.2,1),margin .4s cubic-bezier(.2,.8,.2,1),background-color .3s,border-color .3s,scale .25s cubic-bezier(.2,.8,.2,1)}
+.fx-ring span{font:600 12px/1 Manrope,system-ui,sans-serif;letter-spacing:.02em;color:#161617;opacity:0;transition:opacity .2s;white-space:nowrap}
 .fx-show .fx-dot,.fx-show .fx-ring{opacity:1}
-.fx-hot .fx-ring{width:56px;height:56px;margin:-28px 0 0 -28px;background-color:#F5553C1f;border-color:#F5553C}
-.fx-hot .fx-dot{scale:.6}
-.fx-media .fx-ring{width:92px;height:92px;margin:-46px 0 0 -46px;background-color:#F5553C;border-color:#F5553C}
+.fx-hot .fx-ring{width:54px;height:54px;margin:-27px 0 0 -27px}
+.fx-hot .fx-dot{scale:.8}
+.fx-media .fx-ring{width:88px;height:88px;margin:-44px 0 0 -44px;background-color:#fff;border-color:#fff;mix-blend-mode:normal;box-shadow:0 8px 30px #0000002e}
 .fx-media .fx-ring span{opacity:1;transition-delay:.12s}
 .fx-show.fx-media .fx-dot{opacity:0}
 .fx-show.fx-native .fx-dot,.fx-show.fx-native .fx-ring{opacity:0}
 .fx-down .fx-ring{scale:.82}.fx-down .fx-dot{scale:1.5}
-html.fx-cur,html.fx-cur *:not(:is(input:not([type=range],[type=checkbox],[type=radio],[type=button],[type=submit]),textarea,select,[contenteditable],[contenteditable] *,.leaflet-container,.leaflet-container *)){cursor:none!important}
+.fx-red .fx-dot{background:#fff}
+html.fx-cur:not(:has(dialog:modal)),html.fx-cur:not(:has(dialog:modal)) *:not(:is(input:not([type=range],[type=checkbox],[type=radio],[type=button],[type=submit]),textarea,select,[contenteditable],[contenteditable] *,.leaflet-container,.leaflet-container *)){cursor:none!important}
 
 /* заголовки разделов: всплывают, точка в конце падает и пружинит */
 .fx-rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
