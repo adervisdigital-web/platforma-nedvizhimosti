@@ -31,7 +31,8 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
 <?php endif; ?>
 
 <?php if ($apts): ?>
-<form class="ct-filters" data-ct-form aria-label="Фильтры" onsubmit="return false">
+<button type="button" class="ct-ftog" data-ct-ftog aria-expanded="false" aria-controls="ctFilters"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>Фильтры<span class="ct-fn" data-ct-fn hidden></span></button>
+<form class="ct-filters" id="ctFilters" data-ct-form aria-label="Фильтры" onsubmit="return false">
   <label class="ct-f"><span>Цена, ₽</span><span class="ct-2"><input name="pmin" inputmode="numeric" placeholder="от <?= pn_e(pn_mln($st['pmin'])) ?>" aria-label="Цена от"><input name="pmax" inputmode="numeric" placeholder="до <?= pn_e(pn_mln($st['pmax'])) ?>" aria-label="Цена до"></span></label>
   <label class="ct-f"><span>Площадь от, м²</span><input name="amin" inputmode="decimal" placeholder="<?= pn_e(str_replace('.', ',', (string) pn_num($st['amin']))) ?>"></label>
   <?php if (count($dists) > 1): ?><label class="ct-f"><span>Район</span><select name="d"><option value="">Любой</option><?php foreach ($dists as $d): ?><option value="<?= pn_e(pn_slug($d)) ?>"><?= pn_e($d) ?></option><?php endforeach; ?></select></label><?php endif; ?>

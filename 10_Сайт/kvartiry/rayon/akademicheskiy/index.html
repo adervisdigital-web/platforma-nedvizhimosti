@@ -77,7 +77,8 @@
   <a href="kvartiry/">Все <span>12</span></a>  <a href="kvartiry/novostroyki/">Новостройки <span>9</span></a><a href="kvartiry/vtorichka/">Вторичка <span>3</span></a>  <span class="ct-sep" aria-hidden="true"></span>
   <a href="kvartiry/studii/">Студии <span>2</span></a><a href="kvartiry/1-komnatnye/">1-комн. <span>3</span></a><a href="kvartiry/2-komnatnye/">2-комн. <span>4</span></a><a href="kvartiry/3-komnatnye/">3-комн. <span>2</span></a><a href="kvartiry/4-komnatnye/">4+ комн. <span>1</span></a>  <span class="ct-sep" aria-hidden="true"></span><a href="kvartiry/gotovye-novostroyki/">Сданные дома <span>4</span></a><a href="kvartiry/s-otdelkoy/">С отделкой <span>9</span></a><a href="kvartiry/semeynaya-ipoteka/">Семейная ипотека <span>9</span></a><a href="kvartiry/skidki/">Скидки <span>5</span></a></nav>
 
-<form class="ct-filters" data-ct-form aria-label="Фильтры" onsubmit="return false">
+<button type="button" class="ct-ftog" data-ct-ftog aria-expanded="false" aria-controls="ctFilters"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>Фильтры<span class="ct-fn" data-ct-fn hidden></span></button>
+<form class="ct-filters" id="ctFilters" data-ct-form aria-label="Фильтры" onsubmit="return false">
   <label class="ct-f"><span>Цена, ₽</span><span class="ct-2"><input name="pmin" inputmode="numeric" placeholder="от 4,39 млн ₽" aria-label="Цена от"><input name="pmax" inputmode="numeric" placeholder="до 9,45 млн ₽" aria-label="Цена до"></span></label>
   <label class="ct-f"><span>Площадь от, м²</span><input name="amin" inputmode="decimal" placeholder="24,9"></label>
       <div class="ct-checks">

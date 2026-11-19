@@ -119,3 +119,14 @@
 .ct-tags{right:110px}
 .ob-simcards{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
 @media(min-width:1200px){.ob-simcards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* телефон: фильтры — в кнопке «Фильтры» (счётчик включённых условий), форма раскрывается под ней */
+.ct-ftog{display:none}
+@media (max-width:800px){
+  .ct-ftog{display:flex;align-items:center;gap:10px;width:100%;min-height:50px;padding:0 18px;margin:0 0 10px;border:0;border-radius:16px;background:#fff;color:var(--ink);font:600 16px Manrope,system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 2px #0000000a}
+  .ct-ftog svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+  .ct-ftog::after{content:'';margin-left:auto;width:8px;height:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-3px);transition:transform .25s}
+  .ct-ftog[aria-expanded=true]::after{transform:rotate(-135deg) translateY(-1px)}
+  .ct-fn{min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--red-ui);color:#fff;font-size:12px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+  .ct-fn[hidden]{display:none}
+  .ct-filters:not(.is-open){display:none}
+}

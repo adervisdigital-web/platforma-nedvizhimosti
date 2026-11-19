@@ -106,6 +106,17 @@
   };
 
   if (form) { form.addEventListener('input', () => apply()); form.addEventListener('change', () => apply()); }
+  // телефон: фильтры свёрнуты в кнопку «Фильтры», на ней — сколько условий включено
+  const ftog = $('[data-ct-ftog]'), fn = $('[data-ct-fn]');
+  if (ftog && form) {
+    const fcount = () => { let n = 0; for (const el of form.elements) if (el.name && (el.type === 'checkbox' ? el.checked : el.value.trim())) n++;
+      fn.textContent = n; fn.hidden = !n; };
+    ftog.addEventListener('click', () => { const o = !form.classList.contains('is-open'); form.classList.toggle('is-open', o); ftog.setAttribute('aria-expanded', o);
+      if (o) { const f = form.querySelector('input, select'); f && setTimeout(() => f.focus({preventScroll: true}), 60); } });
+    form.addEventListener('input', fcount); form.addEventListener('change', fcount);
+    $('[data-ct-reset]') && $('[data-ct-reset]').addEventListener('click', () => setTimeout(fcount, 0));
+    fcount();
+  }
   if (sortSel) sortSel.addEventListener('change', () => apply(false));
   if (moreBtn) moreBtn.addEventListener('click', () => { shown += STEP; apply(false); });
   $$('[data-ct-reset]').forEach(b => b.addEventListener('click', () => { if (form) form.reset(); if (sortSel) sortSel.value = ''; apply(); }));

@@ -111,3 +111,16 @@ body.pg .sx-hero .ct-intro{color:#ffffffd9;font-size:clamp(16px,1.15vw,20px);max
 body.pg .ob-sec>h2,body.pg .ob-sim>h2{display:block;font-size:clamp(28px,2.4vw,44px);line-height:1.05;letter-spacing:-.035em;margin-bottom:22px}
 body.pg .ob-sec>h2::before,body.pg .ob-sim>h2::before{display:none}
 body.pg .ob-sec>h2::after,body.pg .ob-sim>h2::after{content:"";display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em}
+/* 404 — крупно, как заголовки главной, с переходами в разделы; политика — плотный заголовок */
+body.pg .pg-doc h1{line-height:1.05}
+body.pg .pg-404{max-width:none;padding:clamp(20px,4vw,60px) 0 clamp(40px,5vw,80px)}
+.pg-404n{margin:0;font:300 clamp(90px,14vw,240px)/.85 Manrope,system-ui,sans-serif;letter-spacing:-.06em;color:#16161714}
+body.pg .pg-404 h1{font-size:clamp(40px,5.2vw,104px);line-height:1;letter-spacing:-.05em;margin:-.15em 0 20px;max-width:16ch}
+.pg-404t{max-width:620px;font-size:clamp(16px,1.15vw,19px);color:#4A4741}
+.pg-404l{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:28px 0 24px;max-width:1100px}
+.pg-404l a{display:grid;gap:4px;padding:20px 22px;border-radius:20px;background:#fff;color:var(--ink);text-decoration:none;transition:translate .2s,box-shadow .2s}
+.pg-404l a:hover{translate:0 -3px;box-shadow:0 14px 34px #0000000f}
+.pg-404l b{font-size:20px;font-weight:500;letter-spacing:-.02em}
+.pg-404l b::after{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-left:3px}
+.pg-404l span{font-size:14px;color:var(--mut)}
+@media(max-width:800px){.pg-404l{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
