@@ -1135,3 +1135,18 @@ a[href^="tel:"]{white-space:nowrap}
 .hc .ph img{object-position:50% 70%}
 /* «Северный Урал 235»: дом выше в кадре — меньше неба, больше травы */
 .hc .ph img[src*="n235_1"]{object-position:50% 100%}
+/* шапка: «Избранное» и «Сравнить» подписями (на телефоне — прежняя иконка сердца) */
+.hb-tx{display:none}
+@media(min-width:801px){
+ .hb .hb-ic{width:auto;padding:0 13px;border-radius:999px;gap:7px;font-size:13.5px;font-weight:600;white-space:nowrap}
+ .hb .hb-ic .ico{display:none}
+ .hb .hb-tx{display:inline}
+ .hb .hb-ic .cnt{position:static;display:inline-flex;min-width:0;height:18px;padding:0;border-radius:9px;background:none;color:inherit;opacity:.45;font-size:11px;box-shadow:none}
+ .hb .hb-ic .cnt.on{min-width:18px;padding:0 5px;background:var(--red-ui);color:#fff;opacity:1}
+}
+/* подписи заняли место: на ноутбуках статус и подпись «Кабинет» прячем раньше, номер не переносится */
+.hb-call{flex:none}.hb-st,.hb-num{white-space:nowrap}
+@media(min-width:801px) and (max-width:1560px){.hb-st{display:none}.hb-num{margin:0}}
+@media(min-width:801px) and (max-width:1400px){.hb-cab span:last-child{display:none}.hb-cab{padding:0 4px}.hb .hb-ic{padding:0 10px;font-size:13px}}
+@media(min-width:801px) and (max-width:1440px){nav.main{gap:18px}.hd{gap:18px}}
+@media(min-width:801px) and (max-width:1300px){.hb .hb-ic{padding:0 8px}.hb-ph{padding:0 10px 0 12px}}
