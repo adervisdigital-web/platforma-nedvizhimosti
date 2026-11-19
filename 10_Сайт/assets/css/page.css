@@ -107,3 +107,7 @@ body.pg .sx-hero .ct-intro{color:#ffffffd9;font-size:clamp(16px,1.15vw,20px);max
   .sx-chips li{line-height:32px}
   body.pg .sx-hero .ct-intro{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden}
 }
+/* подзаголовки страниц объектов — точка в конце, как у заголовков главной («Ставим точку») */
+body.pg .ob-sec h2,body.pg .ob-sim h2{display:block;font-size:clamp(28px,2.4vw,44px);line-height:1.05;letter-spacing:-.035em;margin-bottom:22px}
+body.pg .ob-sec h2::before,body.pg .ob-sim h2::before{display:none}
+body.pg .ob-sec h2::after,body.pg .ob-sim h2::after{content:"";display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--red);margin-left:.05em}
