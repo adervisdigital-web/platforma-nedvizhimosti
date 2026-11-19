@@ -92,3 +92,28 @@
   .ct-cta .pg-btn{width:100%}
 }
 @media (max-width:700px){.ct-rooms span{background:#fff}}
+
+/* карточка каталога как на главной: метка на фото, «сравнить» и «избранное», отметка проверки, теги, платёж в ипотеку */
+.ct-card{border-radius:22px;padding:8px;grid-template-rows:auto 1fr}
+.ct-ph{border-radius:16px;aspect-ratio:16/11}
+.ct-tags .red{background:var(--red-ui);color:#fff;border-radius:99px;padding:5px 11px;font-size:12px}
+.ct-acts{position:absolute;top:18px;right:18px;z-index:2;display:flex;gap:6px}
+.ct-acts .ib{width:38px;height:38px;cursor:pointer;box-shadow:0 4px 14px #00000014;transition:background .2s,scale .15s}
+.ct-acts .ib:hover{scale:1.06}
+.ct-acts .ib .ico{width:19px;height:19px}
+.ct-body{padding:14px 10px 6px;gap:6px;display:flex;flex-direction:column;align-items:stretch}
+.ct-body h3{font-size:clamp(18px,1.25vw,21px);font-weight:500;letter-spacing:-.02em}
+.ct-ok{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;margin:4px 0 2px;background:#FEECE8;color:#B8321D;border-radius:999px;padding:6px 12px 6px 10px;font-size:12.5px;font-weight:700}
+.ct-ok i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.ct-ren{position:relative;z-index:1;align-self:flex-start;color:var(--red-ui);font-size:13px;font-weight:600;text-decoration:none;border-bottom:1px dashed #D83C2466}
+.ct-ren:hover{border-bottom-style:solid}
+.ct-tg{margin:2px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.ct-tg span{background:var(--soft);border-radius:8px;padding:4px 9px;font-size:12.5px;font-weight:600}
+.ct-foot{margin-top:auto;padding-top:12px;border-top:1px solid #16161714;display:grid;gap:8px}
+.ct-foot .ct-price{margin:0}
+.ct-foot .ct-price b{font-size:clamp(21px,1.5vw,25px)}
+.ct-foot .ct-pay{display:grid;gap:1px;background:var(--soft);border-radius:12px;padding:9px 12px;font-size:12.5px}
+.ct-foot .ct-pay b{font-size:15px}
+.ct-foot .ct-pay small{font-size:11.5px;color:var(--mut)}
+.ct-body>.ct-tg{margin-bottom:8px}
+.ct-tags{right:110px}

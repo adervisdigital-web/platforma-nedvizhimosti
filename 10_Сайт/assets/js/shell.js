@@ -6,7 +6,9 @@
   const html = document.documentElement;
 
   // ---- уведомление
-  window.toast = window.toast || (t => { const el = $('#toast'); if (!el) return; el.textContent = t; el.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('on'), 3200); });
+  // window.toast без проверки «уже есть»: элемент с id="toast" сам попадает в window.toast, и тогда функции бы не было
+  const toast = t => { const el = $('#toast'); if (!el) return; el.textContent = t; el.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('on'), 3200); };
+  window.toast = toast;
 
   // ---- шапка: тень, полоса прокрутки, кнопка чата, точка в подвале
   const hdr = $('header'), fab = $('#chatFab'), prog = $('#prog');
@@ -61,10 +63,27 @@
         toast(openNow ? 'Перезвоним в течение 30 секунд' : 'Перезвоним завтра в 9:00'); }); });
   }
 
-  // ---- «Избранное» и «Сравнить»: счётчики общие с главной, список открывается на главной
-  const count = k => { try { return JSON.parse(localStorage.getItem(k) || '[]').length; } catch (e) { return 0; } };
+  // ---- «Избранное» и «Сравнить»: те же списки, что на главной (localStorage pn_fav / pn_cmp, номера квартир как в PN.items());
+  // кнопки на карточках каталога — [data-fav] / [data-cmp]; список открывается на главной
+  const read = k => { try { return JSON.parse(localStorage.getItem(k) || '[]').map(Number); } catch (e) { return []; } };
+  const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const count = k => read(k).length;
+  const counts = () => [['#favCnt', 'pn_fav'], ['#cmpCnt', 'pn_cmp']].forEach(([c, k]) => { const n = count(k), el = $(c); if (el) { el.textContent = n; el.classList.toggle('on', n > 0); } });
+  const marks = () => { const f = read('pn_fav'), c = read('pn_cmp');
+    $$('[data-fav]').forEach(b => b.setAttribute('aria-pressed', f.includes(+b.dataset.fav)));
+    $$('[data-cmp]').forEach(b => b.setAttribute('aria-pressed', c.includes(+b.dataset.cmp))); };
+  counts(); marks();
+  addEventListener('storage', e => { if (e.key === 'pn_fav' || e.key === 'pn_cmp') { counts(); marks(); } });   // изменили в другой вкладке
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-fav], [data-cmp]'); if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const op = b.dataset.fav !== undefined ? 'fav' : 'cmp', k = 'pn_' + op, id = +(b.dataset.fav ?? b.dataset.cmp), v = read(k);
+    if (id < 0) return;
+    if (!v.includes(id) && op === 'cmp' && v.length >= 4) { toast('Сравнить можно до 4 квартир — уберите одну из сравнения'); return; }
+    const on = !v.includes(id); write(k, on ? v.concat(id) : v.filter(x => x !== id)); counts(); marks();
+    if (on) toast(op === 'fav' ? 'Добавили в избранное — смотрите в шапке' : `В сравнении: ${count(k)}. Откройте «Сравнить» в шапке`);
+  });
   [['#favCnt', 'pn_fav', '#favBtn', 'fav'], ['#cmpCnt', 'pn_cmp', '#cmpBtn', 'cmp']].forEach(([c, k, b, op]) => {
-    const n = count(k), el = $(c); if (el) { el.textContent = n; el.classList.toggle('on', n > 0); }
     const btn = $(b); btn && btn.addEventListener('click', () => {
       if (!count(k)) { toast(op === 'fav' ? 'Пока пусто — нажмите сердечко на карточке квартиры' : 'Добавьте квартиры к сравнению — кнопка на фото в карточке'); return; }
       location.href = './?open=' + op; });

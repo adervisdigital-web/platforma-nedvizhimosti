@@ -57,6 +57,13 @@ function pn_complexes_full(): array {
 }
 
 // Платёж в ипотеку, как на странице квартиры: новостройки — первая программа, вторичка — последняя (рыночная).
+// Номер квартиры как в списке главной (PN.items(): опубликованные по id) — по нему хранятся «Избранное» и «Сравнение» (localStorage).
+function pn_apt_gid(string $slug): int {
+    static $map = null;
+    if ($map === null) $map = array_flip(array_column(Repo::apartments(), 'slug'));
+    return (int) ($map[$slug] ?? -1);
+}
+
 function pn_apt_pay(array $a, array $s): int {
     return pn_mort_pay($a['price'], pn_default_prog($a, $s), $s)['pay'];   // лимиты и ставки — app/mortgage.php
 }

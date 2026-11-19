@@ -54,7 +54,7 @@
     // окна-диалоги рисуются поверх всего (top layer) — там обычная стрелка
     if (document.querySelector('dialog:modal') || t.closest('dialog')) return setMode('native');
     if (t.closest(NATIVE)) return setMode('native');
-    if (t.closest('.ba, .pba')) return setMode('media', 'Тяните');
+    if (t.closest('.ba, .pba, .sv-cur')) return setMode('media', 'Тяните');
     const h = t.closest(HOT);
     if (h) {
       const img = h.querySelector('img');

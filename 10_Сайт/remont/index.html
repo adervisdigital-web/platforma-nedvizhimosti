@@ -100,8 +100,14 @@
 </section>
 
 <section class="sv-sec"><h2 class="sv-h">До и после</h2>
-  <div class="sv-ba"><figure><img src="assets/img/ba_before.jpg" alt="Квартира до ремонта" loading="lazy"><figcaption>До</figcaption></figure>
-    <figure><img src="assets/img/ba_after.jpg" alt="Та же квартира после ремонта" loading="lazy"><figcaption>После</figcaption></figure></div>
+  <div class="sv-cur" data-cur style="--p:50%">
+    <img src="assets/img/ba_after.jpg" alt="Та же квартира после ремонта" loading="lazy">
+    <img class="sv-cur-b" src="assets/img/ba_before.jpg" alt="Квартира до ремонта" loading="lazy">
+    <span class="sv-cur-t sv-cur-tb">До</span><span class="sv-cur-t sv-cur-ta">После</span>
+    <span class="sv-cur-h" aria-hidden="true"><i></i></span>
+    <input type="range" min="0" max="100" value="50" aria-label="Шторка: слева — до ремонта, справа — после">
+  </div>
+  <p class="sv-note">Одна и та же комната: потяните шторку, чтобы сравнить.</p>
 </section>
 
 <section class="sv-sec"><h2 class="sv-h">Как работаем</h2>

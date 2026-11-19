@@ -134,6 +134,24 @@
     calc();
   });
 
+  // ---- шторка «до / после»: тянуть мышью или пальцем по всему фото, стрелками — с клавиатуры; при первом показе проходит сама
+  $$('[data-cur]').forEach(c => {
+    const r = $('input', c), set = v => { v = Math.max(0, Math.min(100, v)); c.style.setProperty('--p', v + '%'); r.value = v; };
+    const at = e => { const b = c.getBoundingClientRect(); set((e.clientX - b.left) / b.width * 100); };
+    let drag = false;
+    c.addEventListener('pointerdown', e => { drag = true; c.setPointerCapture(e.pointerId); at(e); c.classList.add('is-drag'); });
+    c.addEventListener('pointermove', e => { if (drag) at(e); });
+    const end = () => { drag = false; c.classList.remove('is-drag'); };
+    c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+    r.addEventListener('input', () => set(+r.value));
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver((es, o) => { if (!es[0].isIntersecting) return; o.disconnect();
+      const t0 = performance.now(), ease = x => (1 - Math.cos(x * Math.PI)) / 2;
+      const path = t => t < .3 ? 50 - 32 * ease(t / .3) : t < .75 ? 18 + 64 * ease((t - .3) / .45) : 82 - 32 * ease((t - .75) / .25);
+      const run = now => { if (drag) return; const t = Math.min(1, (now - t0) / 2800); set(path(t)); if (t < 1) requestAnimationFrame(run); };
+      setTimeout(() => requestAnimationFrame(run), 300); }, {threshold: .5}).observe(c);
+  });
+
   // ---- поделиться
   document.addEventListener('click', async e => {
     const b = e.target.closest('[data-share]'); if (!b) return;

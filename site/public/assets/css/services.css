@@ -27,7 +27,7 @@
 .dm-par b{font-size:16px;color:var(--ink)}
 
 .sv-sec{margin-top:clamp(40px,5vw,72px)}
-.ob-calc.sv-sec .sv-h,.sv-h{font-size:clamp(24px,2.2vw,34px);font-weight:500;letter-spacing:-.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px}
+.sv-h{font-size:clamp(24px,2.2vw,34px);font-weight:500;letter-spacing:-.02em;margin:0 0 18px;display:flex;align-items:center;gap:12px}
 .sv-h::before{content:"";flex:none;width:10px;height:10px;border-radius:50%;background:var(--red)}
 .sv-steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .sv-steps li{counter-increment:s;background:#fff;border-radius:20px;padding:20px;display:grid;gap:6px;color:var(--mut);line-height:1.45;font-size:15px}
@@ -67,3 +67,39 @@
   .dm-f{flex-wrap:nowrap;overflow-x:auto}
   .dm-f button{flex:none}
 }
+
+/* «Дома»: когда показаны все проекты — как на главной: два крупных сверху, остальные по три в ряд (без полупустого ряда) */
+@media (min-width:1100px){
+  .dm-grid:not(:has(.dm-card[hidden])){grid-template-columns:repeat(6,minmax(0,1fr))}
+  .dm-grid:not(:has(.dm-card[hidden])) .dm-card{grid-column:span 2}
+  .dm-grid:not(:has(.dm-card[hidden])) .dm-card:nth-child(-n+2){grid-column:span 3}
+  .dm-grid:not(:has(.dm-card[hidden])) .dm-card:nth-child(-n+2) .dm-ph{aspect-ratio:16/9}
+  .dm-grid:not(:has(.dm-card[hidden])) .dm-card:nth-child(-n+2) h2{font-size:clamp(28px,2.4vw,40px)}
+}
+
+/* шаги на телефоне — линия времени: номер слева, текст справа, тонкая линия между шагами (как путь клиента на главной) */
+@media (max-width:700px){
+  .sv-steps{gap:0;background:#fff;border-radius:22px;padding:8px 18px}
+  .sv-steps li{position:relative;grid-template-columns:32px 1fr;column-gap:14px;row-gap:2px;padding:14px 0;background:none;border-radius:0;font-size:14px}
+  .sv-steps li::before{grid-row:1 / span 2;margin:0}
+  .sv-steps li:not(:last-child)::after{content:'';position:absolute;left:15.5px;top:50px;bottom:-10px;width:1px;background:var(--red);opacity:.45}
+  .sv-steps b{font-size:16px;align-self:end}
+}
+
+/* шторка «до / после» на странице ремонта (как на главной) */
+.sv-cur{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:2688/1120;background:#E6E3DE;touch-action:pan-y;user-select:none;cursor:ew-resize}
+.sv-cur img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.sv-cur .sv-cur-b{clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.sv-cur-h{position:absolute;top:0;bottom:0;left:var(--p);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 12px #0000004d;pointer-events:none}
+.sv-cur-h i{position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#fff;box-shadow:0 8px 24px #00000038;transition:scale .2s}
+.sv-cur-h i::before,.sv-cur-h i::after{content:'';position:absolute;top:50%;width:7px;height:7px;margin-top:-4px;border:solid var(--ink);border-width:0 0 2px 2px}
+.sv-cur-h i::before{left:13px;transform:rotate(45deg)}
+.sv-cur-h i::after{right:13px;transform:rotate(-135deg)}
+.sv-cur.is-drag .sv-cur-h i{scale:1.12}
+.sv-cur-t{position:absolute;top:16px;background:#fffffff0;border-radius:99px;padding:5px 12px;font-weight:700;font-size:13px;pointer-events:none}
+.sv-cur-tb{left:16px}
+.sv-cur-ta{right:16px}
+.sv-cur input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;pointer-events:none}
+.sv-cur:has(input:focus-visible){outline:3px solid var(--red-ui);outline-offset:3px}
+.sv-note{margin:10px 0 0;color:var(--mut);font-size:14px}
+@media (max-width:700px){.sv-cur{aspect-ratio:4/3;border-radius:20px}.sv-cur img{object-position:42% 50%}}
