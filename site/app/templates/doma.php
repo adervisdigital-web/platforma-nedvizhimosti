@@ -1,7 +1,7 @@
 <?php /** Проекты домов. Переменные: $hs (Repo::houses), $warm (₽/м² тёплый контур), $min, $settings */
 $lines = array_values(array_unique(array_column($hs, 'line')));
 $fls = array_values(array_unique(array_column($hs, 'fl'))); sort($fls); ?>
-<section class="sx-hero" style="--sxp:50% 72%"><img class="sx-bg" src="assets/img/houses/y195_1.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
+<section class="sx-hero" style="--sxp:50% 72%"><img class="sx-bg" src="assets/img/houses/y195_1.jpg" srcset="assets/img/houses/y195_1-1280.jpg 1280w, assets/img/houses/y195_1.jpg 1600w" sizes="100vw" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Дома</span></nav>
 <div class="ct-head">
   <h1>Каменные дома по нашим проектам<i class="ct-dot" aria-hidden="true"></i></h1>

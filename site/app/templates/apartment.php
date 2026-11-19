@@ -78,8 +78,8 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
           <?php if ($mcfg['tiers']): ?><div class="ob-kids" data-kids role="group" aria-label="Детей в семье"<?= empty($mcfg['progs'][$sel]['family']) ? ' hidden' : '' ?>><span>Детей</span><?php foreach ([1, 2, 3, 4, 5] as $k): ?>
             <button type="button" data-k="<?= $k ?>" aria-pressed="<?= $k === 1 ? 'true' : 'false' ?>"><?= $k === 5 ? '5+' : $k ?></button><?php endforeach; ?></div><?php endif; ?>
           <label class="ob-rng">Первоначальный взнос <output data-o="down"><?= pn_rub((int) round($a['price'] * .2)) ?> · 20 %</output>
-            <input type="range" min="10" max="90" step="5" value="20" data-i="down"></label>
-          <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term"></label>
+            <input type="range" min="10" max="90" step="5" value="20" data-i="down" aria-label="Первоначальный взнос, %"></label>
+          <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term" aria-label="Срок ипотеки, лет"></label>
         </div>
         <div class="ob-calc-r" aria-live="polite">
           <span>Ежемесячный платёж</span><b data-o="pay"><?= pn_rub($pay) ?></b>

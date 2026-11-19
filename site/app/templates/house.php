@@ -41,8 +41,8 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
       <div class="ob-calc-in">
         <div class="ob-calc-f">
           <p class="ob-lead">Строим своими бригадами по этапам. Без банка и процентов: взнос от 30 %, остаток — равными платежами до 5 лет.</p>
-          <label class="ob-rng">Первый взнос <output data-o="down"><?= pn_rub((int) round($price * .3)) ?> · 30 %</output><input type="range" min="30" max="90" step="5" value="30" data-i="down"></label>
-          <label class="ob-rng">Срок <output data-o="term">3 года</output><input type="range" min="1" max="5" step="1" value="3" data-i="term"></label>
+          <label class="ob-rng">Первый взнос <output data-o="down"><?= pn_rub((int) round($price * .3)) ?> · 30 %</output><input type="range" min="30" max="90" step="5" value="30" data-i="down" aria-label="Первый взнос, %"></label>
+          <label class="ob-rng">Срок <output data-o="term">3 года</output><input type="range" min="1" max="5" step="1" value="3" data-i="term" aria-label="Срок рассрочки, лет"></label>
         </div>
         <div class="ob-calc-r" aria-live="polite">
           <span>Платёж в месяц</span><b data-o="pay"><?= pn_rub((int) round($price * .7 / 36)) ?></b>

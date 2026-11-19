@@ -15,11 +15,18 @@ function pn_apt_title(array $a): string {
     return pn_rooms($a['rooms']) . ' · ' . pn_area($a['area']) . ' · ' . ($a['complex'] ?? $a['address']);
 }
 
+// Заголовок для поиска: Яндекс и Google показывают ~60–70 символов — длинный заголовок сокращает бренд в конце до «| Платформа».
+function seo_title(string $t): string {
+    $tail = ' | Платформа недвижимости';
+    return mb_strlen($t) > 70 && str_ends_with($t, $tail) ? mb_substr($t, 0, -mb_strlen($tail)) . ' | Платформа' : $t;
+}
+
 // $p: title, description, path (от корня, без /), image (путь от корня), type
 function seo_meta(array $p, array $settings): string {
     $site = pn_site_url($settings);
     $url = $site . ($p['path'] ?? '');
     $img = isset($p['image']) ? $site . $p['image'] : $site . 'assets/img/ekb_dusk.jpg';
+    $p['title'] = seo_title((string) $p['title']);
     return '<title>' . pn_e($p['title']) . "</title>\n"
         . '<meta name="description" content="' . pn_e($p['description']) . "\">\n"
         . '<meta name="theme-color" content="#F4F2EE">' . "\n"

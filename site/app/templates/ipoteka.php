@@ -2,7 +2,7 @@
 $price0 = 7000000;
 $rate0 = $progs[0]['rate'] ?? 6;
 $banks = ['Сбер', 'ВТБ', 'Альфа-Банк', 'ДОМ.РФ', 'Россельхозбанк', 'УБРиР']; ?>
-<section class="sx-hero" style="--sxp:50% 45%"><img class="sx-bg" src="assets/img/ekb_city.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
+<section class="sx-hero" style="--sxp:50% 45%"><img class="sx-bg" src="assets/img/ekb_city.jpg" srcset="assets/img/ekb_city-1280.jpg 1280w, assets/img/ekb_city-1920.jpg 1920w, assets/img/ekb_city.jpg 2880w" sizes="100vw" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Ипотека</span></nav>
 <div class="ct-head">
   <h1>Ипотека на квартиру в Екатеринбурге<i class="ct-dot" aria-hidden="true"></i></h1>
@@ -21,8 +21,8 @@ $banks = ['Сбер', 'ВТБ', 'Альфа-Банк', 'ДОМ.РФ', 'Росс�
             <button type="button" role="radio" aria-checked="<?= $k === $sel ? 'true' : 'false' ?>" data-pi="<?= $k ?>"><?= pn_e($p['name']) ?> <span><?= str_replace('.', ',', (string) $p['rate']) ?> %</span></button><?php endforeach; ?></div>
           <?php if ($mcfg['tiers']): ?><div class="ob-kids" data-kids role="group" aria-label="Детей в семье"<?= empty($mcfg['progs'][$sel]['family']) ? ' hidden' : '' ?>><span>Детей</span><?php foreach ([1, 2, 3, 4, 5] as $k): ?>
             <button type="button" data-k="<?= $k ?>" aria-pressed="<?= $k === 1 ? 'true' : 'false' ?>"><?= $k === 5 ? '5+' : $k ?></button><?php endforeach; ?></div><?php endif; ?>
-      <label class="ob-rng">Первоначальный взнос <output data-o="down"><?= pn_rub((int) ($price0 * .2)) ?> · 20 %</output><input type="range" min="10" max="90" step="5" value="20" data-i="down"></label>
-      <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term"></label>
+      <label class="ob-rng">Первоначальный взнос <output data-o="down"><?= pn_rub((int) ($price0 * .2)) ?> · 20 %</output><input type="range" min="10" max="90" step="5" value="20" data-i="down" aria-label="Первоначальный взнос, %"></label>
+      <label class="ob-rng">Срок <output data-o="term">30 лет</output><input type="range" min="5" max="30" step="1" value="30" data-i="term" aria-label="Срок ипотеки, лет"></label>
     </div>
     <div class="ob-calc-r" aria-live="polite">
       <span>Ежемесячный платёж</span><b data-o="pay"><?= pn_rub(pn_mort_pay($price0, $mcfg['progs'][0] ?? ['name' => '', 'rate' => $rate0], Repo::settingsAll())['pay']) ?></b>

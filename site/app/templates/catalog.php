@@ -3,7 +3,7 @@ $opt = function (array $vals) { $vals = array_values(array_unique(array_filter($
 $dists = $group === 'district' ? [] : $opt(array_column($apts, 'district'));
 $zs = $opt(array_column($apts, 'complex'));
 $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p === $path ? ' aria-current="page"' : '') . '>' . pn_e($t) . ' <span>' . $n . '</span></a>'; ?>
-<section class="sx-hero" style="--sxp:50% 55%"><img class="sx-bg" src="assets/img/ekb_aerial.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
+<section class="sx-hero" style="--sxp:50% 55%"><img class="sx-bg" src="assets/img/ekb_aerial.jpg" srcset="assets/img/ekb_aerial-1280.jpg 1280w, assets/img/ekb_aerial-1920.jpg 1920w, assets/img/ekb_aerial.jpg 2880w" sizes="100vw" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><?php foreach ($crumbs as $k => [$t, $u]): ?><?= $k ? ' · ' : '' ?><?= $k === count($crumbs) - 1 ? '<span>' . pn_e($t) . '</span>' : '<a href="' . ($u === '' ? './' : pn_e($u)) . '">' . pn_e($t) . '</a>' ?><?php endforeach; ?></nav>
 <div class="ct-head">
   <h1><?= pn_e($h1) ?><i class="ct-dot" aria-hidden="true"></i></h1>

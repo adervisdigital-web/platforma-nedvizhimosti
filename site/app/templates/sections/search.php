@@ -1,5 +1,5 @@
 <section class="hero" id="search">
-  <div class="hbgw"><div class="hbg" role="img" aria-label="Екатеринбург в сумерках: новые жилые дома и стройка"></div></div>
+  <div class="hbgw"><div class="hbg"><img src="assets/img/ekb_dusk.jpg" srcset="assets/img/ekb_dusk-1280.jpg 1280w, assets/img/ekb_dusk-1920.jpg 1920w, assets/img/ekb_dusk.jpg 2880w" sizes="100vw" alt="Екатеринбург в сумерках: новые жилые дома и стройка" fetchpriority="high" decoding="async"></div></div>
   <div class="chipv" id="chipv" aria-live="polite"><div class="cv-h"><span class="cv-st" id="cvSt">Проверяем</span><span class="cv-dots" id="cvDots"></span></div><h3 id="cvName"></h3><small id="cvSub"></small><ul id="cvList"></ul><a class="cv-go" id="cvGo" href="#list"></a></div>
   <div class="w hin">
     <div class="hl">

@@ -1185,3 +1185,8 @@ a[href^="tel:"]{white-space:nowrap}
  .chatfab i{width:calc(var(--fs) - 14px);height:calc(var(--fs) - 14px)}
 }
 @media(min-width:801px){.chatfab,.chatfab.mini{box-sizing:border-box;height:var(--fs);min-width:var(--fs)}.chatfab .cf-t{line-height:1.15}}
+
+/* фон первого экрана — <img srcset> (телефону не нужна картинка 2880 px); кадр как у прежнего CSS-фона */
+.hbg{background:#2a211c}
+.hbg>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 40%}
+@media(max-width:800px){.hbg>img{object-position:72% 50%}}

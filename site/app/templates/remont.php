@@ -4,7 +4,7 @@ $lv = [
     ['Комфорт', 'Самый частый выбор: качественные материалы и продуманные детали.', ['Всё из базового', 'Инженерная доска или кварцвинил', 'Плитка на кухне и в санузле', 'Скрытые инсталляции, тёплый пол', 'Ровные потолки и встроенный свет']],
     ['Премиум', 'Дизайн-проект и материалы премиум-класса.', ['Дизайн-проект и визуализации', 'Премиальные материалы и сантехника', 'Сложные потолки и сценарии света', 'Столярка и встроенная мебель', 'Авторский надзор']],
 ]; ?>
-<section class="sx-hero" style="--sxp:50% 60%"><img class="sx-bg" src="assets/img/ba_after.jpg" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
+<section class="sx-hero" style="--sxp:50% 60%"><img class="sx-bg" src="assets/img/ba_after.jpg" srcset="assets/img/ba_after-1280.jpg 1280w, assets/img/ba_after-1920.jpg 1920w, assets/img/ba_after.jpg 2880w" sizes="100vw" alt="" fetchpriority="high" decoding="async"><div class="sx-in">
 <nav class="pg-bc" aria-label="Навигация"><a href="./">Главная</a> · <span>Ремонт</span></nav>
 <div class="ct-head">
   <h1>Ремонт квартир под ключ<i class="ct-dot" aria-hidden="true"></i></h1>
@@ -29,7 +29,7 @@ $lv = [
     <div class="ob-calc-f">
       <div class="ob-chips" role="radiogroup" aria-label="Уровень ремонта"><?php foreach ($lv as $k => [$name]): ?>
         <button type="button" role="radio" aria-checked="<?= $k === 1 ? 'true' : 'false' ?>" data-lv="<?= $k ?>"><?= $name ?> <span><?= pn_rub((int) $r[$k]) ?>/м²</span></button><?php endforeach; ?></div>
-      <label class="ob-rng">Площадь квартиры <output data-o="area">60 м²</output><input type="range" min="20" max="150" step="1" value="60" data-i="area"></label>
+      <label class="ob-rng">Площадь квартиры <output data-o="area">60 м²</output><input type="range" min="20" max="150" step="1" value="60" data-i="area" aria-label="Площадь квартиры, м²"></label>
     </div>
     <div class="ob-calc-r" aria-live="polite">
       <span>Ремонт под ключ</span><b data-o="sum"><?= pn_rub((int) $r[1] * 60) ?></b>
