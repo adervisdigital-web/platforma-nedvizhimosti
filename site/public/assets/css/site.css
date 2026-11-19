@@ -1150,3 +1150,6 @@ a[href^="tel:"]{white-space:nowrap}
 @media(min-width:801px) and (max-width:1400px){.hb-cab span:last-child{display:none}.hb-cab{padding:0 4px}.hb .hb-ic{padding:0 10px;font-size:13px}}
 @media(min-width:801px) and (max-width:1440px){nav.main{gap:18px}.hd{gap:18px}}
 @media(min-width:801px) and (max-width:1300px){.hb .hb-ic{padding:0 8px}.hb-ph{padding:0 10px 0 12px}}
+/* нажатые «сравнить» и «избранное»: цвет иконки наследуется (в символах — currentColor и --if) */
+.ib.cmp[aria-pressed=true]{color:#fff}
+.ib.fav[aria-pressed=true],#qvFav[aria-pressed=true]{color:var(--red);--if:var(--red)}
