@@ -57,3 +57,26 @@ function pn_family_note(): string {
     return 'Новостройки. Ставка и лимит по числу детей: ' . implode(', ', array_map(fn($x) => ($x['kids'] >= 5 ? '5+' : $x['kids']) . ' — ' . $f($x['rate']) . ' % до ' . $f($x['limit'] / 1e6) . ' млн', $t))
         . '. Сверх лимита — по рыночной ставке.';
 }
+
+// «Риелторам» и «Застройщикам» (2026-11-21): позиционирование «отдел продаж на аутсорсинге». Условия — в настройках, пока пусто — пометки [ … ].
+function pn_partner_counts(): array {
+    $apts = Repo::apartments();
+    return ['na' => count($apts), 'nz' => count(array_unique(array_filter(array_column($apts, 'complex')))),
+        'nd' => (int) pn_db()->query('select count(*) from developers where verified = 1')->fetchColumn()];
+}
+function pn_page_realtors(): string {
+    $s = Repo::settingsAll();
+    $seo = ['title' => 'Риелторам: сделки по новостройкам Екатеринбурга через Платформу | Платформа недвижимости',
+        'description' => 'Партнёрство для риелторов: проверенные застройщики Екатеринбурга в одном окне, клиент закреплён за вами, ипотека в нескольких банках и помощь со сделкой.',
+        'path' => 'rieltoram/', 'image' => 'assets/img/ekb_aerial.jpg'];
+    $crumbs = [['Главная', ''], ['Риелторам', 'rieltoram/']];
+    return pn_subpage(200, 'rieltoram', pn_partner_counts() + ['s' => $s, 'ren' => $s['renovation_prices'] ?? [20000, 45000, 80000]], $seo, [seo_breadcrumbs($crumbs, $s)], 1);
+}
+function pn_page_developers_b2b(): string {
+    $s = Repo::settingsAll();
+    $seo = ['title' => 'Застройщикам: отдел продаж на аутсорсинге в Екатеринбурге | Платформа недвижимости',
+        'description' => 'Продаём квартиры проверенных застройщиков Екатеринбурга: менеджеры, сайт-каталог, ипотека в нескольких банках, риелторы-партнёры. Квартиры — из вашего XML-фида.',
+        'path' => 'zastroyshchikam/', 'image' => 'assets/img/ekb_dusk.jpg'];
+    $crumbs = [['Главная', ''], ['Застройщикам', 'zastroyshchikam/']];
+    return pn_subpage(200, 'zastroyshchikam', pn_partner_counts() + ['s' => $s], $seo, [seo_breadcrumbs($crumbs, $s)], 1);
+}

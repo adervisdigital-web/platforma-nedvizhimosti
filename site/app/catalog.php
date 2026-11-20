@@ -239,7 +239,7 @@ function pn_page_zhk(string $slug, string $query = ''): ?string {
 
 // Все адреса каталога для sitemap и сборки витрины.
 function pn_catalog_paths(): array {
-    $all = Repo::apartments(); $o = ['doma/', 'remont/', 'ipoteka/'];   // страницы услуг — app/services.php
+    $all = Repo::apartments(); $o = ['doma/', 'remont/', 'ipoteka/', 'rieltoram/', 'zastroyshchikam/'];   // страницы услуг и партнёрам — app/services.php
     foreach (pn_catalog_pages() as $path => [, , $f]) if ($path === 'kvartiry/' || array_filter($all, $f)) $o[] = $path;
     $names = array_unique(array_filter(array_column($all, 'complex')));
     foreach (pn_complexes_full() as $c) if (in_array($c['name'], $names, true)) $o[] = $c['path'];

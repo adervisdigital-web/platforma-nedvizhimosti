@@ -1193,3 +1193,15 @@ a[href^="tel:"]{white-space:nowrap}
 /* видимый фокус с клавиатуры там, где его не было (поиск на главной, фильтры каталога, сортировка, подсказки) */
 :is(.sf2,.hero,.ct-filters,.ct-bar,.dd,.pop) :is(button,input,select,a):focus-visible{outline:2px solid var(--red-ui);outline-offset:2px}
 .hero .sbox :is(input,button):focus-visible{outline-color:#fff;box-shadow:0 0 0 4px var(--red-ui)}
+
+/* партнёрам: строка «Риелторам · Застройщикам» под блоком «Квартира. Дом. Ремонт.» (2026-11-21) */
+.b2b{margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.b2b-c{position:relative;display:grid;gap:8px;align-content:start;background:#fff;border-radius:26px;padding:24px 28px 26px;transition:transform .25s,box-shadow .25s}
+.b2b-c:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px #0000004d}
+.b2b-c b{font-size:clamp(20px,1.7vw,28px);font-weight:500;letter-spacing:-.02em;line-height:1.15}
+.b2b-k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.b2b-t{color:var(--mut);line-height:1.45;max-width:46ch}
+.b2b-go{margin-top:6px;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.b2b-go::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--red)}
+.b2b-c.dk{background:var(--ink);color:var(--milk)}.b2b-c.dk .b2b-k,.b2b-c.dk .b2b-t{color:#B8B3AA}
+@media(max-width:800px){.b2b{grid-template-columns:minmax(0,1fr)}.b2b-c{padding:20px 20px 22px}}

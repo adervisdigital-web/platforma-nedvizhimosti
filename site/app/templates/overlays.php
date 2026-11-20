@@ -18,7 +18,7 @@
 <div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Меню" hidden>
   <div class="mn-top"><span class="mn-st"><i></i><span id="mnSt">на связи</span></span><button type="button" class="mn-x" id="mnX" aria-label="Закрыть меню">×</button></div>
   <nav class="mn-l" aria-label="Разделы">
-    <?php if (empty($sub)): ?><a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><?php else: ?><a href="./">Главная</a><a href="kvartiry/">Квартиры</a><a href="doma/">Дома</a><a href="remont/">Ремонт</a><a href="ipoteka/">Ипотека</a><a href="./#how">Как мы проверяем</a><a href="./#rev">Отзывы</a><?php endif; ?>
+    <?php if (empty($sub)): ?><a href="#list">Квартиры</a><a href="#houses">Дома</a><a href="#ba">Ремонт</a><a href="#calc">Ипотека</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><?php else: ?><a href="./">Главная</a><a href="kvartiry/">Квартиры</a><a href="doma/">Дома</a><a href="remont/">Ремонт</a><a href="ipoteka/">Ипотека</a><a href="./#how">Как мы проверяем</a><a href="./#rev">Отзывы</a><?php endif; ?><a href="rieltoram/">Риелторам</a><a href="zastroyshchikam/">Застройщикам</a>
   </nav>
   <div class="mn-c">
     <a class="mn-tel" href="tel:+79655002918">+7 965 500-29-18</a>

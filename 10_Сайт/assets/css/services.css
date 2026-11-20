@@ -106,3 +106,21 @@
 
 /* «Другие проекты» на странице дома — те же карточки, 4 в ряд на широком экране */
 @media (min-width:1200px){.dm-oth{grid-template-columns:repeat(4,minmax(0,1fr))}.dm-oth h2{font-size:clamp(22px,1.6vw,28px)}}
+
+/* «Риелторам» и «Застройщикам» (2026-11-21) */
+.pt-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pt-c{background:#fff;border-radius:20px;padding:22px;display:grid;gap:8px;align-content:start;color:var(--mut);line-height:1.5;font-size:15px}
+.pt-c h3{margin:0;color:var(--ink);font-size:18px;font-weight:600;letter-spacing:-.01em}
+.pt-c p{margin:0}.pt-c b{color:var(--ink)}
+.pt-c a{font-weight:600;color:var(--ink);border-bottom:1px solid currentColor;justify-self:start;margin-right:12px}
+.pt-c.red{background:var(--red-ui);color:#fff}.pt-c.red h3,.pt-c.red b,.pt-c.red a{color:#fff}
+.pt-ph{background:#F5553C1f;color:#B8321D;border-radius:6px;padding:0 5px;font-weight:600;white-space:nowrap}
+.pt-c.red .pt-ph,.sx-chips .pt-ph{background:#ffffff2e;color:#fff}
+.pt-faq{display:grid;gap:8px}
+.pt-faq details{background:#fff;border-radius:18px;padding:0 22px}
+.pt-faq summary{cursor:pointer;list-style:none;padding:18px 28px 18px 0;font-weight:600;font-size:16px;position:relative}
+.pt-faq summary::-webkit-details-marker{display:none}
+.pt-faq summary::after{content:"";position:absolute;right:2px;top:50%;width:9px;height:9px;border-radius:50%;background:var(--red);transform:translateY(-50%)}
+.pt-faq details[open] summary::after{background:#0E0E0F}
+.pt-faq p{margin:0 0 18px;color:var(--mut);line-height:1.55}
+.pt-faq a{color:var(--ink);font-weight:600}

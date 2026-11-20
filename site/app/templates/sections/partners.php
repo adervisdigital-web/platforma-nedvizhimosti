@@ -30,4 +30,8 @@ $num = fn($n, $a, $b, $c) => $n . ' ' . pn_ru_plural($n, $a, $b, $c); ?>
       <div class="br2"><span class="nw">[ смета ]</span> <span class="nw">[ договор ]</span> <span class="nw">[ акты этапов ]</span> <span class="nw">[ замер бесплатно ]</span></div><a class="lk" href="remont/">Посчитать ремонт</a></div></div>
   </div>
   <div class="way"><a class="stp" href="kvartiry/"><i></i>Подобрали квартиру</a><span class="ln"></span><a class="stp" href="ipoteka/"><i></i>Провели сделку</a><span class="ln"></span><a class="stp" href="remont/"><i></i>Сделали ремонт</a><span class="ln"></span><span class="stp"><i></i>Вы получили ключи</span><a class="btn red" href="#lead" data-pack>Один менеджер на всё</a></div>
+  <div class="b2b" role="list" aria-label="Партнёрам">
+    <a class="b2b-c" role="listitem" href="rieltoram/"><span class="b2b-k">Риелторам</span><b>Проводите сделки через Платформу<i class="o"></i></b><span class="b2b-t">Проверенные новостройки Екатеринбурга в одном окне, клиент закреплён за вами.</span><span class="b2b-go">Стать партнёром</span></a>
+    <a class="b2b-c dk" role="listitem" href="zastroyshchikam/"><span class="b2b-k">Застройщикам</span><b>Отдел продаж на аутсорсинге<i class="o"></i></b><span class="b2b-t">Продаём ваши квартиры: звонки, показы, ипотека, сделка и риелторы-партнёры.</span><span class="b2b-go">Обсудить</span></a>
+  </div>
 </div></section>
