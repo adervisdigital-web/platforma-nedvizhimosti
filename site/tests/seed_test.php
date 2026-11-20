@@ -10,7 +10,7 @@ pn_t('seed: 5 домов, порядок показа — 140, 195, 250, 235, 35
 });
 pn_t('seed: настройки из спецификации', function () use ($seed) {
     $s = $seed('settings');
-    pn_eq($s['phone'], '+7 965 500-29-18'); pn_eq($s['renovation_prices'], [20000, 45000, 80000]); pn_eq($s['warm_contour_from'], 75000);
+    pn_eq($s['phone'], '+7 965 500-29-18'); pn_eq($s['renovation_prices'], [20000, 45000, 80000]); pn_eq($s['warm_contour_from'], 95000); pn_eq($s['address'], 'ул. Амундсена, 136');
 });
 pn_t('seed: ЖК и отзывы', function () use ($seed) {
     pn_ok(count($seed('complexes')) >= 3, 'ЖК'); $r = $seed('reviews'); pn_ok(count($r) >= 3, 'отзывы'); pn_eq($r[0]['is_demo'], 1);

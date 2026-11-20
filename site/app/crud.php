@@ -212,7 +212,9 @@ function pn_settings_fields(): array {
     return [
         'phone' => ['sec' => 'Контакты', 'label' => 'Телефон на сайте', 'type' => 'text', 'req' => true], 'hours_from' => ['label' => 'На связи с', 'type' => 'text'],
         'hours_to' => ['label' => 'На связи до', 'type' => 'text'], 'legal' => ['label' => 'Юрлицо (подвал)', 'type' => 'text'],
-        'domain' => ['label' => 'Домен', 'type' => 'text'], 'warm_contour_from' => ['sec' => 'Цены и ипотека', 'label' => 'Тёплый контур от, ₽/м²', 'type' => 'int', 'min' => 1],
+        'domain' => ['label' => 'Домен', 'type' => 'text'], 'address' => ['label' => 'Адрес офиса (без города)', 'type' => 'text', 'hint' => 'Например: ул. Амундсена, 136 — в подвале, меню связи и для поисковиков'],
+        'telegram' => ['label' => 'Telegram: ник или ссылка', 'type' => 'text', 'hint' => 'platfoma96 или https://t.me/…; пусто — кнопка ведёт в чат на сайте'],
+        'max' => ['label' => 'MAX: ссылка или название канала', 'type' => 'text', 'hint' => 'Ссылка — кнопка откроет MAX; только название — подскажем, что искать'], 'warm_contour_from' => ['sec' => 'Цены и ипотека', 'label' => 'Тёплый контур от, ₽/м²', 'type' => 'int', 'min' => 1],
         'renovation_prices' => ['label' => 'Ремонт: базовый; комфорт; премиум, ₽/м²', 'type' => 'text'],
         'mortgage_programs' => ['label' => 'Ипотека: «название | ставка, % | лимит, млн ₽» по строке', 'type' => 'pairs', 'wide' => true,
             'hint' => 'Лимит — сумма кредита по льготной ставке; сверх неё калькулятор считает по рыночной. У рыночной лимит не нужен. У семейной ставка и лимит берутся по числу детей — ниже.'],

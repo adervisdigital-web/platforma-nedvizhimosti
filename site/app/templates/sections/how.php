@@ -1,6 +1,6 @@
 <section class="sec man" id="how"><div class="w">
   <div class="br" style="color:#8A867F">[ <b>●</b> Отбор ]</div>
-  <p class="mtext"><b>Застройщиков проверяем.</b> Ремонт и&nbsp;дома делаем сами — по&nbsp;договору и&nbsp;с&nbsp;гарантией 5&nbsp;лет. <b>Продаём только то, за&nbsp;что <em class="nw">ручаемся<i class="o"></i></em></b></p>
+  <p class="mtext"><b>Застройщиков проверяем.</b> Ремонт и&nbsp;дома делаем сами — по&nbsp;договору, на&nbsp;дом гарантия 5&nbsp;лет. <b>Продаём только то, за&nbsp;что <em class="nw">ручаемся<i class="o"></i></em></b></p>
   <div class="scan" id="scan">
     <div class="sfield" id="sfield" role="img" aria-label="Проверка объектов: луч проходит по полю, не прошедшие проверку гаснут"><span class="beam" id="beam"></span></div>
     <div class="spanel">

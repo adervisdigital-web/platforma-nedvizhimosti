@@ -1,6 +1,6 @@
 <section class="lead" id="lead"><canvas class="ldots" id="ldots" aria-hidden="true"></canvas><div class="w lgrid">
   <div><h2 class="t">Расскажите, что ищете. Мы&nbsp;уже знаем, кому можно <span class="nw">доверять<i class="o n"></i></span></h2><p>Подберём варианты среди проверенных предложений и перезвоним. Или позвоните сами: <a href="tel:+79655002918" style="font-weight:700;border-bottom:2px solid #fff">+7 965 500-29-18</a>. На вопросы отвечаем круглосуточно — в чате, Telegram и MAX.</p>
-    <div class="msg"><a href="#" data-chat>Чат на сайте</a><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a></div></div>
+    <div class="msg"><a href="#" data-chat>Чат на сайте</a><?= pn_msgr_link('tg') ?><?= pn_msgr_link('max') ?></div></div>
   <form class="form quiz" id="leadForm" novalidate>
     <div class="qh"><span id="qStep">Шаг 1 из 3</span><span class="qd" aria-hidden="true"><i class="on"></i><i></i><i></i></span></div>
     <fieldset class="on" data-s="1"><legend>Что ищете?</legend>

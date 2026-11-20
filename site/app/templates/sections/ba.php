@@ -3,13 +3,13 @@
   <h2 class="t">Ремонт без многоточий<i class="o"></i></h2>
   <div class="rwrap">
     <div class="ba wide" id="baBox"><img src="assets/img/ba_before.jpg?v=2" alt="Квартира без отделки: бетонные стены и пол, панорамное окно"><img class="after" src="assets/img/ba_after.jpg?v=3" alt="Та же квартира после нашего ремонта: гостиная с диваном и креслом"><span class="hdl" id="baH"></span><span class="l1">До</span><span class="l2">После</span>
-      <span class="bacap">Одна и та же комната · 63 м² · 9 недель</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после ремонта"></div>
+      <span class="bacap">Одна и та же комната · 63 м² · около 6 месяцев</span><input type="range" min="0" max="100" value="50" id="baR" aria-label="Сравнить до и после ремонта"></div>
     <ol class="bsteps" id="bSteps">
       <li><button type="button" data-v="85"><i>1</i><b>Замер и смета</b><span>Каждая позиция и итог — до оплаты.</span></button></li>
       <li><button type="button" data-v="67"><i>2</i><b>Договор</b><span>Объём, сроки и цена — на бумаге.</span></button></li>
       <li><button type="button" data-v="49"><i>3</i><b>Работа по этапам</b><span>Каждый этап — по акту.</span></button></li>
       <li><button type="button" data-v="31"><i>4</i><b>Ход работ в кабинете</b><span>Камера и отчёты по этапам.</span></button></li>
-      <li><button type="button" data-v="10"><i>✓</i><b>Гарантия 5 лет</b><span>По договору. Точка.</span></button></li>
+      <li><button type="button" data-v="10"><i>✓</i><b>Сдача под ключ</b><span>По акту. Точка.</span></button></li>
     </ol>
   </div>
   <div class="calc" style="margin-top:40px">
@@ -21,8 +21,8 @@
       <div class="note">Ремонт с материалами, ориентировочно</div>
       <div class="pay" id="rpay">—</div>
       <div class="crow"><span>Цена за м²</span><b id="rppm">—</b></div>
-      <div class="crow"><span>Гарантия</span><b>5 лет</b></div>
-      <a class="btn" href="#lead">Вызвать замерщика</a>
+      <div class="crow"><span>Срок для 50–60 м²</span><b>≈ 6 мес.</b></div>
+      <a class="btn" href="#lead">Бесплатный замер</a>
       <div class="note">Точную цену даст смета после замера. Работа и материалы — от 20 000 до 100 000 ₽ за м².</div>
     </div>
   </div>

@@ -95,7 +95,7 @@ $checks = $a['complex_checks'] ?: ($a['market'] === 'secondary'
 
     <?php if ($a['finish'] === 'without' && count($ren) >= 3): ?>
     <section class="ob-sec" id="ren"><h2>Ремонт под ключ</h2>
-      <p class="ob-lead">Квартира без отделки. Сделаем ремонт своей бригадой по смете — цена фиксируется в договоре, гарантия 5 лет.</p>
+      <p class="ob-lead">Квартира без отделки. Сделаем ремонт своей бригадой по смете: замер бесплатный, цена фиксируется в договоре. Ремонт оформляем отдельно от покупки — в ипотеку он не входит.</p>
       <div class="ob-ren"><?php foreach (['Базовый', 'Комфорт', 'Премиум'] as $k => $n): $sum = (int) round($ren[$k] * $a['area']); ?>
         <div class="<?= $k === 1 ? 'hit' : '' ?>"><span><?= $n ?></span><b><?= pn_rub($sum) ?></b><small><?= pn_rub((int) $ren[$k]) ?>/м² · вместе с квартирой <?= pn_rub($a['price'] + $sum) ?></small></div>
       <?php endforeach; ?></div>

@@ -1,7 +1,7 @@
 // дома: проект + рассрочка
 const HOUSES = PN.houses();
 let hSel = HOUSES[0], hName = hSel ? `${hSel.line} ${hSel.n}` : '';
-const WARM = +(PN.settings().warm_contour_from || 75000);                 // ₽/м² тёплого контура — из админки (Настройки → Цены)
+const WARM = +(PN.settings().warm_contour_from || 95000);                 // ₽/м² тёплого контура — из админки (Настройки → Цены)
 const hFrom = h => h.n * WARM, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
 const flTxt = n => n === 1 ? '1 этаж' : n + ' этажа';
 $('#hx').innerHTML = HOUSES.map(h => `<article class="hc" data-h="${h.id}">

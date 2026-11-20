@@ -13,7 +13,7 @@
       <div class="flap" aria-hidden="true"><div class="flap-in">
         <svg class="emb" viewBox="0 0 76 72"><path d="M0 72 V24 A24 24 0 0 1 48 24 V72 H33 V26 A9 9 0 0 0 15 26 V72 Z"/><circle cx="67" cy="63" r="9"/></svg>
         <div class="fl-t">Договор<br>с Платформой<i class="o"></i></div>
-        <dl class="fl-d"><div><dt>Объект</dt><dd>2-комн., ЖК Кварц</dd></div><div><dt>Менеджер</dt><dd>Ольга · +7 965 500-29-18</dd></div><div><dt>Гарантия</dt><dd>5 лет по договору</dd></div></dl>
+        <dl class="fl-d"><div><dt>Объект</dt><dd>2-комн., ЖК Кварц</dd></div><div><dt>Менеджер</dt><dd>Ольга · +7 965 500-29-18</dd></div><div><dt>Расчёты</dt><dd>через эскроу</dd></div></dl>
         <div class="pocket"><span class="card"><svg viewBox="0 0 76 72"><use href="#mark"/></svg><b>ПЛАТФОРМА</b><small>НЕДВИЖИМОСТИ</small></span></div>
       </div></div>
       <div class="leaf"><span class="crn c1"></span><span class="crn c2"></span>
@@ -25,7 +25,7 @@
           <li data-n="2"><span>3.2</span><p>Ставку подбираем среди <b>6 банков</b> и показываем расчёт до заявки.</p></li>
           <li data-n="3"><span>3.3</span><p>Деньги за новостройку — на <b>эскроу-счёте</b> до сдачи дома.</p></li>
           <li data-n="4"><span>3.4</span><p>Каждый этап закрываем <b>актом</b>. Смета не меняется без вашей подписи.</p></li>
-          <li data-n="5"><span>3.5</span><p>Гарантия на ремонт и дома — <b>5&nbsp;лет</b>.</p></li>
+          <li data-n="5"><span>3.5</span><p>Гарантия на дом — <b>5&nbsp;лет</b>: фундамент, конструктив, крыша.</p></li>
           <li data-n="6"><span>3.6</span><p>Если партнёр подвёл — <b>решаем вопрос за вас</b>.</p></li>
         </ol>
         <div class="sign"><div><span class="k">Платформа</span><span class="ln"><svg class="sig" viewBox="0 0 120 34" aria-hidden="true"><path d="M3 26c8-3 12-18 18-19 5-1-2 21 4 20 6-1 9-15 14-15 4 0 0 13 5 13 6 0 9-12 15-12 5 0 2 9 7 9 9 0 20-10 36-14"/></svg><i class="seal"></i></span></div>

@@ -201,6 +201,6 @@
     $$('[data-chat]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); }));
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !chat.hidden) openChat(false); });
     // мессенджеры: ников пока нет — ведём в чат
-    $$('[data-soon]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); toast(`${a.dataset.soon} подключим к запуску — пока пишите здесь, ответим сразу`); }));
+    $$('[data-soon]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); toast(a.dataset.find ? `В ${a.dataset.soon} найдите «${a.dataset.find}» — или пишите здесь, ответим сразу` : `${a.dataset.soon} подключим к запуску — пока пишите здесь, ответим сразу`); }));
   }
 })();

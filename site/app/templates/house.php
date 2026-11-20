@@ -40,7 +40,7 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
     <section class="ob-sec ob-calc" id="inst" data-inst data-price="<?= $price ?>"><h2>Рассрочка 0 %</h2>
       <div class="ob-calc-in">
         <div class="ob-calc-f">
-          <p class="ob-lead">Строим своими бригадами по этапам. Без банка и процентов: взнос от 30 %, остаток — равными платежами до 5 лет.</p>
+          <p class="ob-lead">Строим своими бригадами по этапам. Без банка и процентов: взнос 30 % сразу, остаток — равными платежами до 5 лет.</p>
           <label class="ob-rng">Первый взнос <output data-o="down"><?= pn_rub((int) round($price * .3)) ?> · 30 %</output><input type="range" min="30" max="90" step="5" value="30" data-i="down" aria-label="Первый взнос, %"></label>
           <label class="ob-rng">Срок <output data-o="term">3 года</output><input type="range" min="1" max="5" step="1" value="3" data-i="term" aria-label="Срок рассрочки, лет"></label>
         </div>
@@ -62,7 +62,7 @@ $facts = array_filter([['Площадь', pn_area($area)], ['Этажей', (str
       <p class="pg-where"><?= pn_e($h['motto']) ?></p>
       <?php if ($price): ?><p class="pg-price">от <?= pn_rub($price) ?></p><p class="pg-sub">тёплый контур · <?= pn_area($area) ?></p>
       <a class="ob-mortlink" href="#inst"><span>Рассрочка 0 % до 5 лет</span><b>от <?= pn_rub((int) round($price * .7 / 60)) ?>/мес</b><i aria-hidden="true">→</i></a><?php endif; ?>
-      <div class="ob-ok"><i aria-hidden="true"></i><span><b>Строим своими бригадами</b><br>Смета до начала работ, гарантия 5 лет</span></div>
+      <div class="ob-ok"><i aria-hidden="true"></i><span><b>Строим своими бригадами</b><br>Смета до начала работ. Гарантия 5 лет на фундамент, конструктив и крышу</span></div>
       <div class="pg-act">
         <a class="pg-btn red" href="./#house-<?= pn_e($h['id']) ?>" data-lead="quiz" data-title="Обсудим проект" data-want="Проект дома: <?= pn_e($name) ?>" data-ref="doma/<?= pn_e($h['slug']) ?>/">Обсудить проект</a>
         <a class="pg-btn" href="tel:<?= pn_e($tel) ?>">Позвонить</a>

@@ -8,7 +8,7 @@
         45000,
         80000
     ],
-    "warm_contour_from": 75000,
+    "warm_contour_from": 95000,
     "mortgage_programs": [
         {
             "name": "Семейная",

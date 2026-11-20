@@ -18,7 +18,7 @@
       <div class="crow"><span>Первый взнос 30 %</span><b id="hpv">—</b></div>
       <div class="crow"><span id="hrestL">Остаток</span><b id="hrest">—</b></div>
       <a class="btn" href="#lead">Обсудить проект</a>
-      <div class="note">Расчёт ориентировочный: от <?php try { echo pn_rub((int) (Repo::settingsAll()['warm_contour_from'] ?? 75000)); } catch (Throwable $e) { echo '75 000 ₽'; } ?> за м² тёплого контура, первый взнос 30 %, рассрочка без процентов. Точную цену назовёт менеджер после выбора проекта и материала.</div>
+      <div class="note">Расчёт ориентировочный: от <?php try { echo pn_rub((int) (Repo::settingsAll()['warm_contour_from'] ?? 95000)); } catch (Throwable $e) { echo '95 000 ₽'; } ?> за м² тёплого контура, первый взнос 30 %, остальное — равными платежами без процентов. Точную цену назовёт менеджер после выбора проекта и материала.</div>
     </div>
   </div>
 </div></section>

@@ -37,8 +37,14 @@ function seo_meta(array $p, array $settings): string {
 }
 
 function seo_org(array $settings): array {
-    return ['@type' => 'RealEstateAgent', 'name' => 'Платформа недвижимости', 'telephone' => $settings['phone'] ?? '', 'areaServed' => 'Екатеринбург',
+    $o = ['@type' => 'RealEstateAgent', 'name' => 'Платформа недвижимости', 'telephone' => $settings['phone'] ?? '', 'areaServed' => 'Екатеринбург',
         'url' => pn_site_url($settings)];
+    $adr = trim((string) ($settings['address'] ?? ''));
+    if ($adr !== '') $o['address'] = ['@type' => 'PostalAddress', 'streetAddress' => $adr, 'addressLocality' => 'Екатеринбург', 'addressCountry' => 'RU'];
+    $tg = pn_tg_url($settings); $max = trim((string) ($settings['max'] ?? ''));
+    $same = array_values(array_filter([$tg, preg_match('~^https?://~i', $max) ? $max : '']));
+    if ($same) $o['sameAs'] = $same;
+    return $o;
 }
 // $graph: список объектов schema.org (без @context). Организация добавляется всегда.
 function seo_jsonld(array $graph, array $settings): string {
@@ -52,6 +58,6 @@ function seo_breadcrumbs(array $items, array $settings): array {
 }
 function seo_main(array $settings): array {
     return ['title' => 'Платформа недвижимости — квартиры, дома и ремонт в Екатеринбурге',
-        'description' => 'Квартиры от проверенных застройщиков Екатеринбурга без комиссии, свой ремонт с гарантией 5 лет и дома в рассрочку до 5 лет.',
+        'description' => 'Квартиры от проверенных застройщиков Екатеринбурга без комиссии, свой ремонт с бесплатным замером и каменные дома в рассрочку до 5 лет.',
         'path' => '', 'type' => 'website', 'image' => 'assets/img/og-main.jpg'];
 }

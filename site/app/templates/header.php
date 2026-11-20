@@ -18,7 +18,7 @@
         <form class="hb-cb" id="hbCb" novalidate><label for="hbTel"><b>Перезвоним за 30 секунд</b><small id="hbCbNote">Оставьте номер — менеджер наберёт сам</small></label>
           <div class="hb-row"><input id="hbTel" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__"><button type="submit" aria-label="Заказать звонок"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5L12 8l-3.5 3.5"/></svg></button></div><label class="cns" id="hbCcL"><input type="checkbox" id="hbCc"> <span>Согласен на <a href="privacy/" target="_blank">обработку персональных данных</a></span></label></form>
         <button type="button" class="hb-it" data-chat><span class="hb-i"><svg class="ico"><use href="#msg"/></svg></span><span><b>Написать в чат</b><small>отвечаем сразу, 24/7</small></span></button>
-        <div class="hb-hrs"><span>Офис</span><span>ежедневно 9:00–21:00</span></div>
+        <?php $adr = trim((string) (pn_site_settings()['address'] ?? '')); ?><div class="hb-hrs"><span>Офис<?= $adr !== '' ? ' · ' . pn_e($adr) : '' ?></span><span>ежедневно 9:00–21:00</span></div>
       </div>
     </div>
     <span class="hb-sep" aria-hidden="true"></span>

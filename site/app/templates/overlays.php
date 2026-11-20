@@ -36,6 +36,6 @@
   <div class="ch-b" id="chatLog" aria-live="polite"></div>
   <div class="ch-q" id="chatQ"></div>
   <form class="ch-f" id="chatForm"><input id="chatIn" placeholder="Напишите вопрос" aria-label="Ваш вопрос" autocomplete="off"><button aria-label="Отправить">→</button></form>
-  <div class="ch-m"><a href="#" data-soon="Telegram">Telegram</a><a href="#" data-soon="MAX">MAX</a><a href="tel:+79655002918">Позвонить</a></div>
+  <div class="ch-m"><?= pn_msgr_link('tg') ?><?= pn_msgr_link('max') ?><a href="tel:+79655002918">Позвонить</a></div>
 </div>
 

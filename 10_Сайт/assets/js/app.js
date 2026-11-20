@@ -237,7 +237,7 @@ setView(innerWidth >= 1700 ? 'grid' : 'list');
 // дома: проект + рассрочка
 const HOUSES = PN.houses();
 let hSel = HOUSES[0], hName = hSel ? `${hSel.line} ${hSel.n}` : '';
-const WARM = +(PN.settings().warm_contour_from || 75000);                 // ₽/м² тёплого контура — из админки (Настройки → Цены)
+const WARM = +(PN.settings().warm_contour_from || 95000);                 // ₽/м² тёплого контура — из админки (Настройки → Цены)
 const hFrom = h => h.n * WARM, hMonth = (h, y = 5) => Math.round(hFrom(h) * .7 / (y * 12));
 const flTxt = n => n === 1 ? '1 этаж' : n + ' этажа';
 $('#hx').innerHTML = HOUSES.map(h => `<article class="hc" data-h="${h.id}">
@@ -370,7 +370,7 @@ function quick(it) {
     <dl class="qvp"><div><dt>Площадь</dt><dd>${it.s.toLocaleString('ru-RU')} м²</dd></div><div><dt>Этаж</dt><dd>${it.fl} из ${it.fls}</dd></div>
       <div><dt>Сдача</dt><dd>${it.due ? it.st.replace('Сдача — ', '') : it.t === 'sec' ? 'Готовое жильё' : 'Дом сдан'}</dd></div><div><dt>Отделка</dt><dd>${it.fin}</dd></div></dl>
     <div class="qvm"><div><small>В ипотеку · ${it.t === 'new' ? 'семейная' : 'рыночная'} ${r} %, взнос 20 %</small><b>от ${pay.toLocaleString('ru-RU')} ₽/мес</b></div><button type="button" id="qvCalc">Рассчитать</button></div>
-    ${it.fin === 'Без отделки' ? `<div class="qvx"><span class="k">Добавить наш ремонт · гарантия 5 лет</span><div class="seg2" id="qvR">${[['Без ремонта', 0], ['Базовый', 20000], ['Комфорт', 45000], ['Премиум', 80000]].map((x, i) => `<button type="button" aria-pressed="${i === 0}" data-r="${x[1]}">${x[0]}</button>`).join('')}</div><div class="tot"><span class="k" id="qvRk">Квартира</span><b id="qvT">${rub(it.p)}</b></div></div>` : ''}
+    ${it.fin === 'Без отделки' ? `<div class="qvx"><span class="k">Добавить наш ремонт · замер бесплатно</span><div class="seg2" id="qvR">${[['Без ремонта', 0], ['Базовый', 20000], ['Комфорт', 45000], ['Премиум', 80000]].map((x, i) => `<button type="button" aria-pressed="${i === 0}" data-r="${x[1]}">${x[0]}</button>`).join('')}</div><div class="tot"><span class="k" id="qvRk">Квартира</span><b id="qvT">${rub(it.p)}</b></div></div>` : ''}
     <div class="qva"><a class="btn red" href="tel:+79655002918">Позвонить</a><button class="btn white" type="button" id="qvLead">Записаться на просмотр</button></div></div></div>`);
   $('#qvCalc').addEventListener('click', () => { dlg.close(); mortFrom(it); });
   $('#qvLead').addEventListener('click', () => booking('Просмотр', title(it) + ' · ' + it.zk, `${it.zk}, ${it.d}`));
@@ -432,7 +432,7 @@ function qMatch() {
     t = n ? `Подходит <b>${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}</b> из проверенных. Пришлём их и новые, как только появятся.` : 'Сейчас таких нет — подберём под ваши условия и сообщим первыми.';
   } else if (qType === 'house') {
     const ok = HOUSES.filter(h => hFrom(h) <= mil);
-    t = ok.length ? `Укладываются: <b>${ok.map(h => h.line + ' ' + h.n).join(', ')}</b>. Остаток можно платить по этапам или в рассрочку без процентов до 5 лет.` : 'Подберём площадь и материал под ваш бюджет — проекты настраиваются.';
+    t = ok.length ? `Укладываются: <b>${ok.map(h => h.line + ' ' + h.n).join(', ')}</b>. Остаток — равными платежами без процентов до 5 лет.` : 'Подберём площадь и материал под ваш бюджет — проекты настраиваются.';
   } else if (qType === 'reno') {
     t = `Ориентир с материалами: <b>от ${fmtM(v * 20000)}</b> за базовую отделку до ${fmtM(v * 100000)} за премиум. Точную цену даст смета после замера.`;
   } else {
@@ -461,7 +461,7 @@ $('#qBack').addEventListener('click', () => qGo(qs - 1));
 qSet('flat');
 
 // мессенджеры: ников пока нет — ведём в чат на сайте
-$$('[data-soon]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); toast(`${a.dataset.soon} подключим к запуску — пока пишите здесь, ответим сразу`); }));
+$$('[data-soon]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openChat(true); toast(a.dataset.find ? `В ${a.dataset.soon} найдите «${a.dataset.find}» — или пишите здесь, ответим сразу` : `${a.dataset.soon} подключим к запуску — пока пишите здесь, ответим сразу`); }));
 
 function rub(n) { return Math.round(n).toLocaleString('ru-RU') + ' ₽'; }
 const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
