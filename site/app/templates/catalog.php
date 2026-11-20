@@ -33,6 +33,7 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
 <?php if ($apts): ?>
 <button type="button" class="ct-ftog" data-ct-ftog aria-expanded="false" aria-controls="ctFilters"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>Фильтры<span class="ct-fn" data-ct-fn hidden></span></button>
 <form class="ct-filters" id="ctFilters" data-ct-form aria-label="Фильтры" onsubmit="return false">
+  <?php foreach (['r', 't', 'q'] as $hk) if (($view['q'][$hk] ?? '') !== ''): ?><input type="hidden" name="<?= $hk ?>" value="<?= pn_e($view['q'][$hk]) ?>" data-ct-extra><?php endif; ?>
   <label class="ct-f"><span>Цена, ₽</span><span class="ct-2"><input name="pmin" inputmode="numeric" placeholder="от <?= pn_e(pn_mln($st['pmin'])) ?>" aria-label="Цена от"><input name="pmax" inputmode="numeric" placeholder="до <?= pn_e(pn_mln($st['pmax'])) ?>" aria-label="Цена до"></span></label>
   <label class="ct-f"><span>Площадь от, м²</span><input name="amin" inputmode="decimal" placeholder="<?= pn_e(str_replace('.', ',', (string) pn_num($st['amin']))) ?>"></label>
   <?php if (count($dists) > 1): ?><label class="ct-f"><span>Район</span><select name="d"><option value="">Любой</option><?php foreach ($dists as $d): ?><option value="<?= pn_e(pn_slug($d)) ?>"><?= pn_e($d) ?></option><?php endforeach; ?></select></label><?php endif; ?>
@@ -44,7 +45,7 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
 </form>
 
 <div class="ct-bar">
-  <p class="ct-count" aria-live="polite">Найдено: <b data-ct-count><?= $st['n'] ?></b></p>
+  <p class="ct-count" aria-live="polite">Найдено: <b data-ct-count><?= $view['total'] ?></b></p>
   <button type="button" class="ct-reset" data-ct-reset hidden>Сбросить фильтры</button>
   <div class="ct-bar-r">
     <label class="ct-sort"><span class="ct-vh">Сортировка</span><select name="sort" data-ct-sort>
@@ -53,8 +54,8 @@ $pill = fn(string $p, string $t, int $n) => '<a href="' . pn_e($p) . '"' . ($p =
   </div>
 </div>
 
-<div class="ct-grid" data-ct-list>
-  <?php foreach ($apts as $i => $a) echo pn_render('ct_card', ['a' => $a, 'i' => $i, 'cx' => $cx, 's' => $s]); ?>
+<div class="ct-grid" data-ct-list<?= $view['server'] ? ' data-ct-server="1" data-ct-total="' . $view['total'] . '" data-ct-step="' . PN_CT_PAGE . '"' : '' ?>>
+  <?php foreach ($view['cards'] as $i => $a) echo pn_render('ct_card', ['a' => $a, 'i' => $i, 'cx' => $cx, 's' => $s]); ?>
 </div>
 <div class="ct-map" data-ct-map hidden role="region" aria-label="Квартиры на карте"></div>
 <div class="ct-empty" data-ct-empty hidden><p>По этим условиям ничего не нашлось.</p><button type="button" class="pg-btn" data-ct-reset>Сбросить фильтры</button></div>

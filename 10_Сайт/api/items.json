@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "img": "kv_living2",
         "r": 2,
         "s": 58.4,
@@ -18,6 +19,7 @@
         "disc": 6
     },
     {
+        "id": 2,
         "img": "kv_empty",
         "r": 1,
         "s": 38.2,
@@ -36,6 +38,7 @@
         "special": 1
     },
     {
+        "id": 3,
         "img": "kv_kids",
         "r": 3,
         "s": 79.6,
@@ -54,6 +57,7 @@
         "disc": 4
     },
     {
+        "id": 4,
         "img": "kv_bedroom2",
         "r": 2,
         "s": 54.1,
@@ -71,6 +75,7 @@
         "slug": "4-ul-malysheva"
     },
     {
+        "id": 5,
         "img": "rem_bathroom",
         "r": 2,
         "s": 63.7,
@@ -88,6 +93,7 @@
         "slug": "5-zhk-kvarts"
     },
     {
+        "id": 6,
         "img": "kv_building",
         "r": 0,
         "s": 26.8,
@@ -105,6 +111,7 @@
         "slug": "6-zhk-vysota"
     },
     {
+        "id": 7,
         "img": "kv_complex2",
         "r": 2,
         "s": 61,
@@ -123,6 +130,7 @@
         "special": 1
     },
     {
+        "id": 8,
         "img": "kv_bedroom",
         "r": 1,
         "s": 41.5,
@@ -140,6 +148,7 @@
         "slug": "8-ul-bilimbaevskaya"
     },
     {
+        "id": 9,
         "img": "kv_studio",
         "r": 0,
         "s": 24.9,
@@ -158,6 +167,7 @@
         "disc": 3
     },
     {
+        "id": 10,
         "img": "kv_kitchen2",
         "r": 1,
         "s": 36.4,
@@ -175,6 +185,7 @@
         "slug": "10-zhk-bereg"
     },
     {
+        "id": 11,
         "img": "kv_living3",
         "r": 4,
         "s": 98.2,
@@ -192,6 +203,7 @@
         "slug": "11-ul-blyukhera"
     },
     {
+        "id": 12,
         "img": "kv_kitchen",
         "r": 3,
         "s": 74,

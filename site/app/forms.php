@@ -53,6 +53,10 @@ function forms_parse(array $fields, array $post, array $files = [], array $old =
             case 'paras': $data[$name] = array_values(array_filter(array_map(fn($p) => trim(preg_replace('/\s*\R\s*/u', ' ', $p)), preg_split('/\R\s*\R/u', (string) $raw)), 'strlen')); break;
             case 'pairs': $data[$name] = array_map(fn($l) => array_map('trim', array_pad(explode('|', $l, 2), 2, '')), forms_lines((string) $raw)); break;
             case 'photos': $data[$name] = forms_photos($post, $files, $name, $err); break;
+            case 'url':
+                $data[$name] = trim((string) $raw);
+                if ($data[$name] !== '' && !preg_match('~^https?://[^\s/$.?#][^\s]*$~i', $data[$name])) $err[$name] = "«{$label}»: ссылка должна начинаться с http:// или https://";
+                break;
             case 'secret': $data[$name] = trim((string) $raw) === '' ? ($old[$name] ?? '') : trim((string) $raw); break;
             default: $data[$name] = trim((string) $raw);
         }

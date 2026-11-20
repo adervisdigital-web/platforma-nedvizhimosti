@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<realty-feed xmlns="http://webmaster.yandex.ru/schemas/feed/realty/2010-06">
+  <generation-date>2026-11-20T21:00:00+00:00</generation-date>
+  <offer internal-id="101">
+    <type>продажа</type><property-type>жилая</property-type><category>квартира</category>
+    <new-flat>1</new-flat>
+    <price><value>7500000</value><currency>RUR</currency></price>
+    <area><value>58.4</value><unit>кв. м</unit></area>
+    <living-space><value>32.1</value><unit>кв. м</unit></living-space>
+    <kitchen-space><value>12.5</value><unit>кв. м</unit></kitchen-space>
+    <rooms>2</rooms><floor>5</floor><floors-total>17</floors-total>
+    <ceiling-height>2.8</ceiling-height><bathroom-unit>раздельный</bathroom-unit><balcony>лоджия</balcony>
+    <renovation>Чистовая отделка</renovation>
+    <building-name>Тестовый парк</building-name><built-year>2027</built-year><ready-quarter>2</ready-quarter>
+    <nmarket-complex-id>5001</nmarket-complex-id>
+    <location><country>Россия</country><locality-name>Екатеринбург</locality-name><sub-locality-name>Академический</sub-locality-name>
+      <address>ул. Тестовая, 1</address><apartment>45</apartment><latitude>56.7901</latitude><longitude>60.5152</longitude></location>
+    <description>Квартира 2 ккв в комплексе Тестовый парк. Застройщик: Брусника. Рядом парк.</description>
+    <image tag="plan">http://img.test/photo/pid/PLAN-101/?v=1&amp;hash=a</image>
+    <image tag="floorplan">http://img.test/photo/pid/FLOOR-5/?v=1&amp;hash=b</image>
+    <image tag="housemain">http://img.test/photo/pid/HOUSE-MAIN/?v=1&amp;hash=c</image>
+    <image tag="houseuncategorized">http://img.test/photo/pid/HOUSE-2/?v=1&amp;hash=d</image>
+  </offer>
+  <offer internal-id="102">
+    <type>продажа</type><category>квартира</category><new-flat>1</new-flat>
+    <price><value>4200000</value><currency>RUR</currency></price>
+    <area><value>25.1</value><unit>кв. м</unit></area>
+    <studio>1</studio><floor>3</floor><floors-total>17</floors-total>
+    <renovation>Черновая отделка</renovation>
+    <building-name>Тестовый парк</building-name><building-state>hand-over</building-state><built-year>2025</built-year><ready-quarter>4</ready-quarter>
+    <nmarket-complex-id>5001</nmarket-complex-id>
+    <location><locality-name>Екатеринбург</locality-name><sub-locality-name>Академический</sub-locality-name><address>ул. Тестовая, 1</address>
+      <latitude>56.7901</latitude><longitude>60.5152</longitude></location>
+    <description>Студия. Застройщик: Брусника.</description>
+    <image tag="plan">http://img.test/photo/pid/PLAN-102/?v=1</image>
+    <image tag="housemain">http://img.test/photo/pid/HOUSE-MAIN/?v=1&amp;hash=c</image>
+  </offer>
+  <offer internal-id="103">
+    <type>продажа</type><category>квартира</category><new-flat>1</new-flat>
+    <price><value>5100000</value><currency>RUR</currency></price>
+    <area><value>38</value><unit>кв. м</unit></area>
+    <rooms>1</rooms><floor>9</floor><floors-total>25</floors-total>
+    <renovation>Подготовка под чистовую отделку</renovation>
+    <building-name>ЖК «Новый квартал»</building-name><built-year>2028</built-year><ready-quarter>4</ready-quarter>
+    <location><locality-name>Екатеринбург</locality-name><non-admin-sub-locality>Уралмаш</non-admin-sub-locality><address>ул. Новая, 7</address></location>
+    <description>Однокомнатная. Застройщик: Новострой-Урал, корпус 2.</description>
+    <image tag="plan">http://img.test/photo/pid/PLAN-103/</image>
+  </offer>
+  <offer internal-id="104">
+    <type>продажа</type><category>дом</category>
+    <price><value>9000000</value></price><area><value>120</value></area><floor>1</floor><floors-total>2</floors-total>
+  </offer>
+  <offer internal-id="105">
+    <type>аренда</type><category>квартира</category>
+    <price><value>30000</value></price><area><value>40</value></area><rooms>1</rooms><floor>2</floor><floors-total>9</floors-total>
+  </offer>
+  <offer internal-id="106">
+    <type>продажа</type><category>квартира</category>
+    <area><value>40</value></area><rooms>1</rooms><floor>2</floor><floors-total>9</floors-total><building-name>Без цены</building-name>
+  </offer>
+</realty-feed>

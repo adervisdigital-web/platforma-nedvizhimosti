@@ -1,5 +1,16 @@
 // демо-объекты: заказчик разрешил придуманные данные до запуска
-const ITEMS = PN.items().map((it, i) => ({...it, id: i, disc: it.disc || 0, ppm: Math.round(it.p / it.s)}));
+const prep = (it, i) => ({...it, id: it.id ?? i, disc: it.disc || 0, ppm: Math.round(it.p / it.s)});
+const ITEMS = PN.items().map(prep);                    // на главной: все квартиры или подборка (PN.capped())
+const ALL = PN.capped() ? PN.all() : ITEMS;            // для счётчиков — все опубликованные
+const EXTRA = [];                                      // квартиры не из подборки: избранное, сравнение, «Вы смотрели», ссылка #obj-N
+const itemById = id => ITEMS.find(x => x.id === +id) || EXTRA.find(x => x.id === +id);
+function itemsEnsure(ids, done) {
+  const miss = [...ids].map(Number).filter(id => id >= 0 && !itemById(id));
+  if (!miss.length || !PN.capped()) { done(); return; }
+  fetch(PN.api + 'items?ids=' + miss.slice(0, 50).join(','), {headers: {Accept: 'application/json'}}).then(r => r.ok ? r.json() : [])
+    .then(a => a.forEach(it => { if (!itemById(it.id)) EXTRA.push(prep(it)); })).catch(() => {}).finally(done);
+}
+const catalogUrl = q => 'kvartiry/' + (q && q.toString() ? '?' + q : '');
 const head = it => `${it.r ? it.r + '-комн. квартира' : 'Студия'} · ${it.s.toLocaleString('ru-RU')} м²`;
 const title = it => `${it.r ? it.r + '-комн. квартира' : 'Студия'}, ${it.s.toLocaleString('ru-RU')} м², ${it.fl}/${it.fls} этаж`;
 const FILTERS = {

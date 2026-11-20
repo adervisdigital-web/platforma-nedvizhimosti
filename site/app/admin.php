@@ -19,6 +19,7 @@ function pn_admin_sections(): array {
     $s = ['overview' => ['Обзор', 'manager', 'pn_admin_overview'], 'leads' => ['Заявки', 'manager', 'pn_admin_leads']];
     foreach (['apartments', 'complexes', 'developers', 'houses', 'reviews'] as $e)
         $s[$e] = [pn_entities()[$e]['title'], 'manager', fn($m, $sub, $p, $f, $u) => pn_crud($e, $m, $sub, $p, $f, $u)];
+    $s['feeds'] = ['Выгрузки', 'admin', fn($m, $sub, $p, $f, $u) => pn_crud('feeds', $m, $sub, $p, $f, $u)];
     $s['password'] = ['Смена пароля', 'manager', 'pn_admin_password'];
     $s['settings'] = ['Настройки', 'admin', 'pn_admin_settings'];
     $s['users'] = ['Менеджеры', 'admin', 'pn_admin_users'];

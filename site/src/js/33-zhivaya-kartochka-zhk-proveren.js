@@ -1,5 +1,6 @@
 // живая карточка «ЖК проверен»
-const ZKS = [...new Set(ITEMS.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => ({z, d: ITEMS.find(it => it.zk === z).d, n: ITEMS.filter(it => it.zk === z).length}));
+const ZKS = [...new Set(ALL.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => ({z, d: ALL.find(it => it.zk === z).d, n: ALL.filter(it => it.zk === z).length}))
+  .sort((a, b) => b.n - a.n).slice(0, 8);
 const ZCHK = ['Разрешение на строительство', 'Проектная декларация, эскроу', 'Прошлые дома сданы в срок', 'Нет банкротных дел'];
 let zi = 0, zt = [], zPause = false;
 function zShow(i) {
@@ -15,7 +16,8 @@ function zShow(i) {
   zt.push(setTimeout(() => { st.textContent = 'Проверен'; st.classList.add('ok'); go.classList.add('on'); }, step * 5));
   zt.push(setTimeout(function nx() { if (zPause) { zt.push(setTimeout(nx, 1500)); return; } zShow(zi + 1); }, step * 5 + 4200));
 }
-$('#cvGo').addEventListener('click', e => { e.preventDefault(); const z = ZKS[zi].z; applyFilter(ITEMS.filter(it => it.zk === z), z); $('#list').scrollIntoView({behavior: 'smooth'}); });
+$('#cvGo').addEventListener('click', e => { e.preventDefault(); const z = ZKS[zi].z;
+  if (PN.capped()) { location.href = catalogUrl(new URLSearchParams({q: z.replace(/^ЖК\s+/, '')})); return; } applyFilter(ITEMS.filter(it => it.zk === z), z); $('#list').scrollIntoView({behavior: 'smooth'}); });
 $('#chipv').addEventListener('mouseenter', () => zPause = true); $('#chipv').addEventListener('mouseleave', () => zPause = false);
 zShow(0);
 

@@ -9,8 +9,16 @@ function pn_api(string $path, string $method = 'GET', array $post = []): array {
         $r = lead_accept($post, pn_ip(), pn_now());
         return [$r['ok'] ? 200 : ($r['error'] === 'rate' ? 429 : 400), $j($r)];
     }
+    parse_str((string) ($GLOBALS['PN_QUERY'] ?? ''), $q);
     switch ($path) {
-        case 'items':     return [200, $j(pn_page_data($src(), pn_config())['items'])];
+        case 'items':
+            if (isset($q['ids'])) {                                       // избранное, сравнение, «Вы смотрели» — квартиры не из подборки главной
+                $want = array_slice(array_map('intval', array_filter(explode(',', (string) $q['ids']), 'ctype_digit')), 0, 50);
+                return [200, $j(array_values(array_map('pn_item_proto', array_filter(Repo::apartments(), fn($a) => in_array($a['id'], $want, true)))))];
+            }
+            return [200, $j(array_map('pn_item_proto', Repo::apartments()))];
+        case 'count':                                                     // поиск первого экрана при большом каталоге
+            return [200, $j(['n' => count(pn_ct_filter(Repo::apartments(), array_map(fn($v) => is_array($v) ? '' : (string) $v, $q), pn_complexes_full()))])];
         case 'complexes': return [200, $j(Repo::complexes())];
         case 'houses':    return [200, $j(Repo::houses())];
         case 'reviews':   return [200, $j(pn_visible_reviews(Repo::reviews(), Repo::settingsAll()))];

@@ -13,9 +13,11 @@ $fmt = function (string $col, array $r) use ($ent) {
     if ($col === 'published') return $v ? '<span class="ad-pill on">на сайте</span>' : '<span class="ad-pill">скрыт</span>';
     if ($col === 'verified') return $v ? '<span class="ad-pill on">проверен</span>' : '<span class="ad-pill">нет</span>';
     if ($col === 'is_demo') return $v ? '<span class="ad-pill demo">демо</span>' : '';
+    if ($col === 'last_status') return $v === null || $v === '' ? '<span class="ad-hint">ещё не загружалась</span>' : (str_starts_with((string) $v, 'Ошибка') ? '<span class="ad-pill">ошибка</span> ' : '') . pn_e(mb_strimwidth((string) $v, 0, 140, '…')) . (!empty($r['last_run_at']) ? '<br><small class="ad-hint">' . pn_e(date('d.m.Y H:i', strtotime($r['last_run_at'] . ' UTC'))) . '</small>' : '');
     if ($col === 'site' && $v) return '<a href="' . pn_e(preg_match('~^https?://~', $v) ? $v : 'https://' . $v) . '" target="_blank" rel="noopener">' . pn_e($v) . '</a>';
     return (string) $v === '' ? '<span class="ad-hint">—</span>' : pn_e((string) $v);
 }; ?>
+<?php if (!empty($E['intro'])): ?><p class="ad-hint ad-intro"><?= pn_e($E['intro']) ?></p><?php endif; ?>
 <form class="ad-bar" method="get">
   <label class="ad-search"><span class="ad-vh">Поиск</span><input name="q" value="<?= pn_e($q) ?>" placeholder="Поиск: название, адрес, район" type="search"></label>
   <button class="ad-btn">Найти</button><?php if ($q !== ''): ?><a class="ad-btn ghost" href="/admin/<?= $ent ?>">Сбросить</a><?php endif; ?>

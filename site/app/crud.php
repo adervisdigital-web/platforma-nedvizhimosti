@@ -58,6 +58,21 @@ function pn_entities(): array {
                 'name' => ['label' => 'Название', 'type' => 'text', 'req' => true], 'site' => ['label' => 'Сайт', 'type' => 'text'],
                 'verified' => ['label' => 'Проверен', 'type' => 'bool'],
             ]],
+        'feeds' => ['title' => 'Выгрузки', 'one' => 'выгрузка', 'table' => 'feeds', 'search' => ['f.name', 'f.url'], 'actions' => ['run' => 'Загрузить сейчас'],
+            'list_sql' => "select f.*, (select count(*) from apartments a where a.feed_id = f.id and a.feed_state = 'active') as n_active,
+                (select count(*) from apartments a where a.feed_id = f.id and a.feed_state = 'active' and a.published = 1) as n_pub from feeds f",
+            'cols' => ['name' => 'Название', 'n_active' => 'В фиде', 'n_pub' => 'На сайте', 'last_status' => 'Последняя загрузка'],
+            'intro' => 'XML-фиды в формате Яндекс.Недвижимости: от застройщиков-партнёров (попросите у их менеджера ссылку «для сайта агентства») или «База.ПРО» Н-маркет. '
+                . 'Сайт сам забирает каждый фид раз в сутки: новые квартиры добавляет, цены обновляет, проданные снимает. Описание, спецпредложение, скидку и фото, которые вы поменяли сами, загрузка не трогает.',
+            'fields' => [
+                'name' => ['sec' => 'Выгрузка', 'label' => 'Название', 'type' => 'text', 'req' => true, 'hint' => 'Например: «Брусника» или «Н-маркет, Екатеринбург»'],
+                'url' => ['label' => 'Ссылка на XML-фид', 'type' => 'url', 'req' => true, 'wide' => true, 'hint' => 'Формат Яндекс.Недвижимости (realty-feed)'],
+                'developer_id' => ['label' => 'Застройщик (если это фид одного застройщика)', 'type' => 'select', 'opts' => $developers(),
+                    'hint' => 'Пусто — застройщик берётся из описания квартир в фиде'],
+                'only_verified' => ['sec' => 'Показ на сайте', 'label' => 'Показывать только квартиры проверенных застройщиков', 'type' => 'bool',
+                    'hint' => 'Отметка «Проверен» — в разделе «Застройщики». Остальные квартиры загружаются, но скрыты'],
+                'enabled' => ['label' => 'Загружать каждый день', 'type' => 'bool', 'hint' => 'Если выключить, квартиры этой выгрузки снимаются с сайта'],
+            ]],
         'houses' => ['title' => 'Дома', 'one' => 'проект дома', 'table' => 'houses', 'publish' => true, 'search' => ['h.line', 'h.motto'],
             'list_sql' => 'select h.* from houses h', 'order' => 'sort, id',
             'cols' => ['photo' => '', 'line' => 'Линейка', 'number' => 'Номер', 'area' => 'м²', 'published' => 'На сайте'],
@@ -148,7 +163,14 @@ function pn_crud_save(string $ent, array $data, ?int $id): int {
         $diff = []; foreach ($vals as $c => $v) if (($old[$c] ?? null) != $v) $diff[$c] = [$old[$c] ?? null, $v];
         audit('update', $t, $id, $diff);
     }
-    if ($slugBase !== null) $db->prepare('update apartments set slug = ? where id = ?')->execute(["$id-$slugBase", $id]);
+    $old = $old ?? null;
+    if ($slugBase !== null && ($old['source'] ?? 'manual') !== 'feed') $db->prepare('update apartments set slug = ? where id = ?')->execute(["$id-$slugBase", $id]);
+    if ($ent === 'apartments' && ($old['source'] ?? '') === 'feed') {          // менеджер правил квартиру из фида: его публикация и фото важнее загрузки
+        $own = ($old['photos'] ?? '[]') !== ($vals['photos'] ?? '[]') || ($old['plans'] ?? '[]') !== ($vals['plans'] ?? '[]');
+        $man = (int) ($old['published'] ?? 0) !== (int) ($vals['published'] ?? 0);
+        if ($own || $man) $db->prepare('update apartments set feed_own_media = max(feed_own_media, ?), feed_manual = max(feed_manual, ?) where id = ?')->execute([(int) $own, (int) $man, $id]);
+    }
+    if (in_array($ent, ['developers', 'feeds'], true)) pn_feed_visibility();
     return $id;
 }
 
@@ -161,7 +183,13 @@ function pn_crud(string $ent, string $method, string $sub, array $post, array $f
     $do = $post['do'] ?? '';
     if ($method === 'POST' && $id && in_array($do, ['publish', 'unpublish'], true) && !empty($E['publish'])) {
         $db->prepare("update $t set published = ? where id = ?")->execute([$do === 'publish' ? 1 : 0, $id]); audit($do, $t, $id);
+        if ($ent === 'apartments' && ($row['source'] ?? '') === 'feed') $db->prepare('update apartments set feed_manual = 1 where id = ?')->execute([$id]);
         return pn_redirect("$base/$id", $do === 'publish' ? 'Опубликовано на сайте' : 'Снято с сайта');
+    }
+    if ($method === 'POST' && $id && $ent === 'feeds' && $do === 'run') {
+        $s = pn_feed_import($id); $img = pn_feed_images(150, 60); audit('run', 'feeds', $id, $s);
+        $st = pn_db()->prepare('select last_status from feeds where id = ?'); $st->execute([$id]);
+        return pn_redirect("$base/$id", $st->fetchColumn() . ($img['left'] ? ". Картинки: скачано {$img['ok']}, остальные ({$img['left']}) докачаются по расписанию" : ''));
     }
     if ($method === 'POST' && $id && $do === 'copy' && !empty($E['copy'])) {
         $data = $row; unset($data['id'], $data['created_at']); $data['published'] = 0; $data['slug'] = 'tmp-' . bin2hex(random_bytes(6)); $data['source'] = 'manual'; $data['external_id'] = null;
@@ -195,6 +223,7 @@ function pn_crud(string $ent, string $method, string $sub, array $post, array $f
         $vals = $row ? pn_crud_formvals($E['fields'], $row) : array_map(fn($f) => $f['type'] === 'photos' ? [] : '', $E['fields']);
         if (!$row && $ent === 'complexes') $vals['checks'] = "Разрешение на строительство\nПроектная декларация, эскроу\nПрошлые дома сданы в срок\nНет банкротных дел";
         if (!$row && isset($E['fields']['published'])) $vals['published'] = 0;
+        if (!$row && $ent === 'feeds') { $vals['only_verified'] = 1; $vals['enabled'] = 1; }
         return pn_admin_page($row ? 'Изменить: ' . $E['one'] : 'Новый: ' . $E['one'], 'admin/form', ['active' => $ent, 'E' => $E, 'ent' => $ent, 'id' => $id,
             'row' => $row, 'vals' => $vals, 'errors' => []]);
     }

@@ -13,7 +13,13 @@ function match(it, f) {
   if (f.max && it.p > f.max) return false;
   return !f.q || (it.zk + ' ' + it.d).toLowerCase().includes(f.q);
 }
-function liveCount() { const f = readForm(), n = ITEMS.filter(it => match(it, f)).length; $('#goN').textContent = n; }
+function liveCount() { const f = readForm(), n = ALL.filter(it => match(it, f)).length; $('#goN').textContent = n; }
+function searchQuery(f) {                               // те же условия — параметрами каталога
+  const q = new URLSearchParams();
+  if (tab === 'new' || tab === 'sec') q.set('t', tab); if (tab === 'fin') q.set('fin', '1');
+  if (f.rooms.length) q.set('r', f.rooms.join(',')); if (f.max) q.set('pmax', Math.round(f.max)); if (f.q) q.set('q', $('#ad').value.trim());
+  return q;
+}
 $$('.tabs button').forEach((b, i) => b.addEventListener('click', () => {
   if (TABK[i] === 'houses') { $('#houses').scrollIntoView({behavior: 'smooth'}); return; }
   tab = TABK[i]; $$('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b)); liveCount();
@@ -22,6 +28,7 @@ $$('.chip').forEach(b => b.addEventListener('click', () => { b.setAttribute('ari
 ['#pr', '#ad'].forEach(q => $(q).addEventListener('input', liveCount));
 $('#sf').addEventListener('submit', e => {
   e.preventDefault(); const f = readForm();
+  if (PN.capped()) { location.href = catalogUrl(searchQuery(f)); return; }   // на главной — подборка, все варианты — в каталоге
   const lab = [{new: 'Новостройки', sec: 'Вторичка', fin: 'С отделкой или ремонтом'}[tab],
     f.rooms.length ? f.rooms.map(r => r === 0 ? 'студия' : r === 4 ? '4+' : r).join(', ') + (f.rooms.some(r => r) ? ' комн.' : '') : '',
     f.max ? 'до ' + fmtM(f.max) : '', f.q ? `«${$('#ad').value.trim()}»` : ''].filter(Boolean).join(' · ');

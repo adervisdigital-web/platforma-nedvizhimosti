@@ -36,6 +36,7 @@ $action = $ent === 'settings' ? '/admin/settings' : "/admin/$ent/" . ($id ?: 'ne
 <?php if ($row): ?>
 <div class="ad-row-act ad-after">
   <?php if (!empty($E['publish'])): ?><form method="post" action="<?= $action ?>"><?= csrf_field() ?><input type="hidden" name="do" value="<?= $row['published'] ? 'unpublish' : 'publish' ?>"><button class="ad-btn"><?= $row['published'] ? 'Снять с сайта' : 'Опубликовать' ?></button></form><?php endif; ?>
+  <?php foreach ($E['actions'] ?? [] as $act => $lab): ?><form method="post" action="<?= $action ?>"><?= csrf_field() ?><input type="hidden" name="do" value="<?= pn_e($act) ?>"><button class="ad-btn red"><?= pn_e($lab) ?></button></form><?php endforeach; ?>
   <?php if (!empty($E['copy'])): ?><form method="post" action="<?= $action ?>"><?= csrf_field() ?><input type="hidden" name="do" value="copy"><button class="ad-btn">Копировать</button></form><?php endif; ?>
   <?php if ($ent === 'apartments' && $row['published']): ?><a class="ad-btn ghost" href="/kvartiry/<?= pn_e($row['slug']) ?>/" target="_blank">Открыть на сайте</a><?php endif; ?>
   <?php if ($ent === 'houses' && $row['published']): ?><a class="ad-btn ghost" href="/doma/<?= pn_e($row['slug']) ?>/" target="_blank">Открыть на сайте</a><?php endif; ?>

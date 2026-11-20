@@ -58,10 +58,87 @@ function pn_complexes_full(): array {
 
 // Платёж в ипотеку, как на странице квартиры: новостройки — первая программа, вторичка — последняя (рыночная).
 // Номер квартиры как в списке главной (PN.items(): опубликованные по id) — по нему хранятся «Избранное» и «Сравнение» (localStorage).
+// С 2026-11-21 — номер квартиры в базе: при ежедневной загрузке фидов порядок меняется, номер — нет.
 function pn_apt_gid(string $slug): int {
-    static $map = null;
-    if ($map === null) $map = array_flip(array_column(Repo::apartments(), 'slug'));
-    return (int) ($map[$slug] ?? -1);
+    static $cache = null;                                  // WeakMap: своя таблица на каждое соединение, соединение не удерживается
+    $cache ??= new WeakMap(); $db = pn_db();
+    $cache[$db] ??= array_column(Repo::apartments(), 'id', 'slug');
+    return (int) ($cache[$db][$slug] ?? -1);
+}
+
+const PN_CT_PAGE = 24;          // карточек на странице каталога в серверном режиме
+const PN_CT_SERVER_MIN = 200;   // больше — каталог отдаёт по страницам и фильтрует на сервере (меньше — всё в странице, как на витрине)
+
+// «6» или «6,5» — миллионы, «6 500 000» — рубли (как в catalog.js).
+function pn_ct_price(string $v): ?float {
+    $v = str_replace(',', '.', preg_replace('/[^\d.,]/u', '', $v));
+    if ($v === '' || !is_numeric($v)) return null;
+    return (float) $v < 1000 ? (float) $v * 1e6 : (float) $v;
+}
+// Фильтр каталога: pmin, pmax, amin, d (район, slug), z (ЖК, slug), fin, ready, r (комнаты «0,2,4», 4 — 4+), t (new|sec), q (текст: ЖК, район, адрес).
+function pn_ct_filter(array $apts, array $q, array $cx): array {
+    $pmin = pn_ct_price((string) ($q['pmin'] ?? '')); $pmax = pn_ct_price((string) ($q['pmax'] ?? ''));
+    $amin = is_numeric($a = str_replace(',', '.', (string) ($q['amin'] ?? ''))) ? (float) $a : null;
+    $d = (string) ($q['d'] ?? ''); $z = (string) ($q['z'] ?? ''); $t = (string) ($q['t'] ?? ''); $text = mb_strtolower(trim((string) ($q['q'] ?? '')));
+    $rooms = array_map('intval', array_filter(explode(',', (string) ($q['r'] ?? '')), fn($x) => $x !== '' && ctype_digit($x)));
+    $zname = null; if ($z !== '') foreach ($cx as $c) if ($c['slug'] === $z) $zname = $c['name'];
+    return array_values(array_filter($apts, function ($a) use ($pmin, $pmax, $amin, $d, $z, $zname, $t, $text, $rooms, $q) {
+        if ($pmin && $a['price'] < $pmin || $pmax && $a['price'] > $pmax || $amin && $a['area'] < $amin) return false;
+        if ($d !== '' && pn_slug((string) $a['district']) !== $d) return false;
+        if ($z !== '' && $a['complex'] !== $zname) return false;
+        if (!empty($q['fin']) && $a['finish'] !== 'with') return false;
+        if (!empty($q['ready']) && !($a['market'] === 'secondary' || (int) $a['due'] === 0)) return false;
+        if ($t === 'new' && $a['market'] !== 'new' || $t === 'sec' && $a['market'] !== 'secondary') return false;
+        if ($rooms && !in_array(min(4, (int) $a['rooms']), $rooms, true)) return false;
+        return $text === '' || str_contains(mb_strtolower($a['complex'] . ' ' . $a['district'] . ' ' . $a['address']), $text);
+    }));
+}
+function pn_ct_sort(array $apts, string $sort): array {
+    $ppm = fn($a) => $a['price'] / max(1, $a['area']);
+    $cmp = match ($sort) {
+        'p' => fn($a, $b) => $a['price'] <=> $b['price'], '-p' => fn($a, $b) => $b['price'] <=> $a['price'],
+        'ppm' => fn($a, $b) => $ppm($a) <=> $ppm($b), '-a' => fn($a, $b) => $b['area'] <=> $a['area'], default => null };
+    if ($cmp) usort($apts, $cmp);
+    return $apts;
+}
+function pn_ct_query(string $query): array { parse_str($query, $q); return array_map(fn($v) => is_array($v) ? '' : (string) $v, $q); }
+// Список для шаблона: до PN_CT_SERVER_MIN — все (фильтрует браузер), больше — отфильтрованные на сервере, первые 24.
+function pn_ct_view(array $apts, string $query, array $cx): array {
+    if (count($apts) <= PN_CT_SERVER_MIN) return ['server' => false, 'cards' => $apts, 'total' => count($apts), 'q' => []];
+    $q = pn_ct_query($query); $list = pn_ct_sort(pn_ct_filter($apts, $q, $cx), $q['sort'] ?? '');
+    return ['server' => true, 'cards' => array_slice($list, 0, PN_CT_PAGE), 'total' => count($list), 'q' => $q];
+}
+// Части страницы для catalog.js в серверном режиме: ?part=cards&offset=N — карточки, ?part=map — точки по ЖК.
+function pn_catalog_part(string $path, string $query): ?array {
+    $q = pn_ct_query($query);
+    if (preg_match('~^zhk/([a-z0-9-]+)/$~', $path, $m)) {
+        $z = null; foreach (pn_complexes_full() as $c) if ($c['path'] === $path) $z = $c;
+        if (!$z) return null;
+        $apts = array_values(array_filter(Repo::apartments(), fn($a) => $a['complex'] === $z['name']));
+    } else {
+        $pages = pn_catalog_pages();
+        if (!isset($pages[$path])) return null;
+        $apts = array_values(array_filter(Repo::apartments(), $pages[$path][2]));
+    }
+    $cx = pn_complexes_full(); $s = Repo::settingsAll();
+    $list = pn_ct_sort(pn_ct_filter($apts, $q, $cx), $q['sort'] ?? '');
+    $j = fn($v) => [200, ['Content-Type' => 'application/json; charset=utf-8', 'Cache-Control' => 'no-store', 'X-Robots-Tag' => 'noindex'],
+        json_encode($v, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)];
+    if (($q['part'] ?? '') === 'map') {
+        $g = [];
+        foreach ($list as $a) {
+            $geo = pn_apt_geo($a, $cx, $s); if (!$geo) continue;
+            $k = $geo[0] . ',' . $geo[1];
+            $g[$k] ??= ['lat' => $geo[0], 'lng' => $geo[1], 'n' => 0, 'min' => PHP_INT_MAX, 'items' => []];
+            $g[$k]['n']++; $g[$k]['min'] = min($g[$k]['min'], $a['price']);
+            if (count($g[$k]['items']) < 30) $g[$k]['items'][] = ['href' => "kvartiry/{$a['slug']}/", 't' => pn_rooms($a['rooms']) . ', ' . pn_area($a['area']), 'p' => pn_rub($a['price'])];
+        }
+        return $j(['groups' => array_values($g), 'total' => count($list)]);
+    }
+    $off = max(0, (int) ($q['offset'] ?? 0));
+    $html = '';
+    foreach (array_slice($list, $off, PN_CT_PAGE) as $k => $a) $html .= pn_render('ct_card', ['a' => $a, 'i' => $off + $k, 'cx' => $cx, 's' => $s]);
+    return $j(['html' => $html, 'total' => count($list), 'offset' => $off, 'next' => $off + PN_CT_PAGE < count($list) ? $off + PN_CT_PAGE : null]);
 }
 
 function pn_apt_pay(array $a, array $s): int {
@@ -104,9 +181,10 @@ function pn_apt_geo(array $a, array $cx, array $s): ?array {
 
 function pn_catalog_graph(string $name, string $path, array $apts, array $crumbs, array $s): array {
     $site = pn_site_url($s);
+    $top = array_slice(array_values($apts), 0, 50);
     return [['@type' => 'ItemList', 'name' => $name, 'url' => $site . $path, 'numberOfItems' => count($apts),
         'itemListElement' => array_map(fn($a, $k) => ['@type' => 'ListItem', 'position' => $k + 1, 'url' => $site . "kvartiry/{$a['slug']}/", 'name' => pn_apt_title($a)],
-            array_values($apts), array_keys(array_values($apts)))], seo_breadcrumbs($crumbs, $s)];
+            $top, array_keys($top))], seo_breadcrumbs($crumbs, $s)];
 }
 
 function pn_page_catalog(string $path, string $query = ''): ?string {
@@ -133,7 +211,7 @@ function pn_page_catalog(string $path, string $query = ''): ?string {
     $seo = ['title' => $title, 'description' => $desc, 'path' => $path, 'image' => 'assets/img/' . ($apts[0]['photos'][0] ?? 'ekb_dusk') . '.jpg'];
     $depth = substr_count($path, '/');
     return pn_subpage(200, 'catalog', ['h1' => $h1, 'path' => $path, 'group' => $group, 'apts' => $apts, 'st' => $st, 'crumbs' => $crumbs,
-        'intro' => pn_catalog_intro($what, $st, $zhks), 'nav' => pn_catalog_nav($all, $cx), 'cx' => $cx, 's' => $s],
+        'intro' => pn_catalog_intro($what, $st, $zhks), 'nav' => pn_catalog_nav($all, $cx), 'cx' => $cx, 's' => $s, 'view' => pn_ct_view($apts, $query, $cx)],
         $seo, pn_catalog_graph($h1, $path, $apts, $crumbs, $s), $depth, $query !== '');
 }
 
@@ -154,7 +232,8 @@ function pn_page_zhk(string $slug, string $query = ''): ?string {
     $graph = pn_catalog_graph($z['name'], $z['path'], $apts, $crumbs, $s);
     $graph[] = ['@type' => 'ApartmentComplex', 'name' => $z['name'], 'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'Екатеринбург', 'streetAddress' => (string) $z['address']],
         'geo' => $z['lat'] ? ['@type' => 'GeoCoordinates', 'latitude' => $z['lat'], 'longitude' => $z['lng']] : null];
-    return pn_subpage(200, 'zhk', ['z' => $z, 'apts' => $apts, 'st' => $st, 'crumbs' => $crumbs, 'others' => $others, 'cx' => $cx, 's' => $s],
+    return pn_subpage(200, 'zhk', ['z' => $z, 'apts' => $apts, 'st' => $st, 'crumbs' => $crumbs, 'others' => $others, 'cx' => $cx, 's' => $s,
+        'view' => pn_ct_view($apts, $query, $cx)],
         $seo, $graph, 2, $query !== '');
 }
 

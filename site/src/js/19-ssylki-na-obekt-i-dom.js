@@ -7,5 +7,6 @@ document.addEventListener('click', async e => {
   catch (x) { if (x.name !== 'AbortError') toast('Скопируйте ссылку из адресной строки'); }
 });
 (() => { const m = location.hash.match(/^#(obj|house)-(\w+)$/); if (!m) return;
-  const t = m[1] === 'obj' ? ITEMS[+m[2]] : byId(m[2]); if (t) (m[1] === 'obj' ? quick : houseView)(t); })();
+  if (m[1] === 'obj') { itemsEnsure([+m[2]], () => { const t = itemById(m[2]); if (t) quick(t); }); return; }
+  const t = byId(m[2]); if (t) houseView(t); })();
 

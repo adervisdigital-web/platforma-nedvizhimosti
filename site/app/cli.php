@@ -1,5 +1,5 @@
 <?php
-// php site/app/cli.php migrate | seed | seed:details | user:add <логин> <admin|manager> | bundle | leads:retry
+// php site/app/cli.php migrate | seed | seed:details | user:add <логин> <admin|manager> | feeds:run [--force] | bundle | leads:retry
 require __DIR__ . '/bootstrap.php';
 $cmd = $argv[1] ?? '';
 $db = fn() => pn_db();
@@ -27,6 +27,12 @@ switch ($cmd) {
         $db()->prepare('insert into users(login,password_hash,role) values (?,?,?)')->execute([$login, password_hash($pass, PASSWORD_DEFAULT), $role]);
         echo "пользователь $login ($role), пароль: $pass — передайте лично и смените после входа\n";
         break;
+    case 'feeds:run':                                   // cron раз в час: фиды — раз в сутки, картинки — докачиваются
+        pn_migrate($db());
+        $r = pn_feeds_run(in_array('--force', $argv, true));
+        foreach ($r['feeds'] as $id => $s) echo "выгрузка $id: ", $s['error'] ? 'ошибка — ' . $s['error'] : "в фиде {$s['total']}, добавлено {$s['added']}, обновлено {$s['updated']}, снято {$s['gone']}", "\n";
+        echo "картинки: скачано {$r['images']['ok']}, ошибок {$r['images']['err']}, осталось {$r['images']['left']}\n";
+        break;
     case 'bundle':
         echo 'собран ', pn_write_bundle(), "\n";
         break;
@@ -34,5 +40,5 @@ switch ($cmd) {
         echo 'доставлено повторно: ', function_exists('deliver_pending') ? deliver_pending() : 0, "\n";
         break;
     default:
-        exit("команды: migrate | seed | seed:details | user:add <логин> <admin|manager> | bundle | leads:retry\n");
+        exit("команды: migrate | seed | seed:details | user:add <логин> <admin|manager> | feeds:run [--force] | bundle | leads:retry\n");
 }

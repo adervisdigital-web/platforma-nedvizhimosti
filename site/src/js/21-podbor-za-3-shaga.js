@@ -12,7 +12,7 @@ function qMatch() {
   let t;
   if (qType === 'flat') {
     const rooms = $$('#qr [aria-pressed=true]').map(b => +b.dataset.r);
-    const n = ITEMS.filter(it => it.p <= mil && (!rooms.length || rooms.some(r => r === 4 ? it.r >= 4 : it.r === r))).length;
+    const n = ALL.filter(it => it.p <= mil && (!rooms.length || rooms.some(r => r === 4 ? it.r >= 4 : it.r === r))).length;
     t = n ? `Подходит <b>${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}</b> из проверенных. Пришлём их и новые, как только появятся.` : 'Сейчас таких нет — подберём под ваши условия и сообщим первыми.';
   } else if (qType === 'house') {
     const ok = HOUSES.filter(h => hFrom(h) <= mil);

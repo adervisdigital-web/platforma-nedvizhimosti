@@ -67,7 +67,7 @@
         toast(openNow ? 'Перезвоним в течение 30 секунд' : 'Перезвоним завтра в 9:00'); }); });
   }
 
-  // ---- «Избранное» и «Сравнить»: те же списки, что на главной (localStorage pn_fav / pn_cmp, номера квартир как в PN.items());
+  // ---- «Избранное» и «Сравнить»: те же списки, что на главной (localStorage pn_fav / pn_cmp, номера квартир — id в базе, как в PN.items());
   // кнопки на карточках каталога — [data-fav] / [data-cmp]; список открывается на главной
   const read = k => { try { return JSON.parse(localStorage.getItem(k) || '[]').map(Number); } catch (e) { return []; } };
   const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
@@ -78,6 +78,7 @@
     $$('[data-cmp]').forEach(b => b.setAttribute('aria-pressed', c.includes(+b.dataset.cmp))); };
   counts(); marks();
   addEventListener('storage', e => { if (e.key === 'pn_fav' || e.key === 'pn_cmp') { counts(); marks(); } });   // изменили в другой вкладке
+  document.addEventListener('pn:cards', marks);                                                                     // каталог догрузил карточки
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-fav], [data-cmp]'); if (!b) return;
     e.preventDefault(); e.stopPropagation();

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../app/bootstrap.php';
 // Контакты из настроек: Telegram, MAX, адрес офиса в подвале и в разметке для поисковиков.
 pn_t('pn_tg_url: ник, ник с @, ссылка, пусто', function () {
     pn_eq(pn_tg_url(['telegram' => 'platfoma96']), 'https://t.me/platfoma96');

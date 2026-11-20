@@ -31,11 +31,11 @@ $statuses = array_values(array_unique(array_map(fn($a) => explode(' · ', (strin
 
     <section class="ob-sec" id="flats"><h2>Квартиры в продаже</h2>
       <div class="ct-bar ct-bar-z">
-        <p class="ct-count">Найдено: <b data-ct-count><?= $st['n'] ?></b></p>
+        <p class="ct-count">Найдено: <b data-ct-count><?= $view['total'] ?></b></p>
         <div class="ct-bar-r"><label class="ct-sort"><span class="ct-vh">Сортировка</span><select name="sort" data-ct-sort>
           <option value="">По умолчанию</option><option value="p">Сначала дешевле</option><option value="-p">Сначала дороже</option><option value="ppm">Дешевле за м²</option><option value="-a">Больше площадь</option></select></label></div>
       </div>
-      <div class="ct-grid ct-grid-z" data-ct-list><?php foreach ($apts as $i => $a) echo pn_render('ct_card', ['a' => $a, 'i' => $i, 'cx' => $cx, 's' => $s]); ?></div>
+      <div class="ct-grid ct-grid-z" data-ct-list<?= $view['server'] ? ' data-ct-server="1" data-ct-total="' . $view['total'] . '" data-ct-step="' . PN_CT_PAGE . '"' : '' ?>><?php foreach ($view['cards'] as $i => $a) echo pn_render('ct_card', ['a' => $a, 'i' => $i, 'cx' => $cx, 's' => $s]); ?></div>
       <div class="ct-more" data-ct-more-wrap hidden><button type="button" class="pg-btn" data-ct-more>Показать ещё</button></div>
     </section>
 

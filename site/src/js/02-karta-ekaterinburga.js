@@ -68,9 +68,9 @@ function render() {
   $$('.vbtn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); const o = b.getAttribute('aria-expanded') === 'true'; $$('.vbtn').forEach(x => x.setAttribute('aria-expanded', 'false')); b.setAttribute('aria-expanded', !o); }));
   $$('.ib.fav').forEach(b => b.addEventListener('click', () => toggle(fav, 'pn_fav', +b.closest('.card').dataset.i, 'fav')));
   $$('.ib.cmp').forEach(b => b.addEventListener('click', () => toggle(cmp, 'pn_cmp', +b.closest('.card').dataset.i, 'cmp', 4)));
-  $$('button.mort').forEach(b => b.addEventListener('click', () => mortFrom(ITEMS[b.dataset.i])));
-  $$('.card .qv').forEach(b => b.addEventListener('click', () => quick(ITEMS[b.dataset.i])));
-  $$('.card .gal img').forEach(im => im.addEventListener('click', () => quick(ITEMS[im.closest('.card').dataset.i])));
+  $$('button.mort').forEach(b => b.addEventListener('click', () => mortFrom(itemById(b.dataset.i))));
+  $$('.card .qv').forEach(b => b.addEventListener('click', () => quick(itemById(b.dataset.i))));
+  $$('.card .gal img').forEach(im => im.addEventListener('click', () => quick(itemById(im.closest('.card').dataset.i))));
 }
 function mortFrom(it) {
   $('#cp').value = Math.min(20000000, it.p); $('#cd').value = 20; $('#ct').value = 30;
@@ -84,6 +84,6 @@ document.addEventListener('click', () => $$('.vbtn').forEach(x => x.setAttribute
 $('#moreBtn').addEventListener('click', () => { expanded = true; render(); });
 $('#fltX').addEventListener('click', () => applyFilter(ITEMS, ''));
 $$('.seg.sort button').forEach(b => b.addEventListener('click', () => { $$('.seg.sort button').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
-$$('[data-c]').forEach(el => { const n = ITEMS.filter(FILTERS[el.dataset.c][1]).length; el.textContent = `${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}`; });
+$$('[data-c]').forEach(el => { const n = ALL.filter(FILTERS[el.dataset.c][1]).length; el.textContent = `${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}`; });
 $$('[data-f]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const [lab, fn] = FILTERS[a.dataset.f]; applyFilter(ITEMS.filter(fn), lab); $('#list').scrollIntoView({behavior: 'smooth'}); }));
 

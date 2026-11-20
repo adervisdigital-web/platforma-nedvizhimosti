@@ -130,3 +130,8 @@
   .ct-fn[hidden]{display:none}
   .ct-filters:not(.is-open){display:none}
 }
+
+/* большой каталог (серверный режим): длинные подсказки карты и загрузка */
+.ct-pop{max-height:320px;overflow:auto}
+.ct-pop-more{margin:6px 2px 0;font-size:12px;color:var(--mut)}
+.ct-grid[aria-busy=true]{opacity:.55;transition:opacity .2s}

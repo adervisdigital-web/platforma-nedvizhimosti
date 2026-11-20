@@ -4,7 +4,18 @@ const fmtM = n => (n / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2}) 
 const ann = (P, r) => { const L = P * .8, m = r / 1200; return L * m / (1 - Math.pow(1 + m, -360)); };
 const plural = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
 // демо-объекты: заказчик разрешил придуманные данные до запуска
-const ITEMS = PN.items().map((it, i) => ({...it, id: i, disc: it.disc || 0, ppm: Math.round(it.p / it.s)}));
+const prep = (it, i) => ({...it, id: it.id ?? i, disc: it.disc || 0, ppm: Math.round(it.p / it.s)});
+const ITEMS = PN.items().map(prep);                    // на главной: все квартиры или подборка (PN.capped())
+const ALL = PN.capped() ? PN.all() : ITEMS;            // для счётчиков — все опубликованные
+const EXTRA = [];                                      // квартиры не из подборки: избранное, сравнение, «Вы смотрели», ссылка #obj-N
+const itemById = id => ITEMS.find(x => x.id === +id) || EXTRA.find(x => x.id === +id);
+function itemsEnsure(ids, done) {
+  const miss = [...ids].map(Number).filter(id => id >= 0 && !itemById(id));
+  if (!miss.length || !PN.capped()) { done(); return; }
+  fetch(PN.api + 'items?ids=' + miss.slice(0, 50).join(','), {headers: {Accept: 'application/json'}}).then(r => r.ok ? r.json() : [])
+    .then(a => a.forEach(it => { if (!itemById(it.id)) EXTRA.push(prep(it)); })).catch(() => {}).finally(done);
+}
+const catalogUrl = q => 'kvartiry/' + (q && q.toString() ? '?' + q : '');
 const head = it => `${it.r ? it.r + '-комн. квартира' : 'Студия'} · ${it.s.toLocaleString('ru-RU')} м²`;
 const title = it => `${it.r ? it.r + '-комн. квартира' : 'Студия'}, ${it.s.toLocaleString('ru-RU')} м², ${it.fl}/${it.fls} этаж`;
 const FILTERS = {
@@ -93,9 +104,9 @@ function render() {
   $$('.vbtn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); const o = b.getAttribute('aria-expanded') === 'true'; $$('.vbtn').forEach(x => x.setAttribute('aria-expanded', 'false')); b.setAttribute('aria-expanded', !o); }));
   $$('.ib.fav').forEach(b => b.addEventListener('click', () => toggle(fav, 'pn_fav', +b.closest('.card').dataset.i, 'fav')));
   $$('.ib.cmp').forEach(b => b.addEventListener('click', () => toggle(cmp, 'pn_cmp', +b.closest('.card').dataset.i, 'cmp', 4)));
-  $$('button.mort').forEach(b => b.addEventListener('click', () => mortFrom(ITEMS[b.dataset.i])));
-  $$('.card .qv').forEach(b => b.addEventListener('click', () => quick(ITEMS[b.dataset.i])));
-  $$('.card .gal img').forEach(im => im.addEventListener('click', () => quick(ITEMS[im.closest('.card').dataset.i])));
+  $$('button.mort').forEach(b => b.addEventListener('click', () => mortFrom(itemById(b.dataset.i))));
+  $$('.card .qv').forEach(b => b.addEventListener('click', () => quick(itemById(b.dataset.i))));
+  $$('.card .gal img').forEach(im => im.addEventListener('click', () => quick(itemById(im.closest('.card').dataset.i))));
 }
 function mortFrom(it) {
   $('#cp').value = Math.min(20000000, it.p); $('#cd').value = 20; $('#ct').value = 30;
@@ -109,7 +120,7 @@ document.addEventListener('click', () => $$('.vbtn').forEach(x => x.setAttribute
 $('#moreBtn').addEventListener('click', () => { expanded = true; render(); });
 $('#fltX').addEventListener('click', () => applyFilter(ITEMS, ''));
 $$('.seg.sort button').forEach(b => b.addEventListener('click', () => { $$('.seg.sort button').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
-$$('[data-c]').forEach(el => { const n = ITEMS.filter(FILTERS[el.dataset.c][1]).length; el.textContent = `${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}`; });
+$$('[data-c]').forEach(el => { const n = ALL.filter(FILTERS[el.dataset.c][1]).length; el.textContent = `${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}`; });
 $$('[data-f]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const [lab, fn] = FILTERS[a.dataset.f]; applyFilter(ITEMS.filter(fn), lab); $('#list').scrollIntoView({behavior: 'smooth'}); }));
 
 // поиск на первом экране
@@ -127,7 +138,13 @@ function match(it, f) {
   if (f.max && it.p > f.max) return false;
   return !f.q || (it.zk + ' ' + it.d).toLowerCase().includes(f.q);
 }
-function liveCount() { const f = readForm(), n = ITEMS.filter(it => match(it, f)).length; $('#goN').textContent = n; }
+function liveCount() { const f = readForm(), n = ALL.filter(it => match(it, f)).length; $('#goN').textContent = n; }
+function searchQuery(f) {                               // те же условия — параметрами каталога
+  const q = new URLSearchParams();
+  if (tab === 'new' || tab === 'sec') q.set('t', tab); if (tab === 'fin') q.set('fin', '1');
+  if (f.rooms.length) q.set('r', f.rooms.join(',')); if (f.max) q.set('pmax', Math.round(f.max)); if (f.q) q.set('q', $('#ad').value.trim());
+  return q;
+}
 $$('.tabs button').forEach((b, i) => b.addEventListener('click', () => {
   if (TABK[i] === 'houses') { $('#houses').scrollIntoView({behavior: 'smooth'}); return; }
   tab = TABK[i]; $$('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b)); liveCount();
@@ -136,6 +153,7 @@ $$('.chip').forEach(b => b.addEventListener('click', () => { b.setAttribute('ari
 ['#pr', '#ad'].forEach(q => $(q).addEventListener('input', liveCount));
 $('#sf').addEventListener('submit', e => {
   e.preventDefault(); const f = readForm();
+  if (PN.capped()) { location.href = catalogUrl(searchQuery(f)); return; }   // на главной — подборка, все варианты — в каталоге
   const lab = [{new: 'Новостройки', sec: 'Вторичка', fin: 'С отделкой или ремонтом'}[tab],
     f.rooms.length ? f.rooms.map(r => r === 0 ? 'студия' : r === 4 ? '4+' : r).join(', ') + (f.rooms.some(r => r) ? ' комн.' : '') : '',
     f.max ? 'до ' + fmtM(f.max) : '', f.q ? `«${$('#ad').value.trim()}»` : ''].filter(Boolean).join(' · ');
@@ -149,7 +167,7 @@ function openDlg(t, html) { $('#dlgT').textContent = t; $('#dlgB').innerHTML = h
 $('#dlgX').addEventListener('click', () => dlg.close());
 dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 function cmpHTML() {
-  const L = ITEMS.filter(it => cmp.has(it.id)), minP = Math.min(...L.map(i => i.ppm)), minPay = Math.min(...L.map(i => payOf(i)));
+  const L = [...cmp].map(itemById).filter(Boolean), minP = Math.min(...L.map(i => i.ppm)), minPay = Math.min(...L.map(i => payOf(i)));
   const row = (h, f) => `<tr><th>${h}</th>${L.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
   return `<table class="ctab"><tbody>${row('', it => `<img src="${PN.img(it.img)}" alt=""><b>${title(it)}</b><br><span style="color:var(--mut)">${it.zk} · ${it.d}</span>`)}
     ${row('Цена', it => `<b>${it.p.toLocaleString('ru-RU')} ₽</b>`)}${row('За м²', it => `<span class="${it.ppm === minP ? 'best' : ''}">${it.ppm.toLocaleString('ru-RU')} ₽${it.ppm === minP ? ' · дешевле всех' : ''}</span>`)}
@@ -159,14 +177,14 @@ function cmpHTML() {
 }
 function showCmp() {
   if (!cmp.size) { toast('Добавьте квартиры к сравнению — кнопка на фото в карточке'); return; }
-  openDlg(`Сравнение · ${cmp.size}`, cmpHTML());
-  $$('#dlgB [data-rm]').forEach(b => b.addEventListener('click', () => { toggle(cmp, 'pn_cmp', +b.dataset.rm, 'cmp'); cmp.size ? showCmp() : dlg.close(); }));
+  itemsEnsure(cmp, () => { openDlg(`Сравнение · ${cmp.size}`, cmpHTML());
+  $$('#dlgB [data-rm]').forEach(b => b.addEventListener('click', () => { toggle(cmp, 'pn_cmp', +b.dataset.rm, 'cmp'); cmp.size ? showCmp() : dlg.close(); })); });
 }
 $('#cmpBtn').addEventListener('click', showCmp);
 $('#favBtn').addEventListener('click', () => {
   if (!fav.size) { toast('Пока пусто — нажмите сердечко на карточке квартиры'); return; }
-  openDlg(`Избранное · ${fav.size}`, `<div class="flist">${ITEMS.filter(it => fav.has(it.id)).map(it => `<div class="fi"><img src="${PN.img(it.img)}" alt=""><div><b>${it.p.toLocaleString('ru-RU')} ₽</b>${title(it)}<br><span style="color:var(--mut)">${it.zk} · ${it.d}</span></div></div>`).join('')}</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`);
+  itemsEnsure(fav, () => openDlg(`Избранное · ${fav.size}`, `<div class="flist">${[...fav].map(itemById).filter(Boolean).map(it => `<div class="fi"><img src="${PN.img(it.img)}" alt=""><div><b>${it.p.toLocaleString('ru-RU')} ₽</b>${title(it)}<br><span style="color:var(--mut)">${it.zk} · ${it.d}</span></div></div>`).join('')}</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`));
 });
 counts(); render();
 // с подстраниц «Избранное» и «Сравнить» ведут сюда: ./?open=fav|cmp — открываем список и убираем параметр из адреса
@@ -299,7 +317,8 @@ function rcalc() {
   const a = +$('#ra').value, l = +$('#rl').value;
   const lvl = l <= 35000 ? 'базовый' : l <= 65000 ? 'комфорт' : 'премиум';
   $('#rav').textContent = a + ' м²'; $('#rlv').textContent = lvl + ' · ' + l.toLocaleString('ru-RU') + ' ₽/м²';
-  $('#rpay').innerHTML = Math.round(a * l / 1000).toLocaleString('ru-RU') + ' <small>тыс. ₽</small>'; $('#rppm').textContent = fmt(l);
+  // полная сумма: «3 320 тыс. ₽» заказчик прочитал как цифру без нулей
+  $('#rpay').innerHTML = Math.round(a * l).toLocaleString('ru-RU') + ' <small>₽</small>'; $('#rppm').textContent = fmt(l);
 }
 ['#ra', '#rl'].forEach(q => $(q).addEventListener('input', rcalc)); rcalc();
 
@@ -386,7 +405,7 @@ document.addEventListener('input', e => { if (e.target.type === 'range') fillAll
 fillAll();
 
 // подсказки района и ЖК
-$('#adList').innerHTML = [...new Set(ITEMS.flatMap(it => [it.d, it.zk]))].map(v => `<option value="${v}">`).join('');
+$('#adList').innerHTML = [...new Set(ALL.flatMap(it => [it.d, it.zk]))].map(v => `<option value="${v}">`).join('');
 
 // карта на телефоне
 $('#mapBtn').addEventListener('click', e => { const on = $('.res').classList.toggle('showmap'); e.currentTarget.setAttribute('aria-pressed', on); e.currentTarget.lastChild.textContent = on ? 'Списком' : 'На карте'; });
@@ -406,7 +425,8 @@ document.addEventListener('click', async e => {
   catch (x) { if (x.name !== 'AbortError') toast('Скопируйте ссылку из адресной строки'); }
 });
 (() => { const m = location.hash.match(/^#(obj|house)-(\w+)$/); if (!m) return;
-  const t = m[1] === 'obj' ? ITEMS[+m[2]] : byId(m[2]); if (t) (m[1] === 'obj' ? quick : houseView)(t); })();
+  if (m[1] === 'obj') { itemsEnsure([+m[2]], () => { const t = itemById(m[2]); if (t) quick(t); }); return; }
+  const t = byId(m[2]); if (t) houseView(t); })();
 
 // линия прокрутки: к концу страницы — точка
 const prog = $('#prog');
@@ -428,7 +448,7 @@ function qMatch() {
   let t;
   if (qType === 'flat') {
     const rooms = $$('#qr [aria-pressed=true]').map(b => +b.dataset.r);
-    const n = ITEMS.filter(it => it.p <= mil && (!rooms.length || rooms.some(r => r === 4 ? it.r >= 4 : it.r === r))).length;
+    const n = ALL.filter(it => it.p <= mil && (!rooms.length || rooms.some(r => r === 4 ? it.r >= 4 : it.r === r))).length;
     t = n ? `Подходит <b>${n} ${plural(n, 'квартира', 'квартиры', 'квартир')}</b> из проверенных. Пришлём их и новые, как только появятся.` : 'Сейчас таких нет — подберём под ваши условия и сообщим первыми.';
   } else if (qType === 'house') {
     const ok = HOUSES.filter(h => hFrom(h) <= mil);
@@ -509,10 +529,10 @@ function remember(id) { const seen = seenList(); const i = seen.indexOf(id); if 
 function drawSeen() {
   const seen = seenList(); if (!$('#seenL') || typeof head !== 'function') return;
   $('#seen').hidden = !seen.length;
-  $('#seenL').innerHTML = seen.map(id => ITEMS[id]).filter(Boolean).map(it => `<button type="button" data-seen="${it.id}"><img src="${PN.img(it.img)}" alt=""><b>${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2})} млн ₽</b><span>${head(it)} · ${it.d}</span></button>`).join('');
-  $$('[data-seen]').forEach(b => b.addEventListener('click', () => quick(ITEMS[b.dataset.seen])));
+  $('#seenL').innerHTML = seen.map(itemById).filter(Boolean).map(it => `<button type="button" data-seen="${it.id}"><img src="${PN.img(it.img)}" alt=""><b>${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 2})} млн ₽</b><span>${head(it)} · ${it.d}</span></button>`).join('');
+  $$('[data-seen]').forEach(b => b.addEventListener('click', () => quick(itemById(b.dataset.seen))));
 }
-drawSeen();
+itemsEnsure(seenList(), drawSeen);
 
 // цифры «Отбора» — отсчёт
 function countUp(el, to, ms) {
@@ -603,10 +623,10 @@ function ddKeys(inp, dd) {
   inp.addEventListener('blur', () => setTimeout(() => dd.hidden = true, 120));
 }
 const pr = $('#pr'), ad = $('#ad');
-const cntBy = fn => ITEMS.filter(it => fn(it) && match(it, {...readForm(), max: 0, q: ''})).length;
+const cntBy = fn => ALL.filter(it => fn(it) && match(it, {...readForm(), max: 0, q: ''})).length;
 function prShow() { ddOpen($('#prDD'), [5, 8, 12, 15].map(m => [`до ${m} млн ₽`, `${cntBy(it => it.p <= m * 1e6)} кв.`, m]).concat([['Любая цена', '', '']]), x => { pr.value = x[2]; liveCount(); }); }
 pr.addEventListener('focus', prShow); pr.addEventListener('input', () => $('#prDD').hidden = true); ddKeys(pr, $('#prDD'));
-const PLACES = [...new Set(ITEMS.map(it => it.d))].map(d => [d, 'район']).concat([...new Set(ITEMS.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => [z, 'жилой комплекс']));
+const PLACES = [...new Set(ALL.map(it => it.d).filter(Boolean))].map(d => [d, 'район']).concat([...new Set(ALL.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => [z, 'жилой комплекс']));
 function adShow() {
   const q = ad.value.trim().toLowerCase();
   ddOpen($('#adDD'), PLACES.filter(p => !q || p[0].toLowerCase().includes(q)).slice(0, 7).map(p => [p[0], `${p[1]} · ${cntBy(it => (it.zk + ' ' + it.d).includes(p[0]))} кв.`]), x => { ad.value = x[0]; liveCount(); });
@@ -614,7 +634,8 @@ function adShow() {
 ad.addEventListener('focus', adShow); ad.addEventListener('input', adShow); ddKeys(ad, $('#adDD'));
 
 // живая карточка «ЖК проверен»
-const ZKS = [...new Set(ITEMS.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => ({z, d: ITEMS.find(it => it.zk === z).d, n: ITEMS.filter(it => it.zk === z).length}));
+const ZKS = [...new Set(ALL.filter(it => it.zk.startsWith('ЖК')).map(it => it.zk))].map(z => ({z, d: ALL.find(it => it.zk === z).d, n: ALL.filter(it => it.zk === z).length}))
+  .sort((a, b) => b.n - a.n).slice(0, 8);
 const ZCHK = ['Разрешение на строительство', 'Проектная декларация, эскроу', 'Прошлые дома сданы в срок', 'Нет банкротных дел'];
 let zi = 0, zt = [], zPause = false;
 function zShow(i) {
@@ -630,7 +651,8 @@ function zShow(i) {
   zt.push(setTimeout(() => { st.textContent = 'Проверен'; st.classList.add('ok'); go.classList.add('on'); }, step * 5));
   zt.push(setTimeout(function nx() { if (zPause) { zt.push(setTimeout(nx, 1500)); return; } zShow(zi + 1); }, step * 5 + 4200));
 }
-$('#cvGo').addEventListener('click', e => { e.preventDefault(); const z = ZKS[zi].z; applyFilter(ITEMS.filter(it => it.zk === z), z); $('#list').scrollIntoView({behavior: 'smooth'}); });
+$('#cvGo').addEventListener('click', e => { e.preventDefault(); const z = ZKS[zi].z;
+  if (PN.capped()) { location.href = catalogUrl(new URLSearchParams({q: z.replace(/^ЖК\s+/, '')})); return; } applyFilter(ITEMS.filter(it => it.zk === z), z); $('#list').scrollIntoView({behavior: 'smooth'}); });
 $('#chipv').addEventListener('mouseenter', () => zPause = true); $('#chipv').addEventListener('mouseleave', () => zPause = false);
 zShow(0);
 
@@ -783,7 +805,7 @@ segLabels();
   function upd() {
     const v = +n.textContent || 0;
     $('#goL').textContent = plural(v, 'квартира', 'квартиры', 'квартир');
-    $('#sStat').innerHTML = `<span class="lg">обновлено в ${hhmm} · </span>подходит <b>${v}</b> из 144<span class="lg"> проверенных</span>`;
+    $('#sStat').innerHTML = `<span class="lg">обновлено в ${hhmm} · </span>подходит <b>${v}</b> из ${PN.total()}<span class="lg"> проверенных</span>`;
     if (n.textContent !== last) { last = n.textContent;
       [n, btn, line].forEach(el => el.classList.remove('roll', 'sweep', 'scan')); void n.offsetWidth;
       n.classList.add('roll'); btn.classList.add('sweep'); line.classList.add('scan'); }

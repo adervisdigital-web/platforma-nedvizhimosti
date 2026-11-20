@@ -1,6 +1,6 @@
 <?php /** Каркас админки. Переменные: $title, $user, $active, $flash, $content */
 $nav = ['overview' => 'Обзор', 'leads' => 'Заявки', 'apartments' => 'Квартиры', 'complexes' => 'ЖК', 'developers' => 'Застройщики', 'houses' => 'Дома', 'reviews' => 'Отзывы',
-    'settings' => 'Настройки', 'users' => 'Менеджеры'];
+    'feeds' => 'Выгрузки', 'settings' => 'Настройки', 'users' => 'Менеджеры'];
 $ico = [
     'overview' => '<rect x="3.5" y="3.5" width="7" height="9" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.5"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5"/>',
     'leads' => '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
@@ -9,6 +9,7 @@ $ico = [
     'developers' => '<path d="M4 17a8 8 0 0 1 16 0M2 17h20v3H2zM10 9V5h4v4"/>',
     'houses' => '<path d="M3 11l9-7 9 7M5 9.5V21h14V9.5M10 21v-6h4v6"/>',
     'reviews' => '<path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
+    'feeds' => '<path d="M12 3v11M7.5 9.5L12 14l4.5-4.5M4 15v4.5h16V15"/>',
     'settings' => '<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
     'users' => '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M17.5 14a6 6 0 0 1 4 6"/>',
 ];

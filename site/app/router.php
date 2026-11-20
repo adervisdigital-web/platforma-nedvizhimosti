@@ -103,6 +103,7 @@ function pn_route_inner(string $method, string $path, array $post, array $files)
     }
     if ($path === '/sitemap.xml' && !$demo) return [200, ['Content-Type' => 'application/xml; charset=utf-8'], pn_sitemap()];
     if (str_starts_with($path, '/api/')) {
+        $GLOBALS['PN_QUERY'] = $query;
         [$code, $body] = pn_api(substr($path, 5), $method, $post);
         return [$code, ['Content-Type' => 'application/json; charset=utf-8'], $body];
     }
@@ -110,6 +111,8 @@ function pn_route_inner(string $method, string $path, array $post, array $files)
     if ($path === '/doma/') return pn_html_response(200, pn_page_houses());
     if ($path === '/remont/') return pn_html_response(200, pn_page_remont());
     if ($path === '/ipoteka/') return pn_html_response(200, pn_page_ipoteka());
+    if (preg_match('~(?:^|&)part=(?:cards|map)(?:&|$)~', $query) && preg_match('~^/((?:kvartiry/(?:rayon/[a-z0-9-]+/|[a-z0-9-]+/)?|zastroyshchiki/[a-z0-9-]+/|zhk/[a-z0-9-]+/))$~', $path, $m)
+        && ($r = pn_catalog_part($m[1], $query)) !== null) return $r;
     if (preg_match('~^/(kvartiry/(?:rayon/[a-z0-9-]+/|[a-z0-9-]+/)?|zastroyshchiki/[a-z0-9-]+/)$~', $path, $m) && ($h = pn_page_catalog($m[1], $query)) !== null) return pn_html_response(200, $h);
     if (preg_match('~^/zhk/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_zhk($m[1], $query)) !== null) return pn_html_response(200, $h);
     if (preg_match('~^/kvartiry/([a-z0-9-]+)/$~', $path, $m) && ($h = pn_page_apartment($m[1])) !== null) return pn_html_response(200, $h);

@@ -6,7 +6,7 @@
   function upd() {
     const v = +n.textContent || 0;
     $('#goL').textContent = plural(v, 'квартира', 'квартиры', 'квартир');
-    $('#sStat').innerHTML = `<span class="lg">обновлено в ${hhmm} · </span>подходит <b>${v}</b> из 144<span class="lg"> проверенных</span>`;
+    $('#sStat').innerHTML = `<span class="lg">обновлено в ${hhmm} · </span>подходит <b>${v}</b> из ${PN.total()}<span class="lg"> проверенных</span>`;
     if (n.textContent !== last) { last = n.textContent;
       [n, btn, line].forEach(el => el.classList.remove('roll', 'sweep', 'scan')); void n.offsetWidth;
       n.classList.add('roll'); btn.classList.add('sweep'); line.classList.add('scan'); }

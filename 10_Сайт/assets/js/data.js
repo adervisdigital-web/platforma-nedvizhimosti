@@ -5,6 +5,11 @@
   try { D = el ? JSON.parse(el.textContent) : {}; } catch (e) { console.error('pn-data', e); }
   window.PN = {
     items: () => D.items || [],
+    total: () => D.total ?? (D.items || []).length,
+    capped: () => !!D.capped,                        // на главной — подборка, весь список — в каталоге
+    // все квартиры для счётчиков (поиск, районы, ЖК, плитки); при подборке — из компактного индекса
+    all: () => !D.all ? (D.items || []) : D.all.rows.map(([t, r, p, f, due, di, zi, disc, sp]) =>
+      ({t, r, p, fin: f ? 'С отделкой' : 'Без отделки', due, d: D.all.d[di], zk: D.all.z[zi], disc, special: sp})),
     houses: () => D.houses || [],
     reviews: () => D.reviews || [],
     faq: () => (D.faq || []).map(([src, flags, answer]) => [new RegExp(src, flags), answer]),
