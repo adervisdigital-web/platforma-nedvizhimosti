@@ -9,7 +9,7 @@
       <li><b>Смета и договор</b><span>Все документы по объекту — под рукой.</span></li>
       <li><b>Платежи</b><span>График рассрочки или ипотеки и напоминания.</span></li>
     </ul>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn red" href="kabinet.html">Открыть демо-кабинет</a><a class="btn ghost" href="#lead">Как получить доступ</a></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:26px"><a class="btn red" href="kabinet.html">Открыть демо-кабинет</a><a class="btn ghost" href="#lead" data-lead="quiz" data-title="Доступ в личный кабинет" data-want="Кабинет: как получить доступ" data-ref="#cab">Как получить доступ</a></div>
   </div>
   <a class="dvx" id="devs" href="kabinet.html" aria-label="Открыть демо-кабинет: ноутбук и телефон">
     <span class="stage">

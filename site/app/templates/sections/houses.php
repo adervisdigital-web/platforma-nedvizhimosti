@@ -8,8 +8,6 @@
       <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Проект</div><div class="seg2" id="hproj"></div></div>
       <div class="rng"><label for="ha">Площадь дома <b id="hav"></b></label><input type="range" id="ha" min="100" max="400" step="5" value="235"></div>
       <div class="rng"><label for="ht">Рассрочка <b id="htv"></b></label><input type="range" id="ht" min="1" max="5" step="1" value="3"></div>
-      <div><div style="font-size:14px;color:var(--mut);margin-bottom:10px">Как платить остаток</div>
-        <div class="seg2" id="hmode"><button aria-pressed="true" data-m="inst">Рассрочка 0 %</button><button aria-pressed="false" data-m="stage">По этапам стройки</button></div></div>
     </div>
     <div class="cout dk" aria-live="polite">
       <div class="note" id="hname"></div>
@@ -17,7 +15,7 @@
       <div class="crow"><span>Стоимость тёплого контура, от</span><b id="hsum">—</b></div>
       <div class="crow"><span>Первый взнос 30 %</span><b id="hpv">—</b></div>
       <div class="crow"><span id="hrestL">Остаток</span><b id="hrest">—</b></div>
-      <a class="btn" href="#lead">Обсудить проект</a>
+      <a class="btn" href="#lead" data-lead="quiz" data-title="Обсудим проект дома" data-want="Дом: обсудить проект" data-ref="#houses" data-calc>Обсудить проект</a>
       <div class="note">Расчёт ориентировочный: от <?php try { echo pn_rub((int) (Repo::settingsAll()['warm_contour_from'] ?? 95000)); } catch (Throwable $e) { echo '95 000 ₽'; } ?> за м² тёплого контура, первый взнос 30 %, остальное — равными платежами без процентов. Точную цену назовёт менеджер после выбора проекта и материала.</div>
     </div>
   </div>

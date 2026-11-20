@@ -29,7 +29,7 @@
           <li data-n="6"><span>3.6</span><p>Если партнёр подвёл — <b>решаем вопрос за вас</b>.</p></li>
         </ol>
         <div class="sign"><div><span class="k">Платформа</span><span class="ln"><svg class="sig" viewBox="0 0 120 34" aria-hidden="true"><path d="M3 26c8-3 12-18 18-19 5-1-2 21 4 20 6-1 9-15 14-15 4 0 0 13 5 13 6 0 9-12 15-12 5 0 2 9 7 9 9 0 20-10 36-14"/></svg><i class="seal"></i></span></div>
-          <div><span class="k">Клиент</span><span class="ln"><a class="you" href="#lead">ваша подпись</a></span></div></div>
+          <div><span class="k">Клиент</span><span class="ln"><a class="you" href="#lead" data-lead="quiz" data-title="Договор с Платформой" data-want="Договор: обсудить условия" data-ref="#pact">ваша подпись</a></span></div></div>
       </div>
     </div></div>
     <figcaption>Пример раздела договора. Точные формулировки — в договоре по вашему объекту.</figcaption>

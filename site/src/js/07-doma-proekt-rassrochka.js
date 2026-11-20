@@ -19,7 +19,7 @@ function pickHouse(h, scroll) {
   if (scroll) $('#hproj').closest('.calc').scrollIntoView({behavior: 'smooth', block: 'center'});
 }
 $$('#hproj button').forEach(b => b.addEventListener('click', () => pickHouse(byId(b.dataset.p))));
-$$('[data-calc]').forEach(b => b.addEventListener('click', () => pickHouse(byId(b.dataset.calc), true)));
+$$('[data-calc]:not([data-lead])').forEach(b => b.addEventListener('click', () => { const h = byId(b.dataset.calc); if (h) pickHouse(h, true); }));   // data-calc у кнопок заявки (lead.js) — другое
 $$('[data-open]').forEach(b => b.addEventListener('click', () => houseView(byId(b.dataset.open))));
 $$('#hfl button').forEach(b => b.addEventListener('click', () => {
   $$('#hfl button').forEach(x => x.setAttribute('aria-pressed', x === b));
@@ -45,7 +45,7 @@ function houseView(h) {
 }
 dlg.addEventListener('close', () => { dlg.classList.remove('wide'); if (/^#(obj|house)-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); });
 function hcalc() {
-  const a = +$('#ha').value, y = +$('#ht').value, mode = $('#hmode [aria-pressed=true]').dataset.m;
+  const a = +$('#ha').value, y = +$('#ht').value, mode = 'inst';   // заказчик 20.11: 30 % сразу, остаток — только равными платежами (варианта «по этапам» нет)
   const sum = a * WARM, pv = sum * .3, rest = sum - pv;
   $('#hav').textContent = a + ' м²'; $('#htv').textContent = y + (y === 1 ? ' год' : y < 5 ? ' года' : ' лет');
   $('#hname').textContent = `Проект «${hName}» · тёплый контур`;

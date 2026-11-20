@@ -22,7 +22,7 @@
       <div class="pay" id="rpay">—</div>
       <div class="crow"><span>Цена за м²</span><b id="rppm">—</b></div>
       <div class="crow"><span>Срок для 50–60 м²</span><b>≈ 6 мес.</b></div>
-      <a class="btn" href="#lead">Бесплатный замер</a>
+      <a class="btn" href="#lead" data-lead="quiz" data-title="Бесплатный замер" data-want="Ремонт: бесплатный замер" data-ref="#ba" data-calc>Бесплатный замер</a>
       <div class="note">Точную цену даст смета после замера. Работа и материалы — от 20 000 до 100 000 ₽ за м².</div>
     </div>
   </div>

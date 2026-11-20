@@ -21,7 +21,7 @@ $('#cmpBtn').addEventListener('click', showCmp);
 $('#favBtn').addEventListener('click', () => {
   if (!fav.size) { toast('Пока пусто — нажмите сердечко на карточке квартиры'); return; }
   itemsEnsure(fav, () => openDlg(`Избранное · ${fav.size}`, `<div class="flist">${[...fav].map(itemById).filter(Boolean).map(it => `<div class="fi"><img src="${PN.img(it.img)}" alt=""><div><b>${it.p.toLocaleString('ru-RU')} ₽</b>${title(it)}<br><span style="color:var(--mut)">${it.zk} · ${it.d}</span></div></div>`).join('')}</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`));
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()" data-lead="viewing" data-title="Записаться на просмотр" data-want="Просмотр: квартиры из избранного — ${[...fav].map(itemById).filter(Boolean).map(it => it.zk + ', ' + (it.r ? it.r + '-комн.' : 'студия') + ' ' + it.s + ' м²').join('; ').replace(/"/g, '')}" data-ref="#fav">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`));
 });
 counts(); render();
 // с подстраниц «Избранное» и «Сравнить» ведут сюда: ./?open=fav|cmp — открываем список и убираем параметр из адреса

@@ -12,6 +12,7 @@ $sub = true; $cur = $cur ?? ''; $hero = str_contains($content, 'sx-hero'); ?>
 <input id="pnHp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
 <script id="pn-data" type="application/json"><?= $shell_json ?? '{}' ?></script>
 <script src="assets/js/data.js"></script>
+<script src="assets/js/lead.js" defer></script>
 <script src="assets/js/shell.js" defer></script>
 </body>
 </html>

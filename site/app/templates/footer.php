@@ -5,7 +5,7 @@
       <p style="margin:18px 0 6px;color:#F4F2EE;font-size:20px;font-weight:600"><a href="tel:+79655002918" style="display:inline">+7 965 500-29-18</a></p><?php $adr = trim((string) (pn_site_settings()['address'] ?? '')); ?><span>Екатеринбург<?= $adr !== '' ? ', ' . pn_e($adr) : '' ?></span><span style="display:block;margin-top:4px">p.forma196.ru</span></div>
     <div><h4>Купить</h4><a href="kvartiry/">Все квартиры</a><a href="kvartiry/novostroyki/">Новостройки</a><a href="kvartiry/vtorichka/">Вторичка</a><a href="kvartiry/studii/">Студии</a><a href="ipoteka/">Ипотека</a></div>
     <div><h4>Делаем сами</h4><a href="remont/">Ремонт</a><a href="doma/">Дома</a><a href="kabinet.html">Личный кабинет</a></div>
-    <div><h4>Компания</h4><a href="rieltoram/">Риелторам</a><a href="zastroyshchikam/">Застройщикам</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><a href="#lead">Связаться</a><?= pn_msgr_link('tg') ?><?= pn_msgr_link('max') ?></div>
+    <div><h4>Компания</h4><a href="rieltoram/">Риелторам</a><a href="zastroyshchikam/">Застройщикам</a><a href="#how">Как мы проверяем</a><a href="#rev">Отзывы</a><a href="./#lead" data-lead="quiz" data-title="Связаться с нами" data-want="Связаться: вопрос с сайта">Связаться</a><?= pn_msgr_link('tg') ?><?= pn_msgr_link('max') ?></div>
   </div>
   <div class="fbot"><span>ИП Сафоев Шерзод Рустамович · ИНН 661709849922 · ОГРНИП 326965800115079</span><span>Пример сайта. Объекты, цены и названия ЖК — демо-данные, отзывы — демо.</span></div>
 </div></footer>

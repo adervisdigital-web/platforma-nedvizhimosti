@@ -43,3 +43,18 @@ pn_t('ссылки «Риелторам» и «Застройщикам»: гл�
     pn_ok(str_contains($sm, 'rieltoram/') && str_contains($sm, 'zastroyshchikam/'), 'sitemap');
     pn_ok(in_array('rieltoram/', pn_catalog_paths(), true), 'сборка витрины');
 });
+
+pn_t('настройки: сохранение формы целиком, как её показывает админка (программы с лимитом в три части)', function () {
+    pn_test_db();
+    $u = ['id' => 1, 'login' => 't', 'role' => 'admin'];
+    $post = ['phone' => '+7 965 500-29-18', 'hours_from' => '9:00', 'hours_to' => '21:00', 'renovation_prices' => '20000; 45000; 80000',
+        'warm_contour_from' => '95000', 'mortgage_programs' => "Семейная | 10 | 6\nIT-ипотека | 6 | 9\nРыночная | 18,8",
+        'family_tiers' => "1 | 10 | 6\n2 | 8 | 8\n3 | 6 | 10", 'rates_date' => '18.11.2026', 'realtor_fee' => '50 % комиссии застройщика'];
+    $r = pn_admin_settings('POST', '', $post, [], $u);
+    pn_eq($r[0], 302, 'сохранено (а не форма с ошибками)');
+    $s = Repo::settingsAll();
+    pn_eq($s['realtor_fee'], '50 % комиссии застройщика');
+    pn_eq($s['mortgage_programs'][0], ['name' => 'Семейная', 'rate' => 10, 'limit' => 6000000]);
+    pn_eq($s['mortgage_programs'][2], ['name' => 'Рыночная', 'rate' => 18.8]);
+    pn_eq($s['family_tiers'][1], ['kids' => 2, 'rate' => 8, 'limit' => 8000000]);
+});

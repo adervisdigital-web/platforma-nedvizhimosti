@@ -26,7 +26,7 @@ R.push('cat done='+$$('.cat')[1].getAttribute('href'));
 $$('button.mort')[0].click();R.push('calc='+$('#cpv').textContent);
 if($('#qvFav')===null){$$('.card .qv')[0].click();R.push('quick='+$('#dlg').open+' '+$('#dlgT').textContent+' checks='+$$('.qvc span').length);$('#qvFav').click();$('#dlg').close();R.push('range--p='+$('#cp').style.getPropertyValue('--p'));}
 if($('#hx')){R.push('houses='+$$('.hc').length);$$('#hfl button')[5].click();R.push('2fl='+$$('.hc:not([hidden])').length);$$('#hfl button')[0].click();
-$$('[data-open]')[0].click();R.push('hdlg='+$('#dlg').open+' '+$('#dlgT').textContent+' thumbs='+$$('.hth button').length);$$('#plTabs button')[1].click();R.push('plan='+$('#plImg').getAttribute('src'));
+([...$$('[data-open]')].find(b=>(byId(b.dataset.open)||{plans:[]}).plans.length>1)||$$('[data-open]')[0]).click();R.push('hdlg='+$('#dlg').open+' '+$('#dlgT').textContent+' thumbs='+$$('.hth button').length);$$('#plTabs button')[1].click();R.push('plan='+$('#plImg').getAttribute('src'));
 $('#hvCalc').click();R.push('calc='+$('#hname').textContent+' area='+$('#ha').value+' pay='+$('#hpay').textContent);}
 if(typeof booking==='function'){const nf=ITEMS.find(i=>i.fin==='Без отделки');quick(nf);$$('#qvR button')[2].click();R.push('reno: '+$('#qvRk').textContent+' = '+$('#qvT').textContent);
 $('#qvLead').click();R.push('book: '+$('#dlgT').textContent+' days='+$$('#dlgB [data-d]').length+' free='+$$('#dlgB [data-t]:not(:disabled)').length);

@@ -92,7 +92,7 @@ function toggle(set, key, id, btn, lim) {
 function render() {
   const list = [...shown].sort(SORT[$('.seg.sort [aria-pressed=true]').dataset.s]);
   const vis = filtered || expanded ? list : list.slice(0, 6);
-  $('#cards').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<div class="empty"><b>Таких квартир сейчас нет<i class="o"></i></b>Оставьте заявку — подберём под ваши условия, как только появятся.<a class="btn red" href="#lead">Оставить заявку</a></div>';
+  $('#cards').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<div class="empty"><b>Таких квартир сейчас нет<i class="o"></i></b>Оставьте заявку — подберём под ваши условия, как только появятся.<a class="btn red" href="#lead" data-lead="quiz" data-title="Подберём квартиру" data-want="Квартира: подбор, на сайте нет подходящих" data-filters>Оставить заявку</a></div>';
   mapRender(list);
   $('#pins').innerHTML = list.map((it, k) => `<button class="pin${k === 0 ? ' on' : ''}" data-i="${it.id}" style="left:${it.x / 430 * 100}%;top:${it.y / 680 * 100}%">${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 1})} млн</button>`).join('');
   $('#cnt').textContent = `${list.length} ${plural(list.length, 'предложение', 'предложения', 'предложений')}`;
@@ -184,7 +184,7 @@ $('#cmpBtn').addEventListener('click', showCmp);
 $('#favBtn').addEventListener('click', () => {
   if (!fav.size) { toast('Пока пусто — нажмите сердечко на карточке квартиры'); return; }
   itemsEnsure(fav, () => openDlg(`Избранное · ${fav.size}`, `<div class="flist">${[...fav].map(itemById).filter(Boolean).map(it => `<div class="fi"><img src="${PN.img(it.img)}" alt=""><div><b>${it.p.toLocaleString('ru-RU')} ₽</b>${title(it)}<br><span style="color:var(--mut)">${it.zk} · ${it.d}</span></div></div>`).join('')}</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`));
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn red" href="#lead" onclick="dlg.close()" data-lead="viewing" data-title="Записаться на просмотр" data-want="Просмотр: квартиры из избранного — ${[...fav].map(itemById).filter(Boolean).map(it => it.zk + ', ' + (it.r ? it.r + '-комн.' : 'студия') + ' ' + it.s + ' м²').join('; ').replace(/"/g, '')}" data-ref="#fav">Записаться на просмотр</a><a class="btn white" href="tel:+79655002918">+7 965 500-29-18</a></div>`));
 });
 counts(); render();
 // с подстраниц «Избранное» и «Сравнить» ведут сюда: ./?open=fav|cmp — открываем список и убираем параметр из адреса
@@ -273,7 +273,7 @@ function pickHouse(h, scroll) {
   if (scroll) $('#hproj').closest('.calc').scrollIntoView({behavior: 'smooth', block: 'center'});
 }
 $$('#hproj button').forEach(b => b.addEventListener('click', () => pickHouse(byId(b.dataset.p))));
-$$('[data-calc]').forEach(b => b.addEventListener('click', () => pickHouse(byId(b.dataset.calc), true)));
+$$('[data-calc]:not([data-lead])').forEach(b => b.addEventListener('click', () => { const h = byId(b.dataset.calc); if (h) pickHouse(h, true); }));   // data-calc у кнопок заявки (lead.js) — другое
 $$('[data-open]').forEach(b => b.addEventListener('click', () => houseView(byId(b.dataset.open))));
 $$('#hfl button').forEach(b => b.addEventListener('click', () => {
   $$('#hfl button').forEach(x => x.setAttribute('aria-pressed', x === b));
@@ -299,7 +299,7 @@ function houseView(h) {
 }
 dlg.addEventListener('close', () => { dlg.classList.remove('wide'); if (/^#(obj|house)-/.test(location.hash)) history.replaceState(null, '', location.pathname + location.search); });
 function hcalc() {
-  const a = +$('#ha').value, y = +$('#ht').value, mode = $('#hmode [aria-pressed=true]').dataset.m;
+  const a = +$('#ha').value, y = +$('#ht').value, mode = 'inst';   // заказчик 20.11: 30 % сразу, остаток — только равными платежами (варианта «по этапам» нет)
   const sum = a * WARM, pv = sum * .3, rest = sum - pv;
   $('#hav').textContent = a + ' м²'; $('#htv').textContent = y + (y === 1 ? ' год' : y < 5 ? ' года' : ' лет');
   $('#hname').textContent = `Проект «${hName}» · тёплый контур`;
@@ -332,7 +332,7 @@ function say(t, me) { const p = document.createElement('p'); if (me) { p.classNa
 function ask(q) {
   say(q, 1); const t = say('печатает…'); t.className = 'typing';
   const hit = FAQ.find(([re]) => re.test(q));
-  setTimeout(() => { t.className = ''; t.innerHTML = hit ? hit[1] : 'Передам вопрос менеджеру — он свяжется с вами. Оставьте телефон в <a href="#lead">форме</a> или позвоните: <a href="tel:+79655002918">+7 965 500-29-18</a>.'; log.scrollTop = log.scrollHeight; }, reduce ? 0 : 700);
+  setTimeout(() => { t.className = ''; t.innerHTML = hit ? hit[1] : 'Передам вопрос менеджеру — он свяжется с вами. Оставьте телефон в <a href="#lead" data-lead="quiz" data-title="Перезвоним" data-want="Вопрос из чата">форме</a> или позвоните: <a href="tel:+79655002918">+7 965 500-29-18</a>.'; log.scrollTop = log.scrollHeight; }, reduce ? 0 : 700);
 }
 $('#chatQ').innerHTML = QUICK.map(q => `<button type="button">${q}</button>`).join('');
 $$('#chatQ button').forEach(b => b.addEventListener('click', () => ask(b.textContent)));
@@ -839,10 +839,4 @@ segLabels();
       if (e.isIntersecting) { pba.classList.add('is-after'); t = setInterval(() => pba.classList.toggle('is-after'), 2800); }
     }, {threshold: .5}).observe(pba);
   }
-  const pack = document.querySelector('[data-pack]'), form = document.getElementById('leadForm');
-  if (pack && form) pack.addEventListener('click', () => {
-    form.dataset.pack = '1';
-    const flat = form.querySelector('[data-q="flat"]'); if (flat && flat.getAttribute('aria-pressed') !== 'true') flat.click();
-    const lg = form.querySelector('fieldset[data-s="1"] legend'); if (lg && !lg.querySelector('.qpack')) lg.insertAdjacentHTML('beforeend', ' <span class="qpack">· квартира + ремонт</span>');
-  });
 })();

@@ -31,7 +31,7 @@ switch ($cmd) {
         pn_migrate($db());
         $r = pn_feeds_run(in_array('--force', $argv, true));
         foreach ($r['feeds'] as $id => $s) echo "выгрузка $id: ", $s['error'] ? 'ошибка — ' . $s['error'] : "в фиде {$s['total']}, добавлено {$s['added']}, обновлено {$s['updated']}, снято {$s['gone']}", "\n";
-        echo "картинки: скачано {$r['images']['ok']}, ошибок {$r['images']['err']}, осталось {$r['images']['left']}\n";
+        echo "картинки: скачано {$r['images']['ok']}, ошибок {$r['images']['err']}, осталось {$r['images']['left']}, отложено (сервер не отвечает) {$r['images']['skipped']}\n";
         break;
     case 'bundle':
         echo 'собран ', pn_write_bundle(), "\n";

@@ -56,7 +56,7 @@ function toggle(set, key, id, btn, lim) {
 function render() {
   const list = [...shown].sort(SORT[$('.seg.sort [aria-pressed=true]').dataset.s]);
   const vis = filtered || expanded ? list : list.slice(0, 6);
-  $('#cards').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<div class="empty"><b>Таких квартир сейчас нет<i class="o"></i></b>Оставьте заявку — подберём под ваши условия, как только появятся.<a class="btn red" href="#lead">Оставить заявку</a></div>';
+  $('#cards').innerHTML = vis.length ? vis.map(cardHTML).join('') : '<div class="empty"><b>Таких квартир сейчас нет<i class="o"></i></b>Оставьте заявку — подберём под ваши условия, как только появятся.<a class="btn red" href="#lead" data-lead="quiz" data-title="Подберём квартиру" data-want="Квартира: подбор, на сайте нет подходящих" data-filters>Оставить заявку</a></div>';
   mapRender(list);
   $('#pins').innerHTML = list.map((it, k) => `<button class="pin${k === 0 ? ' on' : ''}" data-i="${it.id}" style="left:${it.x / 430 * 100}%;top:${it.y / 680 * 100}%">${(it.p / 1e6).toLocaleString('ru-RU', {maximumFractionDigits: 1})} млн</button>`).join('');
   $('#cnt').textContent = `${list.length} ${plural(list.length, 'предложение', 'предложения', 'предложений')}`;

@@ -211,3 +211,12 @@ pn_t('фид: «квартиры» с явно неверной площадью
     }
     unlink($f);
 });
+
+pn_t('фид: недоступный сервер картинок — после 3 ошибок подряд остальные с него пропускаются до следующего запуска', function () {
+    $fid = feed_test_setup(); pn_feed_import($fid);
+    feed_fake_fetch(null, ['img.test']);
+    $r = pn_feed_images(50, 30);
+    pn_eq(count($GLOBALS['PN_FETCH_LOG']), 3, 'три попытки, дальше не ждём');
+    pn_eq([$r['ok'], $r['err'], $r['skipped']], [0, 3, 2]);
+    pn_eq((int) pn_db()->query("select count(*) from feed_images where tries = 0 and status = 'new'")->fetchColumn(), 2, 'пропущенные не считаются неудачей');
+});

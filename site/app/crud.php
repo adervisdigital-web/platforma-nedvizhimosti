@@ -187,9 +187,11 @@ function pn_crud(string $ent, string $method, string $sub, array $post, array $f
         return pn_redirect("$base/$id", $do === 'publish' ? 'Опубликовано на сайте' : 'Снято с сайта');
     }
     if ($method === 'POST' && $id && $ent === 'feeds' && $do === 'run') {
-        $s = pn_feed_import($id); $img = pn_feed_images(150, 60); audit('run', 'feeds', $id, $s);
+        $s = pn_feed_import($id); $img = pn_feed_images(150, 20); audit('run', 'feeds', $id, $s);
         $st = pn_db()->prepare('select last_status from feeds where id = ?'); $st->execute([$id]);
-        return pn_redirect("$base/$id", $st->fetchColumn() . ($img['left'] ? ". Картинки: скачано {$img['ok']}, остальные ({$img['left']}) докачаются по расписанию" : ''));
+        $rest = $img['left'] + $img['skipped'];
+        return pn_redirect("$base/$id", $st->fetchColumn() . ($rest || $img['err'] ? ". Картинки: скачано {$img['ok']}" . ($img['err'] ? ", не скачалось {$img['err']}" : '')
+            . ($rest ? ", остальные ($rest) докачаются по расписанию" : '') : ''));
     }
     if ($method === 'POST' && $id && $do === 'copy' && !empty($E['copy'])) {
         $data = $row; unset($data['id'], $data['created_at']); $data['published'] = 0; $data['slug'] = 'tmp-' . bin2hex(random_bytes(6)); $data['source'] = 'manual'; $data['external_id'] = null;

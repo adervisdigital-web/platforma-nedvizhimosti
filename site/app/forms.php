@@ -51,7 +51,8 @@ function forms_parse(array $fields, array $post, array $files = [], array $old =
                 break;
             case 'lines': $data[$name] = forms_lines((string) $raw); break;
             case 'paras': $data[$name] = array_values(array_filter(array_map(fn($p) => trim(preg_replace('/\s*\R\s*/u', ' ', $p)), preg_split('/\R\s*\R/u', (string) $raw)), 'strlen')); break;
-            case 'pairs': $data[$name] = array_map(fn($l) => array_map('trim', array_pad(explode('|', $l, 2), 2, '')), forms_lines((string) $raw)); break;
+            // все части строки: «Семейная | 10 | 6» — название, ставка, лимит (раньше резалось на две — ставка «10 | 6» не проходила проверку)
+            case 'pairs': $data[$name] = array_map(fn($l) => array_map('trim', array_pad(explode('|', $l), 2, '')), forms_lines((string) $raw)); break;
             case 'photos': $data[$name] = forms_photos($post, $files, $name, $err); break;
             case 'url':
                 $data[$name] = trim((string) $raw);

@@ -24,7 +24,7 @@
       <div class="crow"><span>Нужный доход, от</span><b id="inc">—</b></div>
       <div class="cprog" id="cprog" role="group" aria-label="Сравнение программ"></div>
       <div class="note cparts" id="cparts"></div>
-      <a class="btn" href="#lead">Подобрать программу</a>
+      <a class="btn" href="#lead" data-lead="quiz" data-title="Подберём ипотеку" data-want="Ипотека: подобрать программу" data-ref="#calc" data-calc>Подобрать программу</a>
       <div class="note"><?php try { $rd = pn_rates_date_ru(Repo::settingsAll()); } catch (Throwable $e) { $rd = ''; } ?><?= $rd ? 'Ставки на ' . $rd . '. ' : '' ?>Расчёт ориентировочный: аннуитетный платёж. Итоговые условия зависят от банка и программы.</div>
     </div>
   </div>

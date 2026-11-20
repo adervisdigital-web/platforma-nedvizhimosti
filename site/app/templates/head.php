@@ -11,7 +11,7 @@
 <?= $jsonld ?>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/site.css"><link rel="stylesheet" href="assets/css/lq.css">
 <link rel="stylesheet" href="assets/css/fx.css">
 <script src="assets/js/fx.js" defer></script>
 </head>

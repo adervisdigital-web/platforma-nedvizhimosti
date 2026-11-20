@@ -14,13 +14,13 @@ const PN_FEED_PLAN_TAGS = ['plan', 'floorplan'];
 const PN_FEED_SKIP_PHOTO_TAGS = ['complexscheme'];
 
 // Скачивание по http(s) в файл. В тестах подменяется $GLOBALS['PN_FETCH'] = fn($url, $dest).
-function pn_feed_fetch(string $url, string $dest, int $max = PN_FEED_MAX_BYTES): void {
+function pn_feed_fetch(string $url, string $dest, int $max = PN_FEED_MAX_BYTES, int $connect = 20, int $timeout = 900): void {
     if (isset($GLOBALS['PN_FETCH'])) { ($GLOBALS['PN_FETCH'])($url, $dest); return; }
     if (!preg_match('~^https?://~i', $url)) throw new InvalidArgumentException('Адрес должен начинаться с http:// или https://');
     $fh = fopen($dest, 'wb');
     $ch = curl_init($url);
-    curl_setopt_array($ch, [CURLOPT_FILE => $fh, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5, CURLOPT_CONNECTTIMEOUT => 20,
-        CURLOPT_TIMEOUT => 900, CURLOPT_ENCODING => '', CURLOPT_USERAGENT => 'PlatformaFeedLoader/1.0',
+    curl_setopt_array($ch, [CURLOPT_FILE => $fh, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5, CURLOPT_CONNECTTIMEOUT => $connect,
+        CURLOPT_TIMEOUT => $timeout, CURLOPT_ENCODING => '', CURLOPT_USERAGENT => 'PlatformaFeedLoader/1.0',
         CURLOPT_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS, CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
         CURLOPT_NOPROGRESS => false, CURLOPT_XFERINFOFUNCTION => fn($c, $total, $done) => $done > $max ? 1 : 0]);
     $ok = curl_exec($ch); $code = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE); $err = curl_error($ch);
@@ -282,7 +282,8 @@ function pn_feed_visibility(): int {
 
 // Картинки из фидов для квартир на сайте: скачать (по бюджету и времени), сохранить WebP, разложить по планировкам и фото.
 function pn_feed_images(int $budget = 300, float $seconds = 240): array {
-    $db = pn_db(); $t0 = microtime(true); $R = ['ok' => 0, 'err' => 0, 'left' => 0];
+    $db = pn_db(); $t0 = microtime(true); $R = ['ok' => 0, 'err' => 0, 'left' => 0, 'skipped' => 0];
+    $hostErr = [];                                   // сервер картинок не отвечает 3 раза подряд — остальное с него до следующего запуска не ждём
     $need = []; $cids = [];
     foreach ($db->query("select complex_id, feed_media, feed_own_media from apartments where source = 'feed' and published = 1")->fetchAll() as $a) {
         if (!(int) $a['feed_own_media']) foreach (json_decode($a['feed_media'], true) ?: [] as $m) $need[$m[1]] = $m[2];
@@ -299,11 +300,14 @@ function pn_feed_images(int $budget = 300, float $seconds = 240): array {
         $st->execute($keys); $pending = $st->fetchAll();
         $ok = $db->prepare("update feed_images set status = 'ok', img = ?, updated_at = datetime('now') where key = ?");
         $bad = $db->prepare("update feed_images set status = 'err', tries = tries + 1, updated_at = datetime('now') where key = ?");
+        $n = 0;
         foreach ($pending as $i => $p) {
-            if ($i >= $budget || microtime(true) - $t0 > $seconds) { $R['left'] = count($pending) - $i; break; }
-            $tmp = tempnam(sys_get_temp_dir(), 'pnimg');
-            try { pn_feed_fetch($p['url'], $tmp, PN_FEED_IMG_MAX_BYTES); $ok->execute([pn_image_store($tmp, 'feed')['id'], $p['key']]); $R['ok']++; }
-            catch (Throwable $e) { $bad->execute([$p['key']]); $R['err']++; }
+            if ($n >= $budget || microtime(true) - $t0 > $seconds) { $R['left'] = count($pending) - $i; break; }
+            $host = strtolower((string) parse_url($p['url'], PHP_URL_HOST));
+            if (($hostErr[$host] ?? 0) >= 3) { $R['skipped']++; continue; }
+            $n++; $tmp = tempnam(sys_get_temp_dir(), 'pnimg');
+            try { pn_feed_fetch($p['url'], $tmp, PN_FEED_IMG_MAX_BYTES, 8, 60); $ok->execute([pn_image_store($tmp, 'feed')['id'], $p['key']]); $R['ok']++; $hostErr[$host] = 0; }
+            catch (Throwable $e) { $bad->execute([$p['key']]); $R['err']++; $hostErr[$host] = ($hostErr[$host] ?? 0) + 1; }
             finally { @unlink($tmp); }
         }
     }
