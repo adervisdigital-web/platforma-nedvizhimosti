@@ -9,13 +9,14 @@ function pn_ip(): string { return $_SERVER['REMOTE_ADDR'] ?? 'cli'; }
 function pn_session(): void {
     if (PHP_SAPI === 'cli') { $_SESSION ??= []; return; }
     if (session_status() === PHP_SESSION_ACTIVE) return;
+    ini_set('session.use_strict_mode', '1'); ini_set('session.use_only_cookies', '1');   // чужой id сессии из ссылки не принимается
     session_name('pn_admin');
     session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off']);
     session_start();
 }
 
 final class Auth {
-    const MAX_FAILS = 5, LOCK = 15 * 60;
+    const MAX_FAILS = 5, LOCK = 15 * 60, IDLE = 2 * 3600, MAX_AGE = 12 * 3600;   // выход после 2 ч бездействия и не позже 12 ч после входа
     private static string $err = '';
     public static function lastError(): string { return self::$err; }
 
@@ -39,13 +40,17 @@ final class Auth {
         }
         pn_db()->prepare('delete from login_attempts where key = ?')->execute([$keys[0]]);
         if (PHP_SAPI !== 'cli') session_regenerate_id(true);
-        $_SESSION['uid'] = (int) $u['id'];
+        $_SESSION['uid'] = (int) $u['id']; $_SESSION['since'] = $_SESSION['seen'] = pn_now();
+        $_SESSION['weak'] = pn_password_weak($pass, (string) $u['login']);   // напомнить сменить пароль
         return true;
     }
     public static function logout(): void { pn_session(); $_SESSION = []; if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_ACTIVE) session_destroy(); }
     public static function user(): ?array {
         pn_session();
         if (empty($_SESSION['uid'])) return null;
+        $now = pn_now();
+        if ($now - (int) ($_SESSION['seen'] ?? 0) > self::IDLE || $now - (int) ($_SESSION['since'] ?? 0) > self::MAX_AGE) { self::logout(); return null; }
+        $_SESSION['seen'] = $now;
         $st = pn_db()->prepare('select id, login, role from users where id = ?');
         $st->execute([$_SESSION['uid']]);
         return $st->fetch() ?: null;

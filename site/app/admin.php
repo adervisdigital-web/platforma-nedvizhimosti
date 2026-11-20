@@ -19,6 +19,7 @@ function pn_admin_sections(): array {
     $s = ['overview' => ['Обзор', 'manager', 'pn_admin_overview'], 'leads' => ['Заявки', 'manager', 'pn_admin_leads']];
     foreach (['apartments', 'complexes', 'developers', 'houses', 'reviews'] as $e)
         $s[$e] = [pn_entities()[$e]['title'], 'manager', fn($m, $sub, $p, $f, $u) => pn_crud($e, $m, $sub, $p, $f, $u)];
+    $s['password'] = ['Смена пароля', 'manager', 'pn_admin_password'];
     $s['settings'] = ['Настройки', 'admin', 'pn_admin_settings'];
     $s['users'] = ['Менеджеры', 'admin', 'pn_admin_users'];
     foreach ($GLOBALS['PN_ADMIN_SECTIONS'] ?? [] as $k => $v) $s[$k] = $v;
@@ -38,7 +39,7 @@ function pn_admin_route(string $method, string $path, array $post = [], array $f
         }
         return pn_html_response(200, pn_render('admin/login', ['error' => '', 'login' => '']));
     }
-    if ($rest === 'logout') { Auth::logout(); return pn_redirect('/admin/login'); }
+    if ($rest === 'logout') { if ($method !== 'POST') return pn_redirect('/admin/'); Auth::logout(); return pn_redirect('/admin/login'); }
     $u = Auth::require();
     if ($rest === '') return isset(pn_admin_sections()['leads']) ? pn_redirect('/admin/leads') : pn_admin_page('Админка', 'admin/home', ['active' => '']);
     [$sec, $sub] = array_pad(explode('/', $rest, 2), 2, '');
@@ -50,6 +51,24 @@ function pn_admin_route(string $method, string $path, array $post = [], array $f
 }
 // Повторная доставка заявок при входе менеджера (задача 13); до неё — ничего.
 function deliver_pending_safe(): void { if (function_exists('deliver_pending')) { try { deliver_pending(20, 3.0); } catch (Throwable $e) {} } }   // вход не ждёт дольше ~3 с
+
+function pn_admin_password(string $method, string $sub, array $post, array $files, array $u): array {
+    $err = '';
+    if ($method === 'POST') {
+        $st = pn_db()->prepare('select password_hash from users where id = ?'); $st->execute([(int) $u['id']]);
+        $new = (string) ($post['new'] ?? '');
+        if (!password_verify((string) ($post['old'] ?? ''), (string) $st->fetchColumn())) $err = 'Текущий пароль указан неверно';
+        elseif ($new !== (string) ($post['new2'] ?? '')) $err = 'Новые пароли не совпадают';
+        elseif ($p = pn_password_problem($new, (string) $u['login'])) $err = $p;
+        else {
+            pn_db()->prepare('update users set password_hash = ? where id = ?')->execute([password_hash($new, PASSWORD_DEFAULT), (int) $u['id']]);
+            if (PHP_SAPI !== 'cli') session_regenerate_id(true);
+            $_SESSION['weak'] = false; audit('change_password', 'users', (int) $u['id']);
+            return pn_redirect('/admin/', 'Пароль изменён');
+        }
+    }
+    return pn_admin_page('Смена пароля', 'admin/password', ['active' => 'password', 'error' => $err]);
+}
 
 function pn_admin_users(string $method, string $sub, array $post, array $files, array $u): array {
     $db = pn_db();
@@ -128,7 +147,7 @@ function pn_admin_overview(string $method, string $sub, array $post, array $file
     $check = [
         ['Заявки приходят в Telegram', !empty($set['tg_token']) && !empty($set['tg_chat_id']), 'Укажите токен бота и chat_id группы менеджеров', '/admin/settings'],
         ['Копия заявок на почту', !empty($set['mail_to']), 'Укажите почту для заявок', '/admin/settings'],
-        ['Надёжный пароль у вас', !$weak, 'Пароль совпадает с логином или «admin» — смените его', '/admin/users'],
+        ['Надёжный пароль у вас', !$weak, 'Пароль совпадает с логином или «admin» — смените его', '/admin/password'],
         ['Реальные квартиры вместо демо', $demoApts === 0, "Демо-квартир на сайте: $demoApts — замените настоящими", '/admin/apartments'],
         ['Настоящие отзывы', empty($set['show_demo_reviews']) || $stats['reviews_demo'] === 0, 'Демо-отзывы показываются на сайте — выключите в настройках', '/admin/settings'],
         ['Снята пометка «демо-данные»', empty($set['demo_data']), 'В подвале сайта стоит пометка «демо-данные»', '/admin/settings'],

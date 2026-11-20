@@ -241,3 +241,18 @@ span.ad-thumb{background:var(--bg2) url("data:image/svg+xml,%3Csvg xmlns='http:/
   .ad-check-l li{flex-wrap:wrap}.ad-check-l li .ad-btn{margin-left:34px}
 }
 .ad-photos.pl img{object-fit:contain;background:#fff;padding:6px}
+/* смена пароля, выход формой, напоминание о слабом пароле */
+.ad-pass{max-width:520px;grid-template-columns:minmax(0,1fr);padding:24px 28px 28px}
+.ad-f{display:grid;gap:6px}
+.ad-f span{font-weight:600}
+.ad-f small{color:var(--mut);font-size:13px;line-height:1.4}
+.ad-pass .ad-btn{justify-self:start}
+.ad-out{margin:0;display:flex}
+.ad-out button{font:inherit;cursor:pointer;background:none;color:#F4F2EEcc;border:1px solid #ffffff24;border-radius:99px;padding:7px 12px;min-height:36px}
+.ad-out button:hover{color:#fff;border-color:#ffffff55}
+.ad-warn{border-left-color:#E0A100}
+.ad-warn a{color:inherit;font-weight:700}
+.ad-warn{display:block}
+.ad-me-a{flex-wrap:nowrap;gap:4px}
+.ad-me-a a,.ad-out button{flex:1 1 0;min-width:0;padding:7px 6px;font-size:12.5px;white-space:nowrap;text-align:center}
+.ad-out{flex:1 1 0}

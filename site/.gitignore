@@ -6,3 +6,4 @@ app/local.php
 tests/_tmp/
 public/assets/js/app.js
 data/*.sqlite.bak*
+!public/uploads/.htaccess

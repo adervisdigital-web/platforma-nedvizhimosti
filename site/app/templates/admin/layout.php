@@ -29,10 +29,11 @@ $secs = pn_admin_sections(); ?>
   <nav><?php foreach ($nav as $k => $t): if (!isset($secs[$k]) || ($secs[$k][1] === 'admin' && ($user['role'] ?? '') !== 'admin')) continue; ?>
     <a href="/admin/<?= $k ?>"<?= $active === $k ? ' aria-current="page"' : '' ?>><svg viewBox="0 0 24 24" aria-hidden="true"><?= $ico[$k] ?? '' ?></svg><span><?= $t ?></span><?php if ($k === 'leads' && $newN): ?><em title="Новых заявок"><?= $newN ?></em><?php endif; ?></a><?php endforeach; ?></nav>
   <div class="ad-me"><span class="ad-av"><?= pn_e(mb_strtoupper(mb_substr($user['login'] ?? '?', 0, 1))) ?></span><span><b><?= pn_e($user['login'] ?? '') ?></b><small><?= ($user['role'] ?? '') === 'admin' ? 'администратор' : 'менеджер' ?></small></span>
-    <span class="ad-me-a"><a href="/" target="_blank">Сайт ↗</a><a href="/admin/logout">Выйти</a></span></div>
+    <span class="ad-me-a"><a href="/" target="_blank">Сайт ↗</a><a href="/admin/password">Пароль</a><form method="post" action="/admin/logout" class="ad-out"><?= csrf_field() ?><button type="submit">Выйти</button></form></span></div>
 </aside>
 <main class="ad-main">
   <h1><?= pn_e($title) ?></h1>
+  <?php if (!empty($_SESSION['weak']) && $active !== 'password'): ?><p class="ad-flash ad-warn" role="status">Пароль ненадёжный — <a href="/admin/password">смените его</a>, это займёт минуту.</p><?php endif; ?>
   <?php if ($flash): ?><p class="ad-flash" role="status"><?= pn_e($flash) ?></p><?php endif; ?>
   <?= $content ?>
 </main>
