@@ -33,6 +33,7 @@ function pn_build(string $out, string $source = 'seed'): array {
         }
         pn_rcopy("$root/public/assets", "$out/assets");
         copy("$root/public/kabinet.html", "$out/kabinet.html");
+        copy("$root/public/favicon.ico", "$out/favicon.ico");
         if (is_dir("$root/public/uploads")) pn_rcopy("$root/public/uploads", "$out/uploads");   // фото из админки (только картинки WebP)
         mkdir("$out/api");
         $j = fn($v) => json_encode($v, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);

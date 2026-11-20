@@ -32,7 +32,8 @@ function seo_meta(array $p, array $settings): string {
         . '<meta name="theme-color" content="#F4F2EE">' . "\n"
         . '<link rel="canonical" href="' . pn_e($url) . "\">\n"
         . '<meta property="og:type" content="' . pn_e($p['type'] ?? 'website') . '"><meta property="og:title" content="' . pn_e($p['title']) . "\">\n"
-        . '<meta property="og:description" content="' . pn_e($p['description']) . '"><meta property="og:url" content="' . pn_e($url) . '"><meta property="og:image" content="' . pn_e($img) . '">';
+        . '<meta property="og:description" content="' . pn_e($p['description']) . '"><meta property="og:url" content="' . pn_e($url) . '"><meta property="og:image" content="' . pn_e($img) . '">'
+        . "\n" . '<meta property="og:site_name" content="Платформа недвижимости"><meta property="og:locale" content="ru_RU"><meta name="twitter:card" content="summary_large_image">';
 }
 
 function seo_org(array $settings): array {
@@ -52,5 +53,5 @@ function seo_breadcrumbs(array $items, array $settings): array {
 function seo_main(array $settings): array {
     return ['title' => 'Платформа недвижимости — квартиры, дома и ремонт в Екатеринбурге',
         'description' => 'Квартиры от проверенных застройщиков Екатеринбурга без комиссии, свой ремонт с гарантией 5 лет и дома в рассрочку до 5 лет.',
-        'path' => '', 'type' => 'website'];
+        'path' => '', 'type' => 'website', 'image' => 'assets/img/og-main.jpg'];
 }
